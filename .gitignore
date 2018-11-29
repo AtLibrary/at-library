@@ -1,0 +1,5 @@
+target
+.idea
+autotest.iml
+.allure
+.DS_Store
