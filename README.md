@@ -163,7 +163,7 @@ CoreScenario.write("Текущий URL = " + currentUrl + " \nОжидаемый
 Позволяет запускать тесты с кастомными настройками браузеров и на ремоуте. Параметры запуска можно задавать как системные переменные.
 Например, можно указать браузер, версию браузера, remote Url(где будут запущены тесты), ширину и высоту окна браузера:
 ```
-./gradlew clean gCR -Pbrowser=chrome -PbrowserVersion=64.0 -PremoteUrl=http://remote/url -Pwidth=1200 -Pheight=800
+mvn clean gCR -Pbrowser=chrome -PbrowserVersion=64.0 -PremoteUrl=http://remote/url -Pwidth=1200 -Pheight=800
 ```
 Если параметр remoteUrl не указан - тесты будут запущены локально в заданном браузере последней версии
 (
@@ -211,7 +211,6 @@ scenario - Сценарий из Cucumber.api, с которым связана 
 Используемые зависимости:
 --------------------------
 > nebula-release-plugin - Apache License Version 2.0
-> coveralls-gradle-plugin - The MIT License (MIT)
 > com.codeborne.selenide - The MIT License (MIT)
 > io.rest-assured.rest-assured - Apache License Version 2.0
 > com.google.inject.guice - Apache License Version 2.0
