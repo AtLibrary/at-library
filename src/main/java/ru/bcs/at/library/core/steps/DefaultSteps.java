@@ -1,12 +1,10 @@
 /**
- * Copyright 2018 BCS
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,8 +21,8 @@ import io.cucumber.datatable.DataTable;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.Matchers;
-import org.openqa.selenium.*;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 
@@ -141,7 +139,7 @@ public class DefaultSteps {
     @Тогда("^элемент \"([^\"]*)\" отображается на странице$")
     public void elemIsPresentedOnPage(String elementName) {
         coreScenario.getCurrentPage().waitElementsUntil(
-            Condition.appear, DEFAULT_TIMEOUT, coreScenario.getCurrentPage().getElement(elementName)
+                Condition.appear, DEFAULT_TIMEOUT, coreScenario.getCurrentPage().getElement(elementName)
         );
     }
 
@@ -152,7 +150,7 @@ public class DefaultSteps {
     @Тогда("^элемент \"([^\"]*)\" отобразился на странице в течение (\\d+) (?:секунд|секунды)")
     public void testElementAppeared(String elementName, int seconds) {
         coreScenario.getCurrentPage().waitElementsUntil(
-            Condition.appear, seconds * 1000, coreScenario.getCurrentPage().getElement(elementName)
+                Condition.appear, seconds * 1000, coreScenario.getCurrentPage().getElement(elementName)
         );
     }
 
@@ -164,7 +162,7 @@ public class DefaultSteps {
     @Тогда("^список \"([^\"]*)\" отображается на странице$")
     public void listIsPresentedOnPage(String elementName) {
         coreScenario.getCurrentPage().waitElementsUntil(
-            Condition.appear, DEFAULT_TIMEOUT, coreScenario.getCurrentPage().getElementsList(elementName)
+                Condition.appear, DEFAULT_TIMEOUT, coreScenario.getCurrentPage().getElementsList(elementName)
         );
     }
 
@@ -176,7 +174,7 @@ public class DefaultSteps {
     @Тогда("^ожидается исчезновение элемента \"([^\"]*)\"")
     public void elemDisappered(String elementName) {
         coreScenario.getCurrentPage().waitElementsUntil(
-            Condition.disappears, DEFAULT_TIMEOUT, coreScenario.getCurrentPage().getElement(elementName));
+                Condition.disappears, DEFAULT_TIMEOUT, coreScenario.getCurrentPage().getElement(elementName));
     }
 
     /**
@@ -222,7 +220,7 @@ public class DefaultSteps {
         String firstValueToCompare = coreScenario.getVar(firstVariableName).toString();
         String secondValueToCompare = coreScenario.getVar(secondVariableName).toString();
         assertThat(String.format("Значения в переменных [%s] и [%s] не совпадают", firstVariableName, secondVariableName),
-            firstValueToCompare, equalTo(secondValueToCompare));
+                firstValueToCompare, equalTo(secondValueToCompare));
     }
 
     /**
@@ -233,7 +231,7 @@ public class DefaultSteps {
         String firstValueToCompare = coreScenario.getVar(firstVariableName).toString();
         String secondValueToCompare = coreScenario.getVar(secondVariableName).toString();
         assertThat(String.format("Значения в переменных [%s] и [%s] совпадают", firstVariableName, secondVariableName),
-            firstValueToCompare, Matchers.not(equalTo(secondValueToCompare)));
+                firstValueToCompare, Matchers.not(equalTo(secondValueToCompare)));
     }
 
     /**
@@ -244,7 +242,7 @@ public class DefaultSteps {
         String actualValue = coreScenario.getCurrentPage().getAnyElementText(elementName);
         String expectedValue = coreScenario.getVar(variableName).toString();
         assertThat(String.format("Значение поля [%s] не совпадает со значением из переменной [%s]", elementName, variableName),
-            actualValue, equalTo(expectedValue));
+                actualValue, equalTo(expectedValue));
     }
 
     /**
@@ -257,7 +255,7 @@ public class DefaultSteps {
         String actualValue = coreScenario.getCurrentPage().getAnyElementText(elementName);
         List<String> listFromVariable = ((List<String>) coreScenario.getVar(variableListName));
         assertTrue(String.format("Список из переменной [%s] не содержит значение поля [%s]", variableListName, elementName),
-            listFromVariable.contains(actualValue));
+                listFromVariable.contains(actualValue));
     }
 
     /**
@@ -311,8 +309,8 @@ public class DefaultSteps {
     @И("^выполнено нажатие на сочетание клавиш из таблицы$")
     public void pressKeyCombination(List<String> keyNames) {
         Iterable<CharSequence> listKeys = keyNames.stream()
-            .map(this::getKeyOrCharacter)
-            .collect(Collectors.toList());
+                .map(this::getKeyOrCharacter)
+                .collect(Collectors.toList());
         String combination = Keys.chord(listKeys);
         switchTo().activeElement().sendKeys(combination);
     }
@@ -345,6 +343,7 @@ public class DefaultSteps {
         SelenideElement valueInput = coreScenario.getCurrentPage().getElement(nameOfField);
         Keys removeKey = isIE() ? Keys.BACK_SPACE : Keys.DELETE;
         do {
+            valueInput.scrollTo();
             valueInput.doubleClick().sendKeys(removeKey);
         } while (valueInput.getValue().length() != 0);
     }
@@ -355,8 +354,8 @@ public class DefaultSteps {
     @Тогда("^поле \"([^\"]*)\" пусто$")
     public void fieldInputIsEmpty(String fieldName) {
         assertThat(String.format("Поле [%s] не пусто", fieldName),
-            coreScenario.getCurrentPage().getAnyElementText(fieldName),
-            isEmptyOrNullString());
+                coreScenario.getCurrentPage().getAnyElementText(fieldName),
+                isEmptyOrNullString());
     }
 
     /**
@@ -400,7 +399,7 @@ public class DefaultSteps {
         int numberOfTypes = actualValues.size();
         assertThat(String.format("Количество элементов в списке [%s] не соответсвует ожиданию", listName), textTable, hasSize(numberOfTypes));
         assertTrue(String.format("Значения элементов в списке %s: %s не совпадают с ожидаемыми значениями из таблицы %s", listName, actualValues, textTable),
-            actualValues.containsAll(textTable));
+                actualValues.containsAll(textTable));
     }
 
     /**
@@ -412,13 +411,13 @@ public class DefaultSteps {
         final String value = getPropertyOrStringVariableOrValue(expectedValue);
         List<SelenideElement> listOfElementsFromPage = coreScenario.getCurrentPage().getElementsList(listName);
         List<String> elementsText = listOfElementsFromPage.stream()
-            .map(element -> element.getText().trim())
-            .collect(toList());
+                .map(element -> element.getText().trim())
+                .collect(toList());
         listOfElementsFromPage.stream()
-            .filter(element -> element.getText().trim().equalsIgnoreCase(value))
-            .findFirst()
-            .orElseThrow(() -> new IllegalArgumentException(String.format("Элемент [%s] не найден в списке %s: [%s] ", value, listName, elementsText)))
-            .click();
+                .filter(element -> element.getText().trim().equalsIgnoreCase(value))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(String.format("Элемент [%s] не найден в списке %s: [%s] ", value, listName, elementsText)))
+                .click();
     }
 
     /**
@@ -431,13 +430,13 @@ public class DefaultSteps {
         final String value = getPropertyOrStringVariableOrValue(expectedValue);
         List<SelenideElement> listOfElementsFromPage = coreScenario.getCurrentPage().getElementsList(listName);
         List<String> elementsListText = listOfElementsFromPage.stream()
-            .map(element -> element.getText().trim().toLowerCase())
-            .collect(toList());
+                .map(element -> element.getText().trim().toLowerCase())
+                .collect(toList());
         listOfElementsFromPage.stream()
-            .filter(element -> element.getText().trim().toLowerCase().contains(value.toLowerCase()))
-            .findFirst()
-            .orElseThrow(() -> new IllegalArgumentException(String.format("Элемент [%s] не найден в списке %s: [%s] ", value, listName, elementsListText)))
-            .click();
+                .filter(element -> element.getText().trim().toLowerCase().contains(value.toLowerCase()))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(String.format("Элемент [%s] не найден в списке %s: [%s] ", value, listName, elementsListText)))
+                .click();
     }
 
     /**
@@ -451,9 +450,9 @@ public class DefaultSteps {
         List<String> expectedList = new ArrayList<>((List<String>) coreScenario.getVar(listVariable));
         List<String> actualList = new ArrayList<>(coreScenario.getCurrentPage().getAnyElementsListInnerTexts(listName));
         assertThat(String.format("Количество элементов списка %s = %s, ожидаемое значение = %s", listName, actualList.size(), expectedList.size()), actualList,
-            hasSize(expectedList.size()));
+                hasSize(expectedList.size()));
         assertThat(String.format("Список со страницы %s: %s не совпадает с ожидаемым списком из переменной %s:%s", listName, actualList, listVariable, expectedList)
-            , actualList, containsInAnyOrder(expectedList.toArray()));
+                , actualList, containsInAnyOrder(expectedList.toArray()));
     }
 
     /**
@@ -526,7 +525,7 @@ public class DefaultSteps {
     @Тогда("^(?:поле|выпадающий список|элемент) \"([^\"]*)\" не отображается на странице$")
     public void elementIsNotVisible(String elementName) {
         coreScenario.getCurrentPage().waitElementsUntil(
-            not(Condition.appear), DEFAULT_TIMEOUT, coreScenario.getCurrentPage().getElement(elementName)
+                not(Condition.appear), DEFAULT_TIMEOUT, coreScenario.getCurrentPage().getElement(elementName)
         );
     }
 
@@ -548,7 +547,7 @@ public class DefaultSteps {
         SelenideElement currentElement = coreScenario.getCurrentPage().getElement(elementName);
         String currentAtrValue = currentElement.attr(attribute);
         assertThat(String.format("Элемент [%s] не содержит атрибут [%s] со значением [%s]", elementName, attribute, expectedAttributeValue)
-            , currentAtrValue, equalToIgnoringCase(expectedAttributeValue));
+                , currentAtrValue, equalToIgnoringCase(expectedAttributeValue));
     }
 
     /**
@@ -563,7 +562,7 @@ public class DefaultSteps {
         expectedClassValue = getPropertyOrStringVariableOrValue(expectedClassValue);
         String currentClassValue = currentElement.getAttribute("class");
         assertThat(String.format("Элемент [%s] не содержит класс со значением [%s]", elementName, expectedClassValue)
-            , currentClassValue.toLowerCase(), containsString(expectedClassValue.toLowerCase()));
+                , currentClassValue.toLowerCase(), containsString(expectedClassValue.toLowerCase()));
     }
 
     /**
@@ -573,8 +572,8 @@ public class DefaultSteps {
     public void checkElemClassNotContainsExpectedValue(String elementName, String expectedClassValue) {
         SelenideElement currentElement = coreScenario.getCurrentPage().getElement(elementName);
         assertThat(String.format("Элемент [%s] содержит класс со значением [%s]", elementName, expectedClassValue),
-            currentElement.getAttribute("class").toLowerCase(),
-            Matchers.not(containsString(getPropertyOrStringVariableOrValue(expectedClassValue).toLowerCase())));
+                currentElement.getAttribute("class").toLowerCase(),
+                Matchers.not(containsString(getPropertyOrStringVariableOrValue(expectedClassValue).toLowerCase())));
     }
 
     /**
@@ -667,8 +666,8 @@ public class DefaultSteps {
 
     private List<SelenideElement> getDisplayedElementsByCss(String cssSelector) {
         return $$(cssSelector).stream()
-            .filter(SelenideElement::isDisplayed)
-            .collect(Collectors.toList());
+                .filter(SelenideElement::isDisplayed)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -692,8 +691,6 @@ public class DefaultSteps {
     @И("^выполнено нажатие на элемент с текстом \"(.*)\"$")
     public void findElement(String text) {
         $(By.xpath(getTranslateNormalizeSpaceText(getPropertyOrStringVariableOrValue(text)))).click();
-
-
     }
 
     /**
@@ -743,7 +740,7 @@ public class DefaultSteps {
         assertNotNull("Ошибка поиска файла", expectedFiles);
         assertFalse("Файл не загрузился", expectedFiles.length == 0);
         assertTrue(String.format("В папке присутствуют более одного файла с одинаковым названием, содержащим текст [%s]", fileName),
-            expectedFiles.length == 1);
+                expectedFiles.length == 1);
         deleteFiles(expectedFiles);
     }
 
@@ -762,7 +759,7 @@ public class DefaultSteps {
     public void selectRandomElementFromList(String listName) {
         List<SelenideElement> listOfElementsFromPage = coreScenario.getCurrentPage().getElementsList(listName);
         listOfElementsFromPage.get(getRandom(listOfElementsFromPage.size()))
-            .shouldBe(Condition.visible).click();
+                .shouldBe(Condition.visible).click();
         coreScenario.write("Выбран случайный элемент: " + listOfElementsFromPage);
     }
 
@@ -775,8 +772,8 @@ public class DefaultSteps {
         SelenideElement element = listOfElementsFromPage.get(getRandom(listOfElementsFromPage.size()));
         element.shouldBe(Condition.visible).click();
         coreScenario.setVar(varName, coreScenario.getCurrentPage().getAnyElementText(element).trim());
-        coreScenario.write(String.format("Переменной [%s] присвоено значение [%s] из списка [%s]", varName,
-            coreScenario.getVar(varName), listName));
+        coreScenario.write(format("Переменной [%s] присвоено значение [%s] из списка [%s]", varName,
+                coreScenario.getVar(varName), listName));
     }
 
     /**
@@ -790,8 +787,8 @@ public class DefaultSteps {
         Integer selectedElementNumber = elementNumber - 1;
         if (selectedElementNumber < 0 || selectedElementNumber >= listOfElementsFromPage.size()) {
             throw new IndexOutOfBoundsException(
-                String.format("В списке %s нет элемента с номером %s. Количество элементов списка = %s",
-                    listName, elementNumber, listOfElementsFromPage.size()));
+                    String.format("В списке %s нет элемента с номером %s. Количество элементов списка = %s",
+                            listName, elementNumber, listOfElementsFromPage.size()));
         }
         elementToSelect = listOfElementsFromPage.get(selectedElementNumber);
         elementToSelect.shouldBe(Condition.visible).click();
@@ -806,10 +803,10 @@ public class DefaultSteps {
         final String value = getPropertyOrValue(expectedValue);
         List<SelenideElement> listOfElementsFromPage = coreScenario.getCurrentPage().getElementsList(listName);
         List<String> elementsListText = listOfElementsFromPage.stream()
-            .map(element -> element.getText().trim().toLowerCase())
-            .collect(toList());
+                .map(element -> element.getText().trim().toLowerCase())
+                .collect(toList());
         assertTrue(String.format("Элемены списка %s: [%s] не содержат текст [%s] ", listName, elementsListText, value),
-            elementsListText.stream().allMatch(item -> item.contains(value.toLowerCase())));
+                elementsListText.stream().allMatch(item -> item.contains(value.toLowerCase())));
     }
 
     /**
@@ -820,10 +817,10 @@ public class DefaultSteps {
         final String value = getPropertyOrValue(expectedValue);
         List<SelenideElement> listOfElementsFromPage = coreScenario.getCurrentPage().getElementsList(listName);
         List<String> elementsListText = listOfElementsFromPage.stream()
-            .map(element -> element.getText().trim().toLowerCase())
-            .collect(toList());
+                .map(element -> element.getText().trim().toLowerCase())
+                .collect(toList());
         assertFalse(String.format("Элемены списка %s: [%s] содержат текст [%s] ", listName, elementsListText, value),
-            elementsListText.stream().allMatch(item -> item.contains(value.toLowerCase())));
+                elementsListText.stream().allMatch(item -> item.contains(value.toLowerCase())));
     }
 
     /**
@@ -880,7 +877,7 @@ public class DefaultSteps {
         valueInput.setValue(numSeq);
         coreScenario.setVar(varName, numSeq);
         coreScenario.write(String.format("В поле [%s] введено значение [%s] и сохранено в переменную [%s]",
-            elementName, numSeq, varName));
+                elementName, numSeq, varName));
     }
 
     /**
@@ -891,7 +888,7 @@ public class DefaultSteps {
         coreScenario.getCurrentPage().getElementsList(listName).forEach(element -> {
             String str = coreScenario.getCurrentPage().getAnyElementText(element);
             assertTrue(format("Текст '%s' из списка '%s' не соответствует формату регулярного выражения", str, listName),
-                isTextMatches(str, pattern));
+                    isTextMatches(str, pattern));
         });
     }
 
@@ -996,7 +993,7 @@ public class DefaultSteps {
     @Тогда("^значения из переменной \"([^\"]*)\" и из property файла \"([^\"]*)\" совпадают$")
     public void checkIfValueFromVariableEqualPropertyVariable(String envVarible, String propertyVariable) {
         assertThat("Переменные " + envVarible + " и " + propertyVariable + " не совпадают",
-            (String) coreScenario.getVar(envVarible), equalToIgnoringCase(loadProperty(propertyVariable)));
+                (String) coreScenario.getVar(envVarible), equalToIgnoringCase(loadProperty(propertyVariable)));
     }
 
     /*
@@ -1015,12 +1012,10 @@ public class DefaultSteps {
      * Выполняется чтение файла с шаблоном и заполнение его значениями из таблицы
      */
     @И("^шаблон \"([^\"]*)\" заполнен данными из таблицы и сохранён в переменную \"([^\"]*)\"$")
-    public void fillTemplate(String templateName, String varName, DataTable dataTable) {
+    public void fillTemplate(String templateName, String varName, DataTable table) {
         String template = loadValueFromFileOrPropertyOrVariableOrDefault(templateName);
         boolean error = false;
-
-        //TODO было : dataTable.raw() / заменил на идентичный метод
-        for (List<String> list : dataTable.asLists()) {
+        for (List<String> list : table.asLists()) {
             String regexp = list.get(0);
             String replacement = list.get(1);
             if (template.contains(regexp)) {

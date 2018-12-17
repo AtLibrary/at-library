@@ -1,6 +1,4 @@
 /**
- * Copyright 2018 BCS
- * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -33,10 +31,8 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSender;
 import io.restassured.specification.RequestSpecification;
 import lombok.extern.slf4j.Slf4j;
-import ru.bcs.at.library.core.core.rest.RequestParam;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
@@ -63,7 +59,7 @@ public class DefaultApiSteps {
      */
     @И("^выполнен (GET|POST|PUT|DELETE) запрос на URL \"([^\"]*)\". Полученный ответ сохранен в переменную \"([^\"]*)\"$")
     public void sendHttpRequestWithoutParams(String method, String address, String variableName) throws Exception {
-        Response response = sendRequest(method, address, new ArrayList<>());
+        Response response = sendRequest(method, address, null);
         getBodyAndSaveToVariable(variableName, response);
     }
 
@@ -75,7 +71,7 @@ public class DefaultApiSteps {
      * Результат сохраняется в заданную переменную
      */
     @И("^выполнен (GET|POST|PUT|DELETE) запрос на URL \"([^\"]*)\" с headers и parameters из таблицы. Полученный ответ сохранен в переменную \"([^\"]*)\"$")
-    public void sendHttpRequestSaveResponse(String method, String address, String variableName, List<RequestParam> paramsTable) throws Exception {
+    public void sendHttpRequestSaveResponse(String method, String address, String variableName, DataTable paramsTable) throws Exception {
         Response response = sendRequest(method, address, paramsTable);
         getBodyAndSaveToVariable(variableName, response);
     }
@@ -87,7 +83,7 @@ public class DefaultApiSteps {
      * Content-Type при необходимости должен быть указан в качестве header.
      */
     @И("^выполнен (GET|POST|PUT|DELETE) запрос на URL \"([^\"]*)\" с headers и parameters из таблицы. Ожидается код ответа: (\\d+)$")
-    public void checkResponseCode(String method, String address, int expectedStatusCode, List<RequestParam> paramsTable) throws Exception {
+    public void checkResponseCode(String method, String address, int expectedStatusCode, DataTable paramsTable) throws Exception {
         Response response = sendRequest(method, address, paramsTable);
         assertTrue(checkStatusCode(response, expectedStatusCode));
     }
@@ -104,7 +100,6 @@ public class DefaultApiSteps {
         JsonParser parser = new JsonParser();
         ReadContext ctx = JsonPath.parse(strJson, createJsonPathConfiguration());
         boolean error = false;
-        //TODO было : dataTable.raw() / заменил на идентичный метод
         for (List<String> row : dataTable.asLists()) {
             String jsonPath = row.get(0);
             JsonElement actualJsonElement;
@@ -135,7 +130,6 @@ public class DefaultApiSteps {
         Gson gsonObject = new Gson();
         ReadContext ctx = JsonPath.parse(strJson, createJsonPathConfiguration());
         boolean error = false;
-        //TODO было : dataTable.raw() / заменил на идентичный метод
         for (List<String> row : dataTable.asLists()) {
             String jsonPath = row.get(0);
             String varName = row.get(1);
@@ -166,31 +160,36 @@ public class DefaultApiSteps {
      * @param paramsTable массив с параметрами
      * @return сформированный запрос
      */
-    private RequestSender createRequest(List<RequestParam> paramsTable) {
+    private RequestSender createRequest(DataTable paramsTable) {
         String body = null;
         RequestSpecification request = given();
-        for (RequestParam requestParam : paramsTable) {
-            String name = requestParam.getName();
-            String value = requestParam.getValue();
-            switch (requestParam.getType()) {
-                case PARAMETER:
-                    request.param(name, value);
-                    break;
-                case HEADER:
-                    request.header(name, value);
-                    break;
-                case BODY:
-                    value = loadValueFromFileOrPropertyOrVariableOrDefault(value);
-                    body = resolveJsonVars(value);
-                    request.body(body);
-                    break;
-                default:
-                    throw new IllegalArgumentException(String.format("Некорректно задан тип %s для параметра запроса %s ", requestParam.getType(), name));
+
+        if (paramsTable != null) {
+            for (List<String> requestParam : paramsTable.asLists()) {
+                String type = requestParam.get(0);
+                String name = requestParam.get(1);
+                String value = requestParam.get(2);
+                switch (type.toUpperCase()) {
+                    case "PARAMETER":
+                        request.param(name, value);
+                        break;
+                    case "HEADER":
+                        request.header(name, value);
+                        break;
+                    case "BODY":
+                        value = loadValueFromFileOrPropertyOrVariableOrDefault(value);
+                        body = resolveJsonVars(value);
+                        request.body(body);
+                        break;
+                    default:
+                        throw new IllegalArgumentException(String.format("Некорректно задан тип %s для параметра запроса %s ", type, name));
+                }
+            }
+            if (body != null) {
+                coreScenario.write("Тело запроса:\n" + body);
             }
         }
-        if (body != null) {
-            coreScenario.write("Тело запроса:\n" + body);
-        }
+
         return request;
     }
 
@@ -232,7 +231,7 @@ public class DefaultApiSteps {
      * @param paramsTable список параметров для http запроса
      */
     public Response sendRequest(String method, String address,
-                                List<RequestParam> paramsTable) {
+                                DataTable paramsTable) {
         address = loadProperty(address, resolveVars(address));
         RequestSender request = createRequest(paramsTable);
         return request.request(Method.valueOf(method), address);

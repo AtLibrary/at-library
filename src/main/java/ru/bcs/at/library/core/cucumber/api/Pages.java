@@ -1,12 +1,10 @@
 /**
- * Copyright 2018 BCS
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -68,7 +66,7 @@ public final class Pages {
     }
 
     /**
-     * Получение страницы из "pages" по имени
+     * Получение страницы из "ru.bcs.at.library.core.pages" по имени
      */
     public CorePage get(String pageName) {
         return getPageMapInstanceInternal().get(pageName);
@@ -91,7 +89,7 @@ public final class Pages {
     }
 
     /**
-     * Добавление инстанциированной страницы в "pages" с проверкой на NULL
+     * Добавление инстанциированной страницы в "ru.bcs.at.library.core.pages" с проверкой на NULL
      */
     public <T extends CorePage> void put(String pageName, T page) throws IllegalArgumentException {
         if (page == null)
@@ -111,7 +109,7 @@ public final class Pages {
     }
 
     /**
-     * Добавление страницы в "pages" по классу
+     * Добавление страницы в "ru.bcs.at.library.core.pages" по классу
      */
     public void put(String pageName, Class<? extends CorePage> clazz) {
         pages.put(pageName, Selenide.page(clazz).initialize());

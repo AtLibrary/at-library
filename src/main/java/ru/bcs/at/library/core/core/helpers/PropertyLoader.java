@@ -1,12 +1,10 @@
 /**
- * Copyright 2018 BCS
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -159,7 +157,7 @@ public class PropertyLoader {
         String value = null;
         if (!Strings.isNullOrEmpty(propertyName)) {
             String systemProperty = loadSystemPropertyOrDefault(propertyName, propertyName);
-            if(!propertyName.equals(systemProperty)) return systemProperty;
+            if (!propertyName.equals(systemProperty)) return systemProperty;
 
             value = PROFILE_PROPERTIES.getProperty(propertyName);
             if (null == value) {
@@ -178,8 +176,8 @@ public class PropertyLoader {
     private static Properties getPropertiesInstance() {
         Properties instance = new Properties();
         try (
-            InputStream resourceStream = PropertyLoader.class.getResourceAsStream(PROPERTIES_FILE);
-            InputStreamReader inputStream = new InputStreamReader(resourceStream, Charset.forName("UTF-8"))
+                InputStream resourceStream = PropertyLoader.class.getResourceAsStream(PROPERTIES_FILE);
+                InputStreamReader inputStream = new InputStreamReader(resourceStream, Charset.forName("UTF-8"))
         ) {
             instance.load(inputStream);
         }
@@ -202,8 +200,8 @@ public class PropertyLoader {
             String path = Paths.get(profile, PROPERTIES_FILE).toString();
             URL url = PropertyLoader.class.getClassLoader().getResource(path);
             try (
-                InputStream resourceStream = url.openStream();
-                InputStreamReader inputStream = new InputStreamReader(resourceStream, Charset.forName("UTF-8"))
+                    InputStream resourceStream = url.openStream();
+                    InputStreamReader inputStream = new InputStreamReader(resourceStream, Charset.forName("UTF-8"))
             ) {
                 instance.load(inputStream);
             }
@@ -214,6 +212,7 @@ public class PropertyLoader {
     /**
      * Получает значение из application.properties, файла по переданному пути, значение из хранилища переменных или как String аргумент
      * Используется для получение body.json api шагах, либо для получения script.js в ui шагах
+     *
      * @param valueToFind - ключ к значению в application.properties, путь к файлу c нужным значением, значение как String
      * @return значение как String
      */
