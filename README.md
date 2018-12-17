@@ -1,7 +1,34 @@
 
-At-Library-Core - бери и тестируй
+At-Library-Core
 =========================
 
+Настройка проекта
+====================
+
+Подключение репозитория:
+```xml
+<repositories>
+    <repository>
+        <id>autotest-mvn-repo</id>
+        <url>https://raw.github.com/Antonppavlov/autotest/mvn-repo/</url>
+        <snapshots>
+            <enabled>true</enabled>
+            <updatePolicy>always</updatePolicy>
+        </snapshots>
+    </repository>
+</repositories>
+```
+Подключение завимости:
+```xml
+<dependency>
+    <groupId>ru.bcs</groupId>
+    <artifactId>at-library-core</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
+
+BDD библиотека
+=======================
 BDD библиотека шагов для тестирования на основе cucumber и selenide.
 Тесты пишутся на русском языке и представляют собой пользовательские сценарии, которые могут выступать в качестве пользовательской документации на приложение.
 
@@ -120,7 +147,6 @@ Screenshots
 
 Поддерживаются следующие типы запросов: GET, POST, PUT, DELETE.
    ```Когда выполнен POST запрос на URL "{depositsApi}deposits/{docNumber}/repay" с headers и parameters из таблицы. Полученный ответ сохранен в переменную
-       | type   | name          | value           |
        | header | applicationId | test            |
        | header | customerId    | <userCus>       |
        | body   | repayment     | <fileForCreate> |
@@ -156,18 +182,6 @@ CoreScenario.write("Текущий URL = " + currentUrl + " \nОжидаемый
 
 Получение значения переменной из хранилища:
 ```CoreScenario.getVar(<имя переменной>)```
-
-
-Кастомный драйвер - CustomDriverProvider
-=========================================
-Позволяет запускать тесты с кастомными настройками браузеров и на ремоуте. Параметры запуска можно задавать как системные переменные.
-Например, можно указать браузер, версию браузера, remote Url(где будут запущены тесты), ширину и высоту окна браузера:
-```
-mvn clean gCR -Pbrowser=chrome -PbrowserVersion=64.0 -PremoteUrl=http://remote/url -Pwidth=1200 -Pheight=800
-```
-Если параметр remoteUrl не указан - тесты будут запущены локально в заданном браузере последней версии
-(
-Если указан параметр headless `-Pheadless=true`, то браузеры chrome и firefox будут запускаться в [headless режиме](https://developers.google.com/web/updates/2017/04/headless-chrome).
 
 Blacklist
 =========================================
@@ -208,19 +222,172 @@ scenario - Сценарий из Cucumber.api, с которым связана 
 Хуки предустановок, где происходит создание, закрытие браузера, получение скриншотов
 
 
-Используемые зависимости:
---------------------------
-> nebula-release-plugin - Apache License Version 2.0
-> com.codeborne.selenide - The MIT License (MIT)
-> io.rest-assured.rest-assured - Apache License Version 2.0
-> com.google.inject.guice - Apache License Version 2.0
-> org.mockito.mockito-core - The MIT License
-> com.github.tomakehurst:wiremock - Apache License Version 2.0
->org.hamcrest.hamcrest-all - BSD License
->org.codehaus.groovy - Apache License Version 2.0
->JUnit - Eclipse Public License
->org.slf4j.slf4j-simple - The MIT License (MIT)
->org.projectlombok.lombok - The MIT License (MIT)
->info.cukes.cucumber-java - The MIT License (MIT)
->info.cukes.cucumber-core - The MIT License (MIT)
->org.reflections.reflections
+Подключение плагинов:
+====================
+
+Настроенный для UTF-8 плагин компиляции:
+```xml
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-compiler-plugin</artifactId>
+    <version>3.8.0</version>
+    <configuration>
+        <encoding>UTF-8</encoding>
+        <source>1.8</source>
+        <target>1.8</target>
+    </configuration>
+</plugin>
+```
+Запускает тесты и генерирует отчёты по результатам их выполнения:
+```xml
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-surefire-plugin</artifactId>
+    <version>2.22.1</version>
+    <configuration>
+        <forkCount>10</forkCount>
+        <reuseForks>true</reuseForks>
+        <includes>
+            <include>**/Parallel*IT.class</include>
+        </includes>
+        <testFailureIgnore>true</testFailureIgnore>
+        <argLine>
+            -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/1.9.1/aspectjweaver-1.9.1.jar" -Dcucumber.options="--plugin io.qameta.allure.cucumber3jvm.AllureCucumber3Jvm"
+        </argLine>
+    </configuration>
+    <dependencies>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.9.1</version>
+        </dependency>
+    </dependencies>
+</plugin>
+```
+Для просмотра allure отчетов:
+```xml
+<plugin>
+    <groupId>io.qameta.allure</groupId>
+    <artifactId>allure-maven</artifactId>
+    <version>2.9</version>
+    <configuration>
+        <reportVersion>2.7.0</reportVersion>
+        <resultsDirectory>allure-results</resultsDirectory>
+    </configuration>
+</plugin>
+```
+Для распаралеливания тестов:
+```xml
+<plugin>
+    <groupId>com.github.temyers</groupId>
+    <artifactId>cucumber-jvm-parallel-plugin</artifactId>
+    <version>5.0.0</version>
+    <executions>
+        <execution>
+            <id>generateRunners</id>
+            <phase>generate-test-sources</phase>
+            <goals>
+                <goal>generateRunners</goal>
+            </goals>
+            <configuration>
+                <glue>
+                    <package>ru.bcs.at.library.core</package>
+                    <!--<package>подключить пакеты содержатие шаги cucumber</package>-->
+                </glue>
+                <tags>
+                    <tag>@bcs</tag>
+                </tags>
+                <parallelScheme>SCENARIO</parallelScheme>
+                <featuresDirectory>src/test/resources/features/</featuresDirectory>
+                <cucumberOutputDir>target/cucumber-parallel</cucumberOutputDir>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
+```
+Подключение swagger-codegen-maven-plugin:
+```xml
+<plugin>
+    <groupId>io.swagger</groupId>
+    <artifactId>swagger-codegen-maven-plugin</artifactId>
+    <version>2.3.1</version>
+    <executions>
+        <execution>
+            <goals>
+                <goal>generate</goal>
+            </goals>
+            <configuration>
+                <inputSpec>${project.basedir}/src/test/resources/schemas/api-docs.json</inputSpec>
+                <language>java</language>
+                <configOptions>
+                    <generateApiTests>false</generateApiTests>
+                    <sourceFolder>src/gen/java/main</sourceFolder>
+                </configOptions>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
+```
+Необходимые плагину завимости:
+```xml
+<dependency>
+    <groupId>com.squareup.okhttp3</groupId>
+    <artifactId>okhttp</artifactId>
+    <version>3.12.0</version>
+</dependency>
+<dependency>
+    <groupId>com.squareup.okhttp3</groupId>
+    <artifactId>logging-interceptor</artifactId>
+    <version>3.12.0</version>
+</dependency>
+<dependency>
+    <groupId>io.swagger.core.v3</groupId>
+    <artifactId>swagger-annotations</artifactId>
+    <version>2.0.6</version>
+</dependency>
+<dependency>
+    <groupId>io.gsonfire</groupId>
+    <artifactId>gson-fire</artifactId>
+    <version>1.8.3</version>
+</dependency>
+<dependency>
+    <groupId>org.threeten</groupId>
+    <artifactId>threetenbp</artifactId>
+    <version>1.3.8</version>
+</dependency>
+```
+
+Подключение swagger-codegen-maven-plugin:
+```xml
+<plugin>
+    <groupId>org.jsonschema2pojo</groupId>
+    <artifactId>jsonschema2pojo-maven-plugin</artifactId>
+    <version>0.5.1</version>
+    <configuration>
+        <sourceDirectory>${basedir}/src/test/resources/json/schema</sourceDirectory>
+        <outputDirectory>${basedir}/src/main/java</outputDirectory>
+        <targetPackage>ru.bcs.at.pojo</targetPackage>
+        <generateBuilders>true</generateBuilders>
+    </configuration>
+    <executions>
+        <execution>
+            <goals>
+                <goal>generate</goal>
+            </goals>
+        </execution>
+    </executions>
+</plugin>
+```
+Необходимые плагину завимости:
+```xml
+<dependency>
+    <groupId>commons-lang</groupId>
+    <artifactId>commons-lang</artifactId>
+    <version>2.6</version>
+</dependency>
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-annotations</artifactId>
+    <version>2.9.7</version>
+</dependency>
+```

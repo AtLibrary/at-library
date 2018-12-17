@@ -1,6 +1,4 @@
 /**
- * Copyright 2018 BCS
- * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,23 +13,30 @@
  */
 package ru.bcs.at.library.core.steps;
 
-import com.codeborne.selenide.WebDriverRunner;
+import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.logevents.SelenideLogger;
 import com.google.common.base.Strings;
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
-import cucumber.api.java.ru.И;
-import cucumber.api.java.ru.Когда;
+import io.qameta.allure.restassured.AllureRestAssured;
+import io.qameta.allure.selenide.AllureSelenide;
+import io.restassured.RestAssured;
 import lombok.experimental.Delegate;
 import lombok.extern.slf4j.Slf4j;
-import org.openqa.selenium.OutputType;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Proxy;
-import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import ru.bcs.at.library.core.cucumber.api.CoreEnvironment;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 
+import java.net.MalformedURLException;
+import java.net.URI;
+
+import static com.codeborne.selenide.Configuration.browser;
 import static com.codeborne.selenide.WebDriverRunner.*;
-import static ru.bcs.at.library.core.core.drivers.CustomDriverProvider.REMOTE_URL;
 
 @Slf4j
 public class InitialSetupSteps {
@@ -39,80 +44,85 @@ public class InitialSetupSteps {
     @Delegate
     CoreScenario coreScenario = CoreScenario.getInstance();
 
-//    @Before(order = 1)
-//    public void setDriver() {
-//        ManagerDriver.getInstance();
-//    }
+    private static boolean turnOnAllureListener = false;
+
+    @Before
+    public void setDriverProxy(Scenario scenario) throws MalformedURLException {
+        if (!turnOnAllureListener) {
+            SelenideLogger.addListener("AllureSelenide", new AllureSelenide().screenshots(true).savePageSource(false));
+            RestAssured.filters(new AllureRestAssured());
+            turnOnAllureListener = true;
+        }
+
+        boolean webTest = scenario.getSourceTagNames().contains("@web");
+        if (webTest) {
+            startWebTest(scenario);
+        }
+
+        /**
+         * Создает окружение(среду) для запуска сценария
+         *
+         * @param scenario сценарий
+         * @throws Exception
+         */
+        coreScenario.setEnvironment(new CoreEnvironment(scenario, webTest));
+    }
+
 
     /**
-     * Создает настойки прокси для запуска драйвера
+     * По завершению теста удаляет все куки и закрывает веб-браузер
      */
-    @Before(order = 2)
-    public void setDriverProxy() {
+    @After
+    public void clearBrowserCookies(Scenario scenario) {
+        boolean webTest = scenario.getSourceTagNames().contains("@web");
+        if (webTest) {
+            Selenide.clearBrowserLocalStorage();
+            Selenide.clearBrowserCookies();
+            Selenide.close();
+        }
+    }
+
+    private void startWebTest(Scenario scenario) throws MalformedURLException {
+        /**
+         * Создает настойки прокси для запуска драйвера
+         */
         if (!Strings.isNullOrEmpty(System.getProperty("proxy"))) {
             Proxy proxy = new Proxy().setHttpProxy(System.getProperty("proxy"));
             setProxy(proxy);
             log.info("Проставлена прокси: " + proxy);
         }
-    }
 
-    /**
-     * Создает окружение(среду) для запуска сценария
-     *
-     * @param scenario сценарий
-     * @throws Exception
-     */
-    @Before(order = 10)
-    public void setScenario(Scenario scenario) throws Exception {
-        coreScenario.setEnvironment(new CoreEnvironment(scenario));
-    }
+        /**
+         * Уведомление о месте запуска тестов
+         */
+        if (Strings.isNullOrEmpty(Configuration.remote)) {
+            log.info("Тесты будут запущены локально в браузере: " + browser);
+        } else {
+            log.info("Тесты запущены на удаленной машине: " + Configuration.remote);
 
-    /**
-     * Уведомление о месте запуска тестов
-     *
-     * @throws Exception
-     */
-    @Before(order = 20)
-    public static void setEnvironmentToTest() throws Exception {
-        if (!Strings.isNullOrEmpty(System.getProperty(REMOTE_URL))) {
-            log.info("Тесты запущены на удаленной машине: " + System.getProperty(REMOTE_URL));
-        } else
-            log.info("Тесты будут запущены локально");
-    }
+            DesiredCapabilities capabilities = new DesiredCapabilities();
+            capabilities.setBrowserName(browser);
+            capabilities.setCapability("enableVNC", true);
+            capabilities.setCapability("enableVideo", false);
+            capabilities.setCapability("screenResolution", "1920x1080");
+            capabilities.setCapability("width", "1920");
+            capabilities.setCapability("height", "1080");
+            capabilities.setCapability("name", scenario.getName());
 
-    /**
-     * Удаляет все cookies
-     *
-     * @throws Exception
-     */
-//    @Before(order = 21)
-//    public static void clearCash() throws Exception {
-//        getWebDriver().manage().deleteAllCookies();
-//    }
-
-    /**
-     * Если сценарий завершился со статусом "fail" будет создан скриншот и сохранен в директорию
-     * {@code <project>/build/reports/tests}
-     *
-     * @param scenario текущий сценарий
-     */
-    @After(order = 20)
-    public void takeScreenshot(Scenario scenario) {
-        if (scenario.isFailed() && hasWebDriverStarted()) {
-            CoreScenario.sleep(1);
-            final byte[] screenshot = ((TakesScreenshot) getWebDriver()).getScreenshotAs(OutputType.BYTES);
-            scenario.embed(screenshot, "image/png");
+            setWebDriver(
+                    new RemoteWebDriver(
+                            URI.create(Configuration.remote).toURL(),
+                            capabilities));
         }
+
+        /**
+         * Устанавливает разрешения экрана
+         */
+        getWebDriver().manage().window().setSize(new Dimension(1920, 1080));
+        /**
+         * Удаляет все cookies
+         */
+        getWebDriver().manage().deleteAllCookies();
     }
 
-    /**
-     * По завершению теста удаляет все куки и закрывает веб-браузер
-     */
-    @After(order = 10)
-    public void closeWebDriver() {
-        if (hasWebDriverStarted()) {
-            getWebDriver().manage().deleteAllCookies();
-            WebDriverRunner.closeWebDriver();
-        }
-    }
 }

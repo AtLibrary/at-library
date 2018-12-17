@@ -1,18 +1,3 @@
-/**
- * Copyright 2018 BCS
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package ru.bcs.at.library.core.steps;
 
 import com.galenframework.api.Galen;
@@ -33,33 +18,34 @@ import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadSystemPrope
 
 public class LayoutSteps {
     public static final String SPECS_DIR_PATH = loadSystemPropertyOrDefault("specsDir",
-        System.getProperty("user.dir") + "/src/test/resources/specs/");
+            System.getProperty("user.dir") + "/src/test/resources/specs/");
     public static final String IMG_DIFF_PATH = loadSystemPropertyOrDefault("imgDiff",
-        System.getProperty("user.dir") + "/build/results-img/");
+            System.getProperty("user.dir") + "/build/results-img/");
     private CoreScenario coreScenario = CoreScenario.getInstance();
 
     /**
      * Шаг проверяет, что текущая страница соответствует описанным в .spec файле требованиям
+     *
      * @param spec - Название galen спецификации .spec, где описан ожидаемый дизайн страницы
      *             По умолчанию ожидается, что .spec файлы находятся по пути /src/test/resources/specs.
      *             Этот путь можно переопределить, задав системную переменную specsDir
      */
 
-    @Тогда("(страница соответствует|соответствует|блок соответствует) ожидаемой спецификации \"([^\"]*)\"")
+    @Тогда("(?:страница соответствует|соответствует|блок соответствует) ожидаемой спецификации \"([^\"]*)\"")
     public void compareCurrentPageWithBase(String spec) {
         checkLayoutAccordingToSpec(spec, null);
     }
 
     /**
-     *
      * Шаг проверяет, что текущая страница соответствует описанным в .spec файле требованиям
+     *
      * @param spec - Название galen спецификации .spec, где описан ожидаемый дизайн страницы
      *             По умолчанию ожидается, что .spec файлы находятся по пути /src/test/resources/specs.
      *             Этот путь можно переопределить, задав системную переменную specsDir
-     * @param tag - название тэга в galen спецификации (например @on desktop),
-     *           для которого описан дизайн конкретных элементов.
+     * @param tag  - название тэга в galen спецификации (например @on desktop),
+     *             для которого описан дизайн конкретных элементов.
      */
-    @Тогда("(страница соответствует|соответствует|блок соответствует) спецификации \"([^\"]*)\" для экрана \"(\\D+)\"")
+    @Тогда("(?:страница соответствует|соответствует|блок соответствует) спецификации \"([^\"]*)\" для экрана \"(\\D+)\"")
     public void compareCurrentPageWithBase(String spec, String tag) {
         List<String> tags = new ArrayList<>();
         tags.add(tag);
@@ -93,12 +79,13 @@ public class LayoutSteps {
 
     /**
      * Прикрепляет файл к текущему сценарию в cucumber отчете
+     *
      * @param fileName - название файла
      * @param mimeType - тип файла
      */
     @SneakyThrows
     public static void embedFileToReport(File fileName, String mimeType) {
         CoreScenario.getInstance().getScenario()
-            .embed(FileUtils.readFileToByteArray(fileName), mimeType);
+                .embed(FileUtils.readFileToByteArray(fileName), mimeType);
     }
 }

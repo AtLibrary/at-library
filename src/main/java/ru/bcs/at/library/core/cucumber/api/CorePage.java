@@ -1,12 +1,10 @@
 /**
- * Copyright 2018 BCS
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,7 +18,6 @@ import com.codeborne.selenide.ElementsContainer;
 import com.codeborne.selenide.SelenideElement;
 import lombok.extern.slf4j.Slf4j;
 import ru.bcs.at.library.core.cucumber.annotations.Name;
-import ru.bcs.at.library.core.cucumber.annotations.Optional;
 import ru.bcs.at.library.core.cucumber.utils.Reflection;
 
 import java.lang.reflect.Field;
@@ -42,13 +39,13 @@ public abstract class CorePage extends ElementsContainer {
     /**
      * Стандартный таймаут ожидания элементов в миллисекундах
      */
-    private static final String WAITING_APPEAR_TIMEOUT_IN_MILLISECONDS = "8000";
+    private static final String WAITING_APPEAR_TIMEOUT_IN_MILLISECONDS = "20000";
 
     /**
      * Получение блока со страницы по имени (аннотированного "Name")
      */
     public CorePage getBlock(String blockName) {
-        return (CorePage) java.util.Optional.ofNullable(namedElements.get(blockName))
+        return (CorePage) Optional.ofNullable(namedElements.get(blockName))
                 .orElseThrow(() -> new IllegalArgumentException("Блок " + blockName + " не описан на странице " + this.getClass().getName()));
     }
 
@@ -84,7 +81,7 @@ public abstract class CorePage extends ElementsContainer {
      * Получение элемента со страницы по имени (аннотированного "Name")
      */
     public SelenideElement getElement(String elementName) {
-        return (SelenideElement) java.util.Optional.ofNullable(namedElements.get(elementName))
+        return (SelenideElement) Optional.ofNullable(namedElements.get(elementName))
                 .orElseThrow(() -> new IllegalArgumentException("Элемент " + elementName + " не описан на странице " + this.getClass().getName()));
     }
 
@@ -110,11 +107,11 @@ public abstract class CorePage extends ElementsContainer {
     public List<String> getAnyElementsListInnerTexts(String listName) {
         List<SelenideElement> elementsList = getElementsList(listName);
         return elementsList.stream()
-            .map(element -> element.getTagName().equals("input")
-                ? element.getValue().trim()
-                : element.innerText().trim()
-            )
-            .collect(toList());
+                .map(element -> element.getTagName().equals("input")
+                        ? element.getValue().trim()
+                        : element.innerText().trim()
+                )
+                .collect(toList());
     }
 
     /**
@@ -189,10 +186,10 @@ public abstract class CorePage extends ElementsContainer {
 
     private void eachForm(Consumer<CorePage> func) {
         Arrays.stream(getClass().getDeclaredFields())
-                .filter(f -> f.getDeclaredAnnotation(Optional.class) == null)
+                .filter(f -> f.getDeclaredAnnotation(ru.bcs.at.library.core.cucumber.annotations.Optional.class) == null)
                 .forEach(f -> {
-                    if (CorePage.class.isAssignableFrom(f.getType())){
-                        CorePage corePage = CoreScenario.getInstance().getPage((Class<? extends CorePage>)f.getType());
+                    if (CorePage.class.isAssignableFrom(f.getType())) {
+                        CorePage corePage = CoreScenario.getInstance().getPage((Class<? extends CorePage>) f.getType());
                         func.accept(corePage);
                     }
                 });
@@ -312,6 +309,7 @@ public abstract class CorePage extends ElementsContainer {
         }
         return null;
     }
+
     /**
      * Список всех элементов страницы
      */
@@ -377,7 +375,7 @@ public abstract class CorePage extends ElementsContainer {
      */
     private List<SelenideElement> readWithWrappedElements() {
         return Arrays.stream(getClass().getDeclaredFields())
-                .filter(f -> f.getDeclaredAnnotation(Optional.class) == null)
+                .filter(f -> f.getDeclaredAnnotation(ru.bcs.at.library.core.cucumber.annotations.Optional.class) == null)
                 .map(this::extractFieldValueViaReflection)
                 .flatMap(v -> v instanceof List ? ((List<?>) v).stream() : Stream.of(v))
                 .map(CorePage::castToSelenideElement)

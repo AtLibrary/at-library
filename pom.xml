@@ -6,98 +6,57 @@
 
     <groupId>ru.bcs</groupId>
     <artifactId>at-library-core</artifactId>
-    <version>0.0.1beta</version>
+    <version>1.0.0</version>
 
     <name>at-library-core</name>
 
     <properties>
         <!--WEB ТЕСТИРОВАНИЕ-->
-        <selenide.version>5.0.1</selenide.version>
-        <webdrivermanager.version>3.0.0</webdrivermanager.version>
+        <selenide.version>4.14.2</selenide.version>
         <!--API ТЕСТИРОВАНИЕ-->
         <rest-assured.version>3.2.0</rest-assured.version>
-        <!--MOBILE ТЕСТИРОВАНИЕ-->
-        <browsermob.version>2.1.5</browsermob.version>
         <!--CUCUMBER-->
         <!--<cucumber.version>4.2.0</cucumber.version>-->
         <cucumber.version>3.0.2</cucumber.version>
         <!--ОТЧЕТ ALLURE-->
-        <allure.version>2.8.1</allure.version>
-        <!--РАБОТА С СГЕНЕРИРОВАННЫМ POJO-->
-        <commons-lang.version>2.6</commons-lang.version>
-        <jsonschema2pojo.version>0.5.1</jsonschema2pojo.version>
-        <jackson-annotations.version>2.9.7</jackson-annotations.version>
-
-        <java.version>1.8</java.version>
+        <allure.version>2.7.0</allure.version>
+        <!--LOMBOK-->
         <lombok.version>1.16.20</lombok.version>
-        <junit.version>4.12</junit.version>
+        <!--LOG-->
         <slf4j-simple.version>1.7.25</slf4j-simple.version>
-        <aspectj.version>1.9.1</aspectj.version>
-        <maven-surefire-plugin.version>2.22.1</maven-surefire-plugin.version>
-        <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
+        <!--ВСПОМОГАТЕЛЬНЫЕ БИБЛИОТЕКИ-->
+        <browsermob.version>2.1.5</browsermob.version>
+        <reflections.version>0.9.10</reflections.version>
+        <guava.version>23.0</guava.version>
+        <jsonpath.version>2.4.0</jsonpath.version>
+        <galenframework.version>2.4.0</galenframework.version>
+        <!--git-->
+        <!--https://devcolibri.com/4405-->
+        <github.global.server>github</github.global.server>
+        <github.maven-plugin>0.12</github.maven-plugin>
     </properties>
 
+    <!--git-->
+    <distributionManagement>
+        <repository>
+            <id>internal.repo</id>
+            <name>Temporary Staging Repository</name>
+            <url>file://${project.build.directory}/mvn-repo</url>
+        </repository>
+    </distributionManagement>
 
     <dependencies>
-        <!--<dependency>-->
-            <!--<groupId>net.lightbody.bmp</groupId>-->
-            <!--<artifactId>browsermob-core</artifactId>-->
-            <!--<version>2.1.5</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.reflections</groupId>-->
-            <!--<artifactId>reflections</artifactId>-->
-            <!--<version>0.9.10</version>-->
-        <!--</dependency>-->
-
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>${slf4j-simple.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.jayway.jsonpath</groupId>
-            <artifactId>json-path</artifactId>
-            <version>2.4.0</version>
-        </dependency>
         <!--WEB ТЕСТИРОВАНИЕ-->
         <dependency>
             <groupId>com.codeborne</groupId>
             <artifactId>selenide</artifactId>
             <version>${selenide.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.galenframework</groupId>
-            <artifactId>galen-java-support</artifactId>
-            <version>2.4.0</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.bonigarcia</groupId>
-            <artifactId>webdrivermanager</artifactId>
-            <version>${webdrivermanager.version}</version>
-        </dependency>
         <!--API ТЕСТИРОВАНИЕ-->
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
             <version>${rest-assured.version}</version>
-        </dependency>
-        <!--РАБОТА С СГЕНЕРИРОВАННЫМ POJO-->
-        <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-            <version>${commons-lang.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-annotations</artifactId>
-            <version>${jackson-annotations.version}</version>
         </dependency>
         <!--CUCUMBER-->
         <dependency>
@@ -136,6 +95,44 @@
             <artifactId>allure-cucumber3-jvm</artifactId>
             <version>${allure.version}</version>
         </dependency>
+        <!--LOMBOK-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+        </dependency>
+        <!--LOG-->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j-simple.version}</version>
+        </dependency>
+        <!--ВСПОМОГАТЕЛЬНЫЕ БИБЛИОТЕКИ-->
+        <dependency>
+            <groupId>net.lightbody.bmp</groupId>
+            <artifactId>browsermob-core</artifactId>
+            <version>${browsermob.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <version>${reflections.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.jayway.jsonpath</groupId>
+            <artifactId>json-path</artifactId>
+            <version>${jsonpath.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.galenframework</groupId>
+            <artifactId>galen-java-support</artifactId>
+            <version>${galenframework.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -143,61 +140,36 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven-compiler-plugin.version}</version>
+                <version>3.8.0</version>
                 <configuration>
                     <encoding>UTF-8</encoding>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                    <!--<compilerArgument>-Werror</compilerArgument>-->
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
-            <!--ГЕНЕРАЦИЯ POJO НА ОСНОВАНИИ JSON СХЕМ-->
             <plugin>
-                <groupId>org.jsonschema2pojo</groupId>
-                <artifactId>jsonschema2pojo-maven-plugin</artifactId>
-                <version>${jsonschema2pojo.version}</version>
+                <groupId>com.github.github</groupId>
+                <artifactId>site-maven-plugin</artifactId>
+                <version>0.12</version>
                 <configuration>
-                    <sourceDirectory>${basedir}/src/test/resources/json/schema</sourceDirectory>
-                    <outputDirectory>${basedir}/src/main/java</outputDirectory>
-                    <targetPackage>ru.bcs.at.pojo</targetPackage>
-                    <generateBuilders>true</generateBuilders>
+                    <message>Maven artifacts for ${project.version}</message>
+                    <noJekyll>true</noJekyll>
+                    <outputDirectory>${project.build.directory}/mvn-repo</outputDirectory>
+                    <branch>refs/heads/mvn-repo</branch>
+                    <includes>
+                        <include>**/*</include>
+                    </includes>
+                    <repositoryName>autotest</repositoryName>
+                    <repositoryOwner>Antonppavlov</repositoryOwner>
                 </configuration>
                 <executions>
                     <execution>
                         <goals>
-                            <goal>generate</goal>
+                            <goal>site</goal>
                         </goals>
+                        <phase>deploy</phase>
                     </execution>
                 </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>io.qameta.allure</groupId>
-                <artifactId>allure-maven</artifactId>
-                <version>2.9</version>
-                <configuration>
-                    <reportVersion>2.6.0</reportVersion>
-                    <resultsDirectory>allure-results</resultsDirectory>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${maven-surefire-plugin.version}</version>
-                <configuration>
-                    <testFailureIgnore>true</testFailureIgnore>
-                    <argLine>
-                        -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
-                    </argLine>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.aspectj</groupId>
-                        <artifactId>aspectjweaver</artifactId>
-                        <version>${aspectj.version}</version>
-                    </dependency>
-                </dependencies>
             </plugin>
         </plugins>
     </build>

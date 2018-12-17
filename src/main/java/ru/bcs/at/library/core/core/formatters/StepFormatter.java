@@ -1,12 +1,10 @@
 /**
- * Copyright 2018 BCS
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,10 +18,11 @@ import cucumber.api.event.EventHandler;
 import cucumber.api.event.EventPublisher;
 import cucumber.api.event.TestStepFinished;
 import cucumber.api.formatter.Formatter;
-import cucumber.runtime.Reflections;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
+import org.reflections.Reflections;
+import org.reflections.scanners.MethodAnnotationsScanner;
 import ru.bcs.at.library.core.cucumber.annotations.Screenshot;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 
@@ -52,38 +51,36 @@ public class StepFormatter implements Formatter {
     }
 
     private void handleTestStepFinished(TestStepFinished event) {
-       // TODO устрела версия / срочно пофиксить
-//        if (!event.testStep.isHook()) {
-//            afterStep(event.testStep);
-//        }
+        if (!event.testStep.isHook()) {
+            afterStep(event.testStep);
+        }
     }
 
     /**
      * Метод осуществляет снятие скришота и прикрепление его к cucumber отчету.
      * Скриншот снимается после шагов, помеченных аннотацией @Screenshot,
      * либо после каждого шага, если задана системная переменная takeScreenshotAfterSteps=true
-     * @param testStep - текущий шаг
      *
+     * @param testStep - текущий шаг
      */
-//    private void afterStep(TestStep testStep) {
-//        String fullMethodLocation = testStep.getCodeLocation();
-//        String currentMethodName = fullMethodLocation.substring(fullMethodLocation.indexOf('.') + 1, fullMethodLocation.indexOf('('));
-//
-//        List<Method> methodsWithScreenshotAnnotation = new Reflections(new MethodAnnotationsScanner())
-//            .getMethodsAnnotatedWith(Screenshot.class)
-//            .stream()
-//            .filter(m -> m.getName().contains(currentMethodName))
-//            .collect(Collectors.toList());
-//
-//        boolean isScreenshotAnnotationPresent = methodsWithScreenshotAnnotation.size() > 0;
-//
-//        boolean isTakeScreenshotAfterStepsProperty = System.getProperty(SCREENSHOT_AFTER_STEPS) != null
-//            ? Boolean.valueOf(System.getProperty(SCREENSHOT_AFTER_STEPS)) : false;
-//
-//        if (isScreenshotAnnotationPresent || isTakeScreenshotAfterStepsProperty) {
-//            final byte[] screenshot = ((TakesScreenshot) getWebDriver()).getScreenshotAs(OutputType.BYTES);
-//            CoreScenario.getInstance().getScenario().embed(screenshot, "image/png");
-//        }
-//    }
+    private void afterStep(TestStep testStep) {
+        String fullMethodLocation = testStep.getCodeLocation();
+        String currentMethodName = fullMethodLocation.substring(fullMethodLocation.indexOf('.') + 1, fullMethodLocation.indexOf('('));
 
+        List<Method> methodsWithScreenshotAnnotation = new Reflections(new MethodAnnotationsScanner())
+                .getMethodsAnnotatedWith(Screenshot.class)
+                .stream()
+                .filter(m -> m.getName().contains(currentMethodName))
+                .collect(Collectors.toList());
+
+        boolean isScreenshotAnnotationPresent = methodsWithScreenshotAnnotation.size() > 0;
+
+        boolean isTakeScreenshotAfterStepsProperty = System.getProperty(SCREENSHOT_AFTER_STEPS) != null
+                ? Boolean.valueOf(System.getProperty(SCREENSHOT_AFTER_STEPS)) : false;
+
+        if (isScreenshotAnnotationPresent || isTakeScreenshotAfterStepsProperty) {
+            final byte[] screenshot = ((TakesScreenshot) getWebDriver()).getScreenshotAs(OutputType.BYTES);
+            CoreScenario.getInstance().getScenario().embed(screenshot, "image/png");
+        }
+    }
 }

@@ -1,12 +1,10 @@
 /**
- * Copyright 2018 BCS
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -44,7 +42,7 @@ public class DefaultManageBrowserSteps {
      * Удаляем все cookies
      */
     @Когда("^cookies приложения очищены$")
-    public void deleteCookies(){
+    public void deleteCookies() {
         clearBrowserCookies();
     }
 
@@ -52,7 +50,7 @@ public class DefaultManageBrowserSteps {
      * Ищем cookie по имени. Сохраняем cookie в переменную для дальнейшего использования
      */
     @Когда("^cookie с именем \"([^\"]*)\" сохранена в переменную \"([^\"]*)\"$")
-    public void saveCookieToVar(String nameCookie, String cookieVar){
+    public void saveCookieToVar(String nameCookie, String cookieVar) {
         String cookieName = resolveVars(nameCookie);
         Cookie var = getWebDriver().manage().getCookieNamed(cookieName);
         coreScenario.setVar(cookieVar, var);
@@ -62,7 +60,7 @@ public class DefaultManageBrowserSteps {
      * Сохраняем все cookies в переменную для дальнейшего использования
      */
     @Когда("^cookies сохранены в переменную \"([^\"]*)\"$")
-    public void saveAllCookies(String variableName){
+    public void saveAllCookies(String variableName) {
         Set cookies = getWebDriver().manage().getCookies();
         coreScenario.setVar(variableName, cookies);
     }
@@ -71,14 +69,14 @@ public class DefaultManageBrowserSteps {
      * Находим cookie по имени и подменяем ее значение. Имя cookie и домен не меняются
      */
     @Когда("^добавлена cookie с именем \"([^\"]*)\" и значением \"([^\"]*)\"$")
-    public void replaceCookie(String cookieName, String cookieValue){
+    public void replaceCookie(String cookieName, String cookieValue) {
         String nameCookie = resolveVars(cookieName);
         String valueCookie = resolveVars(cookieValue);
         getWebDriver().manage().addCookie(new Cookie(nameCookie, valueCookie));
     }
 
     /**
-     *  Переключение на следующую вкладку браузера
+     * Переключение на следующую вкладку браузера
      */
     @Когда("выполнено переключение на следующую вкладку")
     public void switchToTheNextTab() {
@@ -88,7 +86,7 @@ public class DefaultManageBrowserSteps {
     }
 
     /**
-     *  Переключение на вкладку браузера с заголовком
+     * Переключение на вкладку браузера с заголовком
      */
     @Когда("^выполнено переключение на вкладку с заголовком \"([^\"]*)\"$")
     public void switchToTheTabWithTitle(String title) {
@@ -97,8 +95,8 @@ public class DefaultManageBrowserSteps {
     }
 
     /**
-     *  Производится сравнение заголовка страницы со значением, указанным в шаге
-     *  (в приоритете: из property, из переменной сценария, значение аргумента)
+     * Производится сравнение заголовка страницы со значением, указанным в шаге
+     * (в приоритете: из property, из переменной сценария, значение аргумента)
      */
     @Тогда("^заголовок страницы равен \"([^\"]*)\"$")
     public void checkPageTitle(String pageTitleName) {
@@ -109,7 +107,7 @@ public class DefaultManageBrowserSteps {
     }
 
     /**
-     *  Производится сохранение заголовка страницы в переменную
+     * Производится сохранение заголовка страницы в переменную
      */
     @И("^заголовок страницы сохранен в переменную \"([^\"]*)\"$")
     public void savePageTitleToVariable(String variableName) {
@@ -119,7 +117,7 @@ public class DefaultManageBrowserSteps {
     }
 
     /**
-     *  Производится закрытие текущей вкладки
+     * Производится закрытие текущей вкладки
      */
     @И("выполнено закрытие текущей вкладки")
     public void closeCurrentTab() {

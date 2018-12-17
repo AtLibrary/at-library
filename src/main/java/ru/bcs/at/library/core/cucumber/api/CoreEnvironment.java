@@ -1,12 +1,10 @@
 /**
- * Copyright 2018 BCS
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -42,33 +40,33 @@ public class CoreEnvironment {
      */
     private Pages pages = new Pages();
 
-    public CoreEnvironment(Scenario scenario) {
+    public CoreEnvironment(Scenario scenario, boolean webTest) {
         this.scenario = scenario;
-//        initPages();
+        if (webTest) {
+            initPages();
+        }
     }
 
     public CoreEnvironment() {
-//        initPages();
+        initPages();
     }
 
     /**
      * Метод ищет классы, аннотированные "CorePage.Name",
-     * добавляя ссылки на эти классы в поле "pages"
+     * добавляя ссылки на эти классы в поле "ru.bcs.at.library.core.pages"
      */
     @SuppressWarnings("unchecked")
     private void initPages() {
-//TODO код закоментирован
-        //TODO срочно исправить
-//        new AnnotationScanner().getClassesAnnotatedWith(Name.class)
-//                .stream()
-//                .map(it -> {
-//                    if (CorePage.class.isAssignableFrom(it)) {
-//                        return (Class<? extends CorePage>) it;
-//                    } else {
-//                        throw new IllegalStateException("Класс " + it.getName() + " должен наследоваться от CorePage");
-//                    }
-//                })
-//                .forEach(clazz -> pages.put(getClassAnnotationValue(clazz), clazz));
+        new AnnotationScanner().getClassesAnnotatedWith(Name.class)
+                .stream()
+                .map(it -> {
+                    if (CorePage.class.isAssignableFrom(it)) {
+                        return (Class<? extends CorePage>) it;
+                    } else {
+                        throw new IllegalStateException("Класс " + it.getName() + " должен наследоваться от CorePage");
+                    }
+                })
+                .forEach(clazz -> pages.put(getClassAnnotationValue(clazz), clazz));
     }
 
     /**

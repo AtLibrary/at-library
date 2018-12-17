@@ -1,12 +1,10 @@
 /**
- * Copyright 2018 BCS
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -89,8 +87,8 @@ public class ScopedVariables {
             String value = loadProperty(varName, (String) CoreScenario.getInstance().tryGetVar(varName));
             if (value == null)
                 throw new IllegalArgumentException(
-                    "Значение " + varName +
-                        " не было найдено ни в application.properties, ни в environment переменной");
+                        "Значение " + varName +
+                                " не было найдено ни в application.properties, ни в environment переменной");
             newString = m.replaceFirst(value);
             m = p.matcher(newString);
         }
@@ -120,8 +118,8 @@ public class ScopedVariables {
             String value = loadProperty(varName, (String) CoreScenario.getInstance().tryGetVar(varName));
             if (value == null) {
                 CoreScenario.getInstance().write(
-                    "Значение " + varName +
-                        " не было найдено ни в application.properties, ни в environment переменной");
+                        "Значение " + varName +
+                                " не было найдено ни в application.properties, ни в environment переменной");
             }
             newString = m.replaceFirst(value);
             if (isJSONValid(newString)) return newString;
@@ -135,6 +133,7 @@ public class ScopedVariables {
 
     /**
      * Проверяет, является ли переданная в качестве аргумента строка валидным JSON
+     *
      * @param jsonInString - строка для валидации
      * @return
      */
