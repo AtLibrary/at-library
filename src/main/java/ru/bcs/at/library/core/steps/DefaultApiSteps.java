@@ -170,19 +170,27 @@ public class DefaultApiSteps {
                 String name = requestParam.get(1);
                 String value = requestParam.get(2);
                 switch (type.toUpperCase()) {
-                    case "PARAMETER":
+                    case "PARAMETER": {
                         request.param(name, value);
                         break;
-                    case "HEADER":
+                    }
+                    case "MULTIPART": {
+                        request.multiPart(name, value);
+                        break;
+                    }
+                    case "HEADER": {
                         request.header(name, value);
                         break;
-                    case "BODY":
+                    }
+                    case "BODY": {
                         value = loadValueFromFileOrPropertyOrVariableOrDefault(value);
                         body = resolveJsonVars(value);
                         request.body(body);
                         break;
-                    default:
+                    }
+                    default: {
                         throw new IllegalArgumentException(String.format("Некорректно задан тип %s для параметра запроса %s ", type, name));
+                    }
                 }
             }
             if (body != null) {

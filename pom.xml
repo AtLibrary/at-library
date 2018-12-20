@@ -36,12 +36,15 @@
         <github.maven-plugin>0.12</github.maven-plugin>
     </properties>
 
-    <!--git-->
     <distributionManagement>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>s-cicd-artif-01.global.bcs-snapshots</name>
+            <url>https://artifactory.gitlab.bcs.ru/artifactory/bcs-main-snapshots</url>
+        </snapshotRepository>
         <repository>
-            <id>internal.repo</id>
-            <name>Temporary Staging Repository</name>
-            <url>file://${project.build.directory}/mvn-repo</url>
+            <id>bcs-main-releases</id>
+            <url>https://artifactory.gitlab.bcs.ru/artifactory/bcs-main-releases</url>
         </repository>
     </distributionManagement>
 
@@ -146,30 +149,6 @@
                     <source>1.8</source>
                     <target>1.8</target>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>com.github.github</groupId>
-                <artifactId>site-maven-plugin</artifactId>
-                <version>0.12</version>
-                <configuration>
-                    <message>Maven artifacts for ${project.version}</message>
-                    <noJekyll>true</noJekyll>
-                    <outputDirectory>${project.build.directory}/mvn-repo</outputDirectory>
-                    <branch>refs/heads/mvn-repo</branch>
-                    <includes>
-                        <include>**/*</include>
-                    </includes>
-                    <repositoryName>autotest</repositoryName>
-                    <repositoryOwner>Antonppavlov</repositoryOwner>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>site</goal>
-                        </goals>
-                        <phase>deploy</phase>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
