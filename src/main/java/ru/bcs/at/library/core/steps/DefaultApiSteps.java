@@ -178,6 +178,10 @@ public class DefaultApiSteps {
                         request.multiPart(name, value);
                         break;
                     }
+                    case "PATH_PARAMETER": {
+                        request.pathParam(name, value);
+                        break;
+                    }
                     case "HEADER": {
                         request.header(name, value);
                         break;
