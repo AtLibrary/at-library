@@ -37,6 +37,7 @@ import java.net.URI;
 
 import static com.codeborne.selenide.Configuration.browser;
 import static com.codeborne.selenide.WebDriverRunner.*;
+import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadProperty;
 
 @Slf4j
 public class InitialSetupSteps {
@@ -48,6 +49,7 @@ public class InitialSetupSteps {
 
     @Before
     public void setDriverProxy(Scenario scenario) throws MalformedURLException {
+        RestAssured.baseURI = System.getProperty("baseURI", loadProperty("baseURI"));
         if (!turnOnAllureListener) {
             SelenideLogger.addListener("AllureSelenide", new AllureSelenide().screenshots(true).savePageSource(false));
             RestAssured.filters(new AllureRestAssured());
