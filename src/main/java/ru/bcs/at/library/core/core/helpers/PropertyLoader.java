@@ -16,7 +16,7 @@ package ru.bcs.at.library.core.core.helpers;
 
 import com.google.common.base.Strings;
 import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 
@@ -34,7 +34,7 @@ import java.util.Properties;
 /**
  * Класс для получения свойств
  */
-@Slf4j
+@Log4j2
 public class PropertyLoader {
     private static final String PROPERTIES_FILE = "/application.properties";
     private static final Properties PROPERTIES = getPropertiesInstance();

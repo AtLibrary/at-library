@@ -6,7 +6,7 @@
 
     <groupId>ru.bcs</groupId>
     <artifactId>at-library-core</artifactId>
-    <version>28.12.2018</version>
+    <version>9-11.1.2019</version>
 
     <name>at-library-core</name>
 
@@ -23,7 +23,7 @@
         <!--LOMBOK-->
         <lombok.version>1.16.20</lombok.version>
         <!--LOG-->
-        <slf4j-simple.version>1.7.25</slf4j-simple.version>
+        <log4j-core.version>2.11.1</log4j-core.version>
         <!--ВСПОМОГАТЕЛЬНЫЕ БИБЛИОТЕКИ-->
         <browsermob.version>2.1.5</browsermob.version>
         <reflections.version>0.9.10</reflections.version>
@@ -106,10 +106,11 @@
         </dependency>
         <!--LOG-->
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>${slf4j-simple.version}</version>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j-core.version}</version>
         </dependency>
+
         <!--ВСПОМОГАТЕЛЬНЫЕ БИБЛИОТЕКИ-->
         <dependency>
             <groupId>net.lightbody.bmp</groupId>

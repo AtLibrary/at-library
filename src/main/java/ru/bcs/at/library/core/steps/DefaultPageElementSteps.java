@@ -15,7 +15,7 @@ package ru.bcs.at.library.core.steps;
 
 import com.codeborne.selenide.SelenideElement;
 import cucumber.api.java.ru.И;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 
 import java.util.stream.Collectors;
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 /**
  * Шаги для работы с блоками со страницы, доступные по умолчанию в каждом новом проекте
  */
-@Slf4j
+@Log4j2
 public class DefaultPageElementSteps {
 
     private CoreScenario coreScenario = CoreScenario.getInstance();

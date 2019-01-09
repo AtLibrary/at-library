@@ -16,7 +16,7 @@ package ru.bcs.at.library.core.steps;
 import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.Когда;
 import cucumber.api.java.ru.Тогда;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.Cookie;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 
@@ -32,7 +32,7 @@ import static ru.bcs.at.library.core.cucumber.ScopedVariables.resolveVars;
 /**
  * Шаги для работы с cookies
  */
-@Slf4j
+@Log4j2
 public class DefaultManageBrowserSteps {
 
     private DefaultSteps ds = new DefaultSteps();

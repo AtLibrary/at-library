@@ -15,7 +15,7 @@ package ru.bcs.at.library.core.cucumber.api;
 
 import com.codeborne.selenide.Selenide;
 import cucumber.api.Scenario;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import ru.bcs.at.library.core.cucumber.ScopedVariables;
 
 import java.util.concurrent.TimeUnit;
@@ -24,7 +24,7 @@ import java.util.function.Consumer;
 /**
  * Главный класс, отвечающий за сопровождение тестовых шагов
  */
-@Slf4j
+@Log4j2
 public final class CoreScenario {
 
     private static CoreScenario instance = new CoreScenario();

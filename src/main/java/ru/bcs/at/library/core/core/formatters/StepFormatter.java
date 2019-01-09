@@ -18,7 +18,7 @@ import cucumber.api.event.EventHandler;
 import cucumber.api.event.EventPublisher;
 import cucumber.api.event.TestStepFinished;
 import cucumber.api.formatter.Formatter;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.reflections.Reflections;
@@ -37,7 +37,7 @@ import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
  * после каждого шага. Для этого необходимо задать системную переменную takeScreenshotAfterSteps=true
  * Скриншот так же будет сниматься после каждого метода, помеченного аннотацией @Screenshot
  */
-@Slf4j
+@Log4j2
 public class StepFormatter implements Formatter {
     public final String SCREENSHOT_AFTER_STEPS = "takeScreenshotAfterSteps";
 

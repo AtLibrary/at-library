@@ -16,7 +16,7 @@ package ru.bcs.at.library.core.core.drivers;///**
 //package ru.bcs.at.library.core.core.drivers;
 //
 //import com.codeborne.selenide.WebDriverProvider;
-//import lombok.extern.slf4j.Slf4j;
+//import lombok.extern.log4j.Log4j2;
 //import net.lightbody.bmp.BrowserMobProxy;
 //import net.lightbody.bmp.BrowserMobProxyServer;
 //import net.lightbody.bmp.proxy.BlacklistEntry;
@@ -66,7 +66,7 @@ package ru.bcs.at.library.core.core.drivers;///**
 // * С указанием устройства, на котором будем эмулироваться запуск мобильного chrome браузера (-Ddevice=iPhone 6)
 // * Если указан параметр headless, то браузеры firefox и chrome будут запускаться без GUI (-Dheadless=true)
 // */
-//@Slf4j
+//@Log4j2
 //public class CustomDriverProvider implements WebDriverProvider {
 //    public final static String MOBILE_DRIVER = "mobile";
 //    public final static String BROWSER = "browser";

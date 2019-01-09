@@ -30,7 +30,7 @@ import io.restassured.internal.support.Prettifier;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSender;
 import io.restassured.specification.RequestSpecification;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 
 import java.util.List;
@@ -47,7 +47,7 @@ import static ru.bcs.at.library.core.cucumber.ScopedVariables.resolveVars;
  * Шаги для тестирования API, доступные по умолчанию в каждом новом проекте
  */
 
-@Slf4j
+@Log4j2
 public class DefaultApiSteps {
 
     private CoreScenario coreScenario = CoreScenario.getInstance();
@@ -214,9 +214,9 @@ public class DefaultApiSteps {
     private void getBodyAndSaveToVariable(String variableName, Response response) {
         if (response.statusCode() >= 200 && response.statusCode() < 300) {
             coreScenario.setVar(variableName, response.getBody().asString());
-            coreScenario.write("Тело ответа : \n" + new Prettifier().getPrettifiedBodyIfPossible(response, response));
+         //   coreScenario.write("Тело ответа : \n" + new Prettifier().getPrettifiedBodyIfPossible(response, response));
         } else {
-            fail("Некорректный ответ на запрос: " + new Prettifier().getPrettifiedBodyIfPossible(response, response));
+            fail("Вернулся не корректный status code: " + response.statusCode()+"\n body: "+ response.getBody().print());
         }
     }
 

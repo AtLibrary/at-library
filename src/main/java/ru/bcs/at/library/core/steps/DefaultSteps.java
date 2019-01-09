@@ -18,7 +18,7 @@ import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import cucumber.api.java.ru.*;
 import io.cucumber.datatable.DataTable;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.Matchers;
 import org.openqa.selenium.Dimension;
@@ -59,7 +59,7 @@ import static ru.bcs.at.library.core.cucumber.ScopedVariables.resolveVars;
  * можно было именно по русскому описанию, а не по селектору. Селекторы следует хранить только в классе страницы,
  * не в степах, в степах - взаимодействие по русскому названию элемента.
  */
-@Slf4j
+@Log4j2
 public class DefaultSteps {
 
     private CoreScenario coreScenario = CoreScenario.getInstance();

@@ -14,7 +14,7 @@
 package ru.bcs.at.library.core.cucumber.api;
 
 import cucumber.api.Scenario;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import ru.bcs.at.library.core.cucumber.ScopedVariables;
 import ru.bcs.at.library.core.cucumber.annotations.Name;
 
@@ -23,7 +23,7 @@ import java.util.Arrays;
 /**
  * Класс, связанный с CoreScenario, используется для хранения страниц и переменных внутри сценария
  */
-@Slf4j
+@Log4j2
 public class CoreEnvironment {
 
     /**
@@ -86,6 +86,7 @@ public class CoreEnvironment {
      * Выводит дополнительный информационный текст в отчет (уровень логирования INFO)
      */
     public void write(Object object) {
+        log.info(String.valueOf(object));
         scenario.write(String.valueOf(object));
     }
 

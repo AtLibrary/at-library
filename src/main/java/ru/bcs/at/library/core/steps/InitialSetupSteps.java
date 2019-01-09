@@ -24,13 +24,14 @@ import io.qameta.allure.restassured.AllureRestAssured;
 import io.qameta.allure.selenide.AllureSelenide;
 import io.restassured.RestAssured;
 import lombok.experimental.Delegate;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import ru.bcs.at.library.core.cucumber.api.CoreEnvironment;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
+import ru.bcs.at.library.core.log.Log4jRestAssuredFilter;
 
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -39,7 +40,7 @@ import static com.codeborne.selenide.Configuration.browser;
 import static com.codeborne.selenide.WebDriverRunner.*;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadProperty;
 
-@Slf4j
+@Log4j2
 public class InitialSetupSteps {
 
     @Delegate
@@ -50,9 +51,13 @@ public class InitialSetupSteps {
     @Before
     public void setDriverProxy(Scenario scenario) throws MalformedURLException {
         RestAssured.baseURI = System.getProperty("baseURI", loadProperty("baseURI"));
+        Configuration.baseUrl = System.getProperty("baseURI", loadProperty("baseURI"));
         if (!turnOnAllureListener) {
             SelenideLogger.addListener("AllureSelenide", new AllureSelenide().screenshots(true).savePageSource(false));
-            RestAssured.filters(new AllureRestAssured());
+            RestAssured.filters(
+                    new AllureRestAssured(),
+                    new Log4jRestAssuredFilter()
+            );
             turnOnAllureListener = true;
         }
 

@@ -14,7 +14,7 @@
 package ru.bcs.at.library.core.core.helpers;
 
 import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import net.lightbody.bmp.proxy.BlacklistEntry;
 
 import java.io.IOException;
@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@Slf4j
+@Log4j2
 public class BlackListManager {
     /**
      * Производится парсинг строки из файла blacklist на наличие ссылок типа:

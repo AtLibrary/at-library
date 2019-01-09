@@ -16,7 +16,7 @@ package ru.bcs.at.library.core.cucumber.api;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsContainer;
 import com.codeborne.selenide.SelenideElement;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import ru.bcs.at.library.core.cucumber.annotations.Name;
 import ru.bcs.at.library.core.cucumber.utils.Reflection;
 
@@ -34,7 +34,7 @@ import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadProperty;
 /**
  * Класс для реализации паттерна PageObject
  */
-@Slf4j
+@Log4j2
 public abstract class CorePage extends ElementsContainer {
     /**
      * Стандартный таймаут ожидания элементов в миллисекундах
