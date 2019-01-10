@@ -15,6 +15,7 @@
 package ru.bcs.at.library.core.core.helpers;
 
 import com.google.common.base.Strings;
+import io.restassured.response.Response;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
@@ -232,8 +233,14 @@ public class PropertyLoader {
         } catch (IOException | InvalidPathException e) {
             CoreScenario.getInstance().write("Значение не найдено по пути " + pathAsString);
         }
-        if (CoreScenario.getInstance().tryGetVar(valueToFind) != null)
-            return (String) CoreScenario.getInstance().getVar(valueToFind);
+        if (CoreScenario.getInstance().tryGetVar(valueToFind) != null) {
+            Object var = CoreScenario.getInstance().getVar(valueToFind);
+            //TODO нужно зарефакторить
+            if (var instanceof Response) {
+                return ((Response) var).getBody().asString();
+            }
+            return (String) var;
+        }
         CoreScenario.getInstance().write("Значение не найдено в хранилище. Будет исользовано значение по умолчанию " + valueToFind);
         return valueToFind;
     }

@@ -26,7 +26,6 @@ import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.Тогда;
 import io.cucumber.datatable.DataTable;
 import io.restassured.http.Method;
-import io.restassured.internal.support.Prettifier;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSender;
 import io.restassured.specification.RequestSpecification;
@@ -36,6 +35,7 @@ import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadProperty;
@@ -86,6 +86,19 @@ public class DefaultApiSteps {
     public void checkResponseCode(String method, String address, int expectedStatusCode, DataTable paramsTable) throws Exception {
         Response response = sendRequest(method, address, paramsTable);
         assertTrue(checkStatusCode(response, expectedStatusCode));
+    }
+
+    @Тогда("^в json ответа \"([^\"]*)\" значения равны значениям из таблицы$")
+    public void checkValuesInJson(String valueToFind, DataTable dataTable) {
+        Response response = (Response) CoreScenario.getInstance().getVar(valueToFind);
+        for (List<String> row : dataTable.asLists()) {
+            String name = row.get(0);
+            String value = row.get(1);
+            response
+                    .then()
+                    .assertThat()
+                    .body(name, equalTo(value));
+        }
     }
 
     /**
@@ -168,14 +181,23 @@ public class DefaultApiSteps {
             for (List<String> requestParam : paramsTable.asLists()) {
                 String type = requestParam.get(0);
                 String name = requestParam.get(1);
-                String value = requestParam.get(2);
+                String value =
+                        loadValueFromFileOrPropertyOrVariableOrDefault(requestParam.get(2));
                 switch (type.toUpperCase()) {
+                    case "ACCESS_TOKEN": {
+                        request.header(name, "Bearer " + value.replace("\"", ""));
+                        break;
+                    }
                     case "PARAMETER": {
                         request.param(name, value);
                         break;
                     }
                     case "MULTIPART": {
                         request.multiPart(name, value);
+                        break;
+                    }
+                    case "FORM_PARAMETER": {
+                        request.formParam(name, value);
                         break;
                     }
                     case "PATH_PARAMETER": {
@@ -187,7 +209,6 @@ public class DefaultApiSteps {
                         break;
                     }
                     case "BODY": {
-                        value = loadValueFromFileOrPropertyOrVariableOrDefault(value);
                         body = resolveJsonVars(value);
                         request.body(body);
                         break;
@@ -206,17 +227,16 @@ public class DefaultApiSteps {
     }
 
     /**
-     * Получает body из ответа и сохраняет в переменную
+     * Получает ответ и сохраняет в переменную
      *
      * @param variableName имя переменной, в которую будет сохранен ответ
      * @param response     ответ от http запроса
      */
     private void getBodyAndSaveToVariable(String variableName, Response response) {
         if (response.statusCode() >= 200 && response.statusCode() < 300) {
-            coreScenario.setVar(variableName, response.getBody().asString());
-         //   coreScenario.write("Тело ответа : \n" + new Prettifier().getPrettifiedBodyIfPossible(response, response));
+            coreScenario.setVar(variableName, response);
         } else {
-            fail("Вернулся не корректный status code: " + response.statusCode()+"\n body: "+ response.getBody().print());
+            fail("Вернулся не корректный status code: " + response.statusCode() + "\n body: " + response.getBody().print());
         }
     }
 
