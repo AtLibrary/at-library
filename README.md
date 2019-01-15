@@ -129,16 +129,6 @@ public HeaderBlock header;
 ```
 При загрузке страницы будут учитываться элементы, описанные в блоке
 
-Screenshots
-============================
-Реализован кастомный StepFormatter. При подключении его к проеку с тестами, становится достуна опция снятия скриншотов после желаемого или каждого шага. ```@CucumberOptions(format = {"pretty", "ru.bcs.at.library.core.core.formatters.StepFormatter"})```
-
-
-Аннотация @Screenshot, указанная над кастомным тестовым шагом, позволит добавить скриншот после прохождения этого шага в отчет.
-
-
-Есть также возможность получать скриншоты после каждого шага всех сценариев. Для этого необходимо задать системную переменную takeScreenshotAfterSteps=true.
-
 Работа с REST запросами
 =======================
 
@@ -251,7 +241,7 @@ scenario - Сценарий из Cucumber.api, с которым связана 
         </includes>
         <testFailureIgnore>true</testFailureIgnore>
         <argLine>
-            -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/1.9.1/aspectjweaver-1.9.1.jar" -Dcucumber.options="--plugin io.qameta.allure.cucumber3jvm.AllureCucumber3Jvm"
+            -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/1.9.1/aspectjweaver-1.9.1.jar" -Dcucumber.options="--plugin io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm"
         </argLine>
     </configuration>
     <dependencies>

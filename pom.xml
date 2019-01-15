@@ -6,7 +6,7 @@
 
     <groupId>ru.bcs</groupId>
     <artifactId>at-library-core</artifactId>
-    <version>10.1.2019b02</version>
+    <version>13.1.2019</version>
 
     <name>at-library-core</name>
 
@@ -16,10 +16,10 @@
         <!--API ТЕСТИРОВАНИЕ-->
         <rest-assured.version>3.2.0</rest-assured.version>
         <!--CUCUMBER-->
-        <!--<cucumber.version>4.2.0</cucumber.version>-->
-        <cucumber.version>3.0.2</cucumber.version>
+        <cucumber.version>4.2.0</cucumber.version>
+        <!--<cucumber.version>3.0.2</cucumber.version>-->
         <!--ОТЧЕТ ALLURE-->
-        <allure.version>2.7.0</allure.version>
+        <allure.version>2.9.0</allure.version>
         <!--LOMBOK-->
         <lombok.version>1.16.20</lombok.version>
         <!--LOG-->
@@ -93,11 +93,18 @@
             <artifactId>allure-junit4</artifactId>
             <version>${allure.version}</version>
         </dependency>
+        <!--<dependency>-->
+            <!--<groupId>io.qameta.allure</groupId>-->
+            <!--<artifactId>allure-cucumber3-jvm</artifactId>-->
+            <!--<version>${allure.version}</version>-->
+        <!--</dependency>-->
+        <!-- https://mvnrepository.com/artifact/io.qameta.allure/allure-cucumber4-jvm -->
         <dependency>
             <groupId>io.qameta.allure</groupId>
-            <artifactId>allure-cucumber3-jvm</artifactId>
+            <artifactId>allure-cucumber4-jvm</artifactId>
             <version>${allure.version}</version>
         </dependency>
+
         <!--LOMBOK-->
         <dependency>
             <groupId>org.projectlombok</groupId>
