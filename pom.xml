@@ -6,7 +6,7 @@
 
     <groupId>ru.bcs</groupId>
     <artifactId>at-library-core</artifactId>
-    <version>23.1.2019</version>
+    <version>25.1.2019</version>
 
     <name>at-library-core</name>
 
@@ -149,6 +149,18 @@
                     <source>1.8</source>
                     <target>1.8</target>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
