@@ -14,7 +14,7 @@ import java.util.Map;
 
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static org.junit.Assert.fail;
-import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadSystemPropertyOrDefault;
+import static ru.bcs.at.library.core.core.PropertyLoader.loadSystemPropertyOrDefault;
 
 public class LayoutSteps {
     public static final String SPECS_DIR_PATH = loadSystemPropertyOrDefault("specsDir",

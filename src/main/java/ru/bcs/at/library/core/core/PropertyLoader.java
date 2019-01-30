@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package ru.bcs.at.library.core.core.helpers;
+package ru.bcs.at.library.core.core;
 
 import com.google.common.base.Strings;
 import io.restassured.response.Response;
