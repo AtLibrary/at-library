@@ -27,15 +27,18 @@ import java.util.Arrays;
 public class CoreEnvironment {
 
     /**
+     * @author Anton Pavlov
      * Сценарий (Cucumber.api), с которым связана среда
      */
     private Scenario scenario;
     /**
+     * @author Anton Pavlov
      * Переменные, объявленные пользователем внутри сценария
      * ThreadLocal обеспечивает отсутствие коллизий при многопоточном запуске
      */
     private ThreadLocal<ScopedVariables> variables = new ThreadLocal<>();
     /**
+     * @author Anton Pavlov
      * Список веб-страниц, заданных пользователем, доступных для использования в сценариях
      */
     private Pages pages = new Pages();
@@ -52,6 +55,7 @@ public class CoreEnvironment {
     }
 
     /**
+     * @author Anton Pavlov
      * Метод ищет классы, аннотированные "CorePage.Name",
      * добавляя ссылки на эти классы в поле "ru.bcs.at.library.core.pages"
      */
@@ -70,6 +74,7 @@ public class CoreEnvironment {
     }
 
     /**
+     * @author Anton Pavlov
      * Вспомогательный метод, получает значение аннотации "CorePage.Name" для класса
      *
      * @param c класс, который должен быть аннотирован "CorePage.Name"
@@ -83,6 +88,7 @@ public class CoreEnvironment {
     }
 
     /**
+     * @author Anton Pavlov
      * Выводит дополнительный информационный текст в отчет (уровень логирования INFO)
      */
     public void write(Object object) {

@@ -48,10 +48,16 @@ public class InitialSetupSteps {
 
     private static boolean turnOnAllureListener = false;
 
+    /**
+     * @author Anton Pavlov
+     * Действия выполняемые перед каждым сценарием
+     */
     @Before
-    public void setDriverProxy(Scenario scenario) throws MalformedURLException {
+    public void beforeEachTest(Scenario scenario) throws MalformedURLException {
+
         RestAssured.baseURI = System.getProperty("baseURI", loadProperty("baseURI"));
         Configuration.baseUrl = System.getProperty("baseURI", loadProperty("baseURI"));
+
         if (!turnOnAllureListener) {
             SelenideLogger.addListener("AllureSelenide", new AllureSelenide().screenshots(true).savePageSource(false));
             RestAssured.filters(
@@ -61,12 +67,17 @@ public class InitialSetupSteps {
             turnOnAllureListener = true;
         }
 
+        /**
+         * @author Anton Pavlov
+         * Если сценарий содержит тег @web" то будет создан WebDriver
+         */
         boolean webTest = scenario.getSourceTagNames().contains("@web");
         if (webTest) {
             startWebTest(scenario);
         }
 
         /**
+         * @author Anton Pavlov
          * Создает окружение(среду) для запуска сценария
          *
          * @param scenario сценарий
@@ -77,10 +88,11 @@ public class InitialSetupSteps {
 
 
     /**
+     * @author Anton Pavlov
      * По завершению теста удаляет все куки и закрывает веб-браузер
      */
     @After
-    public void clearBrowserCookies(Scenario scenario) {
+    public void afterEachTest(Scenario scenario) {
         boolean webTest = scenario.getSourceTagNames().contains("@web");
         if (webTest) {
             Selenide.clearBrowserLocalStorage();
@@ -89,8 +101,13 @@ public class InitialSetupSteps {
         }
     }
 
+    /**
+     * @author Anton Pavlov
+     * Создание WebDriver
+     */
     private void startWebTest(Scenario scenario) throws MalformedURLException {
         /**
+         * @author Anton Pavlov
          * Создает настойки прокси для запуска драйвера
          */
         if (!Strings.isNullOrEmpty(System.getProperty("proxy"))) {
@@ -100,6 +117,7 @@ public class InitialSetupSteps {
         }
 
         /**
+         * @author Anton Pavlov
          * Уведомление о месте запуска тестов
          */
         if (Strings.isNullOrEmpty(Configuration.remote)) {
@@ -123,10 +141,12 @@ public class InitialSetupSteps {
         }
 
         /**
+         * @author Anton Pavlov
          * Устанавливает разрешения экрана
          */
         getWebDriver().manage().window().setSize(new Dimension(1920, 1080));
         /**
+         * @author Anton Pavlov
          * Удаляет все cookies
          */
         getWebDriver().manage().deleteAllCookies();

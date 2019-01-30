@@ -53,6 +53,7 @@ public class DefaultApiSteps {
     private CoreScenario coreScenario = CoreScenario.getInstance();
 
     /**
+     * @author Anton Pavlov
      * Посылается http запрос по заданному урлу без параметров и BODY.
      * Результат сохраняется в заданную переменную
      * URL можно задать как напрямую в шаге, так и указав в application.properties
@@ -64,6 +65,7 @@ public class DefaultApiSteps {
     }
 
     /**
+     * @author Anton Pavlov
      * Посылается http запрос по заданному урлу с заданными параметрами.
      * И в URL, и в значениях в таблице можно использовать переменные и из application.properties, и из хранилища переменных
      * из CoreScenario. Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
@@ -77,6 +79,7 @@ public class DefaultApiSteps {
     }
 
     /**
+     * @author Anton Pavlov
      * Посылается http запрос по заданному урлу с заданными параметрами.
      * Проверяется, что код ответа соответствует ожиданиям.
      * URL можно задать как напрямую в шаге, так и указав в application.properties
@@ -102,6 +105,7 @@ public class DefaultApiSteps {
     }
 
     /**
+     * @author Anton Pavlov
      * В json строке, сохраннённой в переменной, происходит поиск значений по jsonpath из первого столбца таблицы.
      * Полученные значения сравниваются с ожидаемым значением во втором столбце таблицы.
      * Шаг работает со всеми типами json элементов: объекты, массивы, строки, числа, литералы true, false и null.
@@ -133,6 +137,7 @@ public class DefaultApiSteps {
     }
 
     /**
+     * @author Anton Pavlov
      * В json строке, сохраннённой в переменной, происходит поиск значений по jsonpath из первого столбца таблицы.
      * Полученные значения сохраняются в переменных. Название переменной указывается во втором столбце таблицы.
      * Шаг работает со всеми типами json элементов: объекты, массивы, строки, числа, литералы true, false и null.
@@ -168,6 +173,7 @@ public class DefaultApiSteps {
     }
 
     /**
+     * @author Anton Pavlov
      * Создание запроса
      *
      * @param paramsTable массив с параметрами
@@ -227,6 +233,7 @@ public class DefaultApiSteps {
     }
 
     /**
+     * @author Anton Pavlov
      * Получает ответ и сохраняет в переменную
      *
      * @param variableName имя переменной, в которую будет сохранен ответ
@@ -241,6 +248,7 @@ public class DefaultApiSteps {
     }
 
     /**
+     * @author Anton Pavlov
      * Сравнение кода http ответа с ожидаемым
      *
      * @param response           ответ от сервиса
@@ -256,6 +264,7 @@ public class DefaultApiSteps {
     }
 
     /**
+     * @author Anton Pavlov
      * Отправка http запроса
      *
      * @param method      тип http запроса

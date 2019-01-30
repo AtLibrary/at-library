@@ -29,6 +29,7 @@ public class DefaultPageElementSteps {
     private CoreScenario coreScenario = CoreScenario.getInstance();
 
     /**
+     * @author Anton Pavlov
      * На странице происходит клик по заданному элементу в блоке
      */
     @И("^выполнено нажатие на (?:кнопку|поле) \"([^\"]*)\" в блоке \"([^\"]*)\"$")

@@ -19,6 +19,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * @author Anton Pavlov
  * Аннотация для элементов страницы,
  * служащая для отключения проверки появления элемента после загрузки страницы
  */

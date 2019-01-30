@@ -30,6 +30,7 @@ public final class CoreScenario {
     private static CoreScenario instance = new CoreScenario();
 
     /**
+     * @author Anton Pavlov
      * Среда прогона тестов, хранит в себе: Cucumber.Scenario,
      * переменные, объявленные пользователем в сценарии и страницы, тестирование которых будет производиться
      */
@@ -55,6 +56,7 @@ public final class CoreScenario {
     }
 
     /**
+     * @author Anton Pavlov
      * Получение страницы, тестирование которой производится в данный момент
      */
     public CorePage getCurrentPage() {
@@ -62,6 +64,7 @@ public final class CoreScenario {
     }
 
     /**
+     * @author Anton Pavlov
      * Задание страницы, тестирование которой производится в данный момент
      */
     public void setCurrentPage(CorePage page) {
@@ -73,6 +76,7 @@ public final class CoreScenario {
     }
 
     /**
+     * @author Anton Pavlov
      * Позволяет получить доступ к полям и методам конкретной страницы, которая передается в метод в качестве аргумента.
      * Пример использования: {@code withPage(CorePage.class, page -> { some actions with CorePage methods});}
      * Проверка отображения всех элементов страницы выполняется всегда
@@ -84,6 +88,7 @@ public final class CoreScenario {
     }
 
     /**
+     * @author Anton Pavlov
      * Позволяет получить доступ к полям и методам конкретной страницы.
      * Пример использования: {@code withPage(CorePage.class, page -> { some actions with CorePage methods});}
      * Проверка отображения всех элементов страницы опциональна
@@ -96,6 +101,7 @@ public final class CoreScenario {
     }
 
     /**
+     * @author Anton Pavlov
      * Возвращает текущий сценарий (Cucumber.api)
      */
     public Scenario getScenario() {
@@ -103,6 +109,7 @@ public final class CoreScenario {
     }
 
     /**
+     * @author Anton Pavlov
      * Получение списка страниц
      */
     public Pages getPages() {
@@ -114,6 +121,7 @@ public final class CoreScenario {
     }
 
     /**
+     * @author Anton Pavlov
      * Выводит дополнительный информационный текст в отчет (уровень логирования INFO)
      */
     public void write(Object object) {
@@ -121,6 +129,7 @@ public final class CoreScenario {
     }
 
     /**
+     * @author Anton Pavlov
      * Получение переменной по имени, заданного пользователем, из пула переменных "variables" в CoreEnvironment
      *
      * @param name - имя переменной, для которй необходимо получить ранее сохраненное значение
@@ -134,6 +143,7 @@ public final class CoreScenario {
     }
 
     /**
+     * @author Anton Pavlov
      * Получение переменной без проверки на NULL
      */
     public Object tryGetVar(String name) {
@@ -141,6 +151,7 @@ public final class CoreScenario {
     }
 
     /**
+     * @author Anton Pavlov
      * Получение страницы по классу с возможностью выполнить проверку отображения элементов страницы
      *
      * @param clazz                   - класс страницы, которую необходимо получить
@@ -151,6 +162,7 @@ public final class CoreScenario {
     }
 
     /**
+     * @author Anton Pavlov
      * Получение страницы по классу (проверка отображения элементов страницы не выполняется)
      *
      * @param clazz - класс страницы, которую необходимо получить
@@ -160,6 +172,7 @@ public final class CoreScenario {
     }
 
     /**
+     * @author Anton Pavlov
      * Получение страницы по классу и имени (оба параметра должны совпадать)
      *
      * @param clazz - класс страницы, которую необходимо получить
@@ -170,6 +183,7 @@ public final class CoreScenario {
     }
 
     /**
+     * @author Anton Pavlov
      * Заменяет в строке все ключи переменных из пула переменных "variables" в классе CoreEnvironment на их значения
      *
      * @param stringToReplaceIn строка, в которой необходимо выполнить замену (не модифицируется)
@@ -179,6 +193,7 @@ public final class CoreScenario {
     }
 
     /**
+     * @author Anton Pavlov
      * Добавление переменной в пул "variables" в классе CoreEnvironment
      *
      * @param name   имя переменной заданное пользователем, для которого сохраняется значение. Является ключом в пуле variables в классе CoreEnvironment
@@ -189,6 +204,7 @@ public final class CoreScenario {
     }
 
     /**
+     * @author Anton Pavlov
      * Получение всех переменных из пула "variables" в классе CoreEnvironment
      */
     public ScopedVariables getVars() {

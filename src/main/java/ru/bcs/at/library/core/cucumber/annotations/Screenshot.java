@@ -19,6 +19,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * @author Anton Pavlov
  * Аннотация для методов,
  * наличие которой позволяет снимать скриншот после нужных шагов сценария.
  * Доступна при подключении StepFormatter к проеку с тестами

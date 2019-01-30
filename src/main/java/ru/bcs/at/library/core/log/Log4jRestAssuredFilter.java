@@ -7,6 +7,7 @@ import io.restassured.response.Response;
 import io.restassured.specification.FilterableRequestSpecification;
 import io.restassured.specification.FilterableResponseSpecification;
 import lombok.extern.log4j.Log4j2;
+
 /**
  * класс утилит, для чтения RestAssured в Log4j2
  */

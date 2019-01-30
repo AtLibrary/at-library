@@ -22,6 +22,7 @@ public class DocumentFormatter {
    private static final String CONTENT_TYPE_JSON = "application/json";
 
     /**
+     * @author Anton Pavlov
      * преобразование json к "красивому" виду
      *
      * @param input строка, содержащая json
@@ -42,6 +43,7 @@ public class DocumentFormatter {
     }
 
     /**
+     * @author Anton Pavlov
      * преобразование xml к "красивому" виду
      *
      * @param input строка, содержащая xml
@@ -76,6 +78,7 @@ public class DocumentFormatter {
     }
 
     /**
+     * @author Anton Pavlov
      * преобразование документа к "красивому" виду
      *
      * @param input    строка, содержащая xml

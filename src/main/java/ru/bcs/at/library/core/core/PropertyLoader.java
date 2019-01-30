@@ -46,6 +46,7 @@ public class PropertyLoader {
     }
 
     /**
+     * @author Anton Pavlov
      * Возвращает значение системного свойства
      * (из доступных для данной JVM) по его названию,
      * в случае, если оно не найдено, вернется значение по умолчанию
@@ -60,6 +61,7 @@ public class PropertyLoader {
     }
 
     /**
+     * @author Anton Pavlov
      * Возвращает Integer значение системного свойства
      * (из доступных для данной JVM) по его названию,
      * в случае, если оно не найдено, вернется значение по умолчанию
@@ -78,6 +80,7 @@ public class PropertyLoader {
     }
 
     /**
+     * @author Anton Pavlov
      * Возвращает Boolean значение системного свойства
      * (из доступных для данной JVM) по его названию,
      * в случае, если оно не найдено, вернется значение по умолчанию
@@ -93,6 +96,7 @@ public class PropertyLoader {
     }
 
     /**
+     * @author Anton Pavlov
      * Возвращает свойство по его названию из property-файла
      *
      * @param propertyName название свойства
@@ -108,6 +112,7 @@ public class PropertyLoader {
     }
 
     /**
+     * @author Anton Pavlov
      * Возвращает значение свойства из property-файла по его названию,
      * если значение не найдено, возвращает это же значение в качестве значения по умолчанию
      *
@@ -120,6 +125,7 @@ public class PropertyLoader {
     }
 
     /**
+     * @author Anton Pavlov
      * Возвращает значение свойства из property-файла по его названию,
      * Если ничего не найдено, возвращает значение по умолчанию
      *
@@ -133,6 +139,7 @@ public class PropertyLoader {
     }
 
     /**
+     * @author Anton Pavlov
      * Возвращает значение свойства типа Integer из property-файла по названию,
      * если ничего не найдено, возвращает значение по умолчанию
      *
@@ -146,6 +153,7 @@ public class PropertyLoader {
     }
 
     /**
+     * @author Anton Pavlov
      * Вспомогательный метод, возвращает значение свойства по имени.
      * Сначала поиск в System переменным,
      * затем в property-файле, если указано системное свойство "profile"
@@ -169,6 +177,7 @@ public class PropertyLoader {
     }
 
     /**
+     * @author Anton Pavlov
      * Вспомогательный метод, возвращает свойства из файла /application.properties
      *
      * @return свойства из файла /application.properties
@@ -186,6 +195,7 @@ public class PropertyLoader {
     }
 
     /**
+     * @author Anton Pavlov
      * Вспомогательный метод, возвращает свойства из кастомного application.properties по пути
      * из системного свойства "profile"
      *
@@ -211,6 +221,7 @@ public class PropertyLoader {
     }
 
     /**
+     * @author Anton Pavlov
      * Получает значение из application.properties, файла по переданному пути, значение из хранилища переменных или как String аргумент
      * Используется для получение body.json api шагах, либо для получения script.js в ui шагах
      *

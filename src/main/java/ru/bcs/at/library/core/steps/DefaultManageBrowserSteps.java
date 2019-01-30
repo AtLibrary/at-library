@@ -39,6 +39,7 @@ public class DefaultManageBrowserSteps {
     private CoreScenario coreScenario = CoreScenario.getInstance();
 
     /**
+     * @author Anton Pavlov
      * Удаляем все cookies
      */
     @Когда("^cookies приложения очищены$")
@@ -47,6 +48,7 @@ public class DefaultManageBrowserSteps {
     }
 
     /**
+     * @author Anton Pavlov
      * Ищем cookie по имени. Сохраняем cookie в переменную для дальнейшего использования
      */
     @Когда("^cookie с именем \"([^\"]*)\" сохранена в переменную \"([^\"]*)\"$")
@@ -57,6 +59,7 @@ public class DefaultManageBrowserSteps {
     }
 
     /**
+     * @author Anton Pavlov
      * Сохраняем все cookies в переменную для дальнейшего использования
      */
     @Когда("^cookies сохранены в переменную \"([^\"]*)\"$")
@@ -66,6 +69,7 @@ public class DefaultManageBrowserSteps {
     }
 
     /**
+     * @author Anton Pavlov
      * Находим cookie по имени и подменяем ее значение. Имя cookie и домен не меняются
      */
     @Когда("^добавлена cookie с именем \"([^\"]*)\" и значением \"([^\"]*)\"$")
@@ -76,6 +80,7 @@ public class DefaultManageBrowserSteps {
     }
 
     /**
+     * @author Anton Pavlov
      * Переключение на следующую вкладку браузера
      */
     @Когда("выполнено переключение на следующую вкладку")
@@ -86,6 +91,7 @@ public class DefaultManageBrowserSteps {
     }
 
     /**
+     * @author Anton Pavlov
      * Переключение на вкладку браузера с заголовком
      */
     @Когда("^выполнено переключение на вкладку с заголовком \"([^\"]*)\"$")
@@ -95,6 +101,7 @@ public class DefaultManageBrowserSteps {
     }
 
     /**
+     * @author Anton Pavlov
      * Производится сравнение заголовка страницы со значением, указанным в шаге
      * (в приоритете: из property, из переменной сценария, значение аргумента)
      */
@@ -107,6 +114,7 @@ public class DefaultManageBrowserSteps {
     }
 
     /**
+     * @author Anton Pavlov
      * Производится сохранение заголовка страницы в переменную
      */
     @И("^заголовок страницы сохранен в переменную \"([^\"]*)\"$")
@@ -117,6 +125,7 @@ public class DefaultManageBrowserSteps {
     }
 
     /**
+     * @author Anton Pavlov
      * Производится закрытие текущей вкладки
      */
     @И("выполнено закрытие текущей вкладки")

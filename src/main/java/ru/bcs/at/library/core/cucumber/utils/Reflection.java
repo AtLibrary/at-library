@@ -27,6 +27,7 @@ public final class Reflection {
     }
 
     /**
+     * @author Anton Pavlov
      * Получение поля класса с помощью механизма рефлексии
      */
     public static Object extractFieldValue(Field field, Object owner) {

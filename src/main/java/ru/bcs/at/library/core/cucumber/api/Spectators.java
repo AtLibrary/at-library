@@ -26,6 +26,7 @@ public final class Spectators {
     }
 
     /**
+     * @author Anton Pavlov
      * Обертка над Selenide waitUntil для произвольного числа элементов
      *
      * @param selenideCondition Selenide.Condition
@@ -38,6 +39,7 @@ public final class Spectators {
     }
 
     /**
+     * @author Anton Pavlov
      * Обертка над Selenide waitUntil для работы с колекцией элементов
      *
      * @param selenideCondition Selenide.Condition

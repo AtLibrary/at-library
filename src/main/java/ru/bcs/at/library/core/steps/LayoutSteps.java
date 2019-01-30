@@ -24,6 +24,7 @@ public class LayoutSteps {
     private CoreScenario coreScenario = CoreScenario.getInstance();
 
     /**
+     * @author Anton Pavlov
      * Шаг проверяет, что текущая страница соответствует описанным в .spec файле требованиям
      *
      * @param spec - Название galen спецификации .spec, где описан ожидаемый дизайн страницы
@@ -37,6 +38,7 @@ public class LayoutSteps {
     }
 
     /**
+     * @author Anton Pavlov
      * Шаг проверяет, что текущая страница соответствует описанным в .spec файле требованиям
      *
      * @param spec - Название galen спецификации .spec, где описан ожидаемый дизайн страницы
@@ -54,6 +56,7 @@ public class LayoutSteps {
 
     @SneakyThrows
     /**
+     * @author Anton Pavlov
      * Проверяет соответствие текущей страницы ее описанию в .spec файле.
      * Скриншоты с расходениями в дизайне сохраняются в /build/results-img/ и прикрепояются к cucumber отчету
      * Путь /build/results-img/ можно переопределить, задав системную переменную imgDiff
@@ -78,6 +81,7 @@ public class LayoutSteps {
     }
 
     /**
+     * @author Anton Pavlov
      * Прикрепляет файл к текущему сценарию в cucumber отчете
      *
      * @param fileName - название файла
