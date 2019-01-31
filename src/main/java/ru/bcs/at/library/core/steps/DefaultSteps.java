@@ -49,7 +49,7 @@ import static java.util.stream.Collectors.toList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
-import static ru.bcs.at.library.core.core.PropertyLoader.*;
+import static ru.bcs.at.library.core.core.helpers.PropertyLoader.*;
 import static ru.bcs.at.library.core.cucumber.ScopedVariables.resolveVars;
 
 /**

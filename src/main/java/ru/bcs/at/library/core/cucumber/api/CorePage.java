@@ -29,7 +29,7 @@ import java.util.stream.Stream;
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
-import static ru.bcs.at.library.core.core.PropertyLoader.loadProperty;
+import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadProperty;
 
 /**
  * Класс для реализации паттерна PageObject

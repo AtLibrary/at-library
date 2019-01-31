@@ -38,7 +38,7 @@ import java.net.URI;
 
 import static com.codeborne.selenide.Configuration.browser;
 import static com.codeborne.selenide.WebDriverRunner.*;
-import static ru.bcs.at.library.core.core.PropertyLoader.loadProperty;
+import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadProperty;
 
 @Log4j2
 public class InitialSetupSteps {

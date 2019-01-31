@@ -24,7 +24,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static java.lang.String.format;
-import static ru.bcs.at.library.core.core.PropertyLoader.loadProperty;
+import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadProperty;
 
 /**
  * Реализация хранилища переменных, заданных пользователем, внутри тестовых сценариев

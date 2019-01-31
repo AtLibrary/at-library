@@ -38,8 +38,8 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static ru.bcs.at.library.core.core.PropertyLoader.loadProperty;
-import static ru.bcs.at.library.core.core.PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault;
+import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadProperty;
+import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault;
 import static ru.bcs.at.library.core.cucumber.ScopedVariables.resolveJsonVars;
 import static ru.bcs.at.library.core.cucumber.ScopedVariables.resolveVars;
 
