@@ -74,11 +74,10 @@ public class CoreEnvironment {
     }
 
     /**
-     * @author Anton Pavlov
-     * Вспомогательный метод, получает значение аннотации "CorePage.Name" для класса
-     *
      * @param c класс, который должен быть аннотирован "CorePage.Name"
      * @return значение аннотации "CorePage.Name" для класса
+     * @author Anton Pavlov
+     * Вспомогательный метод, получает значение аннотации "CorePage.Name" для класса
      */
     private String getClassAnnotationValue(Class<?> c) {
         return Arrays.stream(c.getAnnotationsByType(Name.class))

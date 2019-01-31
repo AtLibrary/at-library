@@ -16,14 +16,16 @@ package ru.bcs.at.library.core.steps;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
-import cucumber.api.java.ru.*;
+import cucumber.api.java.ru.И;
+import cucumber.api.java.ru.Когда;
+import cucumber.api.java.ru.Пусть;
+import cucumber.api.java.ru.Тогда;
 import io.cucumber.datatable.DataTable;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.Matchers;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 
 import java.awt.*;
@@ -42,7 +44,8 @@ import java.util.stream.Collectors;
 
 import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Selenide.*;
-import static com.codeborne.selenide.WebDriverRunner.*;
+import static com.codeborne.selenide.WebDriverRunner.isIE;
+import static com.codeborne.selenide.WebDriverRunner.url;
 import static java.lang.String.format;
 import static java.util.Objects.isNull;
 import static java.util.stream.Collectors.toList;
@@ -60,75 +63,11 @@ import static ru.bcs.at.library.core.cucumber.ScopedVariables.resolveVars;
  * не в степах, в степах - взаимодействие по русскому названию элемента.
  */
 @Log4j2
-public class DefaultSteps {
+public class DefaultWebSteps {
 
     private CoreScenario coreScenario = CoreScenario.getInstance();
 
     private static final int DEFAULT_TIMEOUT = loadPropertyInt("waitingCustomElementsTimeout", 10000);
-
-    /**
-     * @author Anton Pavlov
-     * @param propertyVariableName - ключ в файле application.properties
-     * @param variableName - имя переменной
-     * Значение заданной переменной из application.properties сохраняется в переменную в coreScenario
-     * для дальнейшего использования
-     */
-    @И("^сохранено значение \"([^\"]*)\" из property файла в переменную \"([^\"]*)\"$")
-    public void saveValueToVar(String propertyVariableName, String variableName) {
-        propertyVariableName = loadProperty(propertyVariableName);
-        coreScenario.setVar(variableName, propertyVariableName);
-        coreScenario.write("Значение сохраненной переменной " + propertyVariableName);
-    }
-
-    /**
-     * @author Anton Pavlov
-     * Выполняется обновление страницы
-     */
-    @И("^выполнено обновление текущей страницы$")
-    public void refreshPage() {
-        refresh();
-    }
-
-    /**
-     * @author Anton Pavlov
-     * Выполняется переход по заданной ссылке,
-     * Ссылка берется из property / переменной по ключу @param address, если такая переменная не найдена,
-     * то берется переданное значение
-     * при этом все ключи переменных в фигурных скобках
-     * меняются на их значения из хранилища coreScenario
-     */
-    @Когда("^совершен переход по ссылке \"([^\"]*)\"$")
-    public void goToUrl(String address) {
-        String url = resolveVars(getPropertyOrStringVariableOrValue(address));
-        open(url);
-        coreScenario.write("Url = " + url);
-    }
-
-    /**
-     * @author Anton Pavlov
-     * Проверка, что текущий URL совпадает с ожидаемым
-     * (берется из property / переменной, если такая переменная не найдена,
-     * то берется переданное значение)
-     */
-    @Тогда("^текущий URL равен \"([^\"]*)\"$")
-    public void checkCurrentURL(String url) {
-        String currentUrl = url();
-        String expectedUrl = resolveVars(getPropertyOrStringVariableOrValue(url));
-        assertThat("Текущий URL не совпадает с ожидаемым", currentUrl, is(expectedUrl));
-    }
-
-    /**
-     * @author Anton Pavlov
-     * Проверка, что текущий URL не совпадает с ожидаемым
-     * (берется из property / переменной, если такая переменная не найдена,
-     * то берется переданное значение)
-     */
-    @Тогда("^текущий URL не равен \"([^\"]*)\"$")
-    public void checkCurrentURLIsNotEquals(String url) {
-        String currentUrl = url();
-        String expectedUrl = resolveVars(getPropertyOrStringVariableOrValue(url));
-        assertThat("Текущий URL совпадает с ожидаемым", currentUrl, Matchers.not(expectedUrl));
-    }
 
     /**
      * @author Anton Pavlov
@@ -322,13 +261,12 @@ public class DefaultSteps {
     }
 
     /**
+     * @param keyNames название клавиши
      * @author Anton Pavlov
      * Эмулирует нажатие сочетания клавиш на клавиатуре.
      * Допустим, чтобы эмулировать нажатие на Ctrl+A, в таблице должны быть следующие значения
      * | CONTROL |
      * | a       |
-     *
-     * @param keyNames название клавиши
      */
     @И("^выполнено нажатие на сочетание клавиш из таблицы$")
     public void pressKeyCombination(List<String> keyNames) {
@@ -383,25 +321,6 @@ public class DefaultSteps {
         assertThat(String.format("Поле [%s] не пусто", fieldName),
                 coreScenario.getCurrentPage().getAnyElementText(fieldName),
                 isEmptyOrNullString());
-    }
-
-    /**
-     * @author Anton Pavlov
-     * Устанавливает размеры окна браузера
-     */
-    @И("^установлено разрешение экрана (\\d+) х (\\d+)$")
-    public void setBrowserWindowSize(int width, int height) {
-        getWebDriver().manage().window().setSize(new Dimension(width, height));
-        coreScenario.write("Установлены размеры окна браузера: ширина " + width + " высота" + height);
-    }
-
-    /**
-     * @author Anton Pavlov
-     * Разворачивает окно с браузером на весь экран
-     */
-    @Если("^окно развернуто на весь экран$")
-    public void expandWindowToFullScreen() {
-        getWebDriver().manage().window().maximize();
     }
 
     /**
@@ -620,16 +539,6 @@ public class DefaultSteps {
                 Matchers.not(containsString(getPropertyOrStringVariableOrValue(expectedClassValue).toLowerCase())));
     }
 
-    /**
-     * @author Anton Pavlov
-     * Выполняется переход в конец страницы
-     */
-    @И("^совершен переход в конец страницы$")
-    public void scrollDown() {
-        Actions actions = new Actions(getWebDriver());
-        actions.keyDown(Keys.CONTROL).sendKeys(Keys.END).build().perform();
-        actions.keyUp(Keys.CONTROL).perform();
-    }
 
     /**
      * @author Anton Pavlov
@@ -1012,7 +921,6 @@ public class DefaultSteps {
             assertTrue(String.format("Число элементов списка меньше ожидаемого: %s", listOfElementsFromPage.size()), listOfElementsFromPage.size() > quantity);
         } else
             assertTrue(String.format("Число элементов списка превышает ожидаемое: %s", listOfElementsFromPage.size()), listOfElementsFromPage.size() < quantity);
-
     }
 
     /**
@@ -1053,15 +961,6 @@ public class DefaultSteps {
         assertThat("Элемент с текстом " + expectedValue + " не найден", el.isDisplayed());
     }
 
-    /**
-     * @author Anton Pavlov
-     * Метод осуществляет снятие скриншота и прикрепление его к cucumber отчету.
-     */
-    @И("^снят скриншот текущей страницы$")
-    public void takeScreenshot() {
-        final byte[] screenshot = ((TakesScreenshot) getWebDriver()).getScreenshotAs(OutputType.BYTES);
-        CoreScenario.getInstance().getScenario().embed(screenshot, "image/png");
-    }
 
     /*
      * Проверка совпадения значения из переменной и значения из property
@@ -1107,15 +1006,14 @@ public class DefaultSteps {
     }
 
     /**
+     * @return
      * @author Anton Pavlov
      * Возвращает значение из property файла, если отсутствует, то из пользовательских переменных,
      * если и оно отсутствует, то возвращает значение переданной на вход переменной
-     *
-     * @return
      */
-    public String getPropertyOrStringVariableOrValue(String propertyNameOrVariableNameOrValue) {
+    public static String getPropertyOrStringVariableOrValue(String propertyNameOrVariableNameOrValue) {
         String propertyValue = tryLoadProperty(propertyNameOrVariableNameOrValue);
-        String variableValue = (String) coreScenario.tryGetVar(propertyNameOrVariableNameOrValue);
+        String variableValue = (String) CoreScenario.getInstance().tryGetVar(propertyNameOrVariableNameOrValue);
 
         boolean propertyCheck = checkResult(propertyValue, "Переменная " + propertyNameOrVariableNameOrValue + " из property файла");
         boolean variableCheck = checkResult(variableValue, "Переменная сценария " + propertyNameOrVariableNameOrValue);
@@ -1123,21 +1021,20 @@ public class DefaultSteps {
         return propertyCheck ? propertyValue : (variableCheck ? variableValue : propertyNameOrVariableNameOrValue);
     }
 
-    private boolean checkResult(String result, String message) {
+    private static boolean checkResult(String result, String message) {
         if (isNull(result)) {
             log.warn(message + " не найдена");
             return false;
         }
         log.info(message + " = " + result);
-        coreScenario.write(message + " = " + result);
+        CoreScenario.getInstance().write(message + " = " + result);
         return true;
     }
 
     /**
+     * @return
      * @author Anton Pavlov
      * Возвращает каталог "Downloads" в домашней директории
-     *
-     * @return
      */
     private File getDownloadsDir() {
         String homeDir = System.getProperty("user.home");
@@ -1145,10 +1042,9 @@ public class DefaultSteps {
     }
 
     /**
+     * @param filesToDelete массив файлов
      * @author Anton Pavlov
      * Удаляет файлы, переданные в метод
-     *
-     * @param filesToDelete массив файлов
      */
     private void deleteFiles(File[] filesToDelete) {
         for (File file : filesToDelete) {
@@ -1157,10 +1053,9 @@ public class DefaultSteps {
     }
 
     /**
+     * @param maxValueInRange максимальная граница диапазона генерации случайных чисел
      * @author Anton Pavlov
      * Возвращает случайное число от нуля до maxValueInRange
-     *
-     * @param maxValueInRange максимальная граница диапазона генерации случайных чисел
      */
     private int getRandom(int maxValueInRange) {
         return (int) (Math.random() * maxValueInRange);

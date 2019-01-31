@@ -18,16 +18,15 @@ import java.io.StringReader;
 @Log4j2
 public class DocumentFormatter {
 
-   private static final String CONTENT_TYPE_XML = "text/xml";
-   private static final String CONTENT_TYPE_JSON = "application/json";
+    private static final String CONTENT_TYPE_XML = "text/xml";
+    private static final String CONTENT_TYPE_JSON = "application/json";
 
     /**
-     * @author Anton Pavlov
-     * преобразование json к "красивому" виду
-     *
      * @param input строка, содержащая json
      * @return выровненный для просмотра документ или текст ошибки
      * преобразования
+     * @author Anton Pavlov
+     * преобразование json к "красивому" виду
      */
     private static String createPrettyPrintJson(String input) {
         if (input.isEmpty()) {
@@ -43,12 +42,11 @@ public class DocumentFormatter {
     }
 
     /**
-     * @author Anton Pavlov
-     * преобразование xml к "красивому" виду
-     *
      * @param input строка, содержащая xml
      * @return выровненный для просмотра документ или текст ошибки
      * преобразования
+     * @author Anton Pavlov
+     * преобразование xml к "красивому" виду
      */
     private static String createPrettyPrintXml(String input) {
         if (input.isEmpty()) {
@@ -78,13 +76,12 @@ public class DocumentFormatter {
     }
 
     /**
-     * @author Anton Pavlov
-     * преобразование документа к "красивому" виду
-     *
      * @param input    строка, содержащая xml
      * @param contType тип ответа
      * @return выровненный для просмотра документ или текст ошибки
      * преобразования
+     * @author Anton Pavlov
+     * преобразование документа к "красивому" виду
      */
     public static String createPrettyPrint(String input, String contType) {
         if (contType == null) {

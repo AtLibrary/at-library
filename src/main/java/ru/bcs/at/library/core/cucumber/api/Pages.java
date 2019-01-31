@@ -59,11 +59,10 @@ public final class Pages {
     }
 
     /**
-     * @author Anton Pavlov
-     * Реализация анонимных методов со страницей в качестве аргумента
-     *
      * @param clazz                   класс страницы
      * @param checkIfElementsAppeared проверка всех не помеченных "@Optional" элементов
+     * @author Anton Pavlov
+     * Реализация анонимных методов со страницей в качестве аргумента
      */
     public static <T extends CorePage> void withPage(Class<T> clazz, boolean checkIfElementsAppeared, Consumer<T> consumer) {
         T page = getPage(clazz, checkIfElementsAppeared);

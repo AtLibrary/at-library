@@ -267,33 +267,30 @@ public abstract class CorePage extends ElementsContainer {
 
 
     /**
-     * @author Anton Pavlov
-     * Обертка над Selenide.waitUntil для произвольного количества элементов
-     *
      * @param condition Selenide.Condition
      * @param timeout   максимальное время ожидания для перехода элементов в заданное состояние
      * @param elements  произвольное количество selenide-элементов
+     * @author Anton Pavlov
+     * Обертка над Selenide.waitUntil для произвольного количества элементов
      */
     public void waitElementsUntil(Condition condition, int timeout, SelenideElement... elements) {
         Spectators.waitElementsUntil(condition, timeout, elements);
     }
 
     /**
+     * @param elements список selenide-элементов
      * @author Anton Pavlov
      * Обертка над Selenide.waitUntil для работы со списком элементов
-     *
-     * @param elements список selenide-элементов
      */
     public void waitElementsUntil(Condition condition, int timeout, List<SelenideElement> elements) {
         Spectators.waitElementsUntil(condition, timeout, elements);
     }
 
     /**
+     * @param elementNames произвольное количество строковых переменных с именами элементов
      * @author Anton Pavlov
      * Проверка, что все переданные элементы в течении заданного периода времени
      * перешли в состояние Selenide.Condition
-     *
-     * @param elementNames произвольное количество строковых переменных с именами элементов
      */
     public void waitElementsUntil(Condition condition, int timeout, String... elementNames) {
         List<SelenideElement> elements = Arrays.stream(elementNames)

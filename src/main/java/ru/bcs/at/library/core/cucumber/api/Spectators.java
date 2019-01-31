@@ -26,12 +26,11 @@ public final class Spectators {
     }
 
     /**
-     * @author Anton Pavlov
-     * Обертка над Selenide waitUntil для произвольного числа элементов
-     *
      * @param selenideCondition Selenide.Condition
      * @param timeout           максимальное время ожидания в миллисекундах для перехода элементов в заданное состояние
      * @param selenideElements  произвольное количество selenide-элементов
+     * @author Anton Pavlov
+     * Обертка над Selenide waitUntil для произвольного числа элементов
      * @see SelenideElement#waitUntil(Condition, long)
      */
     public static void waitElementsUntil(Condition selenideCondition, int timeout, SelenideElement... selenideElements) {
@@ -39,12 +38,11 @@ public final class Spectators {
     }
 
     /**
-     * @author Anton Pavlov
-     * Обертка над Selenide waitUntil для работы с колекцией элементов
-     *
      * @param selenideCondition Selenide.Condition
      * @param timeout           максимальное время ожидания в миллисекундах для перехода элементов в заданное состояние
      * @param selenideElements  коллекция selenide-элементов
+     * @author Anton Pavlov
+     * Обертка над Selenide waitUntil для работы с колекцией элементов
      * @see SelenideElement#waitUntil(Condition, long)
      */
     public static void waitElementsUntil(Condition selenideCondition, int timeout, Collection<SelenideElement> selenideElements) {

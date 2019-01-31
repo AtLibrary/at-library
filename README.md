@@ -206,7 +206,7 @@ ru.bcs.at.library.core.steps.DefaultApiSteps
 Шаги для тестирования API, доступные по умолчанию в каждом новом проекте
 
 ```java
-ru.bcs.at.library.core.steps.DefaultSteps
+ru.bcs.at.library.core.steps.DefaultWebSteps
 ```
 Шаги для тестирования UI, доступные по умолчанию в каждом новом проекте
 

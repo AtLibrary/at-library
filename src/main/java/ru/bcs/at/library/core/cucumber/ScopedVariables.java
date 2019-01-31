@@ -35,12 +35,11 @@ public class ScopedVariables {
     private Map<String, Object> variables = Maps.newHashMap();
 
     /**
+     * @param expression java/groovy-код, который будет выполнен
      * @author Anton Pavlov
      * Компилирует и выполняет в рантайме переданный на вход java/groovy-код.
      * Предварительно загружает в память все переменные,
      * т.е. на вход в строковом аргументе могут быть переданы переменные из "variables"
-     *
-     * @param expression java/groovy-код, который будет выполнен
      */
     public Object evaluate(String expression) {
         GroovyShell shell = new GroovyShell();
@@ -55,10 +54,9 @@ public class ScopedVariables {
     }
 
     /**
+     * @param textToReplaceIn строка, в которой необходимо выполнить замену (не модифицируется)
      * @author Anton Pavlov
      * Заменяет в строке все ключи переменных из "variables" на их значения
-     *
-     * @param textToReplaceIn строка, в которой необходимо выполнить замену (не модифицируется)
      */
     public String replaceVariables(String textToReplaceIn) {
         Pattern p = Pattern.compile(CURVE_BRACES_PATTERN);
@@ -74,12 +72,11 @@ public class ScopedVariables {
     }
 
     /**
+     * @param inputString заданная строка
+     * @return новая строка
      * @author Anton Pavlov
      * Производит поиск в заданной строке на наличие совпадений параметров.
      * В случае нахождения параметра в строке заменяет его значение на значение из properties или хранилища переменных
-     *
-     * @param inputString заданная строка
-     * @return новая строка
      */
     public static String resolveVars(String inputString) {
         Pattern p = Pattern.compile(CURVE_BRACES_PATTERN);
@@ -105,12 +102,11 @@ public class ScopedVariables {
 
 
     /**
+     * @param inputJsonAsString заданная строка
+     * @return новая строка
      * @author Anton Pavlov
      * Производит поиск параметров в переданном строкой json.
      * В случае нахождения параметра - заменяет его значение на значение из properties или хранилища переменных
-     *
-     * @param inputJsonAsString заданная строка
-     * @return новая строка
      */
     public static String resolveJsonVars(String inputJsonAsString) {
         if (isJSONValid(inputJsonAsString)) return inputJsonAsString;
@@ -136,11 +132,10 @@ public class ScopedVariables {
     }
 
     /**
-     * @author Anton Pavlov
-     * Проверяет, является ли переданная в качестве аргумента строка валидным JSON
-     *
      * @param jsonInString - строка для валидации
      * @return
+     * @author Anton Pavlov
+     * Проверяет, является ли переданная в качестве аргумента строка валидным JSON
      */
     public static boolean isJSONValid(String jsonInString) {
         try {

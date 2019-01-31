@@ -13,29 +13,35 @@
  */
 package ru.bcs.at.library.core.steps;
 
+import cucumber.api.java.ru.Если;
 import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.Когда;
 import cucumber.api.java.ru.Тогда;
 import lombok.extern.log4j.Log4j2;
-import org.openqa.selenium.Cookie;
+import org.hamcrest.Matchers;
+import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 
 import java.util.Set;
 
-import static com.codeborne.selenide.Selenide.clearBrowserCookies;
-import static com.codeborne.selenide.Selenide.switchTo;
+import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
+import static com.codeborne.selenide.WebDriverRunner.url;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
+import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadProperty;
 import static ru.bcs.at.library.core.cucumber.ScopedVariables.resolveVars;
+import static ru.bcs.at.library.core.steps.DefaultWebSteps.getPropertyOrStringVariableOrValue;
 
 /**
- * Шаги для работы с cookies
+ * Шаги для работы с браузером
  */
 @Log4j2
 public class DefaultManageBrowserSteps {
 
-    private DefaultSteps ds = new DefaultSteps();
+    private DefaultWebSteps ds = new DefaultWebSteps();
     private CoreScenario coreScenario = CoreScenario.getInstance();
 
     /**
@@ -107,7 +113,7 @@ public class DefaultManageBrowserSteps {
      */
     @Тогда("^заголовок страницы равен \"([^\"]*)\"$")
     public void checkPageTitle(String pageTitleName) {
-        pageTitleName = ds.getPropertyOrStringVariableOrValue(pageTitleName);
+        pageTitleName = getPropertyOrStringVariableOrValue(pageTitleName);
         String currentTitle = getWebDriver().getTitle().trim();
         assertThat(String.format("Заголовок страницы не совпадает с ожидаемым значением. Ожидаемый результат: %s, текущий результат: %s", pageTitleName, currentTitle),
                 pageTitleName, equalToIgnoringCase(currentTitle));
@@ -133,6 +139,112 @@ public class DefaultManageBrowserSteps {
         getWebDriver().close();
     }
 
+    /**
+     * @param propertyVariableName - ключ в файле application.properties
+     * @param variableName         - имя переменной
+     *                             Значение заданной переменной из application.properties сохраняется в переменную в coreScenario
+     *                             для дальнейшего использования
+     * @author Anton Pavlov
+     */
+    @И("^сохранено значение \"([^\"]*)\" из property файла в переменную \"([^\"]*)\"$")
+    public void saveValueToVar(String propertyVariableName, String variableName) {
+        propertyVariableName = loadProperty(propertyVariableName);
+        coreScenario.setVar(variableName, propertyVariableName);
+        coreScenario.write("Значение сохраненной переменной " + propertyVariableName);
+    }
+
+    /**
+     * @author Anton Pavlov
+     * Выполняется обновление страницы
+     */
+    @И("^выполнено обновление текущей страницы$")
+    public void refreshPage() {
+        refresh();
+    }
+
+    /**
+     * @author Anton Pavlov
+     * Выполняется переход по заданной ссылке,
+     * Ссылка берется из property / переменной по ключу @param address, если такая переменная не найдена,
+     * то берется переданное значение
+     * при этом все ключи переменных в фигурных скобках
+     * меняются на их значения из хранилища coreScenario
+     */
+    @Когда("^совершен переход по ссылке \"([^\"]*)\"$")
+    public void goToUrl(String address) {
+        String url = resolveVars(getPropertyOrStringVariableOrValue(address));
+        open(url);
+        coreScenario.write("Url = " + url);
+    }
+
+    /**
+     * @author Anton Pavlov
+     * Проверка, что текущий URL совпадает с ожидаемым
+     * (берется из property / переменной, если такая переменная не найдена,
+     * то берется переданное значение)
+     */
+    @Тогда("^текущий URL равен \"([^\"]*)\"$")
+    public void checkCurrentURL(String url) {
+        String currentUrl = url();
+        String expectedUrl = resolveVars(getPropertyOrStringVariableOrValue(url));
+        assertThat("Текущий URL не совпадает с ожидаемым", currentUrl, is(expectedUrl));
+    }
+
+    /**
+     * @author Anton Pavlov
+     * Проверка, что текущий URL не совпадает с ожидаемым
+     * (берется из property / переменной, если такая переменная не найдена,
+     * то берется переданное значение)
+     */
+    @Тогда("^текущий URL не равен \"([^\"]*)\"$")
+    public void checkCurrentURLIsNotEquals(String url) {
+        String currentUrl = url();
+        String expectedUrl = resolveVars(getPropertyOrStringVariableOrValue(url));
+        assertThat("Текущий URL совпадает с ожидаемым", currentUrl, Matchers.not(expectedUrl));
+    }
+
+    /**
+     * @author Anton Pavlov
+     * Устанавливает размеры окна браузера
+     */
+    @И("^установлено разрешение экрана (\\d+) х (\\d+)$")
+    public void setBrowserWindowSize(int width, int height) {
+        getWebDriver().manage().window().setSize(new Dimension(width, height));
+        coreScenario.write("Установлены размеры окна браузера: ширина " + width + " высота" + height);
+    }
+
+    /**
+     * @author Anton Pavlov
+     * Разворачивает окно с браузером на весь экран
+     */
+    @Если("^окно развернуто на весь экран$")
+    public void expandWindowToFullScreen() {
+        getWebDriver().manage().window().maximize();
+    }
+
+
+    /**
+     * @author Anton Pavlov
+     * Выполняется переход в конец страницы
+     */
+    @И("^совершен переход в конец страницы$")
+    public void scrollDown() {
+        Actions actions = new Actions(getWebDriver());
+        actions.keyDown(Keys.CONTROL).sendKeys(Keys.END).build().perform();
+        actions.keyUp(Keys.CONTROL).perform();
+    }
+
+
+    /**
+     * @author Anton Pavlov
+     * Метод осуществляет снятие скриншота и прикрепление его к cucumber отчету.
+     */
+    @И("^снят скриншот текущей страницы$")
+    public void takeScreenshot() {
+        final byte[] screenshot = ((TakesScreenshot) getWebDriver()).getScreenshotAs(OutputType.BYTES);
+        CoreScenario.getInstance().getScenario().embed(screenshot, "image/png");
+    }
+
     private String nextWindowHandle() {
         String currentWindowHandle = getWebDriver().getWindowHandle();
         Set<String> windowHandles = getWebDriver().getWindowHandles();
@@ -140,5 +252,4 @@ public class DefaultManageBrowserSteps {
 
         return windowHandles.iterator().next();
     }
-
 }
