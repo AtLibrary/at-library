@@ -25,13 +25,11 @@ import java.util.function.Consumer;
 public final class Pages {
 
     /**
-     * @author Anton Pavlov
      * Страницы, на которых будет производится тестирование < Имя, Страница >
      */
     private Map<String, CorePage> pages;
 
     /**
-     * @author Anton Pavlov
      * Страница, на которой в текущий момент производится тестирование
      */
     private CorePage currentPage;
@@ -42,7 +40,6 @@ public final class Pages {
 
 
     /**
-     * @author Anton Pavlov
      * Возвращает текущую страницу, на которой в текущий момент производится тестирование
      */
     public CorePage getCurrentPage() {
@@ -51,7 +48,6 @@ public final class Pages {
     }
 
     /**
-     * @author Anton Pavlov
      * Задает текущую страницу по ее имени
      */
     public void setCurrentPage(CorePage page) {
@@ -70,7 +66,6 @@ public final class Pages {
     }
 
     /**
-     * @author Anton Pavlov
      * Получение страницы из "ru.bcs.at.library.core.pages" по имени
      */
     public CorePage get(String pageName) {
@@ -78,7 +73,6 @@ public final class Pages {
     }
 
     /**
-     * @author Anton Pavlov
      * Получение страницы по классу
      */
     @SuppressWarnings("unchecked")
@@ -95,7 +89,6 @@ public final class Pages {
     }
 
     /**
-     * @author Anton Pavlov
      * Добавление инстанциированной страницы в "ru.bcs.at.library.core.pages" с проверкой на NULL
      */
     public <T extends CorePage> void put(String pageName, T page) throws IllegalArgumentException {
@@ -105,7 +98,6 @@ public final class Pages {
     }
 
     /**
-     * @author Anton Pavlov
      * Получение страницы по классу с возможностью выполнить проверку элементов страницы
      */
     public static <T extends CorePage> T getPage(Class<T> clazz, boolean checkIfElementsAppeared) {
@@ -117,7 +109,6 @@ public final class Pages {
     }
 
     /**
-     * @author Anton Pavlov
      * Добавление страницы в "ru.bcs.at.library.core.pages" по классу
      */
     public void put(String pageName, Class<? extends CorePage> clazz) {

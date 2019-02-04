@@ -201,17 +201,17 @@ ru.bcs.at.library.core.cucumber.api.CoreScenario
 Позволяет заполнить хранилище переменных, существующее в рамках одного сценария, значениями и читать эти значения при необходимости.
 
 ```java
-ru.bcs.at.library.core.steps.DefaultApiSteps
+ru.bcs.at.library.core.steps.ApiSteps
 ```
 Шаги для тестирования API, доступные по умолчанию в каждом новом проекте
 
 ```java
-ru.bcs.at.library.core.steps.DefaultWebSteps
+ru.bcs.at.library.core.steps.WebElementSteps
 ```
 Шаги для тестирования UI, доступные по умолчанию в каждом новом проекте
 
 ```java
-ru.bcs.at.library.core.steps.InitialSetupSteps
+ru.bcs.at.library.core.setup.InitialSetupSteps
 ```
 Хуки предустановок, где происходит создание, закрытие браузера, получение скриншотов
 

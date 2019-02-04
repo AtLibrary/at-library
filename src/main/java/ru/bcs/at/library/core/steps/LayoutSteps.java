@@ -16,6 +16,10 @@ import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static org.junit.Assert.fail;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadSystemPropertyOrDefault;
 
+/**
+ * @author Anton Pavlov
+ */
+
 public class LayoutSteps {
     public static final String SPECS_DIR_PATH = loadSystemPropertyOrDefault("specsDir",
             System.getProperty("user.dir") + "/src/test/resources/specs/");
@@ -27,8 +31,7 @@ public class LayoutSteps {
      * @param spec - Название galen спецификации .spec, где описан ожидаемый дизайн страницы
      *             По умолчанию ожидается, что .spec файлы находятся по пути /src/test/resources/specs.
      *             Этот путь можно переопределить, задав системную переменную specsDir
-     * @author Anton Pavlov
-     * Шаг проверяет, что текущая страница соответствует описанным в .spec файле требованиям
+     *             Шаг проверяет, что текущая страница соответствует описанным в .spec файле требованиям
      */
 
     @Тогда("(страница соответствует|соответствует|блок соответствует) ожидаемой спецификации \"([^\"]*)\"")
@@ -42,8 +45,7 @@ public class LayoutSteps {
      *             Этот путь можно переопределить, задав системную переменную specsDir
      * @param tag  - название тэга в galen спецификации (например @on desktop),
      *             для которого описан дизайн конкретных элементов.
-     * @author Anton Pavlov
-     * Шаг проверяет, что текущая страница соответствует описанным в .spec файле требованиям
+     *             Шаг проверяет, что текущая страница соответствует описанным в .spec файле требованиям
      */
     @Тогда("(страница соответствует|соответствует|блок соответствует) спецификации \"([^\"]*)\" для экрана \"(\\D+)\"")
     public void compareCurrentPageWithBase(String spec, String tag) {
@@ -53,7 +55,6 @@ public class LayoutSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Проверяет соответствие текущей страницы ее описанию в .spec файле.
      * Скриншоты с расходениями в дизайне сохраняются в /build/results-img/ и прикрепояются к cucumber отчету
      * Путь /build/results-img/ можно переопределить, задав системную переменную imgDiff
@@ -81,8 +82,7 @@ public class LayoutSteps {
     /**
      * @param fileName - название файла
      * @param mimeType - тип файла
-     * @author Anton Pavlov
-     * Прикрепляет файл к текущему сценарию в cucumber отчете
+     *                 Прикрепляет файл к текущему сценарию в cucumber отчете
      */
     @SneakyThrows
     public static void embedFileToReport(File fileName, String mimeType) {

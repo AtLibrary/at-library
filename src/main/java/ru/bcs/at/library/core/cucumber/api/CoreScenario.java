@@ -23,6 +23,7 @@ import java.util.function.Consumer;
 
 /**
  * Главный класс, отвечающий за сопровождение тестовых шагов
+ * @author Anton Pavlov
  */
 @Log4j2
 public final class CoreScenario {
@@ -30,7 +31,6 @@ public final class CoreScenario {
     private static CoreScenario instance = new CoreScenario();
 
     /**
-     * @author Anton Pavlov
      * Среда прогона тестов, хранит в себе: Cucumber.Scenario,
      * переменные, объявленные пользователем в сценарии и страницы, тестирование которых будет производиться
      */
@@ -56,7 +56,6 @@ public final class CoreScenario {
     }
 
     /**
-     * @author Anton Pavlov
      * Получение страницы, тестирование которой производится в данный момент
      */
     public CorePage getCurrentPage() {
@@ -64,7 +63,6 @@ public final class CoreScenario {
     }
 
     /**
-     * @author Anton Pavlov
      * Задание страницы, тестирование которой производится в данный момент
      */
     public void setCurrentPage(CorePage page) {
@@ -99,7 +97,6 @@ public final class CoreScenario {
     }
 
     /**
-     * @author Anton Pavlov
      * Возвращает текущий сценарий (Cucumber.api)
      */
     public Scenario getScenario() {
@@ -107,7 +104,6 @@ public final class CoreScenario {
     }
 
     /**
-     * @author Anton Pavlov
      * Получение списка страниц
      */
     public Pages getPages() {
@@ -119,7 +115,6 @@ public final class CoreScenario {
     }
 
     /**
-     * @author Anton Pavlov
      * Выводит дополнительный информационный текст в отчет (уровень логирования INFO)
      */
     public void write(Object object) {
@@ -140,7 +135,6 @@ public final class CoreScenario {
     }
 
     /**
-     * @author Anton Pavlov
      * Получение переменной без проверки на NULL
      */
     public Object tryGetVar(String name) {
@@ -196,7 +190,6 @@ public final class CoreScenario {
     }
 
     /**
-     * @author Anton Pavlov
      * Получение всех переменных из пула "variables" в классе CoreEnvironment
      */
     public ScopedVariables getVars() {

@@ -33,7 +33,9 @@ import java.nio.file.Paths;
 import java.util.Properties;
 
 /**
- * Класс для получения свойств
+ * <h1>Класс для получения свойств</h1>
+ *
+ * @author Anton Pavlov
  */
 @Log4j2
 public class PropertyLoader {
@@ -42,17 +44,17 @@ public class PropertyLoader {
     private static final Properties PROFILE_PROPERTIES = getProfilePropertiesInstance();
 
     private PropertyLoader() {
-
     }
 
     /**
+     * <p>Возвращает значение системного свойства
+     * (из доступных для данной JVM) по его названию,
+     * в случае, если оно не найдено, вернется значение по умолчанию
+     * </p>
+     *
      * @param propertyName название свойства
      * @param defaultValue значение по умолчанию
      * @return значение свойства по названию или значение по умолчанию
-     * @author Anton Pavlov
-     * Возвращает значение системного свойства
-     * (из доступных для данной JVM) по его названию,
-     * в случае, если оно не найдено, вернется значение по умолчанию
      */
     public static String loadSystemPropertyOrDefault(String propertyName, String defaultValue) {
         String propValue = System.getProperty(propertyName);
@@ -60,13 +62,14 @@ public class PropertyLoader {
     }
 
     /**
+     * <p>Возвращает Integer значение системного свойства
+     * (из доступных для данной JVM) по его названию,
+     * в случае, если оно не найдено, вернется значение по умолчанию
+     * </p>
+     *
      * @param propertyName название свойства
      * @param defaultValue Integer значение по умолчанию
      * @return Integer значение свойства по названию или значение по умолчанию
-     * @author Anton Pavlov
-     * Возвращает Integer значение системного свойства
-     * (из доступных для данной JVM) по его названию,
-     * в случае, если оно не найдено, вернется значение по умолчанию
      */
     public static Integer loadSystemPropertyOrDefault(String propertyName, Integer defaultValue) {
         try {
@@ -78,13 +81,14 @@ public class PropertyLoader {
     }
 
     /**
+     * <p>Возвращает Boolean значение системного свойства
+     * (из доступных для данной JVM) по его названию,
+     * в случае, если оно не найдено, вернется значение по умолчанию
+     * </p>
+     *
      * @param propertyName название свойства
      * @param defaultValue Boolean значение по умолчанию
      * @return Integer значение свойства по названию или значение по умолчанию
-     * @author Anton Pavlov
-     * Возвращает Boolean значение системного свойства
-     * (из доступных для данной JVM) по его названию,
-     * в случае, если оно не найдено, вернется значение по умолчанию
      */
     public static Boolean loadSystemPropertyOrDefault(String propertyName, Boolean defaultValue) {
         String def = defaultValue.toString();
@@ -93,11 +97,11 @@ public class PropertyLoader {
     }
 
     /**
+     * <p>Возвращает свойство по его названию из property-файла</p>
+     *
      * @param propertyName название свойства
      * @return значение свойства, в случае, если значение не найдено,
      * будет выброшено исключение
-     * @author Anton Pavlov
-     * Возвращает свойство по его названию из property-файла
      */
     public static String loadProperty(String propertyName) {
         String value = tryLoadProperty(propertyName);
@@ -108,24 +112,26 @@ public class PropertyLoader {
     }
 
     /**
+     * <p>Возвращает значение свойства из property-файла по его названию,
+     * если значение не найдено, возвращает это же значение в качестве значения по умолчанию
+     * </p>
+     *
      * @param propertyNameOrValue название свойства/значение по умолчанию
      * @return значение по ключу value, если значение не найдено,
      * вернется value
-     * @author Anton Pavlov
-     * Возвращает значение свойства из property-файла по его названию,
-     * если значение не найдено, возвращает это же значение в качестве значения по умолчанию
      */
     public static String getPropertyOrValue(String propertyNameOrValue) {
         return loadProperty(propertyNameOrValue, propertyNameOrValue);
     }
 
     /**
+     * <p>Возвращает значение свойства из property-файла по его названию,
+     * Если ничего не найдено, возвращает значение по умолчанию
+     * </p>
+     *
      * @param propertyName название свойства
      * @param defaultValue значение по умолчанию
      * @return значение свойства
-     * @author Anton Pavlov
-     * Возвращает значение свойства из property-файла по его названию,
-     * Если ничего не найдено, возвращает значение по умолчанию
      */
     public static String loadProperty(String propertyName, String defaultValue) {
         String value = tryLoadProperty(propertyName);
@@ -133,12 +139,13 @@ public class PropertyLoader {
     }
 
     /**
+     * <p>Возвращает значение свойства типа Integer из property-файла по названию,
+     * если ничего не найдено, возвращает значение по умолчанию
+     * </p>
+     *
      * @param propertyName название свойства
      * @param defaultValue значение по умолчанию
      * @return значение свойства типа Integer или значение по умолчанию
-     * @author Anton Pavlov
-     * Возвращает значение свойства типа Integer из property-файла по названию,
-     * если ничего не найдено, возвращает значение по умолчанию
      */
     public static Integer loadPropertyInt(String propertyName, Integer defaultValue) {
         String value = tryLoadProperty(propertyName);
@@ -146,13 +153,14 @@ public class PropertyLoader {
     }
 
     /**
-     * @param propertyName название свойства
-     * @return значение свойства
-     * @author Anton Pavlov
-     * Вспомогательный метод, возвращает значение свойства по имени.
+     * <p>Вспомогательный метод, возвращает значение свойства по имени.
      * Сначала поиск в System переменным,
      * затем в property-файле, если указано системное свойство "profile"
      * Если ничего не найдено, поиск в /application.properties
+     * </p>
+     *
+     * @param propertyName название свойства
+     * @return значение свойства
      */
     public static String tryLoadProperty(String propertyName) {
         String value = null;
@@ -169,53 +177,12 @@ public class PropertyLoader {
     }
 
     /**
-     * @return свойства из файла /application.properties
-     * @author Anton Pavlov
-     * Вспомогательный метод, возвращает свойства из файла /application.properties
-     */
-    @SneakyThrows(IOException.class)
-    private static Properties getPropertiesInstance() {
-        Properties instance = new Properties();
-        try (
-                InputStream resourceStream = PropertyLoader.class.getResourceAsStream(PROPERTIES_FILE);
-                InputStreamReader inputStream = new InputStreamReader(resourceStream, Charset.forName("UTF-8"))
-        ) {
-            instance.load(inputStream);
-        }
-        return instance;
-    }
-
-    /**
-     * @return прочитанные свойства из кастомного файла application.properties,
-     * если свойство "profile" указано,
-     * иначе пустой объект
-     * @author Anton Pavlov
-     * Вспомогательный метод, возвращает свойства из кастомного application.properties по пути
-     * из системного свойства "profile"
-     */
-    @SneakyThrows(IOException.class)
-    private static Properties getProfilePropertiesInstance() {
-        Properties instance = new Properties();
-        String profile = System.getProperty("profile", "");
-        if (!Strings.isNullOrEmpty(profile)) {
-            String path = Paths.get(profile, PROPERTIES_FILE).toString();
-            URL url = PropertyLoader.class.getClassLoader().getResource(path);
-            try (
-                    InputStream resourceStream = url.openStream();
-                    InputStreamReader inputStream = new InputStreamReader(resourceStream, Charset.forName("UTF-8"))
-            ) {
-                instance.load(inputStream);
-            }
-        }
-        return instance;
-    }
-
-    /**
+     * <p>Получает значение из application.properties, файла по переданному пути, значение из хранилища переменных или как String аргумент
+     * Используется для получение body.json api шагах, либо для получения script.js в ui шагах
+     * </p>
+     *
      * @param valueToFind - ключ к значению в application.properties, путь к файлу c нужным значением, значение как String
      * @return значение как String
-     * @author Anton Pavlov
-     * Получает значение из application.properties, файла по переданному пути, значение из хранилища переменных или как String аргумент
-     * Используется для получение body.json api шагах, либо для получения script.js в ui шагах
      */
     public static String loadValueFromFileOrPropertyOrVariableOrDefault(String valueToFind) {
         String pathAsString = StringUtils.EMPTY;
@@ -243,6 +210,47 @@ public class PropertyLoader {
         }
         CoreScenario.getInstance().write("Значение не найдено в хранилище. Будет исользовано значение по умолчанию " + valueToFind);
         return valueToFind;
+    }
+
+    /**
+     * <p>Вспомогательный метод, возвращает свойства из файла /application.properties</p>
+     *
+     * @return свойства из файла /application.properties
+     */
+    @SneakyThrows(IOException.class)
+    private static Properties getPropertiesInstance() {
+        Properties instance = new Properties();
+        try (
+                InputStream resourceStream = PropertyLoader.class.getResourceAsStream(PROPERTIES_FILE);
+                InputStreamReader inputStream = new InputStreamReader(resourceStream, Charset.forName("UTF-8"))
+        ) {
+            instance.load(inputStream);
+        }
+        return instance;
+    }
+
+    /**
+     * <p>Вспомогательный метод, возвращает свойства из кастомного application.properties по пути
+     * из системного свойства "profile"
+     * </p>
+     *
+     * @return прочитанные свойства из кастомного файла application.properties, если свойство "profile" указано, иначе пустой объект
+     */
+    @SneakyThrows(IOException.class)
+    private static Properties getProfilePropertiesInstance() {
+        Properties instance = new Properties();
+        String profile = System.getProperty("profile", "");
+        if (!Strings.isNullOrEmpty(profile)) {
+            String path = Paths.get(profile, PROPERTIES_FILE).toString();
+            URL url = PropertyLoader.class.getClassLoader().getResource(path);
+            try (
+                    InputStream resourceStream = url.openStream();
+                    InputStreamReader inputStream = new InputStreamReader(resourceStream, Charset.forName("UTF-8"))
+            ) {
+                instance.load(inputStream);
+            }
+        }
+        return instance;
     }
 
 }

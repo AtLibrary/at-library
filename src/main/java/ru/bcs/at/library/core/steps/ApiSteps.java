@@ -27,87 +27,84 @@ import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertTrue;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadProperty;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault;
 import static ru.bcs.at.library.core.cucumber.ScopedVariables.resolveJsonVars;
 import static ru.bcs.at.library.core.cucumber.ScopedVariables.resolveVars;
 
 /**
- * Шаги для тестирования API, доступные по умолчанию в каждом новом проекте
+ * <h1>Шаги для тестирования API</h1>
+ *
+ * @author Anton Pavlov
  */
 
 @Log4j2
-public class DefaultApiSteps {
+public class ApiSteps {
 
     private CoreScenario coreScenario = CoreScenario.getInstance();
 
     /**
-     * <p>Посылается http запрос по заданному урлу без параметров и BODY.
+     * <p>Отправка http запроса по заданному урлу без параметров и BODY.
      * Результат сохраняется в заданную переменную</p>
      *
-     * @param method       - методов HTTP запроса
-     * @param address      - url запроса (ожно задать как напрямую в шаге, так и указав в application.properties)
-     * @param variableName - имя переменной в которую сохраняется ответ
-     * @author Anton Pavlov
+     * @param method       методов HTTP запроса
+     * @param address      url запроса (ожно задать как напрямую в шаге, так и указав в application.properties)
+     * @param variableName имя переменной в которую сохраняется ответ
      */
     @И("^выполнен (GET|POST|PUT|DELETE) запрос на URL \"([^\"]*)\". Полученный ответ сохранен в переменную \"([^\"]*)\"$")
-    public void sendHttpRequestWithoutParams(String method, String address, String variableName) throws Exception {
+    public void sendHttpRequestWithoutParams(String method, String address, String variableName) {
         Response response = sendRequest(method, address, null);
         getBodyAndSaveToVariable(variableName, response);
     }
 
     /**
-     * <p>Посылается http запрос по заданному урлу с параметрами и/или BODY.
+     * <p>Отправка http запроса по заданному урлу с параметрами и/или BODY.
      * Результат сохраняется в заданную переменную</p>
      *
-     * @param method       - методов HTTP запроса
-     * @param address      - url запроса (ожно задать как напрямую в шаге, так и указав в application.properties)
-     * @param variableName - имя переменной в которую сохраняется ответ
-     * @param dataTable    - И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
+     * @param method       методов HTTP запроса
+     * @param address      url запроса (ожно задать как напрямую в шаге, так и указав в application.properties)
+     * @param variableName имя переменной в которую сохраняется ответ
+     * @param dataTable    И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
      *                     и из хранилища переменных из CoreScenario.
      *                     Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
-     * @author Anton Pavlov
      */
     @И("^выполнен (GET|POST|PUT|DELETE) запрос на URL \"([^\"]*)\" с headers и parameters из таблицы. Полученный ответ сохранен в переменную \"([^\"]*)\"$")
-    public void sendHttpRequestSaveResponse(String method, String address, String variableName, DataTable dataTable) throws Exception {
+    public void sendHttpRequestSaveResponse(String method, String address, String variableName, DataTable dataTable) {
         Response response = sendRequest(method, address, dataTable);
         getBodyAndSaveToVariable(variableName, response);
     }
 
     /**
-     * <p>Посылается http запрос по заданному урлу с параметрами и/или BODY.
+     * <p>Отправка http запроса по заданному урлу с параметрами и/или BODY.
      * Результат сохраняется в заданную переменную</p>
      *
-     * @param method             - методов HTTP запроса
-     * @param address            - url запроса (ожно задать как напрямую в шаге, так и указав в application.properties)
-     * @param expectedStatusCode - ожидаемый код ответа
-     * @param dataTable          - И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
+     * @param method             методов HTTP запроса
+     * @param address            url запроса (ожно задать как напрямую в шаге, так и указав в application.properties)
+     * @param expectedStatusCode ожидаемый код ответа
+     * @param dataTable          И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
      *                           и из хранилища переменных из CoreScenario.
      *                           Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
-     * @author Anton Pavlov
      */
     @И("^выполнен (GET|POST|PUT|DELETE) запрос на URL \"([^\"]*)\" с headers и parameters из таблицы. Ожидается код ответа: (\\d+)$")
-    public void sendHttpRequestCheckResponseCode(String method, String address, int expectedStatusCode, DataTable dataTable) throws Exception {
+    public void sendHttpRequestCheckResponseCode(String method, String address, int expectedStatusCode, DataTable dataTable) {
         Response response = sendRequest(method, address, dataTable);
         checkStatusCode(response, expectedStatusCode);
     }
 
     /**
-     * <p>Посылается http запрос по заданному урлу с параметрами и/или BODY.
+     * <p>Отправка http запроса по заданному урлу с параметрами и/или BODY.
      * Результат сохраняется в заданную переменную</p>
      *
-     * @param method             - методов HTTP запроса
-     * @param address            - url запроса (ожно задать как напрямую в шаге, так и указав в application.properties)
-     * @param expectedStatusCode - ожидаемый код ответа
-     * @param variableName       - имя переменной в которую сохраняется ответ
-     * @param dataTable          - И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
+     * @param method             методов HTTP запроса
+     * @param address            url запроса (ожно задать как напрямую в шаге, так и указав в application.properties)
+     * @param expectedStatusCode ожидаемый код ответа
+     * @param variableName       имя переменной в которую сохраняется ответ
+     * @param dataTable          И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
      *                           и из хранилища переменных из CoreScenario.
      *                           Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
-     * @author Anton Pavlov
      */
     @И("^выполнен (GET|POST|PUT|DELETE) запрос на URL \"([^\"]*)\" с headers и parameters из таблицы. Ожидается код ответа: (\\d+) Полученный ответ сохранен в переменную \"([^\"]*)\"$")
-    public void sendHttpRequestSaveResponseCheckResponseCode(String method, String address, int expectedStatusCode, String variableName, DataTable dataTable) throws Exception {
+    public void sendHttpRequestSaveResponseCheckResponseCode(String method, String address, int expectedStatusCode, String variableName, DataTable dataTable) {
         Response response = sendRequest(method, address, dataTable);
         checkStatusCode(response, expectedStatusCode);
         getBodyAndSaveToVariable(variableName, response);
@@ -115,14 +112,13 @@ public class DefaultApiSteps {
 
 
     /**
-     * <p>Посылается http запрос по заданному урлу с параметрами и/или BODY.
-     * Результат сохраняется в заданную переменную</p>
-     * @param typeContentBody - тип контента
-     * @param valueToFind - имя переменной которая содержит Response
-     * @param dataTable   - И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
-     *                    и из хранилища переменных из CoreScenario.
-     *                    Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
-     * @author Anton Pavlov
+     * <p>Проверка Response</p>
+     *
+     * @param typeContentBody тип контента
+     * @param valueToFind     имя переменной которая содержит Response
+     * @param dataTable       И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
+     *                        и из хранилища переменных из CoreScenario.
+     *                        Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
     @Тогда("^в (json|xml) ответа \"([^\"]*)\" значения равны значениям из таблицы$")
     public void checkValuesInJson(String typeContentBody, String valueToFind, DataTable dataTable) {
@@ -138,16 +134,15 @@ public class DefaultApiSteps {
     }
 
     /**
-    /**
      * <p>В json строке, сохраннённой в переменной, происходит поиск значений по jsonpath из первого столбца таблицы.
      * Полученные значения сохраняются в переменных. Название переменной указывается во втором столбце таблицы.
      * Шаг работает со всеми типами json элементов: объекты, массивы, строки, числа, литералы true, false и null.</p>
-     * @param typeContentBody - тип контента
-     * @param valueToFind - имя переменной которая содержит Response
-     * @param dataTable   - И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
-     *                    и из хранилища переменных из CoreScenario.
-     *                    Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
-     * @author Anton Pavlov
+     *
+     * @param typeContentBody тип контента
+     * @param valueToFind     имя переменной которая содержит Response
+     * @param dataTable       И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
+     *                        и из хранилища переменных из CoreScenario.
+     *                        Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
     @Тогда("^значения из (json|xml) ответа \"([^\"]*)\", найденные по jsonpath из таблицы, сохранены в переменные$")
     public void getValuesFromJsonAsString(String typeContentBody, String valueToFind, DataTable dataTable) {
@@ -166,88 +161,20 @@ public class DefaultApiSteps {
             }
 
             if (value == null) {
-                throw new RuntimeException("В " + typeContentBody.toUpperCase() + " не найдено значение по заданному jsonpath: "+path);
+                throw new RuntimeException("В " + typeContentBody.toUpperCase() + " не найдено значение по заданному jsonpath: " + path);
             }
 
             coreScenario.setVar(varName, value);
             coreScenario.write(typeContentBody.toUpperCase() + " path: " + path + ", значение: " + value + ", записано в переменную: " + varName);
         }
     }
-//
-//    /**
-//     * @author Anton Pavlov
-//     * В json строке, сохраннённой в переменной, происходит поиск значений по jsonpath из первого столбца таблицы.
-//     * Полученные значения сравниваются с ожидаемым значением во втором столбце таблицы.
-//     * Шаг работает со всеми типами json элементов: объекты, массивы, строки, числа, литералы true, false и null.
-//     */
-//    @Тогда("^в json (?:строке|файле) \"([^\"]*)\" значения, найденные по jsonpath, равны значениям из таблицы$")
-//    public void checkValuesInJsonAsString(String jsonVar, DataTable dataTable) {
-//        String strJson = loadValueFromFileOrPropertyOrVariableOrDefault(jsonVar);
-//        Gson gsonObject = new Gson();
-//        JsonParser parser = new JsonParser();
-//        ReadContext ctx = JsonPath.parse(strJson, createJsonPathConfiguration());
-//        boolean error = false;
-//        for (List<String> row : dataTable.asLists()) {
-//            String jsonPath = row.get(0);
-//            JsonElement actualJsonElement;
-//            try {
-//                actualJsonElement = gsonObject.toJsonTree(ctx.read(jsonPath));
-//            } catch (PathNotFoundException e) {
-//                error = true;
-//                continue;
-//            }
-//            JsonElement expectedJsonElement = parser.parse(row.get(1));
-//            if (!actualJsonElement.equals(expectedJsonElement)) {
-//                error = true;
-//            }
-//            coreScenario.write("JsonPath: " + jsonPath + ", ожидаемое значение: " + expectedJsonElement + ", фактическое значение: " + actualJsonElement);
-//        }
-//        if (error)
-//            throw new RuntimeException("Ожидаемые и фактические значения в json не совпадают");
-//    }
-//
-//    /**
-//     * @author Anton Pavlov
-//     * В json строке, сохраннённой в переменной, происходит поиск значений по jsonpath из первого столбца таблицы.
-//     * Полученные значения сохраняются в переменных. Название переменной указывается во втором столбце таблицы.
-//     * Шаг работает со всеми типами json элементов: объекты, массивы, строки, числа, литералы true, false и null.
-//     */
-//    @Тогда("^значения из json (?:строки|файла) \"([^\"]*)\", найденные по jsonpath из таблицы, сохранены в переменные$")
-//    public void getValuesFromJsonAsString(String jsonVar, DataTable dataTable) {
-//        String strJson = loadValueFromFileOrPropertyOrVariableOrDefault(jsonVar);
-//        Gson gsonObject = new Gson();
-//        ReadContext ctx = JsonPath.parse(strJson, createJsonPathConfiguration());
-//        boolean error = false;
-//        for (List<String> row : dataTable.asLists()) {
-//            String jsonPath = row.get(0);
-//            String varName = row.get(1);
-//            JsonElement jsonElement;
-//            try {
-//                jsonElement = gsonObject.toJsonTree(ctx.read(jsonPath));
-//            } catch (PathNotFoundException e) {
-//                error = true;
-//                continue;
-//            }
-//            coreScenario.setVar(varName, jsonElement.toString());
-//            coreScenario.write("JsonPath: " + jsonPath + ", значение: " + jsonElement + ", записано в переменную: " + varName);
-//        }
-//        if (error)
-//            throw new RuntimeException("В json не найдено значение по заданному jsonpath");
-//    }
-
-//    private Configuration createJsonPathConfiguration() {
-//        return new Configuration.ConfigurationBuilder()
-//                .jsonProvider(new GsonJsonProvider())
-//                .mappingProvider(new GsonMappingProvider())
-//                .build();
-//    }
 
     /**
+     * <p>Создание запроса
+     * Content-Type при необходимости должен быть указан в качестве header.</p>
+     *
      * @param dataTable массив с параметрами
      * @return сформированный запрос
-     * @author Anton Pavlov
-     * Создание запроса
-     * Content-Type при необходимости должен быть указан в качестве header.
      */
     private RequestSender createRequest(DataTable dataTable) {
         String body = null;
@@ -303,31 +230,32 @@ public class DefaultApiSteps {
     }
 
     /**
+     * <p>Получает ответ и сохраняет в переменную</p>
+     *
      * @param variableName имя переменной, в которую будет сохранен ответ
      * @param response     ответ от http запроса
-     * @author Anton Pavlov
-     * Получает ответ и сохраняет в переменную
      */
     private void getBodyAndSaveToVariable(String variableName, Response response) {
         coreScenario.setVar(variableName, response);
     }
 
     /**
+     * <p>Сравнение кода http ответа с ожидаемым</p>
+     *
      * @param response           ответ от сервиса
      * @param expectedStatusCode ожидаемый http статус код
-     * @author Anton Pavlov
-     * Сравнение кода http ответа с ожидаемым
      */
     public void checkStatusCode(Response response, int expectedStatusCode) {
         response.then().statusCode(expectedStatusCode);
     }
 
     /**
+     * <p>Отправка http запроса</p>
+     *
      * @param method    тип http запроса
      * @param address   url, на который будет направлен запроc
      * @param dataTable список параметров для http запроса
-     * @author Anton Pavlov
-     * Отправка http запроса
+     * @return Response
      */
     public Response sendRequest(String method, String address,
                                 DataTable dataTable) {

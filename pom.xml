@@ -6,11 +6,12 @@
 
     <groupId>ru.bcs</groupId>
     <artifactId>at-library-core</artifactId>
-    <version>30.1.2019</version>
+    <version>1.2.2019</version>
 
     <name>at-library-core</name>
-
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
         <!--WEB ТЕСТИРОВАНИЕ-->
         <selenide.version>4.14.2</selenide.version>
         <!--API ТЕСТИРОВАНИЕ-->
@@ -162,6 +163,18 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                    <!--<additionalparam>-Xdoclint:none</additionalparam>-->
+                    <additionalOptions>-Xdoclint:none</additionalOptions>
+                    <additionalJOption>-Xdoclint:none</additionalJOption>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 </project>

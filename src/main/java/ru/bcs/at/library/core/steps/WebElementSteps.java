@@ -61,16 +61,18 @@ import static ru.bcs.at.library.core.cucumber.ScopedVariables.resolveVars;
  * наследующем CorePage. Для каждого элемента следует задать имя на русском, через аннотацию @Name, чтобы искать
  * можно было именно по русскому описанию, а не по селектору. Селекторы следует хранить только в классе страницы,
  * не в степах, в степах - взаимодействие по русскому названию элемента.
+ *
+ * @author Anton Pavlov
  */
+
 @Log4j2
-public class DefaultWebSteps {
+public class WebElementSteps {
 
     private CoreScenario coreScenario = CoreScenario.getInstance();
 
     private static final int DEFAULT_TIMEOUT = loadPropertyInt("waitingCustomElementsTimeout", 10000);
 
     /**
-     * @author Anton Pavlov
      * На странице происходит клик по заданному элементу
      */
     @И("^выполнено нажатие на (?:кнопку|поле|блок) \"([^\"]*)\"$")
@@ -79,7 +81,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Проверка появления элемента(не списка) на странице в течение DEFAULT_TIMEOUT.
      * В случае, если свойство "waitingCustomElementsTimeout" в application.properties не задано,
      * таймаут равен 10 секундам
@@ -92,7 +93,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Проверка появления элемента(не списка) на странице в течение
      * заданного количества секунд
      */
@@ -104,7 +104,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Проверка появления списка на странице в течение DEFAULT_TIMEOUT.
      * В случае, если свойство "waitingCustomElementsTimeout" в application.properties не задано,
      * таймаут равен 10 секундам
@@ -117,7 +116,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Проверка того, что элемент исчезнет со страницы (станет невидимым) в течение DEFAULT_TIMEOUT.
      * В случае, если свойство "waitingCustomElementsTimeout" в application.properties не задано,
      * таймаут равен 10 секундам
@@ -129,7 +127,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Проверка того, что все элементы, которые описаны в классе страницы с аннотацией @Name,
      * но без аннотации @Optional появились на странице
      * в течение WAITING_APPEAR_TIMEOUT, которое равно значению свойства "waitingAppearTimeout"
@@ -144,7 +141,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Проверка того, что все элементы, которые описаны в классе страницы с аннотацией @Name,
      * но без аннотации @Optional, не появились на странице
      */
@@ -156,42 +152,8 @@ public class DefaultWebSteps {
         } else coreScenario.getCurrentPage().disappeared();
     }
 
-    /**
-     * @author Anton Pavlov
-     * Устанавливается значение переменной в хранилище переменных. Один из кейсов: установка login пользователя
-     */
-    @И("^установлено значение переменной \"([^\"]*)\" равным \"(.*)\"$")
-    public void setVariable(String variableName, String value) {
-        value = getPropertyOrValue(value);
-        coreScenario.setVar(variableName, value);
-    }
 
     /**
-     * @author Anton Pavlov
-     * Проверка равенства двух переменных из хранилища
-     */
-    @Тогда("^значения в переменных \"([^\"]*)\" и \"([^\"]*)\" совпадают$")
-    public void compareTwoVariables(String firstVariableName, String secondVariableName) {
-        String firstValueToCompare = coreScenario.getVar(firstVariableName).toString();
-        String secondValueToCompare = coreScenario.getVar(secondVariableName).toString();
-        assertThat(String.format("Значения в переменных [%s] и [%s] не совпадают", firstVariableName, secondVariableName),
-                firstValueToCompare, equalTo(secondValueToCompare));
-    }
-
-    /**
-     * @author Anton Pavlov
-     * Проверка неравенства двух переменных из хранилища
-     */
-    @Тогда("^значения в переменных \"([^\"]*)\" и \"([^\"]*)\" не совпадают$")
-    public void checkingTwoVariablesAreNotEquals(String firstVariableName, String secondVariableName) {
-        String firstValueToCompare = coreScenario.getVar(firstVariableName).toString();
-        String secondValueToCompare = coreScenario.getVar(secondVariableName).toString();
-        assertThat(String.format("Значения в переменных [%s] и [%s] совпадают", firstVariableName, secondVariableName),
-                firstValueToCompare, Matchers.not(equalTo(secondValueToCompare)));
-    }
-
-    /**
-     * @author Anton Pavlov
      * Проверка того, что значение из поля совпадает со значением заданной переменной из хранилища
      */
     @Тогда("^значение (?:поля|элемента) \"([^\"]*)\" совпадает со значением из переменной \"([^\"]*)\"$")
@@ -203,7 +165,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Проверка того, что значение из поля содержится в списке,
      * полученном из хранилища переменных по заданному ключу
      */
@@ -217,7 +178,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Выполняется переход по заданной ссылке.
      * Шаг содержит проверку, что после перехода загружена заданная страница.
      * Ссылка может передаваться как строка, так и как ключ из application.properties
@@ -230,17 +190,8 @@ public class DefaultWebSteps {
         loadPage(pageName);
     }
 
-    /**
-     * @author Anton Pavlov
-     * Ожидание в течение заданного количества секунд
-     */
-    @Когда("^выполнено ожидание в течение (\\d+) (?:секунд|секунды)")
-    public void waitForSeconds(long seconds) {
-        sleep(1000 * seconds);
-    }
 
     /**
-     * @author Anton Pavlov
      * Проверка того, что блок исчез/стал невидимым
      */
     @Тогда("^(?:страница|блок|форма) \"([^\"]*)\" (?:скрыт|скрыта)")
@@ -251,7 +202,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Эмулирует нажатие клавиш на клавиатуре
      */
     @И("^выполнено нажатие на клавиатуре \"([^\"]*)\"$")
@@ -262,11 +212,10 @@ public class DefaultWebSteps {
 
     /**
      * @param keyNames название клавиши
-     * @author Anton Pavlov
-     * Эмулирует нажатие сочетания клавиш на клавиатуре.
-     * Допустим, чтобы эмулировать нажатие на Ctrl+A, в таблице должны быть следующие значения
-     * | CONTROL |
-     * | a       |
+     *                 Эмулирует нажатие сочетания клавиш на клавиатуре.
+     *                 Допустим, чтобы эмулировать нажатие на Ctrl+A, в таблице должны быть следующие значения
+     *                 | CONTROL |
+     *                 | a       |
      */
     @И("^выполнено нажатие на сочетание клавиш из таблицы$")
     public void pressKeyCombination(List<String> keyNames) {
@@ -286,7 +235,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Устанавливается значение (в приоритете: из property, из переменной сценария, значение аргумента) в заданное поле.
      * Перед использованием поле нужно очистить
      */
@@ -299,7 +247,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Очищается заданное поле
      */
     @Когда("^очищено поле \"([^\"]*)\"$")
@@ -313,7 +260,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Проверка, что поле для ввода пусто
      */
     @Тогда("^поле \"([^\"]*)\" пусто$")
@@ -324,7 +270,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Проверка, что список со страницы состоит только из элементов,
      * перечисленных в таблице
      * Для получения текста из элементов списка используется метод getText()
@@ -338,7 +283,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Проверка, что список со страницы состоит только из элементов,
      * перечисленных в таблице
      * Для получения текста из элементов списка используется метод innerText()
@@ -353,7 +297,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Выбор из списка со страницы элемента с заданным значением
      * (в приоритете: из property, из переменной сценария, значение аргумента)
      */
@@ -372,7 +315,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Выбор из списка со страницы элемента, который содержит заданный текст
      * (в приоритете: из property, из переменной сценария, значение аргумента)
      * Не чувствителен к регистру
@@ -392,7 +334,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Проверка, что список со страницы совпадает со списком из переменной
      * без учёта порядка элементов
      * Для получения текста из элементов списка используется метод innerText()
@@ -409,7 +350,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Сохранение значения элемента в переменную
      */
     @Когда("^значение (?:элемента|поля) \"([^\"]*)\" сохранено в переменную \"([^\"]*)\"$")
@@ -418,21 +358,9 @@ public class DefaultWebSteps {
         coreScenario.write("Значение [" + coreScenario.getCurrentPage().getAnyElementText(elementName) + "] сохранено в переменную [" + variableName + "]");
     }
 
-    /**
-     * @author Anton Pavlov
-     * Проверка выражения на истинность
-     * выражение из property, из переменной сценария или значение аргумента
-     * Например, string1.equals(string2)
-     * OR string.equals("string")
-     * Любое Java-выражение, возвращающие boolean
-     */
-    @Тогда("^верно, что \"([^\"]*)\"$")
-    public void expressionExpression(String expression) {
-        coreScenario.getVars().evaluate("assert(" + expression + ")");
-    }
+
 
     /**
-     * @author Anton Pavlov
      * Переход на страницу по клику и проверка, что страница загружена
      */
     @И("^выполнен переход на страницу \"([^\"]*)\" после нажатия на (?:ссылку|кнопку) \"([^\"]*)\"$")
@@ -443,7 +371,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Шаг авторизации.
      * Для того, чтобы шаг работал, на текущей странице должны быть указаны элементы
      * со значениями аннотации @Name:
@@ -468,7 +395,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Выполняется наведение курсора на элемент
      */
     @Когда("^выполнен ховер на (?:поле|элемент) \"([^\"]*)\"$")
@@ -478,7 +404,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Проверка того, что элемент не отображается на странице
      */
     @Тогда("^(?:поле|выпадающий список|элемент) \"([^\"]*)\" не отображается на странице$")
@@ -489,7 +414,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Проверка, что элемент на странице кликабелен
      */
     @Тогда("^(?:поле|элемент) \"([^\"]*)\" кликабельно$")
@@ -499,7 +423,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Проверка, что у элемента есть атрибут с ожидаемым значением (в приоритете: из property, из переменной сценария, значение аргумента)
      */
     @Тогда("^элемент \"([^\"]*)\" содержит атрибут \"([^\"]*)\" со значением \"(.*)\"$")
@@ -512,7 +435,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Проверка, что элемент содержит указанный класс (в приоритете: из property, из переменной сценария, значение аргумента)
      * Например:
      * если нужно проверить что элемент не отображается на странице, но проверки Selenium отрабатывают неверно,
@@ -528,7 +450,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Проверка, что элемент не содержит указанный класс
      */
     @Тогда("^элемент \"([^\"]*)\" не содержит класс со значением \"(.*)\"$")
@@ -541,7 +462,6 @@ public class DefaultWebSteps {
 
 
     /**
-     * @author Anton Pavlov
      * Проверка, что значение в поле содержит значение (в приоритете: из property, из переменной сценария, значение аргумента),
      * указанное в шаге
      */
@@ -553,7 +473,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Проверка, что значение в поле содержит текст, указанный в шаге
      * (в приоритете: из property, из переменной сценария, значение аргумента).
      * Используется метод innerText(), который получает как видимый, так и скрытый текст из элемента,
@@ -568,7 +487,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Проверка, что значение в поле равно значению, указанному в шаге (в приоритете: из property, из переменной сценария, значение аргумента)
      */
     @Тогда("^значение (?:поля|элемента) \"([^\"]*)\" равно \"(.*)\"$")
@@ -579,7 +497,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Проверка, что кнопка/ссылка недоступна для нажатия
      */
     @Тогда("^(?:ссылка|кнопка) \"([^\"]*)\" недоступна для нажатия$")
@@ -589,7 +506,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Проверка, что поле нередактируемо
      */
     @Тогда("^(?:поле|элемент) \"([^\"]*)\" (?:недоступно|недоступен) для редактирования$")
@@ -599,7 +515,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Проверка, что список со страницы совпадает со списком из переменной
      * без учёта порядка элементов
      */
@@ -612,7 +527,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Проверка, что на странице не отображаются редактируемые элементы, такие как:
      * -input
      * -textarea
@@ -632,7 +546,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Добавление строки (в приоритете: из property, из переменной сценария, значение аргумента) в поле к уже заполненой строке
      */
     @Когда("^в элемент \"([^\"]*)\" дописывается значение \"(.*)\"$")
@@ -648,7 +561,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Нажатие на элемент по его тексту (в приоритете: из property, из переменной сценария, значение аргумента)
      */
     @И("^выполнено нажатие на элемент с текстом \"(.*)\"$")
@@ -657,7 +569,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Ввод в поле текущей даты в заданном формате
      * При неверном формате, используется dd.MM.yyyy
      */
@@ -678,7 +589,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Ввод в поле указанного текста (в приоритете: из property, из переменной сценария, значение аргумента),
      * используя буфер обмена и клавиши SHIFT + INSERT
      */
@@ -694,7 +604,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Выполняется поиск нужного файла в папке /Downloads
      * Поиск осуществляется по содержанию ожидаемого текста в названии файла. Можно передавать регулярное выражение.
      * После выполнения проверки файл удаляется
@@ -711,7 +620,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Скроллит экран до нужного элемента, имеющегося на странице, но видимого только в нижней/верхней части страницы.
      */
     @Тогда("^страница прокручена до элемента \"([^\"]*)\"")
@@ -720,7 +628,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Выбор из списка со страницы любого случайного элемента
      */
     @Тогда("^выбран любой элемент в списке \"([^\"]*)\"$")
@@ -732,7 +639,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Выбор из списка со страницы любого случайного элемента и сохранение его значения в переменную
      */
     @Когда("^выбран любой элемент из списка \"([^\"]*)\" и его значение сохранено в переменную \"([^\"]*)\"$")
@@ -746,7 +652,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Выбор n-го элемента из списка со страницы
      * Нумерация элементов начинается с 1
      */
@@ -765,7 +670,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Проверка, что каждый элемент списка содержит ожидаемый текст
      * Не чувствителен к регистру
      */
@@ -781,7 +685,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Проверка, что каждый элемент списка не содержит ожидаемый текст
      */
     @Тогда("^элементы списка \"([^\"]*)\" не содержат текст \"([^\"]*)\"$")
@@ -796,7 +699,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Ввод в поле случайной последовательности латинских или кириллических букв задаваемой длины
      */
     @Когда("^в поле \"([^\"]*)\" введено (\\d+) случайных символов на (кириллице|латинице)$")
@@ -812,7 +714,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Ввод в поле случайной последовательности латинских или кириллических букв задаваемой длины и сохранение этого значения в переменную
      */
     @Когда("^в поле \"([^\"]*)\" введено (\\d+) случайных символов на (кириллице|латинице) и сохранено в переменную \"([^\"]*)\"$")
@@ -829,7 +730,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Ввод в поле случайной последовательности цифр задаваемой длины
      */
     @Когда("^в поле \"([^\"]*)\" введено случайное число из (\\d+) (?:цифр|цифры)$")
@@ -842,7 +742,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Ввод в поле случайной последовательности цифр задаваемой длины и сохранение этого значения в переменную
      */
     @Когда("^в поле \"([^\"]*)\" введено случайное число из (\\d+) (?:цифр|цифры) и сохранено в переменную \"([^\"]*)\"$")
@@ -857,7 +756,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Проход по списку и проверка текста у элемента на соответствие формату регулярного выражения
      */
     @И("элементы списка \"([^\"]*)\" соответствуют формату \"([^\"]*)\"$")
@@ -870,7 +768,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Выполняется запуск js-скрипта с указанием в js.executeScript его логики
      * Скрипт можно передать как аргумент метода или значение из application.properties
      */
@@ -881,7 +778,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Производится проверка количества символов в поле со значением, указанным в шаге
      */
     @Тогда("^в поле \"([^\"]*)\" содержится (\\d+) символов$")
@@ -891,7 +787,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Производится проверка соответствия числа элементов списка значению, указанному в шаге
      */
     @Тогда("^в списке \"([^\"]*)\" содержится (\\d+) (?:элемент|элементов|элемента)")
@@ -901,7 +796,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Производится проверка соответствия числа элементов списка значению из property файла, из переменной сценария или указанному в шаге
      */
     @Тогда("^в списке \"([^\"]*)\" содержится количество элементов, равное значению из переменной \"([^\"]*)\"")
@@ -911,7 +805,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Производится сопоставление числа элементов списка и значения, указанного в шаге
      */
     @Тогда("^в списке \"([^\"]*)\" содержится (более|менее) (\\d+) (?:элементов|элемента)")
@@ -924,7 +817,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Скроллит страницу вниз до появления элемента каждую секунду.
      * Если достигнут футер страницы и элемент не найден - выбрасывается exception.
      */
@@ -943,7 +835,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Скроллит страницу вниз до появления элемента с текстом из property файла, из переменной сценария или указанному в шаге каждую секунду.
      * Если достигнут футер страницы и элемент не найден - выбрасывается exception.
      */
@@ -1006,9 +897,7 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @return
-     * @author Anton Pavlov
-     * Возвращает значение из property файла, если отсутствует, то из пользовательских переменных,
+     * @return Возвращает значение из property файла, если отсутствует, то из пользовательских переменных,
      * если и оно отсутствует, то возвращает значение переданной на вход переменной
      */
     public static String getPropertyOrStringVariableOrValue(String propertyNameOrVariableNameOrValue) {
@@ -1032,9 +921,7 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @return
-     * @author Anton Pavlov
-     * Возвращает каталог "Downloads" в домашней директории
+     * @return Возвращает каталог "Downloads" в домашней директории
      */
     private File getDownloadsDir() {
         String homeDir = System.getProperty("user.home");
@@ -1043,8 +930,7 @@ public class DefaultWebSteps {
 
     /**
      * @param filesToDelete массив файлов
-     * @author Anton Pavlov
-     * Удаляет файлы, переданные в метод
+     *                      Удаляет файлы, переданные в метод
      */
     private void deleteFiles(File[] filesToDelete) {
         for (File file : filesToDelete) {
@@ -1054,15 +940,13 @@ public class DefaultWebSteps {
 
     /**
      * @param maxValueInRange максимальная граница диапазона генерации случайных чисел
-     * @author Anton Pavlov
-     * Возвращает случайное число от нуля до maxValueInRange
+     *                        Возвращает случайное число от нуля до maxValueInRange
      */
     private int getRandom(int maxValueInRange) {
         return (int) (Math.random() * maxValueInRange);
     }
 
     /**
-     * @author Anton Pavlov
      * Возвращает последовательность случайных символов переданных алфавита и длины
      * Принимает на вход варианты языков 'ru' и 'en'
      * Для других входных параметров возвращает латинские символы (en)
@@ -1078,7 +962,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Возвращает случайный символ переданного алфавита
      */
     private char charGenerator(String lang) {
@@ -1091,7 +974,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Проверка на соответствие строки паттерну
      */
     public boolean isTextMatches(String str, String pattern) {
@@ -1101,7 +983,6 @@ public class DefaultWebSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Возвращает локатор для поиска по нормализованному(без учета регистра) тексту
      */
     public String getTranslateNormalizeSpaceText(String expectedText) {

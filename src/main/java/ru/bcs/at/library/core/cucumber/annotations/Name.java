@@ -19,8 +19,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * <h1>Аннотация "Название" для элементов страницы</h1>
+ * <p>Необходима индентификации элементов в cucumber-сценариях</p>
+ *
  * @author Anton Pavlov
- * Аннотация для элементов страницы, служащая для их индентификации в cucumber-сценариях
  */
 @Target({ElementType.FIELD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)

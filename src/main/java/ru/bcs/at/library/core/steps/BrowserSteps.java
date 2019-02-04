@@ -33,20 +33,20 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadProperty;
 import static ru.bcs.at.library.core.cucumber.ScopedVariables.resolveVars;
-import static ru.bcs.at.library.core.steps.DefaultWebSteps.getPropertyOrStringVariableOrValue;
+import static ru.bcs.at.library.core.steps.WebElementSteps.getPropertyOrStringVariableOrValue;
 
 /**
  * Шаги для работы с браузером
+ *
+ * @author Anton Pavlov
  */
 @Log4j2
-public class DefaultManageBrowserSteps {
+public class BrowserSteps {
 
-    private DefaultWebSteps ds = new DefaultWebSteps();
     private CoreScenario coreScenario = CoreScenario.getInstance();
 
     /**
-     * @author Anton Pavlov
-     * Удаляем все cookies
+     * <p>Удалить все cookies</p>
      */
     @Когда("^cookies приложения очищены$")
     public void deleteCookies() {
@@ -54,7 +54,6 @@ public class DefaultManageBrowserSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Ищем cookie по имени. Сохраняем cookie в переменную для дальнейшего использования
      */
     @Когда("^cookie с именем \"([^\"]*)\" сохранена в переменную \"([^\"]*)\"$")
@@ -65,7 +64,6 @@ public class DefaultManageBrowserSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Сохраняем все cookies в переменную для дальнейшего использования
      */
     @Когда("^cookies сохранены в переменную \"([^\"]*)\"$")
@@ -75,7 +73,6 @@ public class DefaultManageBrowserSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Находим cookie по имени и подменяем ее значение. Имя cookie и домен не меняются
      */
     @Когда("^добавлена cookie с именем \"([^\"]*)\" и значением \"([^\"]*)\"$")
@@ -86,7 +83,6 @@ public class DefaultManageBrowserSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Переключение на следующую вкладку браузера
      */
     @Когда("выполнено переключение на следующую вкладку")
@@ -97,7 +93,6 @@ public class DefaultManageBrowserSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Переключение на вкладку браузера с заголовком
      */
     @Когда("^выполнено переключение на вкладку с заголовком \"([^\"]*)\"$")
@@ -107,7 +102,6 @@ public class DefaultManageBrowserSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Производится сравнение заголовка страницы со значением, указанным в шаге
      * (в приоритете: из property, из переменной сценария, значение аргумента)
      */
@@ -120,7 +114,6 @@ public class DefaultManageBrowserSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Производится сохранение заголовка страницы в переменную
      */
     @И("^заголовок страницы сохранен в переменную \"([^\"]*)\"$")
@@ -131,7 +124,6 @@ public class DefaultManageBrowserSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Производится закрытие текущей вкладки
      */
     @И("выполнено закрытие текущей вкладки")
@@ -144,7 +136,6 @@ public class DefaultManageBrowserSteps {
      * @param variableName         - имя переменной
      *                             Значение заданной переменной из application.properties сохраняется в переменную в coreScenario
      *                             для дальнейшего использования
-     * @author Anton Pavlov
      */
     @И("^сохранено значение \"([^\"]*)\" из property файла в переменную \"([^\"]*)\"$")
     public void saveValueToVar(String propertyVariableName, String variableName) {
@@ -154,7 +145,6 @@ public class DefaultManageBrowserSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Выполняется обновление страницы
      */
     @И("^выполнено обновление текущей страницы$")
@@ -163,7 +153,6 @@ public class DefaultManageBrowserSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Выполняется переход по заданной ссылке,
      * Ссылка берется из property / переменной по ключу @param address, если такая переменная не найдена,
      * то берется переданное значение
@@ -178,7 +167,6 @@ public class DefaultManageBrowserSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Проверка, что текущий URL совпадает с ожидаемым
      * (берется из property / переменной, если такая переменная не найдена,
      * то берется переданное значение)
@@ -191,7 +179,6 @@ public class DefaultManageBrowserSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Проверка, что текущий URL не совпадает с ожидаемым
      * (берется из property / переменной, если такая переменная не найдена,
      * то берется переданное значение)
@@ -204,7 +191,6 @@ public class DefaultManageBrowserSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Устанавливает размеры окна браузера
      */
     @И("^установлено разрешение экрана (\\d+) х (\\d+)$")
@@ -214,7 +200,6 @@ public class DefaultManageBrowserSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Разворачивает окно с браузером на весь экран
      */
     @Если("^окно развернуто на весь экран$")
@@ -224,7 +209,6 @@ public class DefaultManageBrowserSteps {
 
 
     /**
-     * @author Anton Pavlov
      * Выполняется переход в конец страницы
      */
     @И("^совершен переход в конец страницы$")
@@ -234,9 +218,17 @@ public class DefaultManageBrowserSteps {
         actions.keyUp(Keys.CONTROL).perform();
     }
 
+    @И("^написание автотеста в работе$")
+    public void pendingException() {
+        throw new cucumber.api.PendingException("написание автотеста в работе");
+    }
+
+    @И("^автотест реализован на старом фреймворке$")
+    public void oldFramework() {
+        throw new cucumber.api.PendingException("автотест реализован на старом фреймворке");
+    }
 
     /**
-     * @author Anton Pavlov
      * Метод осуществляет снятие скриншота и прикрепление его к cucumber отчету.
      */
     @И("^снят скриншот текущей страницы$")

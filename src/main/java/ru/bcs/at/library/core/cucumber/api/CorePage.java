@@ -33,17 +33,16 @@ import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadProperty;
 
 /**
  * Класс для реализации паттерна PageObject
+ * @author Anton Pavlov
  */
 @Log4j2
 public abstract class CorePage extends ElementsContainer {
     /**
-     * @author Anton Pavlov
      * Стандартный таймаут ожидания элементов в миллисекундах
      */
     private static final String WAITING_APPEAR_TIMEOUT_IN_MILLISECONDS = "20000";
 
     /**
-     * @author Anton Pavlov
      * Получение блока со страницы по имени (аннотированного "Name")
      */
     public CorePage getBlock(String blockName) {
@@ -52,7 +51,6 @@ public abstract class CorePage extends ElementsContainer {
     }
 
     /**
-     * @author Anton Pavlov
      * Получение списка блоков со страницы по имени (аннотированного "Name")
      */
     @SuppressWarnings("unchecked")
@@ -66,7 +64,6 @@ public abstract class CorePage extends ElementsContainer {
     }
 
     /**
-     * @author Anton Pavlov
      * Получение списка из элементов блока со страницы по имени (аннотированного "Name")
      */
     public List<SelenideElement> getBlockElements(String blockName) {
@@ -75,7 +72,6 @@ public abstract class CorePage extends ElementsContainer {
     }
 
     /**
-     * @author Anton Pavlov
      * Получение элемента блока со страницы по имени (аннотированного "Name")
      */
     public SelenideElement getBlockElement(String blockName, String elementName) {
@@ -83,7 +79,6 @@ public abstract class CorePage extends ElementsContainer {
     }
 
     /**
-     * @author Anton Pavlov
      * Получение элемента со страницы по имени (аннотированного "Name")
      */
     public SelenideElement getElement(String elementName) {
@@ -92,7 +87,6 @@ public abstract class CorePage extends ElementsContainer {
     }
 
     /**
-     * @author Anton Pavlov
      * Получение элемента-списка со страницы по имени
      */
     @SuppressWarnings("unchecked")
@@ -106,7 +100,6 @@ public abstract class CorePage extends ElementsContainer {
     }
 
     /**
-     * @author Anton Pavlov
      * Получение текстов всех элементов, содержащихся в элементе-списке,
      * состоящего как из редактируемых полей, так и статичных элементов по имени
      * Используется метод innerText(), который получает как видимый, так и скрытый текст из элемента,
@@ -123,7 +116,6 @@ public abstract class CorePage extends ElementsContainer {
     }
 
     /**
-     * @author Anton Pavlov
      * Получение текста элемента, как редактируемого поля, так и статичного элемента по имени
      */
     public String getAnyElementText(String elementName) {
@@ -131,7 +123,6 @@ public abstract class CorePage extends ElementsContainer {
     }
 
     /**
-     * @author Anton Pavlov
      * Получение текста элемента, как редактируемого поля, так и статичного элемента по значению элемента
      */
     public String getAnyElementText(SelenideElement element) {
@@ -143,7 +134,6 @@ public abstract class CorePage extends ElementsContainer {
     }
 
     /**
-     * @author Anton Pavlov
      * Получение текстов всех элементов, содержащихся в элементе-списке,
      * состоящего как из редактируемых полей, так и статичных элементов по имени
      */
@@ -158,7 +148,6 @@ public abstract class CorePage extends ElementsContainer {
     }
 
     /**
-     * @author Anton Pavlov
      * Получение всех элементов страницы, не помеченных аннотацией "Optional"
      */
     public List<SelenideElement> getPrimaryElements() {
@@ -169,7 +158,6 @@ public abstract class CorePage extends ElementsContainer {
     }
 
     /**
-     * @author Anton Pavlov
      * Обертка над CorePage.isAppeared
      * Ex: CorePage.appeared().doSomething();
      */
@@ -179,7 +167,6 @@ public abstract class CorePage extends ElementsContainer {
     }
 
     /**
-     * @author Anton Pavlov
      * Обертка над CorePage.isDisappeared
      * Ex: CorePage.disappeared().doSomething();
      */
@@ -189,7 +176,6 @@ public abstract class CorePage extends ElementsContainer {
     }
 
     /**
-     * @author Anton Pavlov
      * Проверка появления всех элементов страницы, не помеченных аннотацией "Optional"
      */
     protected void isAppeared() {
@@ -211,7 +197,6 @@ public abstract class CorePage extends ElementsContainer {
     }
 
     /**
-     * @author Anton Pavlov
      * Проверка, что все элементы страницы, не помеченные аннотацией "Optional", исчезли
      */
     protected void isDisappeared() {
@@ -221,7 +206,6 @@ public abstract class CorePage extends ElementsContainer {
     }
 
     /**
-     * @author Anton Pavlov
      * Обертка над CorePage.isAppearedInIe
      * Ex: CorePage.ieAppeared().doSomething();
      * Используется при работе с IE
@@ -232,7 +216,6 @@ public abstract class CorePage extends ElementsContainer {
     }
 
     /**
-     * @author Anton Pavlov
      * Обертка над CorePage.isDisappearedInIe
      * Ex: CorePage.ieDisappeared().doSomething();
      * Используется при работе с IE
@@ -243,7 +226,6 @@ public abstract class CorePage extends ElementsContainer {
     }
 
     /**
-     * @author Anton Pavlov
      * Проверка появления всех элементов страницы, не помеченных аннотацией "Optional".
      * Вместо parallelStream используется stream из-за медленной работы IE
      */
@@ -255,7 +237,6 @@ public abstract class CorePage extends ElementsContainer {
     }
 
     /**
-     * @author Anton Pavlov
      * Проверка, что все элементы страницы, не помеченные аннотацией "Optional", исчезли
      * Вместо parallelStream используется stream из-за медленной работы IE
      */
@@ -303,7 +284,6 @@ public abstract class CorePage extends ElementsContainer {
     }
 
     /**
-     * @author Anton Pavlov
      * Поиск элемента по имени внутри списка элементов
      */
     public static SelenideElement getButtonFromListByName(List<SelenideElement> listButtons, String nameOfButton) {
@@ -315,7 +295,6 @@ public abstract class CorePage extends ElementsContainer {
     }
 
     /**
-     * @author Anton Pavlov
      * Приведение объекта к типу SelenideElement
      */
     private static SelenideElement castToSelenideElement(Object object) {
@@ -333,12 +312,10 @@ public abstract class CorePage extends ElementsContainer {
     }
 
     /**
-     * @author Anton Pavlov
      * Список всех элементов страницы
      */
     private Map<String, Object> namedElements;
     /**
-     * @author Anton Pavlov
      * Список элементов страницы, не помеченных аннотацией "Optional"
      */
     private List<SelenideElement> primaryElements;
@@ -356,7 +333,6 @@ public abstract class CorePage extends ElementsContainer {
     }
 
     /**
-     * @author Anton Pavlov
      * Поиск и инициализации элементов страницы
      */
     private Map<String, Object> readNamedElements() {
@@ -383,7 +359,6 @@ public abstract class CorePage extends ElementsContainer {
     }
 
     /**
-     * @author Anton Pavlov
      * Поиск по аннотации "Name"
      */
     private void checkNamedAnnotations() {
@@ -397,7 +372,6 @@ public abstract class CorePage extends ElementsContainer {
     }
 
     /**
-     * @author Anton Pavlov
      * Поиск и инициализации элементов страницы без аннотации Optional
      */
     private List<SelenideElement> readWithWrappedElements() {

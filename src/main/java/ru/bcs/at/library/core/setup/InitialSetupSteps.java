@@ -11,7 +11,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ru.bcs.at.library.core.steps;
+package ru.bcs.at.library.core.setup;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
@@ -40,6 +40,9 @@ import static com.codeborne.selenide.Configuration.browser;
 import static com.codeborne.selenide.WebDriverRunner.*;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadProperty;
 
+/**
+ * @author Anton Pavlov
+ */
 @Log4j2
 public class InitialSetupSteps {
 
@@ -49,7 +52,6 @@ public class InitialSetupSteps {
     private static boolean turnOnAllureListener = false;
 
     /**
-     * @author Anton Pavlov
      * Действия выполняемые перед каждым сценарием
      */
     @Before
@@ -68,7 +70,6 @@ public class InitialSetupSteps {
         }
 
         /**
-         * @author Anton Pavlov
          * Если сценарий содержит тег @web" то будет создан WebDriver
          */
         boolean webTest = scenario.getSourceTagNames().contains("@web");
@@ -77,7 +78,6 @@ public class InitialSetupSteps {
         }
 
         /**
-         * @author Anton Pavlov
          * Создает окружение(среду) для запуска сценария
          *
          * @param scenario сценарий
@@ -88,7 +88,6 @@ public class InitialSetupSteps {
 
 
     /**
-     * @author Anton Pavlov
      * По завершению теста удаляет все куки и закрывает веб-браузер
      */
     @After
@@ -102,12 +101,10 @@ public class InitialSetupSteps {
     }
 
     /**
-     * @author Anton Pavlov
      * Создание WebDriver
      */
     private void startWebTest(Scenario scenario) throws MalformedURLException {
         /**
-         * @author Anton Pavlov
          * Создает настойки прокси для запуска драйвера
          */
         if (!Strings.isNullOrEmpty(System.getProperty("proxy"))) {
@@ -117,7 +114,6 @@ public class InitialSetupSteps {
         }
 
         /**
-         * @author Anton Pavlov
          * Уведомление о месте запуска тестов
          */
         if (Strings.isNullOrEmpty(Configuration.remote)) {
@@ -141,12 +137,10 @@ public class InitialSetupSteps {
         }
 
         /**
-         * @author Anton Pavlov
          * Устанавливает разрешения экрана
          */
         getWebDriver().manage().window().setSize(new Dimension(1920, 1080));
         /**
-         * @author Anton Pavlov
          * Удаляет все cookies
          */
         getWebDriver().manage().deleteAllCookies();

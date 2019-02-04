@@ -21,8 +21,9 @@ import java.lang.annotation.Annotation;
 import java.util.Set;
 
 /**
+ * <h1>Reflections</h1>
+ * <p>Для поиска классов с заданной аннотацией среди всех классов в проекте на основе механизма рефлексии</p>
  * @author Anton Pavlov
- * Для поиска классов с заданной аннотацией среди всех классов в проекте на основе механизма рефлексии
  */
 public class AnnotationScanner {
 

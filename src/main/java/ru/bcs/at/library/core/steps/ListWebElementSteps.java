@@ -21,15 +21,16 @@ import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 import java.util.stream.Collectors;
 
 /**
- * Шаги для работы с блоками со страницы, доступные по умолчанию в каждом новом проекте
+ * Шаги для работы с списком элементов
+ *
+ * @author Anton Pavlov
  */
 @Log4j2
-public class DefaultPageElementSteps {
+public class ListWebElementSteps {
 
     private CoreScenario coreScenario = CoreScenario.getInstance();
 
     /**
-     * @author Anton Pavlov
      * На странице происходит клик по заданному элементу в блоке
      */
     @И("^выполнено нажатие на (?:кнопку|поле) \"([^\"]*)\" в блоке \"([^\"]*)\"$")

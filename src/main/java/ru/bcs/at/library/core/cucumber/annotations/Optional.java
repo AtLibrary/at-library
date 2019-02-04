@@ -19,9 +19,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * <h1>Аннотация "Optional" для элементов страницы</h1>
+ * <p>Необходима для отключения проверки появления элемента после загрузки страницы</p>
+ *
  * @author Anton Pavlov
- * Аннотация для элементов страницы,
- * служащая для отключения проверки появления элемента после загрузки страницы
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
