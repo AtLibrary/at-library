@@ -2,9 +2,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
+ * <p style="color: green; font-size: 1.5em">
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ * <p style="color: green; font-size: 1.5em">
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -55,18 +55,21 @@ import static org.junit.Assert.*;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.*;
 import static ru.bcs.at.library.core.cucumber.ScopedVariables.resolveVars;
 
+
 /**
- * В coreScenario используется хранилище переменных. Для сохранения/изъятия переменных используются методы setVar/getVar
+ * <h1 style="color: green; font-size: 2.2em">Шаги для тестирования WEB</h1>
+ *
+ * <p style="color: green; font-size: 1.5em">В coreScenario используется хранилище переменных. Для сохранения/изъятия переменных используются методы setVar/getVar
  * Каждая страница, с которой предполагается взаимодействие, должна быть описана в соответствующем классе,
  * наследующем CorePage. Для каждого элемента следует задать имя на русском, через аннотацию @Name, чтобы искать
  * можно было именно по русскому описанию, а не по селектору. Селекторы следует хранить только в классе страницы,
- * не в степах, в степах - взаимодействие по русскому названию элемента.
+ * не в степах, в степах - взаимодействие по русскому названию элемента.</p>
  *
  * @author Anton Pavlov
  */
 
 @Log4j2
-public class WebElementSteps {
+public class WebSteps {
 
     private CoreScenario coreScenario = CoreScenario.getInstance();
 
@@ -357,7 +360,6 @@ public class WebElementSteps {
         coreScenario.setVar(variableName, coreScenario.getCurrentPage().getAnyElementText(elementName));
         coreScenario.write("Значение [" + coreScenario.getCurrentPage().getAnyElementText(elementName) + "] сохранено в переменную [" + variableName + "]");
     }
-
 
 
     /**

@@ -2,9 +2,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
+ * <p style="color: green; font-size: 1.5em">
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ * <p style="color: green; font-size: 1.5em">
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,10 +33,10 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadProperty;
 import static ru.bcs.at.library.core.cucumber.ScopedVariables.resolveVars;
-import static ru.bcs.at.library.core.steps.WebElementSteps.getPropertyOrStringVariableOrValue;
+import static ru.bcs.at.library.core.steps.WebSteps.getPropertyOrStringVariableOrValue;
 
 /**
- * Шаги для работы с браузером
+ * <h1 style="color: green; font-size: 2.2em">Шаги для работы с браузером</h1>
  *
  * @author Anton Pavlov
  */
@@ -45,45 +45,50 @@ public class BrowserSteps {
 
     private CoreScenario coreScenario = CoreScenario.getInstance();
 
+
     /**
-     * <p>Удалить все cookies</p>
+     * <p style="color: green; font-size: 1.5em">Выполняется переход по заданной ссылке,
+     *
+     * @param address Ссылка берется из property / переменной по ключу, если такая переменная не найдена,
+     *                то берется переданное значение
+     *                при этом все ключи переменных в фигурных скобках
+     *                меняются на их значения из хранилища coreScenario</p>
      */
-    @Когда("^cookies приложения очищены$")
-    public void deleteCookies() {
-        clearBrowserCookies();
+    @Когда("^совершен переход по ссылке \"([^\"]*)\"$")
+    public void goToUrl(String address) {
+        String url = resolveVars(getPropertyOrStringVariableOrValue(address));
+        open(url);
+        coreScenario.write("Url = " + url);
     }
 
     /**
-     * Ищем cookie по имени. Сохраняем cookie в переменную для дальнейшего использования
+     * <p style="color: green; font-size: 1.5em">Проверка, что текущий URL совпадает с ожидаемым
+     *
+     * @param url (берется из property / переменной, если такая переменная не найдена,
+     *            то берется переданное значение)</p>
      */
-    @Когда("^cookie с именем \"([^\"]*)\" сохранена в переменную \"([^\"]*)\"$")
-    public void saveCookieToVar(String nameCookie, String cookieVar) {
-        String cookieName = resolveVars(nameCookie);
-        Cookie var = getWebDriver().manage().getCookieNamed(cookieName);
-        coreScenario.setVar(cookieVar, var);
+    @Тогда("^текущий URL равен \"([^\"]*)\"$")
+    public void checkCurrentURL(String url) {
+        String currentUrl = url();
+        String expectedUrl = resolveVars(getPropertyOrStringVariableOrValue(url));
+        assertThat("Текущий URL не совпадает с ожидаемым", currentUrl, is(expectedUrl));
     }
 
     /**
-     * Сохраняем все cookies в переменную для дальнейшего использования
+     * <p style="color: green; font-size: 1.5em">Проверка, что текущий URL не совпадает с ожидаемым
+     *
+     * @param url (берется из property / переменной, если такая переменная не найдена,
+     *            то берется переданное значение)</p>
      */
-    @Когда("^cookies сохранены в переменную \"([^\"]*)\"$")
-    public void saveAllCookies(String variableName) {
-        Set cookies = getWebDriver().manage().getCookies();
-        coreScenario.setVar(variableName, cookies);
+    @Тогда("^текущий URL не равен \"([^\"]*)\"$")
+    public void checkCurrentURLIsNotEquals(String url) {
+        String currentUrl = url();
+        String expectedUrl = resolveVars(getPropertyOrStringVariableOrValue(url));
+        assertThat("Текущий URL совпадает с ожидаемым", currentUrl, Matchers.not(expectedUrl));
     }
 
     /**
-     * Находим cookie по имени и подменяем ее значение. Имя cookie и домен не меняются
-     */
-    @Когда("^добавлена cookie с именем \"([^\"]*)\" и значением \"([^\"]*)\"$")
-    public void replaceCookie(String cookieName, String cookieValue) {
-        String nameCookie = resolveVars(cookieName);
-        String valueCookie = resolveVars(cookieValue);
-        getWebDriver().manage().addCookie(new Cookie(nameCookie, valueCookie));
-    }
-
-    /**
-     * Переключение на следующую вкладку браузера
+     * <p style="color: green; font-size: 1.5em">Переключение на следующую вкладку браузера</p>
      */
     @Когда("выполнено переключение на следующую вкладку")
     public void switchToTheNextTab() {
@@ -93,7 +98,25 @@ public class BrowserSteps {
     }
 
     /**
-     * Переключение на вкладку браузера с заголовком
+     * <p style="color: green; font-size: 1.5em">Выполняется обновление страницы</p>
+     */
+    @И("^выполнено обновление текущей страницы$")
+    public void refreshPage() {
+        refresh();
+    }
+
+    /**
+     * <p style="color: green; font-size: 1.5em">Производится закрытие текущей вкладки</p>
+     */
+    @И("выполнено закрытие текущей вкладки")
+    public void closeCurrentTab() {
+        getWebDriver().close();
+    }
+
+    /**
+     * <p style="color: green; font-size: 1.5em">Переключение на вкладку браузера с заголовком</p>
+     *
+     * @param title заголовок вкладки
      */
     @Когда("^выполнено переключение на вкладку с заголовком \"([^\"]*)\"$")
     public void switchToTheTabWithTitle(String title) {
@@ -102,8 +125,10 @@ public class BrowserSteps {
     }
 
     /**
-     * Производится сравнение заголовка страницы со значением, указанным в шаге
-     * (в приоритете: из property, из переменной сценария, значение аргумента)
+     * <p style="color: green; font-size: 1.5em">Производится сравнение заголовка страницы со значением, указанным в шаге
+     * (в приоритете: из property, из переменной сценария, значение аргумента)</p>
+     *
+     * @param pageTitleName ожидаемый заголовок текущей вкладки
      */
     @Тогда("^заголовок страницы равен \"([^\"]*)\"$")
     public void checkPageTitle(String pageTitleName) {
@@ -114,7 +139,9 @@ public class BrowserSteps {
     }
 
     /**
-     * Производится сохранение заголовка страницы в переменную
+     * <p style="color: green; font-size: 1.5em">Производится сохранение заголовка страницы в переменную</p>
+     *
+     * @param variableName имя переменной
      */
     @И("^заголовок страницы сохранен в переменную \"([^\"]*)\"$")
     public void savePageTitleToVariable(String variableName) {
@@ -124,74 +151,10 @@ public class BrowserSteps {
     }
 
     /**
-     * Производится закрытие текущей вкладки
-     */
-    @И("выполнено закрытие текущей вкладки")
-    public void closeCurrentTab() {
-        getWebDriver().close();
-    }
-
-    /**
-     * @param propertyVariableName - ключ в файле application.properties
-     * @param variableName         - имя переменной
-     *                             Значение заданной переменной из application.properties сохраняется в переменную в coreScenario
-     *                             для дальнейшего использования
-     */
-    @И("^сохранено значение \"([^\"]*)\" из property файла в переменную \"([^\"]*)\"$")
-    public void saveValueToVar(String propertyVariableName, String variableName) {
-        propertyVariableName = loadProperty(propertyVariableName);
-        coreScenario.setVar(variableName, propertyVariableName);
-        coreScenario.write("Значение сохраненной переменной " + propertyVariableName);
-    }
-
-    /**
-     * Выполняется обновление страницы
-     */
-    @И("^выполнено обновление текущей страницы$")
-    public void refreshPage() {
-        refresh();
-    }
-
-    /**
-     * Выполняется переход по заданной ссылке,
-     * Ссылка берется из property / переменной по ключу @param address, если такая переменная не найдена,
-     * то берется переданное значение
-     * при этом все ключи переменных в фигурных скобках
-     * меняются на их значения из хранилища coreScenario
-     */
-    @Когда("^совершен переход по ссылке \"([^\"]*)\"$")
-    public void goToUrl(String address) {
-        String url = resolveVars(getPropertyOrStringVariableOrValue(address));
-        open(url);
-        coreScenario.write("Url = " + url);
-    }
-
-    /**
-     * Проверка, что текущий URL совпадает с ожидаемым
-     * (берется из property / переменной, если такая переменная не найдена,
-     * то берется переданное значение)
-     */
-    @Тогда("^текущий URL равен \"([^\"]*)\"$")
-    public void checkCurrentURL(String url) {
-        String currentUrl = url();
-        String expectedUrl = resolveVars(getPropertyOrStringVariableOrValue(url));
-        assertThat("Текущий URL не совпадает с ожидаемым", currentUrl, is(expectedUrl));
-    }
-
-    /**
-     * Проверка, что текущий URL не совпадает с ожидаемым
-     * (берется из property / переменной, если такая переменная не найдена,
-     * то берется переданное значение)
-     */
-    @Тогда("^текущий URL не равен \"([^\"]*)\"$")
-    public void checkCurrentURLIsNotEquals(String url) {
-        String currentUrl = url();
-        String expectedUrl = resolveVars(getPropertyOrStringVariableOrValue(url));
-        assertThat("Текущий URL совпадает с ожидаемым", currentUrl, Matchers.not(expectedUrl));
-    }
-
-    /**
-     * Устанавливает размеры окна браузера
+     * <p style="color: green; font-size: 1.5em">Устанавливает размеры окна браузера</p>
+     *
+     * @param width ширина
+     * @param height высота
      */
     @И("^установлено разрешение экрана (\\d+) х (\\d+)$")
     public void setBrowserWindowSize(int width, int height) {
@@ -200,7 +163,7 @@ public class BrowserSteps {
     }
 
     /**
-     * Разворачивает окно с браузером на весь экран
+     * <p style="color: green; font-size: 1.5em">Разворачивает окно с браузером на весь экран</p>
      */
     @Если("^окно развернуто на весь экран$")
     public void expandWindowToFullScreen() {
@@ -209,7 +172,7 @@ public class BrowserSteps {
 
 
     /**
-     * Выполняется переход в конец страницы
+     * <p style="color: green; font-size: 1.5em">Выполняется переход в конец страницы</p>
      */
     @И("^совершен переход в конец страницы$")
     public void scrollDown() {
@@ -218,23 +181,62 @@ public class BrowserSteps {
         actions.keyUp(Keys.CONTROL).perform();
     }
 
-    @И("^написание автотеста в работе$")
-    public void pendingException() {
-        throw new cucumber.api.PendingException("написание автотеста в работе");
-    }
-
-    @И("^автотест реализован на старом фреймворке$")
-    public void oldFramework() {
-        throw new cucumber.api.PendingException("автотест реализован на старом фреймворке");
-    }
 
     /**
-     * Метод осуществляет снятие скриншота и прикрепление его к cucumber отчету.
+     * <p style="color: green; font-size: 1.5em">Метод осуществляет снятие скриншота и прикрепление его к cucumber отчету.</p>
      */
     @И("^снят скриншот текущей страницы$")
     public void takeScreenshot() {
         final byte[] screenshot = ((TakesScreenshot) getWebDriver()).getScreenshotAs(OutputType.BYTES);
         CoreScenario.getInstance().getScenario().embed(screenshot, "image/png");
+    }
+
+    /**
+     * <p style="color: green; font-size: 1.5em">Удалить все cookies</p>
+     */
+    @Когда("^cookies приложения очищены$")
+    public void deleteCookies() {
+        clearBrowserCookies();
+    }
+
+    /**
+     * <p style="color: green; font-size: 1.5em">Поиск cookie по имени.
+     * Сохранение cookie в переменную для дальнейшего использования</p>
+     *
+     * @param nameCookie   имя cookie
+     * @param variableName имя переменной
+     */
+    @Когда("^cookie с именем \"([^\"]*)\" сохранена в переменную \"([^\"]*)\"$")
+    public void saveCookieToVar(String nameCookie, String variableName) {
+        String cookieName = resolveVars(nameCookie);
+        Cookie var = getWebDriver().manage().getCookieNamed(cookieName);
+        coreScenario.setVar(variableName, var);
+    }
+
+    /**
+     * <p style="color: green; font-size: 1.5em">Сохраняем все cookies в переменную для дальнейшего использования</p>
+     *
+     * @param variableName имя переменной
+     */
+    @Когда("^cookies сохранены в переменную \"([^\"]*)\"$")
+    public void saveAllCookies(String variableName) {
+        Set cookies = getWebDriver().manage().getCookies();
+        coreScenario.setVar(variableName, cookies);
+    }
+
+
+    /**
+     * <p style="color: green; font-size: 1.5em">Находим cookie по имени и подменяем ее значение.
+     * Имя cookie и домен не меняются</p>
+     *
+     * @param cookieName  имя cookie
+     * @param cookieValue значение cookie
+     */
+    @Когда("^добавлена cookie с именем \"([^\"]*)\" и значением \"([^\"]*)\"$")
+    public void replaceCookie(String cookieName, String cookieValue) {
+        String nameCookie = resolveVars(cookieName);
+        String valueCookie = resolveVars(cookieValue);
+        getWebDriver().manage().addCookie(new Cookie(nameCookie, valueCookie));
     }
 
     private String nextWindowHandle() {

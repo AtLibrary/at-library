@@ -2,9 +2,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
+ * <p style="color: green; font-size: 1.5em">
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ * <p style="color: green; font-size: 1.5em">
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,7 +33,7 @@ import static ru.bcs.at.library.core.cucumber.ScopedVariables.resolveJsonVars;
 import static ru.bcs.at.library.core.cucumber.ScopedVariables.resolveVars;
 
 /**
- * <h1>Шаги для тестирования API</h1>
+ * <h1 style="color: green; font-size: 2.2em">Шаги для тестирования API</h1>
  *
  * @author Anton Pavlov
  */
@@ -44,7 +44,7 @@ public class ApiSteps {
     private CoreScenario coreScenario = CoreScenario.getInstance();
 
     /**
-     * <p>Отправка http запроса по заданному урлу без параметров и BODY.
+     * <p style="color: green; font-size: 1.5em">Отправка http запроса по заданному урлу без параметров и BODY.
      * Результат сохраняется в заданную переменную</p>
      *
      * @param method       методов HTTP запроса
@@ -58,7 +58,7 @@ public class ApiSteps {
     }
 
     /**
-     * <p>Отправка http запроса по заданному урлу с параметрами и/или BODY.
+     * <p style="color: green; font-size: 1.5em">Отправка http запроса по заданному урлу с параметрами и/или BODY.
      * Результат сохраняется в заданную переменную</p>
      *
      * @param method       методов HTTP запроса
@@ -75,7 +75,7 @@ public class ApiSteps {
     }
 
     /**
-     * <p>Отправка http запроса по заданному урлу с параметрами и/или BODY.
+     * <p style="color: green; font-size: 1.5em">Отправка http запроса по заданному урлу с параметрами и/или BODY.
      * Результат сохраняется в заданную переменную</p>
      *
      * @param method             методов HTTP запроса
@@ -92,7 +92,7 @@ public class ApiSteps {
     }
 
     /**
-     * <p>Отправка http запроса по заданному урлу с параметрами и/или BODY.
+     * <p style="color: green; font-size: 1.5em">Отправка http запроса по заданному урлу с параметрами и/или BODY.
      * Результат сохраняется в заданную переменную</p>
      *
      * @param method             методов HTTP запроса
@@ -112,7 +112,7 @@ public class ApiSteps {
 
 
     /**
-     * <p>Проверка Response</p>
+     * <p style="color: green; font-size: 1.5em">Проверка Response</p>
      *
      * @param typeContentBody тип контента
      * @param valueToFind     имя переменной которая содержит Response
@@ -134,7 +134,7 @@ public class ApiSteps {
     }
 
     /**
-     * <p>В json строке, сохраннённой в переменной, происходит поиск значений по jsonpath из первого столбца таблицы.
+     * <p style="color: green; font-size: 1.5em">В json строке, сохраннённой в переменной, происходит поиск значений по jsonpath из первого столбца таблицы.
      * Полученные значения сохраняются в переменных. Название переменной указывается во втором столбце таблицы.
      * Шаг работает со всеми типами json элементов: объекты, массивы, строки, числа, литералы true, false и null.</p>
      *
@@ -170,7 +170,7 @@ public class ApiSteps {
     }
 
     /**
-     * <p>Создание запроса
+     * <p style="color: green; font-size: 1.5em">Создание запроса
      * Content-Type при необходимости должен быть указан в качестве header.</p>
      *
      * @param dataTable массив с параметрами
@@ -230,7 +230,7 @@ public class ApiSteps {
     }
 
     /**
-     * <p>Получает ответ и сохраняет в переменную</p>
+     * <p style="color: green; font-size: 1.5em">Получает ответ и сохраняет в переменную</p>
      *
      * @param variableName имя переменной, в которую будет сохранен ответ
      * @param response     ответ от http запроса
@@ -240,7 +240,7 @@ public class ApiSteps {
     }
 
     /**
-     * <p>Сравнение кода http ответа с ожидаемым</p>
+     * <p style="color: green; font-size: 1.5em">Сравнение кода http ответа с ожидаемым</p>
      *
      * @param response           ответ от сервиса
      * @param expectedStatusCode ожидаемый http статус код
@@ -250,7 +250,7 @@ public class ApiSteps {
     }
 
     /**
-     * <p>Отправка http запроса</p>
+     * <p style="color: green; font-size: 1.5em">Отправка http запроса</p>
      *
      * @param method    тип http запроса
      * @param address   url, на который будет направлен запроc

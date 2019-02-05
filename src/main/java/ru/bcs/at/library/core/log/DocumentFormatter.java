@@ -13,7 +13,9 @@ import java.io.StringReader;
 
 
 /**
- * преобразователь документов для просмотра
+ * <h1 style="color: green; font-size: 2.2em">преобразователь документов для просмотра</h1>
+ *
+ * @author Anton Pavlov
  */
 @Log4j2
 public class DocumentFormatter {
@@ -25,7 +27,6 @@ public class DocumentFormatter {
      * @param input строка, содержащая json
      * @return выровненный для просмотра документ или текст ошибки
      * преобразования
-     * @author Anton Pavlov
      * преобразование json к "красивому" виду
      */
     private static String createPrettyPrintJson(String input) {
@@ -45,7 +46,6 @@ public class DocumentFormatter {
      * @param input строка, содержащая xml
      * @return выровненный для просмотра документ или текст ошибки
      * преобразования
-     * @author Anton Pavlov
      * преобразование xml к "красивому" виду
      */
     private static String createPrettyPrintXml(String input) {
@@ -80,7 +80,7 @@ public class DocumentFormatter {
      * @param contType тип ответа
      * @return выровненный для просмотра документ или текст ошибки
      * преобразования
-     * @author Anton Pavlov
+     * <p style="color: green; font-size: 1.5em">
      * преобразование документа к "красивому" виду
      */
     public static String createPrettyPrint(String input, String contType) {

@@ -9,7 +9,9 @@ import io.restassured.specification.FilterableResponseSpecification;
 import lombok.extern.log4j.Log4j2;
 
 /**
- * класс утилит, для чтения RestAssured в Log4j2
+ * <h1 style="color: green; font-size: 2.2em">Класс утилит, для чтения RestAssured в Log4j2</h1>
+ *
+ * @author Anton Pavlov
  */
 @Log4j2
 public class Log4jRestAssuredFilter implements OrderedFilter {

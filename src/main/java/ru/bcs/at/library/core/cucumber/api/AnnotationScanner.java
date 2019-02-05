@@ -2,9 +2,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
+ * <p style="color: green; font-size: 1.5em">
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ * <p style="color: green; font-size: 1.5em">
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,8 +21,8 @@ import java.lang.annotation.Annotation;
 import java.util.Set;
 
 /**
- * <h1>Reflections</h1>
- * <p>Для поиска классов с заданной аннотацией среди всех классов в проекте на основе механизма рефлексии</p>
+ * <h1 style="color: green; font-size: 2.2em">Reflections</h1>
+ * <p style="color: green; font-size: 1.5em">Для поиска классов с заданной аннотацией среди всех классов в проекте на основе механизма рефлексии</p>
  * @author Anton Pavlov
  */
 public class AnnotationScanner {
