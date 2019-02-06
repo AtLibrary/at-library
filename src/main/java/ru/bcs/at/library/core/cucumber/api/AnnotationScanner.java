@@ -23,6 +23,7 @@ import java.util.Set;
 /**
  * <h1 style="color: green; font-size: 2.2em">Reflections</h1>
  * <p style="color: green; font-size: 1.5em">Для поиска классов с заданной аннотацией среди всех классов в проекте на основе механизма рефлексии</p>
+ *
  * @author Anton Pavlov
  */
 public class AnnotationScanner {

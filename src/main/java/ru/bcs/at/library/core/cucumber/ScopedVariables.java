@@ -27,7 +27,9 @@ import static java.lang.String.format;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadProperty;
 
 /**
- * Реализация хранилища переменных, заданных пользователем, внутри тестовых сценариев
+ * <h1 style="color: green; font-size: 2.2em">Реализация хранилища переменных, заданных пользователем, внутри тестовых сценариев</h1>
+ *
+ * @author Anton Pavlov
  */
 public class ScopedVariables {
 
@@ -36,10 +38,9 @@ public class ScopedVariables {
 
     /**
      * @param expression java/groovy-код, который будет выполнен
-     * @author Anton Pavlov
-     * Компилирует и выполняет в рантайме переданный на вход java/groovy-код.
-     * Предварительно загружает в память все переменные,
-     * т.е. на вход в строковом аргументе могут быть переданы переменные из "variables"
+     *                   Компилирует и выполняет в рантайме переданный на вход java/groovy-код.
+     *                   Предварительно загружает в память все переменные,
+     *                   т.е. на вход в строковом аргументе могут быть переданы переменные из "variables"
      */
     public Object evaluate(String expression) {
         GroovyShell shell = new GroovyShell();
@@ -55,8 +56,7 @@ public class ScopedVariables {
 
     /**
      * @param textToReplaceIn строка, в которой необходимо выполнить замену (не модифицируется)
-     * @author Anton Pavlov
-     * Заменяет в строке все ключи переменных из "variables" на их значения
+     *                        Заменяет в строке все ключи переменных из "variables" на их значения
      */
     public String replaceVariables(String textToReplaceIn) {
         Pattern p = Pattern.compile(CURVE_BRACES_PATTERN);
@@ -74,7 +74,6 @@ public class ScopedVariables {
     /**
      * @param inputString заданная строка
      * @return новая строка
-     * @author Anton Pavlov
      * Производит поиск в заданной строке на наличие совпадений параметров.
      * В случае нахождения параметра в строке заменяет его значение на значение из properties или хранилища переменных
      */
@@ -104,7 +103,6 @@ public class ScopedVariables {
     /**
      * @param inputJsonAsString заданная строка
      * @return новая строка
-     * @author Anton Pavlov
      * Производит поиск параметров в переданном строкой json.
      * В случае нахождения параметра - заменяет его значение на значение из properties или хранилища переменных
      */
@@ -133,9 +131,7 @@ public class ScopedVariables {
 
     /**
      * @param jsonInString - строка для валидации
-     * @return
-     * @author Anton Pavlov
-     * Проверяет, является ли переданная в качестве аргумента строка валидным JSON
+     * @return Проверяет, является ли переданная в качестве аргумента строка валидным JSON
      */
     public static boolean isJSONValid(String jsonInString) {
         try {

@@ -20,7 +20,9 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 /**
- * Предназначен для хранения страниц, используемых при прогоне тестов
+ * <h1 style="color: green; font-size: 2.2em">Предназначен для хранения страниц, используемых при прогоне тестов</h1>
+ *
+ * @author Anton Pavlov
  */
 public final class Pages {
 

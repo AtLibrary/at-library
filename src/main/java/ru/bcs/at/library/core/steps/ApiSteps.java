@@ -33,7 +33,7 @@ import static ru.bcs.at.library.core.cucumber.ScopedVariables.resolveJsonVars;
 import static ru.bcs.at.library.core.cucumber.ScopedVariables.resolveVars;
 
 /**
- * <h1 style="color: green; font-size: 2.2em">Шаги для тестирования API</h1>
+ * <h1 style="color: green; font-size: 2.2em">API шаги</h1>
  *
  * @author Anton Pavlov
  */

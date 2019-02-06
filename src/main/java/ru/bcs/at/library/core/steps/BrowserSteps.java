@@ -31,12 +31,11 @@ import static com.codeborne.selenide.WebDriverRunner.url;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
-import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadProperty;
 import static ru.bcs.at.library.core.cucumber.ScopedVariables.resolveVars;
 import static ru.bcs.at.library.core.steps.WebSteps.getPropertyOrStringVariableOrValue;
 
 /**
- * <h1 style="color: green; font-size: 2.2em">Шаги для работы с браузером</h1>
+ * <h1 style="color: green; font-size: 2.2em">Браузер шаги</h1>
  *
  * @author Anton Pavlov
  */
@@ -153,7 +152,7 @@ public class BrowserSteps {
     /**
      * <p style="color: green; font-size: 1.5em">Устанавливает размеры окна браузера</p>
      *
-     * @param width ширина
+     * @param width  ширина
      * @param height высота
      */
     @И("^установлено разрешение экрана (\\d+) х (\\d+)$")

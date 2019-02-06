@@ -41,6 +41,9 @@ import static com.codeborne.selenide.WebDriverRunner.*;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadProperty;
 
 /**
+ * <h1 style="color: green; font-size: 2.2em">Начальная настройка</h1>
+ * <p style="color: green; font-size: 1.5em">Запускается перед каждым сценарием</p>
+ *
  * @author Anton Pavlov
  */
 @Log4j2
@@ -52,7 +55,10 @@ public class InitialSetupSteps {
     private static boolean turnOnAllureListener = false;
 
     /**
-     * Действия выполняемые перед каждым сценарием
+     * <p style="color: green; font-size: 1.5em">Действия выполняемые перед каждым сценарием</p>
+     * <p>Включение слушателей Allure</p>
+     * <p>Если сценарий содержит тег @web" то будет создан WebDriver</p>
+     * <p>Создает окружение(среду) для запуска сценария</p>
      */
     @Before
     public void beforeEachTest(Scenario scenario) throws MalformedURLException {
@@ -88,7 +94,7 @@ public class InitialSetupSteps {
 
 
     /**
-     * По завершению теста удаляет все куки и закрывает веб-браузер
+     * <p style="color: green; font-size: 1.5em">Если сценарий содержит тег @web" то по завершению теста удаляет все куки и закрывает веб-браузер</p>
      */
     @After
     public void afterEachTest(Scenario scenario) {
@@ -101,7 +107,7 @@ public class InitialSetupSteps {
     }
 
     /**
-     * Создание WebDriver
+     * <p style="color: green; font-size: 1.5em">Создание WebDriver</p>
      */
     private void startWebTest(Scenario scenario) throws MalformedURLException {
         /**

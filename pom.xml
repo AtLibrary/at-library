@@ -6,7 +6,7 @@
 
     <groupId>ru.bcs</groupId>
     <artifactId>at-library-core</artifactId>
-    <version>1.2.2019</version>
+    <version>6.2.2019</version>
 
     <name>at-library-core</name>
     <properties>
@@ -154,6 +154,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
+                <version>3.0.1</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
@@ -167,9 +168,17 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.0.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-resource-bundle</id>
+                       <goals>
+                            <goal>resource-bundle</goal>
+                        </goals>
+                    </execution>
+                </executions>
                 <configuration>
                     <encoding>UTF-8</encoding>
-                    <!--<additionalparam>-Xdoclint:none</additionalparam>-->
                     <additionalOptions>-Xdoclint:none</additionalOptions>
                     <additionalJOption>-Xdoclint:none</additionalJOption>
                 </configuration>

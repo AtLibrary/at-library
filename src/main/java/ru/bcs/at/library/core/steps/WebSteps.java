@@ -57,7 +57,7 @@ import static ru.bcs.at.library.core.cucumber.ScopedVariables.resolveVars;
 
 
 /**
- * <h1 style="color: green; font-size: 2.2em">Шаги для тестирования WEB</h1>
+ * <h1 style="color: green; font-size: 2.2em">WEB шаги</h1>
  *
  * <p style="color: green; font-size: 1.5em">В coreScenario используется хранилище переменных. Для сохранения/изъятия переменных используются методы setVar/getVar
  * Каждая страница, с которой предполагается взаимодействие, должна быть описана в соответствующем классе,
@@ -76,7 +76,8 @@ public class WebSteps {
     private static final int DEFAULT_TIMEOUT = loadPropertyInt("waitingCustomElementsTimeout", 10000);
 
     /**
-     * На странице происходит клик по заданному элементу
+     * <p style="color: green; font-size: 1.5em">На странице происходит клик по заданному элементу
+     * </p>
      */
     @И("^выполнено нажатие на (?:кнопку|поле|блок) \"([^\"]*)\"$")
     public void clickOnElement(String elementName) {
@@ -84,9 +85,10 @@ public class WebSteps {
     }
 
     /**
-     * Проверка появления элемента(не списка) на странице в течение DEFAULT_TIMEOUT.
+     * <p style="color: green; font-size: 1.5em">Проверка появления элемента(не списка) на странице в течение DEFAULT_TIMEOUT.
      * В случае, если свойство "waitingCustomElementsTimeout" в application.properties не задано,
      * таймаут равен 10 секундам
+     * </p>
      */
     @Тогда("^элемент \"([^\"]*)\" отображается на странице$")
     public void elemIsPresentedOnPage(String elementName) {
@@ -96,8 +98,9 @@ public class WebSteps {
     }
 
     /**
-     * Проверка появления элемента(не списка) на странице в течение
+     * <p style="color: green; font-size: 1.5em">Проверка появления элемента(не списка) на странице в течение
      * заданного количества секунд
+     * </p>
      */
     @Тогда("^элемент \"([^\"]*)\" отобразился на странице в течение (\\d+) (?:секунд|секунды)")
     public void testElementAppeared(String elementName, int seconds) {
@@ -107,9 +110,10 @@ public class WebSteps {
     }
 
     /**
-     * Проверка появления списка на странице в течение DEFAULT_TIMEOUT.
+     * <p style="color: green; font-size: 1.5em">Проверка появления списка на странице в течение DEFAULT_TIMEOUT.
      * В случае, если свойство "waitingCustomElementsTimeout" в application.properties не задано,
      * таймаут равен 10 секундам
+     * </p>
      */
     @Тогда("^список \"([^\"]*)\" отображается на странице$")
     public void listIsPresentedOnPage(String elementName) {
@@ -119,9 +123,10 @@ public class WebSteps {
     }
 
     /**
-     * Проверка того, что элемент исчезнет со страницы (станет невидимым) в течение DEFAULT_TIMEOUT.
+     * <p style="color: green; font-size: 1.5em">Проверка того, что элемент исчезнет со страницы (станет невидимым) в течение DEFAULT_TIMEOUT.
      * В случае, если свойство "waitingCustomElementsTimeout" в application.properties не задано,
      * таймаут равен 10 секундам
+     * </p>
      */
     @Тогда("^ожидается исчезновение элемента \"([^\"]*)\"")
     public void elemDisappered(String elementName) {
@@ -130,10 +135,11 @@ public class WebSteps {
     }
 
     /**
-     * Проверка того, что все элементы, которые описаны в классе страницы с аннотацией @Name,
+     * <p style="color: green; font-size: 1.5em">Проверка того, что все элементы, которые описаны в классе страницы с аннотацией @Name,
      * но без аннотации @Optional появились на странице
      * в течение WAITING_APPEAR_TIMEOUT, которое равно значению свойства "waitingAppearTimeout"
      * из application.properties. Если свойство не найдено, время таймаута равно 8 секундам
+     * </p>
      */
     @Тогда("^(?:страница|блок|форма|вкладка) \"([^\"]*)\" (?:загрузилась|загрузился)$")
     public void loadPage(String nameOfPage) {
@@ -144,8 +150,9 @@ public class WebSteps {
     }
 
     /**
-     * Проверка того, что все элементы, которые описаны в классе страницы с аннотацией @Name,
+     * <p style="color: green; font-size: 1.5em">Проверка того, что все элементы, которые описаны в классе страницы с аннотацией @Name,
      * но без аннотации @Optional, не появились на странице
+     * </p>
      */
     @Тогда("^(?:страница|блок|форма|вкладка) \"([^\"]*)\" не (?:загрузилась|загрузился)$")
     public void loadPageFailed(String nameOfPage) {
@@ -157,7 +164,8 @@ public class WebSteps {
 
 
     /**
-     * Проверка того, что значение из поля совпадает со значением заданной переменной из хранилища
+     * <p style="color: green; font-size: 1.5em">Проверка того, что значение из поля совпадает со значением заданной переменной из хранилища
+     * </p>
      */
     @Тогда("^значение (?:поля|элемента) \"([^\"]*)\" совпадает со значением из переменной \"([^\"]*)\"$")
     public void compareFieldAndVariable(String elementName, String variableName) {
@@ -168,8 +176,9 @@ public class WebSteps {
     }
 
     /**
-     * Проверка того, что значение из поля содержится в списке,
+     * <p style="color: green; font-size: 1.5em">Проверка того, что значение из поля содержится в списке,
      * полученном из хранилища переменных по заданному ключу
+     * </p>
      */
     @SuppressWarnings("unchecked")
     @Тогда("^список из переменной \"([^\"]*)\" содержит значение (?:поля|элемента) \"([^\"]*)\"$")
@@ -181,9 +190,10 @@ public class WebSteps {
     }
 
     /**
-     * Выполняется переход по заданной ссылке.
+     * <p style="color: green; font-size: 1.5em">Выполняется переход по заданной ссылке.
      * Шаг содержит проверку, что после перехода загружена заданная страница.
      * Ссылка может передаваться как строка, так и как ключ из application.properties
+     * </p>
      */
     @И("^совершен переход на страницу \"([^\"]*)\" по ссылке \"([^\"]*)\"$")
     public void goToSelectedPageByLink(String pageName, String urlOrName) {
@@ -195,7 +205,8 @@ public class WebSteps {
 
 
     /**
-     * Проверка того, что блок исчез/стал невидимым
+     * <p style="color: green; font-size: 1.5em">Проверка того, что блок исчез/стал невидимым
+     * </p>
      */
     @Тогда("^(?:страница|блок|форма) \"([^\"]*)\" (?:скрыт|скрыта)")
     public void blockDisappeared(String nameOfPage) {
@@ -205,7 +216,8 @@ public class WebSteps {
     }
 
     /**
-     * Эмулирует нажатие клавиш на клавиатуре
+     * <p style="color: green; font-size: 1.5em">Эмулирует нажатие клавиш на клавиатуре
+     * </p>
      */
     @И("^выполнено нажатие на клавиатуре \"([^\"]*)\"$")
     public void pushButtonOnKeyboard(String buttonName) {
@@ -214,11 +226,12 @@ public class WebSteps {
     }
 
     /**
-     * @param keyNames название клавиши
-     *                 Эмулирует нажатие сочетания клавиш на клавиатуре.
-     *                 Допустим, чтобы эмулировать нажатие на Ctrl+A, в таблице должны быть следующие значения
-     *                 | CONTROL |
-     *                 | a       |
+     * <p style="color: green; font-size: 1.5em">@param keyNames название клавиши
+     * Эмулирует нажатие сочетания клавиш на клавиатуре.
+     * Допустим, чтобы эмулировать нажатие на Ctrl+A, в таблице должны быть следующие значения
+     * | CONTROL |
+     * | a       |
+     * </p>
      */
     @И("^выполнено нажатие на сочетание клавиш из таблицы$")
     public void pressKeyCombination(List<String> keyNames) {
@@ -238,8 +251,9 @@ public class WebSteps {
     }
 
     /**
-     * Устанавливается значение (в приоритете: из property, из переменной сценария, значение аргумента) в заданное поле.
+     * <p style="color: green; font-size: 1.5em">Устанавливается значение (в приоритете: из property, из переменной сценария, значение аргумента) в заданное поле.
      * Перед использованием поле нужно очистить
+     * </p>
      */
     @Когда("^в поле \"([^\"]*)\" введено значение \"(.*)\"$")
     public void setFieldValue(String elementName, String value) {
@@ -250,7 +264,8 @@ public class WebSteps {
     }
 
     /**
-     * Очищается заданное поле
+     * <p style="color: green; font-size: 1.5em">Очищается заданное поле
+     * </p>
      */
     @Когда("^очищено поле \"([^\"]*)\"$")
     public void cleanField(String nameOfField) {
@@ -263,7 +278,8 @@ public class WebSteps {
     }
 
     /**
-     * Проверка, что поле для ввода пусто
+     * <p style="color: green; font-size: 1.5em">Проверка, что поле для ввода пусто
+     * </p>
      */
     @Тогда("^поле \"([^\"]*)\" пусто$")
     public void fieldInputIsEmpty(String fieldName) {
@@ -273,9 +289,10 @@ public class WebSteps {
     }
 
     /**
-     * Проверка, что список со страницы состоит только из элементов,
+     * <p style="color: green; font-size: 1.5em">Проверка, что список со страницы состоит только из элементов,
      * перечисленных в таблице
      * Для получения текста из элементов списка используется метод getText()
+     * </p>
      */
     @Тогда("^список \"([^\"]*)\" состоит из элементов из таблицы$")
     public void checkIfListConsistsOfTableElements(String listName, List<String> textTable) {
@@ -286,9 +303,10 @@ public class WebSteps {
     }
 
     /**
-     * Проверка, что список со страницы состоит только из элементов,
+     * <p style="color: green; font-size: 1.5em">Проверка, что список со страницы состоит только из элементов,
      * перечисленных в таблице
      * Для получения текста из элементов списка используется метод innerText()
+     * </p>
      */
     @Тогда("^список \"([^\"]*)\" состоит из элементов таблицы$")
     public void checkIfListInnerTextConsistsOfTableElements(String listName, List<String> textTable) {
@@ -300,8 +318,9 @@ public class WebSteps {
     }
 
     /**
-     * Выбор из списка со страницы элемента с заданным значением
+     * <p style="color: green; font-size: 1.5em">Выбор из списка со страницы элемента с заданным значением
      * (в приоритете: из property, из переменной сценария, значение аргумента)
+     * </p>
      */
     @Тогда("^в списке \"([^\"]*)\" выбран элемент с (?:текстом|значением) \"(.*)\"$")
     public void checkIfSelectedListElementMatchesValue(String listName, String expectedValue) {
@@ -318,9 +337,10 @@ public class WebSteps {
     }
 
     /**
-     * Выбор из списка со страницы элемента, который содержит заданный текст
+     * <p style="color: green; font-size: 1.5em">Выбор из списка со страницы элемента, который содержит заданный текст
      * (в приоритете: из property, из переменной сценария, значение аргумента)
      * Не чувствителен к регистру
+     * </p>
      */
     @Тогда("^в списке \"([^\"]*)\" выбран элемент содержащий текст \"([^\"]*)\"$")
     public void selectElementInListIfFoundByText(String listName, String expectedValue) {
@@ -337,9 +357,10 @@ public class WebSteps {
     }
 
     /**
-     * Проверка, что список со страницы совпадает со списком из переменной
+     * <p style="color: green; font-size: 1.5em">Проверка, что список со страницы совпадает со списком из переменной
      * без учёта порядка элементов
      * Для получения текста из элементов списка используется метод innerText()
+     * </p>
      */
     @SuppressWarnings("unchecked")
     @Тогда("^список \"([^\"]*)\" на странице совпадает со списком \"([^\"]*)\"$")
@@ -353,7 +374,8 @@ public class WebSteps {
     }
 
     /**
-     * Сохранение значения элемента в переменную
+     * <p style="color: green; font-size: 1.5em">Сохранение значения элемента в переменную
+     * </p>
      */
     @Когда("^значение (?:элемента|поля) \"([^\"]*)\" сохранено в переменную \"([^\"]*)\"$")
     public void storeElementValueInVariable(String elementName, String variableName) {
@@ -363,7 +385,8 @@ public class WebSteps {
 
 
     /**
-     * Переход на страницу по клику и проверка, что страница загружена
+     * <p style="color: green; font-size: 1.5em">Переход на страницу по клику и проверка, что страница загружена
+     * </p>
      */
     @И("^выполнен переход на страницу \"([^\"]*)\" после нажатия на (?:ссылку|кнопку) \"([^\"]*)\"$")
     public void urlClickAndCheckRedirection(String pageName, String elementName) {
@@ -373,7 +396,7 @@ public class WebSteps {
     }
 
     /**
-     * Шаг авторизации.
+     * <p style="color: green; font-size: 1.5em">Шаг авторизации.
      * Для того, чтобы шаг работал, на текущей странице должны быть указаны элементы
      * со значениями аннотации @Name:
      * "Логин" - для поля ввода логина,
@@ -384,6 +407,7 @@ public class WebSteps {
      * логин и пароль должны быть указаны со следующими ключами:
      * user.login - для логина и
      * user.password - для пароля
+     * </p>
      */
     @Пусть("^пользователь \"([^\"]*)\" ввел логин и пароль$")
     public void loginByUserData(String userCode) {
@@ -397,7 +421,8 @@ public class WebSteps {
     }
 
     /**
-     * Выполняется наведение курсора на элемент
+     * <p style="color: green; font-size: 1.5em">Выполняется наведение курсора на элемент
+     * </p>
      */
     @Когда("^выполнен ховер на (?:поле|элемент) \"([^\"]*)\"$")
     public void elementHover(String elementName) {
@@ -406,7 +431,8 @@ public class WebSteps {
     }
 
     /**
-     * Проверка того, что элемент не отображается на странице
+     * <p style="color: green; font-size: 1.5em">Проверка того, что элемент не отображается на странице
+     * </p>
      */
     @Тогда("^(?:поле|выпадающий список|элемент) \"([^\"]*)\" не отображается на странице$")
     public void elementIsNotVisible(String elementName) {
@@ -416,7 +442,8 @@ public class WebSteps {
     }
 
     /**
-     * Проверка, что элемент на странице кликабелен
+     * <p style="color: green; font-size: 1.5em">Проверка, что элемент на странице кликабелен
+     * </p>
      */
     @Тогда("^(?:поле|элемент) \"([^\"]*)\" кликабельно$")
     public void clickableField(String elementName) {
@@ -425,7 +452,8 @@ public class WebSteps {
     }
 
     /**
-     * Проверка, что у элемента есть атрибут с ожидаемым значением (в приоритете: из property, из переменной сценария, значение аргумента)
+     * <p style="color: green; font-size: 1.5em">Проверка, что у элемента есть атрибут с ожидаемым значением (в приоритете: из property, из переменной сценария, значение аргумента)
+     * </p>
      */
     @Тогда("^элемент \"([^\"]*)\" содержит атрибут \"([^\"]*)\" со значением \"(.*)\"$")
     public void checkElemContainsAtrWithValue(String elementName, String attribute, String expectedAttributeValue) {
@@ -437,10 +465,11 @@ public class WebSteps {
     }
 
     /**
-     * Проверка, что элемент содержит указанный класс (в приоритете: из property, из переменной сценария, значение аргумента)
+     * <p style="color: green; font-size: 1.5em">Проверка, что элемент содержит указанный класс (в приоритете: из property, из переменной сценария, значение аргумента)
      * Например:
      * если нужно проверить что элемент не отображается на странице, но проверки Selenium отрабатывают неверно,
      * можно использовать данный метод и проверить, что среди его классов есть disabled
+     * </p>
      */
     @Тогда("^элемент \"([^\"]*)\" содержит класс со значением \"(.*)\"$")
     public void checkElemClassContainsExpectedValue(String elementName, String expectedClassValue) {
@@ -452,7 +481,8 @@ public class WebSteps {
     }
 
     /**
-     * Проверка, что элемент не содержит указанный класс
+     * <p style="color: green; font-size: 1.5em">Проверка, что элемент не содержит указанный класс
+     * </p>
      */
     @Тогда("^элемент \"([^\"]*)\" не содержит класс со значением \"(.*)\"$")
     public void checkElemClassNotContainsExpectedValue(String elementName, String expectedClassValue) {
@@ -464,8 +494,9 @@ public class WebSteps {
 
 
     /**
-     * Проверка, что значение в поле содержит значение (в приоритете: из property, из переменной сценария, значение аргумента),
+     * <p style="color: green; font-size: 1.5em">Проверка, что значение в поле содержит значение (в приоритете: из property, из переменной сценария, значение аргумента),
      * указанное в шаге
+     * </p>
      */
     @Тогда("^(?:поле|элемент) \"([^\"]*)\" содержит значение \"(.*)\"$")
     public void testActualValueContainsSubstring(String elementName, String expectedValue) {
@@ -475,11 +506,12 @@ public class WebSteps {
     }
 
     /**
-     * Проверка, что значение в поле содержит текст, указанный в шаге
+     * <p style="color: green; font-size: 1.5em">Проверка, что значение в поле содержит текст, указанный в шаге
      * (в приоритете: из property, из переменной сценария, значение аргумента).
      * Используется метод innerText(), который получает как видимый, так и скрытый текст из элемента,
      * обрезая перенос строк и пробелы в конце и начале строчки.
      * Не чувствителен к регистру
+     * </p>
      */
     @Тогда("^(?:поле|элемент) \"([^\"]*)\" содержит внутренний текст \"(.*)\"$")
     public void testFieldContainsInnerText(String fieldName, String expectedText) {
@@ -489,7 +521,8 @@ public class WebSteps {
     }
 
     /**
-     * Проверка, что значение в поле равно значению, указанному в шаге (в приоритете: из property, из переменной сценария, значение аргумента)
+     * <p style="color: green; font-size: 1.5em">Проверка, что значение в поле равно значению, указанному в шаге (в приоритете: из property, из переменной сценария, значение аргумента)
+     * </p>
      */
     @Тогда("^значение (?:поля|элемента) \"([^\"]*)\" равно \"(.*)\"$")
     public void compareValInFieldAndFromStep(String elementName, String expectedValue) {
@@ -499,7 +532,8 @@ public class WebSteps {
     }
 
     /**
-     * Проверка, что кнопка/ссылка недоступна для нажатия
+     * <p style="color: green; font-size: 1.5em">Проверка, что кнопка/ссылка недоступна для нажатия
+     * </p>
      */
     @Тогда("^(?:ссылка|кнопка) \"([^\"]*)\" недоступна для нажатия$")
     public void buttonIsNotActive(String elementName) {
@@ -508,7 +542,8 @@ public class WebSteps {
     }
 
     /**
-     * Проверка, что поле нередактируемо
+     * <p style="color: green; font-size: 1.5em">Проверка, что поле нередактируемо
+     * </p>
      */
     @Тогда("^(?:поле|элемент) \"([^\"]*)\" (?:недоступно|недоступен) для редактирования$")
     public void fieldIsDisable(String elementName) {
@@ -517,8 +552,9 @@ public class WebSteps {
     }
 
     /**
-     * Проверка, что список со страницы совпадает со списком из переменной
+     * <p style="color: green; font-size: 1.5em">Проверка, что список со страницы совпадает со списком из переменной
      * без учёта порядка элементов
+     * </p>
      */
     @SuppressWarnings("unchecked")
     @Тогда("^список \"([^\"]*)\" со страницы совпадает со списком \"([^\"]*)\"$")
@@ -529,9 +565,10 @@ public class WebSteps {
     }
 
     /**
-     * Проверка, что на странице не отображаются редактируемые элементы, такие как:
+     * <p style="color: green; font-size: 1.5em">Проверка, что на странице не отображаются редактируемые элементы, такие как:
      * -input
      * -textarea
+     * </p>
      */
     @Тогда("^открыта read-only форма$")
     public void openReadOnlyForm() {
@@ -548,7 +585,8 @@ public class WebSteps {
     }
 
     /**
-     * Добавление строки (в приоритете: из property, из переменной сценария, значение аргумента) в поле к уже заполненой строке
+     * <p style="color: green; font-size: 1.5em">Добавление строки (в приоритете: из property, из переменной сценария, значение аргумента) в поле к уже заполненой строке
+     * </p>
      */
     @Когда("^в элемент \"([^\"]*)\" дописывается значение \"(.*)\"$")
     public void addValue(String elementName, String value) {
@@ -563,7 +601,8 @@ public class WebSteps {
     }
 
     /**
-     * Нажатие на элемент по его тексту (в приоритете: из property, из переменной сценария, значение аргумента)
+     * <p style="color: green; font-size: 1.5em">Нажатие на элемент по его тексту (в приоритете: из property, из переменной сценария, значение аргумента)
+     * </p>
      */
     @И("^выполнено нажатие на элемент с текстом \"(.*)\"$")
     public void findElement(String text) {
@@ -571,8 +610,9 @@ public class WebSteps {
     }
 
     /**
-     * Ввод в поле текущей даты в заданном формате
+     * <p style="color: green; font-size: 1.5em">Ввод в поле текущей даты в заданном формате
      * При неверном формате, используется dd.MM.yyyy
+     * </p>
      */
     @Когда("^элемент \"([^\"]*)\" заполняется текущей датой в формате \"([^\"]*)\"$")
     public void currentDate(String fieldName, String dateFormat) {
@@ -591,8 +631,9 @@ public class WebSteps {
     }
 
     /**
-     * Ввод в поле указанного текста (в приоритете: из property, из переменной сценария, значение аргумента),
+     * <p style="color: green; font-size: 1.5em">Ввод в поле указанного текста (в приоритете: из property, из переменной сценария, значение аргумента),
      * используя буфер обмена и клавиши SHIFT + INSERT
+     * </p>
      */
     @Когда("^вставлено значение \"([^\"]*)\" в элемент \"([^\"]*)\" с помощью горячих клавиш$")
     public void pasteValueToTextField(String value, String fieldName) {
@@ -606,9 +647,10 @@ public class WebSteps {
     }
 
     /**
-     * Выполняется поиск нужного файла в папке /Downloads
+     * <p style="color: green; font-size: 1.5em">Выполняется поиск нужного файла в папке /Downloads
      * Поиск осуществляется по содержанию ожидаемого текста в названии файла. Можно передавать регулярное выражение.
      * После выполнения проверки файл удаляется
+     * </p>
      */
     @Тогда("^файл \"(.*)\" загрузился в папку /Downloads$")
     public void testFileDownloaded(String fileName) {
@@ -622,7 +664,8 @@ public class WebSteps {
     }
 
     /**
-     * Скроллит экран до нужного элемента, имеющегося на странице, но видимого только в нижней/верхней части страницы.
+     * <p style="color: green; font-size: 1.5em">Скроллит экран до нужного элемента, имеющегося на странице, но видимого только в нижней/верхней части страницы.
+     * </p>
      */
     @Тогда("^страница прокручена до элемента \"([^\"]*)\"")
     public void scrollPageToElement(String elementName) {
@@ -630,7 +673,8 @@ public class WebSteps {
     }
 
     /**
-     * Выбор из списка со страницы любого случайного элемента
+     * <p style="color: green; font-size: 1.5em">Выбор из списка со страницы любого случайного элемента
+     * </p>
      */
     @Тогда("^выбран любой элемент в списке \"([^\"]*)\"$")
     public void selectRandomElementFromList(String listName) {
@@ -641,7 +685,8 @@ public class WebSteps {
     }
 
     /**
-     * Выбор из списка со страницы любого случайного элемента и сохранение его значения в переменную
+     * <p style="color: green; font-size: 1.5em">Выбор из списка со страницы любого случайного элемента и сохранение его значения в переменную
+     * </p>
      */
     @Когда("^выбран любой элемент из списка \"([^\"]*)\" и его значение сохранено в переменную \"([^\"]*)\"$")
     public void selectRandomElementFromListAndSaveVar(String listName, String varName) {
@@ -654,8 +699,9 @@ public class WebSteps {
     }
 
     /**
-     * Выбор n-го элемента из списка со страницы
+     * <p style="color: green; font-size: 1.5em">Выбор n-го элемента из списка со страницы
      * Нумерация элементов начинается с 1
+     * </p>
      */
     @Тогда("^выбран (\\d+)-й элемент в списке \"([^\"]*)\"$")
     public void selectElementNumberFromList(Integer elementNumber, String listName) {
@@ -672,8 +718,9 @@ public class WebSteps {
     }
 
     /**
-     * Проверка, что каждый элемент списка содержит ожидаемый текст
+     * <p style="color: green; font-size: 1.5em">Проверка, что каждый элемент списка содержит ожидаемый текст
      * Не чувствителен к регистру
+     * </p>
      */
     @Тогда("^элементы списка \"([^\"]*)\" содержат текст \"([^\"]*)\"$")
     public void checkListElementsContainsText(String listName, String expectedValue) {
@@ -687,7 +734,8 @@ public class WebSteps {
     }
 
     /**
-     * Проверка, что каждый элемент списка не содержит ожидаемый текст
+     * <p style="color: green; font-size: 1.5em">Проверка, что каждый элемент списка не содержит ожидаемый текст
+     * </p>
      */
     @Тогда("^элементы списка \"([^\"]*)\" не содержат текст \"([^\"]*)\"$")
     public void checkListElementsNotContainsText(String listName, String expectedValue) {
@@ -701,7 +749,8 @@ public class WebSteps {
     }
 
     /**
-     * Ввод в поле случайной последовательности латинских или кириллических букв задаваемой длины
+     * <p style="color: green; font-size: 1.5em">Ввод в поле случайной последовательности латинских или кириллических букв задаваемой длины
+     * </p>
      */
     @Когда("^в поле \"([^\"]*)\" введено (\\d+) случайных символов на (кириллице|латинице)$")
     public void setRandomCharSequence(String elementName, int seqLength, String lang) {
@@ -716,7 +765,8 @@ public class WebSteps {
     }
 
     /**
-     * Ввод в поле случайной последовательности латинских или кириллических букв задаваемой длины и сохранение этого значения в переменную
+     * <p style="color: green; font-size: 1.5em">Ввод в поле случайной последовательности латинских или кириллических букв задаваемой длины и сохранение этого значения в переменную
+     * </p>
      */
     @Когда("^в поле \"([^\"]*)\" введено (\\d+) случайных символов на (кириллице|латинице) и сохранено в переменную \"([^\"]*)\"$")
     public void setRandomCharSequenceAndSaveToVar(String elementName, int seqLength, String lang, String varName) {
@@ -732,7 +782,8 @@ public class WebSteps {
     }
 
     /**
-     * Ввод в поле случайной последовательности цифр задаваемой длины
+     * <p style="color: green; font-size: 1.5em">Ввод в поле случайной последовательности цифр задаваемой длины
+     * </p>
      */
     @Когда("^в поле \"([^\"]*)\" введено случайное число из (\\d+) (?:цифр|цифры)$")
     public void inputRandomNumSequence(String elementName, int seqLength) {
@@ -744,7 +795,8 @@ public class WebSteps {
     }
 
     /**
-     * Ввод в поле случайной последовательности цифр задаваемой длины и сохранение этого значения в переменную
+     * <p style="color: green; font-size: 1.5em">Ввод в поле случайной последовательности цифр задаваемой длины и сохранение этого значения в переменную
+     * </p>
      */
     @Когда("^в поле \"([^\"]*)\" введено случайное число из (\\d+) (?:цифр|цифры) и сохранено в переменную \"([^\"]*)\"$")
     public void inputAndSetRandomNumSequence(String elementName, int seqLength, String varName) {
@@ -758,7 +810,8 @@ public class WebSteps {
     }
 
     /**
-     * Проход по списку и проверка текста у элемента на соответствие формату регулярного выражения
+     * <p style="color: green; font-size: 1.5em">Проход по списку и проверка текста у элемента на соответствие формату регулярного выражения
+     * </p>
      */
     @И("элементы списка \"([^\"]*)\" соответствуют формату \"([^\"]*)\"$")
     public void checkListTextsByRegExp(String listName, String pattern) {
@@ -770,8 +823,9 @@ public class WebSteps {
     }
 
     /**
-     * Выполняется запуск js-скрипта с указанием в js.executeScript его логики
+     * <p style="color: green; font-size: 1.5em">Выполняется запуск js-скрипта с указанием в js.executeScript его логики
      * Скрипт можно передать как аргумент метода или значение из application.properties
+     * </p>
      */
     @Когда("^выполнен js-скрипт \"([^\"]*)\"")
     public void executeJsScript(String scriptName) {
@@ -780,7 +834,8 @@ public class WebSteps {
     }
 
     /**
-     * Производится проверка количества символов в поле со значением, указанным в шаге
+     * <p style="color: green; font-size: 1.5em">Производится проверка количества символов в поле со значением, указанным в шаге
+     * </p>
      */
     @Тогда("^в поле \"([^\"]*)\" содержится (\\d+) символов$")
     public void checkFieldSymbolsCount(String element, int num) {
@@ -789,7 +844,8 @@ public class WebSteps {
     }
 
     /**
-     * Производится проверка соответствия числа элементов списка значению, указанному в шаге
+     * <p style="color: green; font-size: 1.5em">Производится проверка соответствия числа элементов списка значению, указанному в шаге
+     * </p>
      */
     @Тогда("^в списке \"([^\"]*)\" содержится (\\d+) (?:элемент|элементов|элемента)")
     public void listContainsNumberOfElements(String listName, int quantity) {
@@ -798,7 +854,8 @@ public class WebSteps {
     }
 
     /**
-     * Производится проверка соответствия числа элементов списка значению из property файла, из переменной сценария или указанному в шаге
+     * <p style="color: green; font-size: 1.5em">Производится проверка соответствия числа элементов списка значению из property файла, из переменной сценария или указанному в шаге
+     * </p>
      */
     @Тогда("^в списке \"([^\"]*)\" содержится количество элементов, равное значению из переменной \"([^\"]*)\"")
     public void listContainsNumberFromVariable(String listName, String quantity) {
@@ -807,7 +864,8 @@ public class WebSteps {
     }
 
     /**
-     * Производится сопоставление числа элементов списка и значения, указанного в шаге
+     * <p style="color: green; font-size: 1.5em">Производится сопоставление числа элементов списка и значения, указанного в шаге
+     * </p>
      */
     @Тогда("^в списке \"([^\"]*)\" содержится (более|менее) (\\d+) (?:элементов|элемента)")
     public void listContainsMoreOrLessElements(String listName, String moreOrLess, int quantity) {
@@ -819,8 +877,9 @@ public class WebSteps {
     }
 
     /**
-     * Скроллит страницу вниз до появления элемента каждую секунду.
+     * <p style="color: green; font-size: 1.5em">Скроллит страницу вниз до появления элемента каждую секунду.
      * Если достигнут футер страницы и элемент не найден - выбрасывается exception.
+     * </p>
      */
     @И("^страница прокручена до появления элемента \"([^\"]*)\"$")
     public void scrollWhileElemNotFoundOnPage(String elementName) {
@@ -837,8 +896,9 @@ public class WebSteps {
     }
 
     /**
-     * Скроллит страницу вниз до появления элемента с текстом из property файла, из переменной сценария или указанному в шаге каждую секунду.
+     * <p style="color: green; font-size: 1.5em">Скроллит страницу вниз до появления элемента с текстом из property файла, из переменной сценария или указанному в шаге каждую секунду.
      * Если достигнут футер страницы и элемент не найден - выбрасывается exception.
+     * </p>
      */
     @И("^страница прокручена до появления элемента с текстом \"([^\"]*)\"$")
     public void scrollWhileElemWithTextNotFoundOnPage(String expectedValue) {
@@ -857,6 +917,7 @@ public class WebSteps {
 
     /*
      * Проверка совпадения значения из переменной и значения из property
+</p>
      */
     @Тогда("^значения из переменной \"([^\"]*)\" и из property файла \"([^\"]*)\" совпадают$")
     public void checkIfValueFromVariableEqualPropertyVariable(String envVarible, String propertyVariable) {
@@ -868,6 +929,7 @@ public class WebSteps {
      * Выполняется нажатие на кнопку и подгружается указанный файл
      * Селектор кнопки должны быть строго на input элемента
      * Можно указать путь до файла. Например, src/test/resources/example.pdf
+</p>
      */
     @Когда("^выполнено нажатие на кнопку \"([^\"]*)\" и загружен файл \"([^\"]*)\"$")
     public void clickOnButtonAndUploadFile(String buttonName, String fileName) {
@@ -878,6 +940,7 @@ public class WebSteps {
 
     /*
      * Выполняется чтение файла с шаблоном и заполнение его значениями из таблицы
+</p>
      */
     @И("^шаблон \"([^\"]*)\" заполнен данными из таблицы и сохранён в переменную \"([^\"]*)\"$")
     public void fillTemplate(String templateName, String varName, DataTable table) {
@@ -898,9 +961,40 @@ public class WebSteps {
         coreScenario.setVar(varName, template);
     }
 
+
     /**
-     * @return Возвращает значение из property файла, если отсутствует, то из пользовательских переменных,
+     * <p style="color: green; font-size: 1.5em">Клик по заданному элементу в блоке
+     *
+     * @param elementName имя элемента
+     * @param blockName   имя блока
+     *
+     *                    </p>
+     */
+    @И("^выполнено нажатие на (?:кнопку|поле) \"([^\"]*)\" в блоке \"([^\"]*)\"$")
+    public void clickOnElementInBlock(String elementName, String blockName) {
+        coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName).click();
+    }
+
+    @И("^в блоке \"([^\"]*)\" найден список элементов\"([^\"]*)\" и сохранен в переменную \"([^\"]*)\"$")
+    public void getElementsList(String blockName, String listName, String varName) {
+        coreScenario.setVar(varName, coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName));
+    }
+
+    @И("^в блоке \"([^\"]*)\" найден список элементов\"([^\"]*)\" и сохранен текст в переменную \"([^\"]*)\"$")
+    public void getListElementsText(String blockName, String listName, String varName) {
+        coreScenario.setVar(varName,
+                coreScenario.getCurrentPage()
+                        .getBlock(blockName)
+                        .getElementsList(listName)
+                        .stream()
+                        .map(SelenideElement::getText)
+                        .collect(Collectors.toList()));
+    }
+
+    /**
+     * <p style="color: green; font-size: 1.5em">@return Возвращает значение из property файла, если отсутствует, то из пользовательских переменных,
      * если и оно отсутствует, то возвращает значение переданной на вход переменной
+     * </p>
      */
     public static String getPropertyOrStringVariableOrValue(String propertyNameOrVariableNameOrValue) {
         String propertyValue = tryLoadProperty(propertyNameOrVariableNameOrValue);
@@ -923,7 +1017,8 @@ public class WebSteps {
     }
 
     /**
-     * @return Возвращает каталог "Downloads" в домашней директории
+     * <p style="color: green; font-size: 1.5em">@return Возвращает каталог "Downloads" в домашней директории
+     * </p>
      */
     private File getDownloadsDir() {
         String homeDir = System.getProperty("user.home");
@@ -931,8 +1026,9 @@ public class WebSteps {
     }
 
     /**
-     * @param filesToDelete массив файлов
-     *                      Удаляет файлы, переданные в метод
+     * <p style="color: green; font-size: 1.5em">@param filesToDelete массив файлов
+     * Удаляет файлы, переданные в метод
+     * </p>
      */
     private void deleteFiles(File[] filesToDelete) {
         for (File file : filesToDelete) {
@@ -941,17 +1037,19 @@ public class WebSteps {
     }
 
     /**
-     * @param maxValueInRange максимальная граница диапазона генерации случайных чисел
-     *                        Возвращает случайное число от нуля до maxValueInRange
+     * <p style="color: green; font-size: 1.5em">@param maxValueInRange максимальная граница диапазона генерации случайных чисел
+     * Возвращает случайное число от нуля до maxValueInRange
+     * </p>
      */
     private int getRandom(int maxValueInRange) {
         return (int) (Math.random() * maxValueInRange);
     }
 
     /**
-     * Возвращает последовательность случайных символов переданных алфавита и длины
+     * <p style="color: green; font-size: 1.5em">Возвращает последовательность случайных символов переданных алфавита и длины
      * Принимает на вход варианты языков 'ru' и 'en'
      * Для других входных параметров возвращает латинские символы (en)
+     * </p>
      */
     public String getRandCharSequence(int length, String lang) {
 
@@ -964,7 +1062,8 @@ public class WebSteps {
     }
 
     /**
-     * Возвращает случайный символ переданного алфавита
+     * <p style="color: green; font-size: 1.5em">Возвращает случайный символ переданного алфавита
+     * </p>
      */
     private char charGenerator(String lang) {
         Random random = new Random();
@@ -976,7 +1075,8 @@ public class WebSteps {
     }
 
     /**
-     * Проверка на соответствие строки паттерну
+     * <p style="color: green; font-size: 1.5em">Проверка на соответствие строки паттерну
+     * </p>
      */
     public boolean isTextMatches(String str, String pattern) {
         Pattern r = Pattern.compile(pattern);
@@ -985,7 +1085,8 @@ public class WebSteps {
     }
 
     /**
-     * Возвращает локатор для поиска по нормализованному(без учета регистра) тексту
+     * <p style="color: green; font-size: 1.5em">Возвращает локатор для поиска по нормализованному(без учета регистра) тексту
+     * </p>
      */
     public String getTranslateNormalizeSpaceText(String expectedText) {
         StringBuilder text = new StringBuilder();

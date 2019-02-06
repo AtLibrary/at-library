@@ -22,6 +22,7 @@ import java.util.Arrays;
 
 /**
  * <h1 style="color: green; font-size: 2.2em">Класс, связанный с CoreScenario, используется для хранения страниц и переменных внутри сценария</h1>
+ *
  * @author Anton Pavlov
  */
 @Log4j2
