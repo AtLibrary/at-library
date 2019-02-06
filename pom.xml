@@ -30,10 +30,6 @@
         <guava.version>23.0</guava.version>
         <jsonpath.version>2.4.0</jsonpath.version>
         <galenframework.version>2.4.0</galenframework.version>
-        <!--git-->
-        <!--https://devcolibri.com/4405-->
-        <github.global.server>github</github.global.server>
-        <github.maven-plugin>0.12</github.maven-plugin>
     </properties>
 
     <distributionManagement>
