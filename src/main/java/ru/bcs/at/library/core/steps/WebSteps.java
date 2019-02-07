@@ -57,15 +57,16 @@ import static ru.bcs.at.library.core.cucumber.ScopedVariables.resolveVars;
 
 
 /**
- * <h1 style="color: green; font-size: 2.2em">WEB шаги</h1>
+ * <h1 style="color: green; font-size: 2.2em">
+ * WEB шаги
+ * </h1>
  *
- * <p style="color: green; font-size: 1.5em">В coreScenario используется хранилище переменных. Для сохранения/изъятия переменных используются методы setVar/getVar
+ * <p style="color: green; font-size: 1.5em">
+ * В coreScenario используется хранилище переменных. Для сохранения/изъятия переменных используются методы setVar/getVar
  * Каждая страница, с которой предполагается взаимодействие, должна быть описана в соответствующем классе,
  * наследующем CorePage. Для каждого элемента следует задать имя на русском, через аннотацию @Name, чтобы искать
  * можно было именно по русскому описанию, а не по селектору. Селекторы следует хранить только в классе страницы,
  * не в степах, в степах - взаимодействие по русскому названию элемента.</p>
- *
- * @author Anton Pavlov
  */
 
 @Log4j2
@@ -76,8 +77,11 @@ public class WebSteps {
     private static final int DEFAULT_TIMEOUT = loadPropertyInt("waitingCustomElementsTimeout", 10000);
 
     /**
-     * <p style="color: green; font-size: 1.5em">На странице происходит клик по заданному элементу
-     * </p>
+     * <p style="color: green; font-size: 1.5em">
+     * На странице происходит клик по заданному элементу
+     *
+     * @param elementName название кнопки|поля|блока
+     *                    </p>
      */
     @И("^выполнено нажатие на (?:кнопку|поле|блок) \"([^\"]*)\"$")
     public void clickOnElement(String elementName) {
@@ -85,10 +89,13 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Проверка появления элемента(не списка) на странице в течение DEFAULT_TIMEOUT.
+     * <p style="color: green; font-size: 1.5em">
+     * Проверка появления элемента(не списка) на странице в течение DEFAULT_TIMEOUT.
      * В случае, если свойство "waitingCustomElementsTimeout" в application.properties не задано,
      * таймаут равен 10 секундам
-     * </p>
+     *
+     * @param elementName название кнопки|поля|блока
+     *                    </p>
      */
     @Тогда("^элемент \"([^\"]*)\" отображается на странице$")
     public void elemIsPresentedOnPage(String elementName) {
@@ -98,9 +105,13 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Проверка появления элемента(не списка) на странице в течение
+     * <p style="color: green; font-size: 1.5em">
+     * Проверка появления элемента(не списка) на странице в течение
      * заданного количества секунд
-     * </p>
+     *
+     * @param elementName название кнопки|поля|блока
+     * @param seconds     количество секунд
+     *                    </p>
      */
     @Тогда("^элемент \"([^\"]*)\" отобразился на странице в течение (\\d+) (?:секунд|секунды)")
     public void testElementAppeared(String elementName, int seconds) {
@@ -110,10 +121,13 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Проверка появления списка на странице в течение DEFAULT_TIMEOUT.
+     * <p style="color: green; font-size: 1.5em">
+     * Проверка появления списка на странице в течение DEFAULT_TIMEOUT.
      * В случае, если свойство "waitingCustomElementsTimeout" в application.properties не задано,
      * таймаут равен 10 секундам
-     * </p>
+     *
+     * @param elementName название элемента
+     *                    </p>
      */
     @Тогда("^список \"([^\"]*)\" отображается на странице$")
     public void listIsPresentedOnPage(String elementName) {
@@ -123,10 +137,13 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Проверка того, что элемент исчезнет со страницы (станет невидимым) в течение DEFAULT_TIMEOUT.
+     * <p style="color: green; font-size: 1.5em">
+     * Проверка того, что элемент исчезнет со страницы (станет невидимым) в течение DEFAULT_TIMEOUT.
      * В случае, если свойство "waitingCustomElementsTimeout" в application.properties не задано,
      * таймаут равен 10 секундам
-     * </p>
+     *
+     * @param elementName название кнопки|поля|блока
+     *                    </p>
      */
     @Тогда("^ожидается исчезновение элемента \"([^\"]*)\"")
     public void elemDisappered(String elementName) {
@@ -135,11 +152,14 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Проверка того, что все элементы, которые описаны в классе страницы с аннотацией @Name,
+     * <p style="color: green; font-size: 1.5em">
+     * Проверка того, что все элементы, которые описаны в классе страницы с аннотацией @Name,
      * но без аннотации @Optional появились на странице
      * в течение WAITING_APPEAR_TIMEOUT, которое равно значению свойства "waitingAppearTimeout"
      * из application.properties. Если свойство не найдено, время таймаута равно 8 секундам
      * </p>
+     *
+     * @param nameOfPage название страница|блок|форма|вкладка
      */
     @Тогда("^(?:страница|блок|форма|вкладка) \"([^\"]*)\" (?:загрузилась|загрузился)$")
     public void loadPage(String nameOfPage) {
@@ -150,9 +170,12 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Проверка того, что все элементы, которые описаны в классе страницы с аннотацией @Name,
+     * <p style="color: green; font-size: 1.5em">
+     * Проверка того, что все элементы, которые описаны в классе страницы с аннотацией @Name,
      * но без аннотации @Optional, не появились на странице
      * </p>
+     *
+     * @param nameOfPage название страница|блок|форма|вкладка
      */
     @Тогда("^(?:страница|блок|форма|вкладка) \"([^\"]*)\" не (?:загрузилась|загрузился)$")
     public void loadPageFailed(String nameOfPage) {
@@ -164,8 +187,12 @@ public class WebSteps {
 
 
     /**
-     * <p style="color: green; font-size: 1.5em">Проверка того, что значение из поля совпадает со значением заданной переменной из хранилища
+     * <p style="color: green; font-size: 1.5em">
+     * Проверка того, что значение из поля совпадает со значением заданной переменной из хранилища
      * </p>
+     *
+     * @param elementName название поля|элемента
+     * @param variableName имя переменной
      */
     @Тогда("^значение (?:поля|элемента) \"([^\"]*)\" совпадает со значением из переменной \"([^\"]*)\"$")
     public void compareFieldAndVariable(String elementName, String variableName) {
@@ -176,9 +203,12 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Проверка того, что значение из поля содержится в списке,
+     * <p style="color: green; font-size: 1.5em">
+     * Проверка того, что значение из поля содержится в списке,
      * полученном из хранилища переменных по заданному ключу
      * </p>
+     * @param variableListName имя переменной
+     * @param elementName имя :поля|элемента
      */
     @SuppressWarnings("unchecked")
     @Тогда("^список из переменной \"([^\"]*)\" содержит значение (?:поля|элемента) \"([^\"]*)\"$")
@@ -190,7 +220,8 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Выполняется переход по заданной ссылке.
+     * <p style="color: green; font-size: 1.5em">
+     * Выполняется переход по заданной ссылке.
      * Шаг содержит проверку, что после перехода загружена заданная страница.
      * Ссылка может передаваться как строка, так и как ключ из application.properties
      * </p>
@@ -205,7 +236,8 @@ public class WebSteps {
 
 
     /**
-     * <p style="color: green; font-size: 1.5em">Проверка того, что блок исчез/стал невидимым
+     * <p style="color: green; font-size: 1.5em">
+     * Проверка того, что блок исчез/стал невидимым
      * </p>
      */
     @Тогда("^(?:страница|блок|форма) \"([^\"]*)\" (?:скрыт|скрыта)")
@@ -216,7 +248,8 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Эмулирует нажатие клавиш на клавиатуре
+     * <p style="color: green; font-size: 1.5em">
+     * Эмулирует нажатие клавиш на клавиатуре
      * </p>
      */
     @И("^выполнено нажатие на клавиатуре \"([^\"]*)\"$")
@@ -226,12 +259,14 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">@param keyNames название клавиши
-     * Эмулирует нажатие сочетания клавиш на клавиатуре.
-     * Допустим, чтобы эмулировать нажатие на Ctrl+A, в таблице должны быть следующие значения
-     * | CONTROL |
-     * | a       |
-     * </p>
+     * <p style="color: green; font-size: 1.5em">
+     *
+     * @param keyNames название клавиши
+     *                 Эмулирует нажатие сочетания клавиш на клавиатуре.
+     *                 Допустим, чтобы эмулировать нажатие на Ctrl+A, в таблице должны быть следующие значения
+     *                 | CONTROL |
+     *                 | a       |
+     *                 </p>
      */
     @И("^выполнено нажатие на сочетание клавиш из таблицы$")
     public void pressKeyCombination(List<String> keyNames) {
@@ -251,7 +286,8 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Устанавливается значение (в приоритете: из property, из переменной сценария, значение аргумента) в заданное поле.
+     * <p style="color: green; font-size: 1.5em">
+     * Устанавливается значение (в приоритете: из property, из переменной сценария, значение аргумента) в заданное поле.
      * Перед использованием поле нужно очистить
      * </p>
      */
@@ -264,7 +300,8 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Очищается заданное поле
+     * <p style="color: green; font-size: 1.5em">
+     * Очищается заданное поле
      * </p>
      */
     @Когда("^очищено поле \"([^\"]*)\"$")
@@ -278,7 +315,8 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Проверка, что поле для ввода пусто
+     * <p style="color: green; font-size: 1.5em">
+     * Проверка, что поле для ввода пусто
      * </p>
      */
     @Тогда("^поле \"([^\"]*)\" пусто$")
@@ -289,7 +327,8 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Проверка, что список со страницы состоит только из элементов,
+     * <p style="color: green; font-size: 1.5em">
+     * Проверка, что список со страницы состоит только из элементов,
      * перечисленных в таблице
      * Для получения текста из элементов списка используется метод getText()
      * </p>
@@ -303,7 +342,8 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Проверка, что список со страницы состоит только из элементов,
+     * <p style="color: green; font-size: 1.5em">
+     * Проверка, что список со страницы состоит только из элементов,
      * перечисленных в таблице
      * Для получения текста из элементов списка используется метод innerText()
      * </p>
@@ -318,7 +358,8 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Выбор из списка со страницы элемента с заданным значением
+     * <p style="color: green; font-size: 1.5em">
+     * Выбор из списка со страницы элемента с заданным значением
      * (в приоритете: из property, из переменной сценария, значение аргумента)
      * </p>
      */
@@ -337,7 +378,8 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Выбор из списка со страницы элемента, который содержит заданный текст
+     * <p style="color: green; font-size: 1.5em">
+     * Выбор из списка со страницы элемента, который содержит заданный текст
      * (в приоритете: из property, из переменной сценария, значение аргумента)
      * Не чувствителен к регистру
      * </p>
@@ -357,7 +399,8 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Проверка, что список со страницы совпадает со списком из переменной
+     * <p style="color: green; font-size: 1.5em">
+     * Проверка, что список со страницы совпадает со списком из переменной
      * без учёта порядка элементов
      * Для получения текста из элементов списка используется метод innerText()
      * </p>
@@ -374,7 +417,8 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Сохранение значения элемента в переменную
+     * <p style="color: green; font-size: 1.5em">
+     * Сохранение значения элемента в переменную
      * </p>
      */
     @Когда("^значение (?:элемента|поля) \"([^\"]*)\" сохранено в переменную \"([^\"]*)\"$")
@@ -385,7 +429,8 @@ public class WebSteps {
 
 
     /**
-     * <p style="color: green; font-size: 1.5em">Переход на страницу по клику и проверка, что страница загружена
+     * <p style="color: green; font-size: 1.5em">
+     * Переход на страницу по клику и проверка, что страница загружена
      * </p>
      */
     @И("^выполнен переход на страницу \"([^\"]*)\" после нажатия на (?:ссылку|кнопку) \"([^\"]*)\"$")
@@ -396,7 +441,8 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Шаг авторизации.
+     * <p style="color: green; font-size: 1.5em">
+     * Шаг авторизации.
      * Для того, чтобы шаг работал, на текущей странице должны быть указаны элементы
      * со значениями аннотации @Name:
      * "Логин" - для поля ввода логина,
@@ -421,7 +467,8 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Выполняется наведение курсора на элемент
+     * <p style="color: green; font-size: 1.5em">
+     * Выполняется наведение курсора на элемент
      * </p>
      */
     @Когда("^выполнен ховер на (?:поле|элемент) \"([^\"]*)\"$")
@@ -431,7 +478,8 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Проверка того, что элемент не отображается на странице
+     * <p style="color: green; font-size: 1.5em">
+     * Проверка того, что элемент не отображается на странице
      * </p>
      */
     @Тогда("^(?:поле|выпадающий список|элемент) \"([^\"]*)\" не отображается на странице$")
@@ -442,7 +490,8 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Проверка, что элемент на странице кликабелен
+     * <p style="color: green; font-size: 1.5em">
+     * Проверка, что элемент на странице кликабелен
      * </p>
      */
     @Тогда("^(?:поле|элемент) \"([^\"]*)\" кликабельно$")
@@ -452,7 +501,8 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Проверка, что у элемента есть атрибут с ожидаемым значением (в приоритете: из property, из переменной сценария, значение аргумента)
+     * <p style="color: green; font-size: 1.5em">
+     * Проверка, что у элемента есть атрибут с ожидаемым значением (в приоритете: из property, из переменной сценария, значение аргумента)
      * </p>
      */
     @Тогда("^элемент \"([^\"]*)\" содержит атрибут \"([^\"]*)\" со значением \"(.*)\"$")
@@ -465,7 +515,8 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Проверка, что элемент содержит указанный класс (в приоритете: из property, из переменной сценария, значение аргумента)
+     * <p style="color: green; font-size: 1.5em">
+     * Проверка, что элемент содержит указанный класс (в приоритете: из property, из переменной сценария, значение аргумента)
      * Например:
      * если нужно проверить что элемент не отображается на странице, но проверки Selenium отрабатывают неверно,
      * можно использовать данный метод и проверить, что среди его классов есть disabled
@@ -481,7 +532,8 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Проверка, что элемент не содержит указанный класс
+     * <p style="color: green; font-size: 1.5em">
+     * Проверка, что элемент не содержит указанный класс
      * </p>
      */
     @Тогда("^элемент \"([^\"]*)\" не содержит класс со значением \"(.*)\"$")
@@ -494,7 +546,8 @@ public class WebSteps {
 
 
     /**
-     * <p style="color: green; font-size: 1.5em">Проверка, что значение в поле содержит значение (в приоритете: из property, из переменной сценария, значение аргумента),
+     * <p style="color: green; font-size: 1.5em">
+     * Проверка, что значение в поле содержит значение (в приоритете: из property, из переменной сценария, значение аргумента),
      * указанное в шаге
      * </p>
      */
@@ -506,7 +559,8 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Проверка, что значение в поле содержит текст, указанный в шаге
+     * <p style="color: green; font-size: 1.5em">
+     * Проверка, что значение в поле содержит текст, указанный в шаге
      * (в приоритете: из property, из переменной сценария, значение аргумента).
      * Используется метод innerText(), который получает как видимый, так и скрытый текст из элемента,
      * обрезая перенос строк и пробелы в конце и начале строчки.
@@ -521,7 +575,8 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Проверка, что значение в поле равно значению, указанному в шаге (в приоритете: из property, из переменной сценария, значение аргумента)
+     * <p style="color: green; font-size: 1.5em">
+     * Проверка, что значение в поле равно значению, указанному в шаге (в приоритете: из property, из переменной сценария, значение аргумента)
      * </p>
      */
     @Тогда("^значение (?:поля|элемента) \"([^\"]*)\" равно \"(.*)\"$")
@@ -532,7 +587,8 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Проверка, что кнопка/ссылка недоступна для нажатия
+     * <p style="color: green; font-size: 1.5em">
+     * Проверка, что кнопка/ссылка недоступна для нажатия
      * </p>
      */
     @Тогда("^(?:ссылка|кнопка) \"([^\"]*)\" недоступна для нажатия$")
@@ -542,7 +598,8 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Проверка, что поле нередактируемо
+     * <p style="color: green; font-size: 1.5em">
+     * Проверка, что поле нередактируемо
      * </p>
      */
     @Тогда("^(?:поле|элемент) \"([^\"]*)\" (?:недоступно|недоступен) для редактирования$")
@@ -552,7 +609,8 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Проверка, что список со страницы совпадает со списком из переменной
+     * <p style="color: green; font-size: 1.5em">
+     * Проверка, что список со страницы совпадает со списком из переменной
      * без учёта порядка элементов
      * </p>
      */
@@ -565,7 +623,8 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Проверка, что на странице не отображаются редактируемые элементы, такие как:
+     * <p style="color: green; font-size: 1.5em">
+     * Проверка, что на странице не отображаются редактируемые элементы, такие как:
      * -input
      * -textarea
      * </p>
@@ -585,7 +644,8 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Добавление строки (в приоритете: из property, из переменной сценария, значение аргумента) в поле к уже заполненой строке
+     * <p style="color: green; font-size: 1.5em">
+     * Добавление строки (в приоритете: из property, из переменной сценария, значение аргумента) в поле к уже заполненой строке
      * </p>
      */
     @Когда("^в элемент \"([^\"]*)\" дописывается значение \"(.*)\"$")
@@ -601,7 +661,8 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Нажатие на элемент по его тексту (в приоритете: из property, из переменной сценария, значение аргумента)
+     * <p style="color: green; font-size: 1.5em">
+     * Нажатие на элемент по его тексту (в приоритете: из property, из переменной сценария, значение аргумента)
      * </p>
      */
     @И("^выполнено нажатие на элемент с текстом \"(.*)\"$")
@@ -610,7 +671,8 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Ввод в поле текущей даты в заданном формате
+     * <p style="color: green; font-size: 1.5em">
+     * Ввод в поле текущей даты в заданном формате
      * При неверном формате, используется dd.MM.yyyy
      * </p>
      */
@@ -631,7 +693,8 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Ввод в поле указанного текста (в приоритете: из property, из переменной сценария, значение аргумента),
+     * <p style="color: green; font-size: 1.5em">
+     * Ввод в поле указанного текста (в приоритете: из property, из переменной сценария, значение аргумента),
      * используя буфер обмена и клавиши SHIFT + INSERT
      * </p>
      */
@@ -647,7 +710,8 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Выполняется поиск нужного файла в папке /Downloads
+     * <p style="color: green; font-size: 1.5em">
+     * Выполняется поиск нужного файла в папке /Downloads
      * Поиск осуществляется по содержанию ожидаемого текста в названии файла. Можно передавать регулярное выражение.
      * После выполнения проверки файл удаляется
      * </p>
@@ -664,7 +728,8 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Скроллит экран до нужного элемента, имеющегося на странице, но видимого только в нижней/верхней части страницы.
+     * <p style="color: green; font-size: 1.5em">
+     * Скроллит экран до нужного элемента, имеющегося на странице, но видимого только в нижней/верхней части страницы.
      * </p>
      */
     @Тогда("^страница прокручена до элемента \"([^\"]*)\"")
@@ -673,7 +738,8 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Выбор из списка со страницы любого случайного элемента
+     * <p style="color: green; font-size: 1.5em">
+     * Выбор из списка со страницы любого случайного элемента
      * </p>
      */
     @Тогда("^выбран любой элемент в списке \"([^\"]*)\"$")
@@ -685,7 +751,8 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Выбор из списка со страницы любого случайного элемента и сохранение его значения в переменную
+     * <p style="color: green; font-size: 1.5em">
+     * Выбор из списка со страницы любого случайного элемента и сохранение его значения в переменную
      * </p>
      */
     @Когда("^выбран любой элемент из списка \"([^\"]*)\" и его значение сохранено в переменную \"([^\"]*)\"$")
@@ -699,7 +766,8 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Выбор n-го элемента из списка со страницы
+     * <p style="color: green; font-size: 1.5em">
+     * Выбор n-го элемента из списка со страницы
      * Нумерация элементов начинается с 1
      * </p>
      */
@@ -718,7 +786,8 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Проверка, что каждый элемент списка содержит ожидаемый текст
+     * <p style="color: green; font-size: 1.5em">
+     * Проверка, что каждый элемент списка содержит ожидаемый текст
      * Не чувствителен к регистру
      * </p>
      */
@@ -734,7 +803,8 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Проверка, что каждый элемент списка не содержит ожидаемый текст
+     * <p style="color: green; font-size: 1.5em">
+     * Проверка, что каждый элемент списка не содержит ожидаемый текст
      * </p>
      */
     @Тогда("^элементы списка \"([^\"]*)\" не содержат текст \"([^\"]*)\"$")
@@ -749,7 +819,8 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Ввод в поле случайной последовательности латинских или кириллических букв задаваемой длины
+     * <p style="color: green; font-size: 1.5em">
+     * Ввод в поле случайной последовательности латинских или кириллических букв задаваемой длины
      * </p>
      */
     @Когда("^в поле \"([^\"]*)\" введено (\\d+) случайных символов на (кириллице|латинице)$")
@@ -765,7 +836,8 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Ввод в поле случайной последовательности латинских или кириллических букв задаваемой длины и сохранение этого значения в переменную
+     * <p style="color: green; font-size: 1.5em">
+     * Ввод в поле случайной последовательности латинских или кириллических букв задаваемой длины и сохранение этого значения в переменную
      * </p>
      */
     @Когда("^в поле \"([^\"]*)\" введено (\\d+) случайных символов на (кириллице|латинице) и сохранено в переменную \"([^\"]*)\"$")
@@ -782,7 +854,8 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Ввод в поле случайной последовательности цифр задаваемой длины
+     * <p style="color: green; font-size: 1.5em">
+     * Ввод в поле случайной последовательности цифр задаваемой длины
      * </p>
      */
     @Когда("^в поле \"([^\"]*)\" введено случайное число из (\\d+) (?:цифр|цифры)$")
@@ -795,7 +868,8 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Ввод в поле случайной последовательности цифр задаваемой длины и сохранение этого значения в переменную
+     * <p style="color: green; font-size: 1.5em">
+     * Ввод в поле случайной последовательности цифр задаваемой длины и сохранение этого значения в переменную
      * </p>
      */
     @Когда("^в поле \"([^\"]*)\" введено случайное число из (\\d+) (?:цифр|цифры) и сохранено в переменную \"([^\"]*)\"$")
@@ -810,7 +884,8 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Проход по списку и проверка текста у элемента на соответствие формату регулярного выражения
+     * <p style="color: green; font-size: 1.5em">
+     * Проход по списку и проверка текста у элемента на соответствие формату регулярного выражения
      * </p>
      */
     @И("элементы списка \"([^\"]*)\" соответствуют формату \"([^\"]*)\"$")
@@ -823,7 +898,8 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Выполняется запуск js-скрипта с указанием в js.executeScript его логики
+     * <p style="color: green; font-size: 1.5em">
+     * Выполняется запуск js-скрипта с указанием в js.executeScript его логики
      * Скрипт можно передать как аргумент метода или значение из application.properties
      * </p>
      */
@@ -834,7 +910,8 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Производится проверка количества символов в поле со значением, указанным в шаге
+     * <p style="color: green; font-size: 1.5em">
+     * Производится проверка количества символов в поле со значением, указанным в шаге
      * </p>
      */
     @Тогда("^в поле \"([^\"]*)\" содержится (\\d+) символов$")
@@ -844,7 +921,8 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Производится проверка соответствия числа элементов списка значению, указанному в шаге
+     * <p style="color: green; font-size: 1.5em">
+     * Производится проверка соответствия числа элементов списка значению, указанному в шаге
      * </p>
      */
     @Тогда("^в списке \"([^\"]*)\" содержится (\\d+) (?:элемент|элементов|элемента)")
@@ -854,7 +932,8 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Производится проверка соответствия числа элементов списка значению из property файла, из переменной сценария или указанному в шаге
+     * <p style="color: green; font-size: 1.5em">
+     * Производится проверка соответствия числа элементов списка значению из property файла, из переменной сценария или указанному в шаге
      * </p>
      */
     @Тогда("^в списке \"([^\"]*)\" содержится количество элементов, равное значению из переменной \"([^\"]*)\"")
@@ -864,7 +943,8 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Производится сопоставление числа элементов списка и значения, указанного в шаге
+     * <p style="color: green; font-size: 1.5em">
+     * Производится сопоставление числа элементов списка и значения, указанного в шаге
      * </p>
      */
     @Тогда("^в списке \"([^\"]*)\" содержится (более|менее) (\\d+) (?:элементов|элемента)")
@@ -877,7 +957,8 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Скроллит страницу вниз до появления элемента каждую секунду.
+     * <p style="color: green; font-size: 1.5em">
+     * Скроллит страницу вниз до появления элемента каждую секунду.
      * Если достигнут футер страницы и элемент не найден - выбрасывается exception.
      * </p>
      */
@@ -896,7 +977,8 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Скроллит страницу вниз до появления элемента с текстом из property файла, из переменной сценария или указанному в шаге каждую секунду.
+     * <p style="color: green; font-size: 1.5em">
+     * Скроллит страницу вниз до появления элемента с текстом из property файла, из переменной сценария или указанному в шаге каждую секунду.
      * Если достигнут футер страницы и элемент не найден - выбрасывается exception.
      * </p>
      */
@@ -915,9 +997,9 @@ public class WebSteps {
     }
 
 
-    /*
+    /**
      * Проверка совпадения значения из переменной и значения из property
-</p>
+     * </p>
      */
     @Тогда("^значения из переменной \"([^\"]*)\" и из property файла \"([^\"]*)\" совпадают$")
     public void checkIfValueFromVariableEqualPropertyVariable(String envVarible, String propertyVariable) {
@@ -925,11 +1007,11 @@ public class WebSteps {
                 (String) coreScenario.getVar(envVarible), equalToIgnoringCase(loadProperty(propertyVariable)));
     }
 
-    /*
+    /**
      * Выполняется нажатие на кнопку и подгружается указанный файл
      * Селектор кнопки должны быть строго на input элемента
      * Можно указать путь до файла. Например, src/test/resources/example.pdf
-</p>
+     * </p>
      */
     @Когда("^выполнено нажатие на кнопку \"([^\"]*)\" и загружен файл \"([^\"]*)\"$")
     public void clickOnButtonAndUploadFile(String buttonName, String fileName) {
@@ -938,9 +1020,9 @@ public class WebSteps {
         coreScenario.getCurrentPage().getElement(buttonName).uploadFile(attachmentFile);
     }
 
-    /*
+    /**
      * Выполняется чтение файла с шаблоном и заполнение его значениями из таблицы
-</p>
+     * </p>
      */
     @И("^шаблон \"([^\"]*)\" заполнен данными из таблицы и сохранён в переменную \"([^\"]*)\"$")
     public void fillTemplate(String templateName, String varName, DataTable table) {
@@ -963,7 +1045,8 @@ public class WebSteps {
 
 
     /**
-     * <p style="color: green; font-size: 1.5em">Клик по заданному элементу в блоке
+     * <p style="color: green; font-size: 1.5em">
+     * Клик по заданному элементу в блоке
      *
      * @param elementName имя элемента
      * @param blockName   имя блока
@@ -975,11 +1058,27 @@ public class WebSteps {
         coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName).click();
     }
 
+    /**
+     * <p style="color: green; font-size: 1.5em">
+     * </p>
+     *
+     * @param blockName имя блока
+     * @param listName
+     * @param varName
+     */
     @И("^в блоке \"([^\"]*)\" найден список элементов\"([^\"]*)\" и сохранен в переменную \"([^\"]*)\"$")
     public void getElementsList(String blockName, String listName, String varName) {
         coreScenario.setVar(varName, coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName));
     }
 
+    /**
+     * <p style="color: green; font-size: 1.5em">
+     * </p>
+     *
+     * @param blockName имя блока
+     * @param listName
+     * @param varName
+     */
     @И("^в блоке \"([^\"]*)\" найден список элементов\"([^\"]*)\" и сохранен текст в переменную \"([^\"]*)\"$")
     public void getListElementsText(String blockName, String listName, String varName) {
         coreScenario.setVar(varName,
@@ -992,11 +1091,13 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">@return Возвращает значение из property файла, если отсутствует, то из пользовательских переменных,
+     * <p style="color: green; font-size: 1.5em">
+     *
+     * @return Возвращает значение из property файла, если отсутствует, то из пользовательских переменных,
      * если и оно отсутствует, то возвращает значение переданной на вход переменной
      * </p>
      */
-    public static String getPropertyOrStringVariableOrValue(String propertyNameOrVariableNameOrValue) {
+    protected static String getPropertyOrStringVariableOrValue(String propertyNameOrVariableNameOrValue) {
         String propertyValue = tryLoadProperty(propertyNameOrVariableNameOrValue);
         String variableValue = (String) CoreScenario.getInstance().tryGetVar(propertyNameOrVariableNameOrValue);
 
@@ -1006,18 +1107,10 @@ public class WebSteps {
         return propertyCheck ? propertyValue : (variableCheck ? variableValue : propertyNameOrVariableNameOrValue);
     }
 
-    private static boolean checkResult(String result, String message) {
-        if (isNull(result)) {
-            log.warn(message + " не найдена");
-            return false;
-        }
-        log.info(message + " = " + result);
-        CoreScenario.getInstance().write(message + " = " + result);
-        return true;
-    }
-
     /**
-     * <p style="color: green; font-size: 1.5em">@return Возвращает каталог "Downloads" в домашней директории
+     * <p style="color: green; font-size: 1.5em">
+     *
+     * @return Возвращает каталог "Downloads" в домашней директории
      * </p>
      */
     private File getDownloadsDir() {
@@ -1026,9 +1119,11 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">@param filesToDelete массив файлов
-     * Удаляет файлы, переданные в метод
-     * </p>
+     * <p style="color: green; font-size: 1.5em">
+     *
+     * @param filesToDelete массив файлов
+     *                      Удаляет файлы, переданные в метод
+     *                      </p>
      */
     private void deleteFiles(File[] filesToDelete) {
         for (File file : filesToDelete) {
@@ -1037,21 +1132,26 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">@param maxValueInRange максимальная граница диапазона генерации случайных чисел
-     * Возвращает случайное число от нуля до maxValueInRange
-     * </p>
+     * <p style="color: green; font-size: 1.5em">
+     *
+     * @param maxValueInRange максимальная граница диапазона генерации случайных чисел
+     *                        Возвращает случайное число от нуля до maxValueInRange
+     *                        </p>
      */
     private int getRandom(int maxValueInRange) {
         return (int) (Math.random() * maxValueInRange);
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Возвращает последовательность случайных символов переданных алфавита и длины
+     * <p style="color: green; font-size: 1.5em">
+     * Возвращает последовательность случайных символов переданных алфавита и длины
      * Принимает на вход варианты языков 'ru' и 'en'
      * Для других входных параметров возвращает латинские символы (en)
-     * </p>
+     *
+     * @param length
+     * @param lang   </p>
      */
-    public String getRandCharSequence(int length, String lang) {
+    private String getRandCharSequence(int length, String lang) {
 
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < length; i++) {
@@ -1062,8 +1162,10 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Возвращает случайный символ переданного алфавита
-     * </p>
+     * <p style="color: green; font-size: 1.5em">
+     * Возвращает случайный символ переданного алфавита
+     *
+     * @param lang </p>
      */
     private char charGenerator(String lang) {
         Random random = new Random();
@@ -1075,20 +1177,25 @@ public class WebSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Проверка на соответствие строки паттерну
-     * </p>
+     * <p style="color: green; font-size: 1.5em">
+     * Проверка на соответствие строки паттерну
+     *
+     * @param pattern
+     * @param str     </p>
      */
-    public boolean isTextMatches(String str, String pattern) {
+    private boolean isTextMatches(String str, String pattern) {
         Pattern r = Pattern.compile(pattern);
         Matcher m = r.matcher(str);
         return m.matches();
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Возвращает локатор для поиска по нормализованному(без учета регистра) тексту
-     * </p>
+     * <p style="color: green; font-size: 1.5em">
+     * Возвращает локатор для поиска по нормализованному(без учета регистра) тексту
+     *
+     * @param expectedText </p>
      */
-    public String getTranslateNormalizeSpaceText(String expectedText) {
+    private String getTranslateNormalizeSpaceText(String expectedText) {
         StringBuilder text = new StringBuilder();
         text.append("//*[contains(translate(normalize-space(text()), ");
         text.append("'ABCDEFGHIJKLMNOPQRSTUVWXYZАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ', ");
@@ -1096,5 +1203,15 @@ public class WebSteps {
         text.append(expectedText.toLowerCase());
         text.append("')]");
         return text.toString();
+    }
+
+    private static boolean checkResult(String result, String message) {
+        if (isNull(result)) {
+            log.warn(message + " не найдена");
+            return false;
+        }
+        log.info(message + " = " + result);
+        CoreScenario.getInstance().write(message + " = " + result);
+        return true;
     }
 }

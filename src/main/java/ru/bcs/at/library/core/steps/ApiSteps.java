@@ -33,9 +33,9 @@ import static ru.bcs.at.library.core.cucumber.ScopedVariables.resolveJsonVars;
 import static ru.bcs.at.library.core.cucumber.ScopedVariables.resolveVars;
 
 /**
- * <h1 style="color: green; font-size: 2.2em">API шаги</h1>
- *
- * @author Anton Pavlov
+ * <h1 style="color: green; font-size: 2.2em">
+ * API шаги
+ * </h1>
  */
 
 @Log4j2
@@ -44,7 +44,8 @@ public class ApiSteps {
     private CoreScenario coreScenario = CoreScenario.getInstance();
 
     /**
-     * <p style="color: green; font-size: 1.5em">Отправка http запроса по заданному урлу без параметров и BODY.
+     * <p style="color: green; font-size: 1.5em">
+     * Отправка http запроса по заданному урлу без параметров и BODY.
      * Результат сохраняется в заданную переменную</p>
      *
      * @param method       методов HTTP запроса
@@ -58,7 +59,8 @@ public class ApiSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Отправка http запроса по заданному урлу с параметрами и/или BODY.
+     * <p style="color: green; font-size: 1.5em">
+     * Отправка http запроса по заданному урлу с параметрами и/или BODY.
      * Результат сохраняется в заданную переменную</p>
      *
      * @param method       методов HTTP запроса
@@ -75,7 +77,8 @@ public class ApiSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Отправка http запроса по заданному урлу с параметрами и/или BODY.
+     * <p style="color: green; font-size: 1.5em">
+     * Отправка http запроса по заданному урлу с параметрами и/или BODY.
      * Результат сохраняется в заданную переменную</p>
      *
      * @param method             методов HTTP запроса
@@ -92,7 +95,8 @@ public class ApiSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Отправка http запроса по заданному урлу с параметрами и/или BODY.
+     * <p style="color: green; font-size: 1.5em">
+     * Отправка http запроса по заданному урлу с параметрами и/или BODY.
      * Результат сохраняется в заданную переменную</p>
      *
      * @param method             методов HTTP запроса
@@ -112,7 +116,8 @@ public class ApiSteps {
 
 
     /**
-     * <p style="color: green; font-size: 1.5em">Проверка Response</p>
+     * <p style="color: green; font-size: 1.5em">
+     * Проверка Response</p>
      *
      * @param typeContentBody тип контента
      * @param valueToFind     имя переменной которая содержит Response
@@ -134,7 +139,8 @@ public class ApiSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">В json строке, сохраннённой в переменной, происходит поиск значений по jsonpath из первого столбца таблицы.
+     * <p style="color: green; font-size: 1.5em">
+     * В json строке, сохраннённой в переменной, происходит поиск значений по jsonpath из первого столбца таблицы.
      * Полученные значения сохраняются в переменных. Название переменной указывается во втором столбце таблицы.
      * Шаг работает со всеми типами json элементов: объекты, массивы, строки, числа, литералы true, false и null.</p>
      *
@@ -170,7 +176,8 @@ public class ApiSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Создание запроса
+     * <p style="color: green; font-size: 1.5em">
+     * Создание запроса
      * Content-Type при необходимости должен быть указан в качестве header.</p>
      *
      * @param dataTable массив с параметрами
@@ -192,7 +199,7 @@ public class ApiSteps {
                         break;
                     }
                     case "PARAMETER": {
-                        request.param(name, value);
+                        request.queryParam(name, value);
                         break;
                     }
                     case "MULTIPART": {
@@ -230,7 +237,22 @@ public class ApiSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Получает ответ и сохраняет в переменную</p>
+     * <p style="color: green; font-size: 1.5em">
+     * Сравнение кода http ответа с ожидаемым</p>
+     *
+     * @param variableName       переменная в которой сохранен Response
+     * @param expectedStatusCode ожидаемый http статус код
+     */
+    @И("^в ответе \"([^\"]*)\" statusCode: (\\d+)$")
+    public void checkResponseStatusCode(String variableName, int expectedStatusCode) {
+        Response response = (Response) CoreScenario.getInstance().getVar(variableName);
+        checkStatusCode(response, expectedStatusCode);
+    }
+
+
+    /**
+     * <p style="color: green; font-size: 1.5em">
+     * Получает ответ и сохраняет в переменную</p>
      *
      * @param variableName имя переменной, в которую будет сохранен ответ
      * @param response     ответ от http запроса
@@ -240,25 +262,27 @@ public class ApiSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Сравнение кода http ответа с ожидаемым</p>
+     * <p style="color: green; font-size: 1.5em">
+     * Сравнение кода http ответа с ожидаемым</p>
      *
      * @param response           ответ от сервиса
      * @param expectedStatusCode ожидаемый http статус код
      */
-    public void checkStatusCode(Response response, int expectedStatusCode) {
+    private void checkStatusCode(Response response, int expectedStatusCode) {
         response.then().statusCode(expectedStatusCode);
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Отправка http запроса</p>
+     * <p style="color: green; font-size: 1.5em">
+     * Отправка http запроса</p>
      *
      * @param method    тип http запроса
      * @param address   url, на который будет направлен запроc
      * @param dataTable список параметров для http запроса
      * @return Response
      */
-    public Response sendRequest(String method, String address,
-                                DataTable dataTable) {
+    private Response sendRequest(String method, String address,
+                                 DataTable dataTable) {
         address = loadProperty(address, resolveVars(address));
         RequestSender request = createRequest(dataTable);
         return request.request(Method.valueOf(method), address);

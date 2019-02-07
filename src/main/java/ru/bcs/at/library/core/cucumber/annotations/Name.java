@@ -19,10 +19,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * <h1 style="color: green; font-size: 2.2em">Аннотация "Название" для элементов страницы</h1>
- * <p style="color: green; font-size: 1.5em">Необходима индентификации элементов в cucumber-сценариях</p>
- *
- * @author Anton Pavlov
+ * <h1 style="color: green; font-size: 2.2em">
+ * Аннотация "Название" для элементов страницы<
+ * /h1>
+ * <p style="color: green; font-size: 1.5em">
+ * Необходима индентификации элементов в cucumber-сценариях<
+ * /p>
  */
 @Target({ElementType.FIELD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)

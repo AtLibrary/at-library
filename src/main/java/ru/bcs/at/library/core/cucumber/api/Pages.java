@@ -20,9 +20,9 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 /**
- * <h1 style="color: green; font-size: 2.2em">Предназначен для хранения страниц, используемых при прогоне тестов</h1>
- *
- * @author Anton Pavlov
+ * <h1 style="color: green; font-size: 2.2em">
+ *     Предназначен для хранения страниц, используемых при прогоне тестов
+ *     </h1>
  */
 public final class Pages {
 
@@ -58,8 +58,7 @@ public final class Pages {
 
     /**
      * @param clazz                   класс страницы
-     * @param checkIfElementsAppeared проверка всех не помеченных "@Optional" элементов
-     * @author Anton Pavlov
+     * @param checkIfElementsAppeared проверка всех не помеченных "@Optional" элементов<h1 style="color: green; font-size: 2.2em">
      * Реализация анонимных методов со страницей в качестве аргумента
      */
     public static <T extends CorePage> void withPage(Class<T> clazz, boolean checkIfElementsAppeared, Consumer<T> consumer) {

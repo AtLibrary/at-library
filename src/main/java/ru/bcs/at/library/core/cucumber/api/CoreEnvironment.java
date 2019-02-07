@@ -21,9 +21,9 @@ import ru.bcs.at.library.core.cucumber.annotations.Name;
 import java.util.Arrays;
 
 /**
- * <h1 style="color: green; font-size: 2.2em">Класс, связанный с CoreScenario, используется для хранения страниц и переменных внутри сценария</h1>
- *
- * @author Anton Pavlov
+ * <h1 style="color: green; font-size: 2.2em">
+ * Класс, связанный с CoreScenario, используется для хранения страниц и переменных внутри сценария
+ * </h1>
  */
 @Log4j2
 public class CoreEnvironment {
@@ -73,8 +73,7 @@ public class CoreEnvironment {
 
     /**
      * @param c класс, который должен быть аннотирован "CorePage.Name"
-     * @return значение аннотации "CorePage.Name" для класса
-     * @author Anton Pavlov
+     * @return значение аннотации "CorePage.Name" для класса<h1 style="color: green; font-size: 2.2em">
      * Вспомогательный метод, получает значение аннотации "CorePage.Name" для класса
      */
     private String getClassAnnotationValue(Class<?> c) {

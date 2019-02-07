@@ -27,9 +27,9 @@ import static java.lang.String.format;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadProperty;
 
 /**
- * <h1 style="color: green; font-size: 2.2em">Реализация хранилища переменных, заданных пользователем, внутри тестовых сценариев</h1>
- *
- * @author Anton Pavlov
+ * <h1 style="color: green; font-size: 2.2em">
+ * Реализация хранилища переменных, заданных пользователем, внутри тестовых сценариев
+ * </h1>
  */
 public class ScopedVariables {
 

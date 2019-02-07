@@ -16,11 +16,12 @@ package ru.bcs.at.library.core.cucumber.utils;
 import java.lang.reflect.Field;
 
 /**
- * <h1 style="color: green; font-size: 2.2em">Реализация механизма рефлексии для доступа к аннотациям классов</h1>
- * <p style="color: green; font-size: 1.5em">Необходимо для сбора списка страниц, на которых будет производиться тестирование
- * и для сбора элементов с этих страниц</p>
- *
- * @author Anton Pavlov
+ * <h1 style="color: green; font-size: 2.2em">
+ * Реализация механизма рефлексии для доступа к аннотациям классов
+ * </h1>
+ * <p style="color: green; font-size: 1.5em">
+ * Необходимо для сбора списка страниц, на которых будет производиться тестирование и для сбора элементов с этих страниц
+ * </p>
  */
 public final class Reflection {
 
@@ -29,7 +30,8 @@ public final class Reflection {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Получение поля класса с помощью механизма рефлексии</p>
+     * <p style="color: green; font-size: 1.5em">
+     * Получение поля класса с помощью механизма рефлексии</p>
      */
     public static Object extractFieldValue(Field field, Object owner) {
         field.setAccessible(true);

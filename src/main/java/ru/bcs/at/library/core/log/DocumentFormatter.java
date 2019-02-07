@@ -13,9 +13,9 @@ import java.io.StringReader;
 
 
 /**
- * <h1 style="color: green; font-size: 2.2em">преобразователь документов для просмотра</h1>
- *
- * @author Anton Pavlov
+ * <h1 style="color: green; font-size: 2.2em">
+ * Преобразователь документов для просмотра
+ * </h1>
  */
 @Log4j2
 public class DocumentFormatter {

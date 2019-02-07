@@ -13,16 +13,17 @@ import static ru.bcs.at.library.core.core.helpers.PropertyLoader.getPropertyOrVa
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadProperty;
 
 /**
- * <h1 style="color: green; font-size: 2.2em">Шаги утилиты</>
- *
- * @author Anton Pavlov
+ * <h1 style="color: green; font-size: 2.2em">
+ *     Шаги утилиты
+ *     </>
  */
 public class OtherSteps {
 
     private CoreScenario coreScenario = CoreScenario.getInstance();
 
     /**
-     * <p style="color: green; font-size: 1.5em">Устанавливается значение переменной в хранилище переменных.
+     * <p style="color: green; font-size: 1.5em">
+     * Устанавливается значение переменной в хранилище переменных.
      * Один из кейсов: установка login пользователя
      *
      * @param variableName имя переменной
@@ -36,7 +37,8 @@ public class OtherSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Проверка равенства двух переменных из хранилища
+     * <p style="color: green; font-size: 1.5em">
+     * Проверка равенства двух переменных из хранилища
      *
      * @param firstVariableName  первая переменная
      * @param secondVariableName вторая переменная
@@ -51,7 +53,8 @@ public class OtherSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Проверка неравенства двух переменных из хранилища
+     * <p style="color: green; font-size: 1.5em">
+     * Проверка неравенства двух переменных из хранилища
      *
      * @param firstVariableName  первая переменная
      * @param secondVariableName вторая переменная
@@ -66,7 +69,8 @@ public class OtherSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Проверка выражения на истинность
+     * <p style="color: green; font-size: 1.5em">
+     * Проверка выражения на истинность
      *
      * @param expression выражение из property, из переменной сценария или значение аргумента
      *                   Например, string1.equals(string2)
@@ -80,7 +84,8 @@ public class OtherSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Сохранено значение из property файла в переменную
+     * <p style="color: green; font-size: 1.5em">
+     * Сохранено значение из property файла в переменную
      *
      * @param propertyVariableName ключ в файле application.properties
      * @param variableName         имя переменной
@@ -95,7 +100,8 @@ public class OtherSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Ожидание в течение заданного количества секунд
+     * <p style="color: green; font-size: 1.5em">
+     * Ожидание в течение заданного количества секунд
      *
      * @param seconds секунд
      *                </p>
@@ -107,7 +113,8 @@ public class OtherSteps {
 
 
     /**
-     * <p style="color: green; font-size: 1.5em">Написание автотеста в работе</p>
+     * <p style="color: green; font-size: 1.5em">
+     * Написание автотеста в работе</p>
      */
     @И("^написание автотеста в работе$")
     public void pendingException() {
@@ -115,7 +122,8 @@ public class OtherSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">Автотест реализован на старом фреймворке</p>
+     * <p style="color: green; font-size: 1.5em">
+     * Автотест реализован на старом фреймворке</p>
      */
     @И("^автотест реализован на старом фреймворке$")
     public void oldFramework() {

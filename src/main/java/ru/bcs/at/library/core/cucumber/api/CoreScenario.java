@@ -22,9 +22,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 /**
- * <h1 style="color: green; font-size: 2.2em">Главный класс, отвечающий за сопровождение тестовых шагов</h1>
- *
- * @author Anton Pavlov
+ * <h1 style="color: green; font-size: 2.2em">
+ *     Главный класс, отвечающий за сопровождение тестовых шагов
+ *     </h1>
  */
 @Log4j2
 public final class CoreScenario {

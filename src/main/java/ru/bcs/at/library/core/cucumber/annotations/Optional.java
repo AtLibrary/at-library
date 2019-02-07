@@ -19,10 +19,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * <h1 style="color: green; font-size: 2.2em">Аннотация "Optional" для элементов страницы</h1>
- * <p style="color: green; font-size: 1.5em">Необходима для отключения проверки появления элемента после загрузки страницы</p>
- *
- * @author Anton Pavlov
+ * <h1 style="color: green; font-size: 2.2em">
+ * Аннотация "Optional" для элементов страницы
+ * </h1>
+ * <p style="color: green; font-size: 1.5em">
+ * Необходима для отключения проверки появления элемента после загрузки страницы
+ * </p>
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
