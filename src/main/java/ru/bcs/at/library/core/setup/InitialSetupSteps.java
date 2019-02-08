@@ -27,6 +27,7 @@ import lombok.experimental.Delegate;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Proxy;
+import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import ru.bcs.at.library.core.cucumber.api.CoreEnvironment;
@@ -115,8 +116,15 @@ public class InitialSetupSteps {
         /**
          * Создает настойки прокси для запуска драйвера
          */
-        if (!Strings.isNullOrEmpty(System.getProperty("proxy"))) {
-            Proxy proxy = new Proxy().setHttpProxy(System.getProperty("proxy"));
+        Proxy proxy = null;
+        String stringProxy = System.getProperty("proxy");
+        if (!Strings.isNullOrEmpty(stringProxy)) {
+            proxy = new Proxy()
+                    .setProxyType(Proxy.ProxyType.MANUAL)
+                    .setHttpProxy(stringProxy)
+                    .setFtpProxy(stringProxy)
+                    .setSslProxy(stringProxy)
+            ;
             setProxy(proxy);
             log.info("Проставлена прокси: " + proxy);
         }
@@ -137,6 +145,10 @@ public class InitialSetupSteps {
             capabilities.setCapability("width", "1920");
             capabilities.setCapability("height", "1080");
             capabilities.setCapability("name", scenario.getName());
+
+            if (proxy != null) {
+                capabilities.setCapability(CapabilityType.PROXY, proxy);
+            }
 
             setWebDriver(
                     new RemoteWebDriver(
