@@ -26,6 +26,7 @@ import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.Matchers.equalTo;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadProperty;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault;
@@ -37,7 +38,6 @@ import static ru.bcs.at.library.core.cucumber.ScopedVariables.resolveVars;
  * API шаги
  * </h1>
  */
-
 @Log4j2
 public class ApiSteps {
 
@@ -249,6 +249,20 @@ public class ApiSteps {
         checkStatusCode(response, expectedStatusCode);
     }
 
+    /**
+     * <p style="color: green; font-size: 1.5em">
+     * Проверка что тело ответа соответсвует json схеме</p>
+     *
+     * @param variableName       переменная в которой сохранен Response
+     * @param expectedJsonSchema ожидаемый http статус код
+     */
+    @И("^ответ \"([^\"]*)\" соответсвует json схеме: \"([^\"]*)\"$")
+    public void checkResponseStatusCode(String variableName, String expectedJsonSchema) {
+        Response response = (Response) CoreScenario.getInstance().getVar(variableName);
+        response.then()
+                .assertThat()
+                .body(matchesJsonSchemaInClasspath(expectedJsonSchema));
+    }
 
     /**
      * <p style="color: green; font-size: 1.5em">
