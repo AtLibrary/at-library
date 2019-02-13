@@ -34,8 +34,8 @@ import java.util.Properties;
 
 /**
  * <h1 style="color: green; font-size: 2.2em">
- *     Класс для получения свойств
- *     </h1>
+ * Класс для получения свойств
+ * </h1>
  */
 @Log4j2
 public class PropertyLoader {
