@@ -33,8 +33,8 @@ import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadProperty;
 
 /**
  * <h1 style="color: green; font-size: 2.2em">
- *     Класс для реализации паттерна PageObject
- *     </h1>
+ * Класс для реализации паттерна PageObject
+ * </h1>
  */
 @Log4j2
 public abstract class CorePage extends ElementsContainer {
@@ -252,7 +252,7 @@ public abstract class CorePage extends ElementsContainer {
      * @param condition Selenide.Condition
      * @param timeout   максимальное время ожидания для перехода элементов в заданное состояние
      * @param elements  произвольное количество selenide-элементов<h1 style="color: green; font-size: 2.2em">
-     * Обертка над Selenide.waitUntil для произвольного количества элементов
+     *                  Обертка над Selenide.waitUntil для произвольного количества элементов
      */
     public void waitElementsUntil(Condition condition, int timeout, SelenideElement... elements) {
         Spectators.waitElementsUntil(condition, timeout, elements);
@@ -260,7 +260,7 @@ public abstract class CorePage extends ElementsContainer {
 
     /**
      * @param elements список selenide-элементов<h1 style="color: green; font-size: 2.2em">
-     * Обертка над Selenide.waitUntil для работы со списком элементов
+     *                 Обертка над Selenide.waitUntil для работы со списком элементов
      */
     public void waitElementsUntil(Condition condition, int timeout, List<SelenideElement> elements) {
         Spectators.waitElementsUntil(condition, timeout, elements);
@@ -268,8 +268,8 @@ public abstract class CorePage extends ElementsContainer {
 
     /**
      * @param elementNames произвольное количество строковых переменных с именами элементов<h1 style="color: green; font-size: 2.2em">
-     * Проверка, что все переданные элементы в течении заданного периода времени
-     * перешли в состояние Selenide.Condition
+     *                     Проверка, что все переданные элементы в течении заданного периода времени
+     *                     перешли в состояние Selenide.Condition
      */
     public void waitElementsUntil(Condition condition, int timeout, String... elementNames) {
         List<SelenideElement> elements = Arrays.stream(elementNames)

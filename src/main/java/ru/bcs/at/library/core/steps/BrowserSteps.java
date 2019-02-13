@@ -36,8 +36,8 @@ import static ru.bcs.at.library.core.steps.WebSteps.getPropertyOrStringVariableO
 
 /**
  * <h1 style="color: green; font-size: 2.2em">
- *     Браузер шаги
- *     </h1>
+ * Браузер шаги
+ * </h1>
  */
 @Log4j2
 public class BrowserSteps {
