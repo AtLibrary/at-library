@@ -35,7 +35,7 @@ public final class CoreScenario {
      * Среда прогона тестов, хранит в себе: Cucumber.Scenario,
      * переменные, объявленные пользователем в сценарии и страницы, тестирование которых будет производиться
      */
-    private static CoreEnvironment environment;
+    private static ThreadLocal<CoreEnvironment> environment = new ThreadLocal<>();
 
     private CoreScenario() {
     }
@@ -45,11 +45,11 @@ public final class CoreScenario {
     }
 
     public CoreEnvironment getEnvironment() {
-        return environment;
+        return environment.get();
     }
 
     public void setEnvironment(CoreEnvironment coreEnvironment) {
-        environment = coreEnvironment;
+        environment.set(coreEnvironment);
     }
 
     public static void sleep(int seconds) {
@@ -60,7 +60,7 @@ public final class CoreScenario {
      * Получение страницы, тестирование которой производится в данный момент
      */
     public CorePage getCurrentPage() {
-        return environment.getPages().getCurrentPage();
+        return environment.get().getPages().getCurrentPage();
     }
 
     /**
@@ -71,25 +71,27 @@ public final class CoreScenario {
             throw new IllegalArgumentException("Происходит переход на несуществующую страницу. " +
                     "Проверь аннотации @Name у используемых страниц");
         }
-        environment.getPages().setCurrentPage(page);
+        environment.get().getPages().setCurrentPage(page);
     }
 
     /**
+     * Позволяет получить доступ к полям и методам конкретной страницы, которая передается в метод в качестве аргумента.
+     * Пример использования: {@code withPage(CorePage.class, page -> { some actions with CorePage methods});}
+     * Проверка отображения всех элементов страницы выполняется всегда
+     *
      * @param clazz класс страницы, доступ к полям и методам которой необходимо получить
-     *              Позволяет получить доступ к полям и методам конкретной страницы, которая передается в метод в качестве аргумента.
-     *              Пример использования: {@code withPage(CorePage.class, page -> { some actions with CorePage methods});}
-     *              Проверка отображения всех элементов страницы выполняется всегда
      */
     public static <T extends CorePage> void withPage(Class<T> clazz, Consumer<T> consumer) {
         withPage(clazz, true, consumer);
     }
 
     /**
+     * Позволяет получить доступ к полям и методам конкретной страницы.
+     * Пример использования: {@code withPage(CorePage.class, page -> { some actions with CorePage methods});}
+     * Проверка отображения всех элементов страницы опциональна
+     *
      * @param clazz                   класс страницы, доступ к полям и методам которой необходимо получить
      * @param checkIfElementsAppeared флаг, отвечающий за проверку отображения всех элементов страницы, не помеченных аннотацией @Optional
-     *                                Позволяет получить доступ к полям и методам конкретной страницы.
-     *                                Пример использования: {@code withPage(CorePage.class, page -> { some actions with CorePage methods});}
-     *                                Проверка отображения всех элементов страницы опциональна
      */
     public static <T extends CorePage> void withPage(Class<T> clazz, boolean checkIfElementsAppeared, Consumer<T> consumer) {
         Pages.withPage(clazz, checkIfElementsAppeared, consumer);
@@ -99,7 +101,7 @@ public final class CoreScenario {
      * Возвращает текущий сценарий (Cucumber.api)
      */
     public Scenario getScenario() {
-        return this.getEnvironment().getScenario();
+        return getEnvironment().getScenario();
     }
 
     /**
@@ -121,8 +123,9 @@ public final class CoreScenario {
     }
 
     /**
+     * Получение переменной по имени, заданного пользователем, из пула переменных "variables" в CoreEnvironment
+     *
      * @param name - имя переменной, для которй необходимо получить ранее сохраненное значение
-     *             Получение переменной по имени, заданного пользователем, из пула переменных "variables" в CoreEnvironment
      */
     public Object getVar(String name) {
         Object obj = this.getEnvironment().getVar(name);
@@ -140,43 +143,48 @@ public final class CoreScenario {
     }
 
     /**
+     * Получение страницы по классу с возможностью выполнить проверку отображения элементов страницы
+     *
      * @param clazz                   - класс страницы, которую необходимо получить
      * @param checkIfElementsAppeared - флаг, определяющий проверку отображения элементов на странице
-     *                                Получение страницы по классу с возможностью выполнить проверку отображения элементов страницы
      */
     public <T extends CorePage> T getPage(Class<T> clazz, boolean checkIfElementsAppeared) {
         return Pages.getPage(clazz, checkIfElementsAppeared);
     }
 
     /**
+     * Получение страницы по классу (проверка отображения элементов страницы не выполняется)
+     *
      * @param clazz - класс страницы, которую необходимо получить
-     *              Получение страницы по классу (проверка отображения элементов страницы не выполняется)
      */
     public <T extends CorePage> T getPage(Class<T> clazz) {
         return Pages.getPage(clazz, true);
     }
 
     /**
+     * Получение страницы по классу и имени (оба параметра должны совпадать)
+     *
      * @param clazz - класс страницы, которую необходимо получить
      * @param name  - название страницы, заданное в аннотации @Name
-     *              Получение страницы по классу и имени (оба параметра должны совпадать)
      */
     public <T extends CorePage> T getPage(Class<T> clazz, String name) {
         return this.getEnvironment().getPage(clazz, name);
     }
 
     /**
+     * Заменяет в строке все ключи переменных из пула переменных "variables" в классе CoreEnvironment на их значения
+     *
      * @param stringToReplaceIn строка, в которой необходимо выполнить замену (не модифицируется)
-     *                          Заменяет в строке все ключи переменных из пула переменных "variables" в классе CoreEnvironment на их значения
      */
     public String replaceVariables(String stringToReplaceIn) {
         return this.getEnvironment().replaceVariables(stringToReplaceIn);
     }
 
     /**
+     * Добавление переменной в пул "variables" в классе CoreEnvironment
+     *
      * @param name   имя переменной заданное пользователем, для которого сохраняется значение. Является ключом в пуле variables в классе CoreEnvironment
      * @param object значение, которое нужно сохранить в переменную
-     *               Добавление переменной в пул "variables" в классе CoreEnvironment
      */
     public void setVar(String name, Object object) {
         this.getEnvironment().setVar(name, object);
