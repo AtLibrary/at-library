@@ -6,23 +6,24 @@ At-Library-Core
 
 Подключение репозитория:
 ```xml
-<repositories>
+<distributionManagement>
+    <snapshotRepository>
+        <id>snapshots</id>
+        <name>s-cicd-artif-01.global.bcs-snapshots</name>
+        <url>https://artifactory.gitlab.bcs.ru/artifactory/bcs-main-snapshots</url>
+    </snapshotRepository>
     <repository>
-        <id>autotest-mvn-repo</id>
-        <url>https://raw.github.com/Antonppavlov/autotest/mvn-repo/</url>
-        <snapshots>
-            <enabled>true</enabled>
-            <updatePolicy>always</updatePolicy>
-        </snapshots>
+        <id>bcs-main-releases</id>
+        <url>https://artifactory.gitlab.bcs.ru/artifactory/bcs-main-releases</url>
     </repository>
-</repositories>
+</distributionManagement>
 ```
 Подключение завимости:
 ```xml
 <dependency>
     <groupId>ru.bcs</groupId>
     <artifactId>at-library-core</artifactId>
-    <version>1.0.0</version>
+    <version>14.02.2019</version>
 </dependency>
 ```
 
@@ -139,10 +140,12 @@ public HeaderBlock header;
 
 Поддерживаются следующие типы запросов: GET, POST, PUT, DELETE.
    ```gherkin
-   Когда выполнен POST запрос на URL "{depositsApi}deposits/{docNumber}/repay" с headers и parameters из таблицы. Полученный ответ сохранен в переменную
-       | header | applicationId | test            |
-       | header | customerId    | <userCus>       |
-       | body   | repayment     | <fileForCreate> |
+    Когда выполнен POST запрос на URL "url.token" с headers и parameters из таблицы. Полученный ответ сохранен в переменную "token_response"
+      | HEADER         | Content-Type | application/x-www-form-urlencoded |
+      | FORM_PARAMETER | username     | ОСКО.login                        |
+      | FORM_PARAMETER | password     | ОСКО.password                     |
+      | FORM_PARAMETER | grant_type   | password                          |
+      | FORM_PARAMETER | client_id    | ef-front                          |
   ```
 В таблице переменных поддерживаются типы: header, parameter, body
 Для body-параметра сейчас поддерживается как работа с телом запроса, хранящимся в папке restBodies, так и с указанием текста body в самом шаге в соответствующей ячейке
@@ -239,14 +242,16 @@ ru.bcs.at.library.core.setup.InitialSetupSteps
     <artifactId>maven-surefire-plugin</artifactId>
     <version>2.22.1</version>
     <configuration>
-        <forkCount>10</forkCount>
+        <forkCount>5</forkCount>
         <reuseForks>true</reuseForks>
         <includes>
             <include>**/Parallel*IT.class</include>
         </includes>
         <testFailureIgnore>true</testFailureIgnore>
         <argLine>
-            -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/1.9.1/aspectjweaver-1.9.1.jar" -Dcucumber.options="--plugin io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm"
+            -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/1.9.1/aspectjweaver-1.9.1.jar"
+            -Dcucumber.options="
+            --plugin io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm"
         </argLine>
     </configuration>
     <dependencies>
@@ -263,125 +268,11 @@ ru.bcs.at.library.core.setup.InitialSetupSteps
 <plugin>
     <groupId>io.qameta.allure</groupId>
     <artifactId>allure-maven</artifactId>
-    <version>2.9</version>
+    <version>2.10.0</version>
     <configuration>
-        <reportVersion>2.7.0</reportVersion>
+        <reportVersion>2.9.0</reportVersion>
         <resultsDirectory>allure-results</resultsDirectory>
     </configuration>
 </plugin>
-```
-Для распаралеливания тестов:
-```xml
-<plugin>
-    <groupId>com.github.temyers</groupId>
-    <artifactId>cucumber-jvm-parallel-plugin</artifactId>
-    <version>5.0.0</version>
-    <executions>
-        <execution>
-            <id>generateRunners</id>
-            <phase>generate-test-sources</phase>
-            <goals>
-                <goal>generateRunners</goal>
-            </goals>
-            <configuration>
-                <glue>
-                    <package>ru.bcs.at.library.core</package>
-                    <!--<package>подключить пакеты содержатие шаги cucumber</package>-->
-                </glue>
-                <tags>
-                    <tag>@bcs</tag>
-                </tags>
-                <parallelScheme>SCENARIO</parallelScheme>
-                <featuresDirectory>src/test/resources/features/</featuresDirectory>
-                <cucumberOutputDir>target/cucumber-parallel</cucumberOutputDir>
-            </configuration>
-        </execution>
-    </executions>
-</plugin>
-```
-Подключение swagger-codegen-maven-plugin:
-```xml
-<plugin>
-    <groupId>io.swagger</groupId>
-    <artifactId>swagger-codegen-maven-plugin</artifactId>
-    <version>2.3.1</version>
-    <executions>
-        <execution>
-            <goals>
-                <goal>generate</goal>
-            </goals>
-            <configuration>
-                <inputSpec>${project.basedir}/src/test/resources/schemas/api-docs.json</inputSpec>
-                <language>java</language>
-                <configOptions>
-                    <generateApiTests>false</generateApiTests>
-                    <sourceFolder>src/gen/java/main</sourceFolder>
-                </configOptions>
-            </configuration>
-        </execution>
-    </executions>
-</plugin>
-```
-Необходимые плагину завимости:
-```xml
-<dependency>
-    <groupId>com.squareup.okhttp3</groupId>
-    <artifactId>okhttp</artifactId>
-    <version>3.12.0</version>
-</dependency>
-<dependency>
-    <groupId>com.squareup.okhttp3</groupId>
-    <artifactId>logging-interceptor</artifactId>
-    <version>3.12.0</version>
-</dependency>
-<dependency>
-    <groupId>io.swagger.core.v3</groupId>
-    <artifactId>swagger-annotations</artifactId>
-    <version>2.0.6</version>
-</dependency>
-<dependency>
-    <groupId>io.gsonfire</groupId>
-    <artifactId>gson-fire</artifactId>
-    <version>1.8.3</version>
-</dependency>
-<dependency>
-    <groupId>org.threeten</groupId>
-    <artifactId>threetenbp</artifactId>
-    <version>1.3.8</version>
-</dependency>
-```
 
-Подключение swagger-codegen-maven-plugin:
-```xml
-<plugin>
-    <groupId>org.jsonschema2pojo</groupId>
-    <artifactId>jsonschema2pojo-maven-plugin</artifactId>
-    <version>0.5.1</version>
-    <configuration>
-        <sourceDirectory>${basedir}/src/test/resources/json/schema</sourceDirectory>
-        <outputDirectory>${basedir}/src/main/java</outputDirectory>
-        <targetPackage>ru.bcs.at.pojo</targetPackage>
-        <generateBuilders>true</generateBuilders>
-    </configuration>
-    <executions>
-        <execution>
-            <goals>
-                <goal>generate</goal>
-            </goals>
-        </execution>
-    </executions>
-</plugin>
-```
-Необходимые плагину завимости:
-```xml
-<dependency>
-    <groupId>commons-lang</groupId>
-    <artifactId>commons-lang</artifactId>
-    <version>2.6</version>
-</dependency>
-<dependency>
-    <groupId>com.fasterxml.jackson.core</groupId>
-    <artifactId>jackson-annotations</artifactId>
-    <version>2.9.7</version>
-</dependency>
 ```
