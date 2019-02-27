@@ -730,6 +730,21 @@ public class WebSteps {
 
     /**
      * <p style="color: green; font-size: 1.5em">
+     * Выполняется поиск нужного файла в папке /Downloads
+     * Поиск осуществляется по содержанию ожидаемого текста в названии файла. Можно передавать регулярное выражение.
+     * После выполнения проверки файл удаляется
+     * </p>
+     */
+    @Тогда("^файл по пути \"(.*)\" выгрузился в поле \"(.*)\"$")
+    public void uploadFile(String path, String fieldName) {
+        coreScenario.getCurrentPage()
+                .getElement(fieldName)
+                .uploadFile(new File(path));
+    }
+
+
+    /**
+     * <p style="color: green; font-size: 1.5em">
      * Скроллит экран до нужного элемента, имеющегося на странице, но видимого только в нижней/верхней части страницы.
      * </p>
      */
