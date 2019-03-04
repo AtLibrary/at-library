@@ -44,34 +44,8 @@ public final class CoreScenario {
         return instance;
     }
 
-    public CoreEnvironment getEnvironment() {
-        return environment.get();
-    }
-
-    public void setEnvironment(CoreEnvironment coreEnvironment) {
-        environment.set(coreEnvironment);
-    }
-
     public static void sleep(int seconds) {
         Selenide.sleep(TimeUnit.MILLISECONDS.convert(seconds, TimeUnit.SECONDS));
-    }
-
-    /**
-     * Получение страницы, тестирование которой производится в данный момент
-     */
-    public CorePage getCurrentPage() {
-        return environment.get().getPages().getCurrentPage();
-    }
-
-    /**
-     * Задание страницы, тестирование которой производится в данный момент
-     */
-    public void setCurrentPage(CorePage page) {
-        if (page == null) {
-            throw new IllegalArgumentException("Происходит переход на несуществующую страницу. " +
-                    "Проверь аннотации @Name у используемых страниц");
-        }
-        environment.get().getPages().setCurrentPage(page);
     }
 
     /**
@@ -95,6 +69,32 @@ public final class CoreScenario {
      */
     public static <T extends CorePage> void withPage(Class<T> clazz, boolean checkIfElementsAppeared, Consumer<T> consumer) {
         Pages.withPage(clazz, checkIfElementsAppeared, consumer);
+    }
+
+    public CoreEnvironment getEnvironment() {
+        return environment.get();
+    }
+
+    public void setEnvironment(CoreEnvironment coreEnvironment) {
+        environment.set(coreEnvironment);
+    }
+
+    /**
+     * Получение страницы, тестирование которой производится в данный момент
+     */
+    public CorePage getCurrentPage() {
+        return environment.get().getPages().getCurrentPage();
+    }
+
+    /**
+     * Задание страницы, тестирование которой производится в данный момент
+     */
+    public void setCurrentPage(CorePage page) {
+        if (page == null) {
+            throw new IllegalArgumentException("Происходит переход на несуществующую страницу. " +
+                    "Проверь аннотации @Name у используемых страниц");
+        }
+        environment.get().getPages().setCurrentPage(page);
     }
 
     /**

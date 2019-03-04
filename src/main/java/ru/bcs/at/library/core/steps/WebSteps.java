@@ -72,9 +72,35 @@ import static ru.bcs.at.library.core.cucumber.ScopedVariables.resolveVars;
 @Log4j2
 public class WebSteps {
 
+    private static final int DEFAULT_TIMEOUT = loadPropertyInt("waitingCustomElementsTimeout", 10000);
     private CoreScenario coreScenario = CoreScenario.getInstance();
 
-    private static final int DEFAULT_TIMEOUT = loadPropertyInt("waitingCustomElementsTimeout", 10000);
+    /**
+     * <p style="color: green; font-size: 1.5em">
+     *
+     * @return Возвращает значение из property файла, если отсутствует, то из пользовательских переменных,
+     * если и оно отсутствует, то возвращает значение переданной на вход переменной
+     * </p>
+     */
+    protected static String getPropertyOrStringVariableOrValue(String propertyNameOrVariableNameOrValue) {
+        String propertyValue = tryLoadProperty(propertyNameOrVariableNameOrValue);
+        String variableValue = (String) CoreScenario.getInstance().tryGetVar(propertyNameOrVariableNameOrValue);
+
+        boolean propertyCheck = checkResult(propertyValue, "Переменная " + propertyNameOrVariableNameOrValue + " из property файла");
+        boolean variableCheck = checkResult(variableValue, "Переменная сценария " + propertyNameOrVariableNameOrValue);
+
+        return propertyCheck ? propertyValue : (variableCheck ? variableValue : propertyNameOrVariableNameOrValue);
+    }
+
+    private static boolean checkResult(String result, String message) {
+        if (isNull(result)) {
+            log.warn(message + " не найдена");
+            return false;
+        }
+        log.info(message + " = " + result);
+        CoreScenario.getInstance().write(message + " = " + result);
+        return true;
+    }
 
     /**
      * <p style="color: green; font-size: 1.5em">
@@ -185,7 +211,6 @@ public class WebSteps {
         } else coreScenario.getCurrentPage().disappeared();
     }
 
-
     /**
      * <p style="color: green; font-size: 1.5em">
      * Проверка того, что значение из поля совпадает со значением заданной переменной из хранилища
@@ -234,7 +259,6 @@ public class WebSteps {
         open(address);
         loadPage(pageName);
     }
-
 
     /**
      * <p style="color: green; font-size: 1.5em">
@@ -428,7 +452,6 @@ public class WebSteps {
         coreScenario.write("Значение [" + coreScenario.getCurrentPage().getAnyElementText(elementName) + "] сохранено в переменную [" + variableName + "]");
     }
 
-
     /**
      * <p style="color: green; font-size: 1.5em">
      * Переход на страницу по клику и проверка, что страница загружена
@@ -544,7 +567,6 @@ public class WebSteps {
                 currentElement.getAttribute("class").toLowerCase(),
                 Matchers.not(containsString(getPropertyOrStringVariableOrValue(expectedClassValue).toLowerCase())));
     }
-
 
     /**
      * <p style="color: green; font-size: 1.5em">
@@ -741,7 +763,6 @@ public class WebSteps {
                 .getElement(fieldName)
                 .uploadFile(new File(path));
     }
-
 
     /**
      * <p style="color: green; font-size: 1.5em">
@@ -1012,7 +1033,6 @@ public class WebSteps {
         assertThat("Элемент с текстом " + expectedValue + " не найден", el.isDisplayed());
     }
 
-
     /**
      * Проверка совпадения значения из переменной и значения из property
      * </p>
@@ -1059,7 +1079,6 @@ public class WebSteps {
         coreScenario.setVar(varName, template);
     }
 
-
     /**
      * <p style="color: green; font-size: 1.5em">
      * Клик по заданному элементу в блоке
@@ -1104,23 +1123,6 @@ public class WebSteps {
                         .stream()
                         .map(SelenideElement::getText)
                         .collect(Collectors.toList()));
-    }
-
-    /**
-     * <p style="color: green; font-size: 1.5em">
-     *
-     * @return Возвращает значение из property файла, если отсутствует, то из пользовательских переменных,
-     * если и оно отсутствует, то возвращает значение переданной на вход переменной
-     * </p>
-     */
-    protected static String getPropertyOrStringVariableOrValue(String propertyNameOrVariableNameOrValue) {
-        String propertyValue = tryLoadProperty(propertyNameOrVariableNameOrValue);
-        String variableValue = (String) CoreScenario.getInstance().tryGetVar(propertyNameOrVariableNameOrValue);
-
-        boolean propertyCheck = checkResult(propertyValue, "Переменная " + propertyNameOrVariableNameOrValue + " из property файла");
-        boolean variableCheck = checkResult(variableValue, "Переменная сценария " + propertyNameOrVariableNameOrValue);
-
-        return propertyCheck ? propertyValue : (variableCheck ? variableValue : propertyNameOrVariableNameOrValue);
     }
 
     /**
@@ -1219,15 +1221,5 @@ public class WebSteps {
         text.append(expectedText.toLowerCase());
         text.append("')]");
         return text.toString();
-    }
-
-    private static boolean checkResult(String result, String message) {
-        if (isNull(result)) {
-            log.warn(message + " не найдена");
-            return false;
-        }
-        log.info(message + " = " + result);
-        CoreScenario.getInstance().write(message + " = " + result);
-        return true;
     }
 }

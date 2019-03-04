@@ -40,6 +40,26 @@ public final class Pages {
         pages = Maps.newHashMap();
     }
 
+    /**
+     * @param clazz                   класс страницы
+     * @param checkIfElementsAppeared проверка всех не помеченных "@Optional" элементов<h1 style="color: green; font-size: 2.2em">
+     *                                Реализация анонимных методов со страницей в качестве аргумента
+     */
+    public static <T extends CorePage> void withPage(Class<T> clazz, boolean checkIfElementsAppeared, Consumer<T> consumer) {
+        T page = getPage(clazz, checkIfElementsAppeared);
+        consumer.accept(page);
+    }
+
+    /**
+     * Получение страницы по классу с возможностью выполнить проверку элементов страницы
+     */
+    public static <T extends CorePage> T getPage(Class<T> clazz, boolean checkIfElementsAppeared) {
+        T page = Selenide.page(clazz);
+        if (checkIfElementsAppeared) {
+            page.isAppeared();
+        }
+        return page;
+    }
 
     /**
      * Возвращает текущую страницу, на которой в текущий момент производится тестирование
@@ -54,16 +74,6 @@ public final class Pages {
      */
     public void setCurrentPage(CorePage page) {
         this.currentPage = page;
-    }
-
-    /**
-     * @param clazz                   класс страницы
-     * @param checkIfElementsAppeared проверка всех не помеченных "@Optional" элементов<h1 style="color: green; font-size: 2.2em">
-     *                                Реализация анонимных методов со страницей в качестве аргумента
-     */
-    public static <T extends CorePage> void withPage(Class<T> clazz, boolean checkIfElementsAppeared, Consumer<T> consumer) {
-        T page = getPage(clazz, checkIfElementsAppeared);
-        consumer.accept(page);
     }
 
     /**
@@ -96,17 +106,6 @@ public final class Pages {
         if (page == null)
             throw new IllegalArgumentException("Была передана пустая страница");
         pages.put(pageName, page);
-    }
-
-    /**
-     * Получение страницы по классу с возможностью выполнить проверку элементов страницы
-     */
-    public static <T extends CorePage> T getPage(Class<T> clazz, boolean checkIfElementsAppeared) {
-        T page = Selenide.page(clazz);
-        if (checkIfElementsAppeared) {
-            page.isAppeared();
-        }
-        return page;
     }
 
     /**

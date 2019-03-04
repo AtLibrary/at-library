@@ -15,6 +15,7 @@ package ru.bcs.at.library.core.setup;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.WebDriverRunner;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import com.google.common.base.Strings;
 import cucumber.api.Scenario;
@@ -27,6 +28,8 @@ import lombok.experimental.Delegate;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Proxy;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -49,10 +52,9 @@ import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadProperty;
 @Log4j2
 public class InitialSetupSteps {
 
+    private static boolean turnOnAllureListener = false;
     @Delegate
     CoreScenario coreScenario = CoreScenario.getInstance();
-
-    private static boolean turnOnAllureListener = false;
 
     /**
      * <p style="color: green; font-size: 1.5em">
@@ -133,6 +135,14 @@ public class InitialSetupSteps {
          * Уведомление о месте запуска тестов
          */
         if (Strings.isNullOrEmpty(Configuration.remote)) {
+            if (browser.equals(CHROME)) {
+                ChromeOptions options = new ChromeOptions();
+                options.setExperimentalOption("useAutomationExtension", false);
+                WebDriverRunner.setWebDriver(
+                        new ChromeDriver(options)
+                );
+            }
+
             log.info("Тесты будут запущены локально в браузере: " + browser);
         } else {
             log.info("Тесты запущены на удаленной машине: " + Configuration.remote);

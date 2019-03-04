@@ -42,6 +42,42 @@ public abstract class CorePage extends ElementsContainer {
      * Стандартный таймаут ожидания элементов в миллисекундах
      */
     private static final String WAITING_APPEAR_TIMEOUT_IN_MILLISECONDS = "20000";
+    /**
+     * Список всех элементов страницы
+     */
+    private Map<String, Object> namedElements;
+    /**
+     * Список элементов страницы, не помеченных аннотацией "Optional"
+     */
+    private List<SelenideElement> primaryElements;
+
+    /**
+     * Поиск элемента по имени внутри списка элементов
+     */
+    public static SelenideElement getButtonFromListByName(List<SelenideElement> listButtons, String nameOfButton) {
+        List<String> names = new ArrayList<>();
+        for (SelenideElement button : listButtons) {
+            names.add(button.getText());
+        }
+        return listButtons.get(names.indexOf(nameOfButton));
+    }
+
+    /**
+     * Приведение объекта к типу SelenideElement
+     */
+    private static SelenideElement castToSelenideElement(Object object) {
+        if (object instanceof SelenideElement) {
+            return (SelenideElement) object;
+        }
+        return null;
+    }
+
+    private static CorePage castToCorePage(Object object) {
+        if (object instanceof CorePage) {
+            return (CorePage) object;
+        }
+        return null;
+    }
 
     /**
      * Получение блока со страницы по имени (аннотированного "Name")
@@ -247,7 +283,6 @@ public abstract class CorePage extends ElementsContainer {
                 elem.waitWhile(Condition.exist, Integer.valueOf(timeout)));
     }
 
-
     /**
      * @param condition Selenide.Condition
      * @param timeout   максимальное время ожидания для перехода элементов в заданное состояние
@@ -280,43 +315,6 @@ public abstract class CorePage extends ElementsContainer {
                 .collect(toList());
         Spectators.waitElementsUntil(condition, timeout, elements);
     }
-
-    /**
-     * Поиск элемента по имени внутри списка элементов
-     */
-    public static SelenideElement getButtonFromListByName(List<SelenideElement> listButtons, String nameOfButton) {
-        List<String> names = new ArrayList<>();
-        for (SelenideElement button : listButtons) {
-            names.add(button.getText());
-        }
-        return listButtons.get(names.indexOf(nameOfButton));
-    }
-
-    /**
-     * Приведение объекта к типу SelenideElement
-     */
-    private static SelenideElement castToSelenideElement(Object object) {
-        if (object instanceof SelenideElement) {
-            return (SelenideElement) object;
-        }
-        return null;
-    }
-
-    private static CorePage castToCorePage(Object object) {
-        if (object instanceof CorePage) {
-            return (CorePage) object;
-        }
-        return null;
-    }
-
-    /**
-     * Список всех элементов страницы
-     */
-    private Map<String, Object> namedElements;
-    /**
-     * Список элементов страницы, не помеченных аннотацией "Optional"
-     */
-    private List<SelenideElement> primaryElements;
 
     @Override
     public void setSelf(SelenideElement self) {

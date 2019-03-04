@@ -37,41 +37,6 @@ public class ScopedVariables {
     private Map<String, Object> variables = Maps.newHashMap();
 
     /**
-     * @param expression java/groovy-код, который будет выполнен
-     *                   Компилирует и выполняет в рантайме переданный на вход java/groovy-код.
-     *                   Предварительно загружает в память все переменные,
-     *                   т.е. на вход в строковом аргументе могут быть переданы переменные из "variables"
-     */
-    public Object evaluate(String expression) {
-        GroovyShell shell = new GroovyShell();
-        variables.entrySet().forEach(e -> {
-            try {
-                shell.setVariable(e.getKey(), new BigDecimal(e.getValue().toString()));
-            } catch (NumberFormatException exp) {
-                shell.setVariable(e.getKey(), e.getValue());
-            }
-        });
-        return shell.evaluate(expression);
-    }
-
-    /**
-     * @param textToReplaceIn строка, в которой необходимо выполнить замену (не модифицируется)
-     *                        Заменяет в строке все ключи переменных из "variables" на их значения
-     */
-    public String replaceVariables(String textToReplaceIn) {
-        Pattern p = Pattern.compile(CURVE_BRACES_PATTERN);
-        Matcher m = p.matcher(textToReplaceIn);
-        StringBuffer buffer = new StringBuffer();
-        while (m.find()) {
-            String varName = m.group(1);
-            String value = get(varName).toString();
-            m.appendReplacement(buffer, value);
-        }
-        m.appendTail(buffer);
-        return buffer.toString();
-    }
-
-    /**
      * @param inputString заданная строка
      * @return новая строка
      * Производит поиск в заданной строке на наличие совпадений параметров.
@@ -98,7 +63,6 @@ public class ScopedVariables {
         }
         return newString;
     }
-
 
     /**
      * @param inputJsonAsString заданная строка
@@ -141,6 +105,41 @@ public class ScopedVariables {
             return false;
         }
         return true;
+    }
+
+    /**
+     * @param expression java/groovy-код, который будет выполнен
+     *                   Компилирует и выполняет в рантайме переданный на вход java/groovy-код.
+     *                   Предварительно загружает в память все переменные,
+     *                   т.е. на вход в строковом аргументе могут быть переданы переменные из "variables"
+     */
+    public Object evaluate(String expression) {
+        GroovyShell shell = new GroovyShell();
+        variables.entrySet().forEach(e -> {
+            try {
+                shell.setVariable(e.getKey(), new BigDecimal(e.getValue().toString()));
+            } catch (NumberFormatException exp) {
+                shell.setVariable(e.getKey(), e.getValue());
+            }
+        });
+        return shell.evaluate(expression);
+    }
+
+    /**
+     * @param textToReplaceIn строка, в которой необходимо выполнить замену (не модифицируется)
+     *                        Заменяет в строке все ключи переменных из "variables" на их значения
+     */
+    public String replaceVariables(String textToReplaceIn) {
+        Pattern p = Pattern.compile(CURVE_BRACES_PATTERN);
+        Matcher m = p.matcher(textToReplaceIn);
+        StringBuffer buffer = new StringBuffer();
+        while (m.find()) {
+            String varName = m.group(1);
+            String value = get(varName).toString();
+            m.appendReplacement(buffer, value);
+        }
+        m.appendTail(buffer);
+        return buffer.toString();
     }
 
     public void put(String name, Object value) {
