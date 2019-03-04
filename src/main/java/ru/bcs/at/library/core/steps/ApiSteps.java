@@ -194,6 +194,9 @@ public class ApiSteps {
                 String value =
                         loadValueFromFileOrPropertyOrVariableOrDefault(requestParam.get(2));
                 switch (type.toUpperCase()) {
+                    case "RELAXED_HTTPS": {
+                        request.relaxedHTTPSValidation();
+                    }
                     case "ACCESS_TOKEN": {
                         request.header(name, "Bearer " + value.replace("\"", ""));
                         break;
@@ -223,6 +226,8 @@ public class ApiSteps {
                         request.body(body);
                         break;
                     }
+
+
                     default: {
                         throw new IllegalArgumentException(String.format("Некорректно задан тип %s для параметра запроса %s ", type, name));
                     }
