@@ -16,6 +16,7 @@ package ru.bcs.at.library.core.steps;
 import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.Тогда;
 import io.cucumber.datatable.DataTable;
+import io.restassured.RestAssured;
 import io.restassured.http.Method;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSender;
@@ -27,9 +28,9 @@ import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
+import static io.restassured.specification.ProxySpecification.host;
 import static org.hamcrest.Matchers.equalTo;
-import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadProperty;
-import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault;
+import static ru.bcs.at.library.core.core.helpers.PropertyLoader.*;
 import static ru.bcs.at.library.core.cucumber.ScopedVariables.resolveJsonVars;
 import static ru.bcs.at.library.core.cucumber.ScopedVariables.resolveVars;
 
@@ -196,6 +197,7 @@ public class ApiSteps {
                 switch (type.toUpperCase()) {
                     case "RELAXED_HTTPS": {
                         request.relaxedHTTPSValidation();
+                        break;
                     }
                     case "ACCESS_TOKEN": {
                         request.header(name, "Bearer " + value.replace("\"", ""));
@@ -269,6 +271,43 @@ public class ApiSteps {
                 .body(matchesJsonSchemaInClasspath(expectedJsonSchema));
     }
 
+
+    /**
+     * <p style="color: green; font-size: 1.5em">
+     * Используется прокси</p>
+     *
+     * @param proxyHost адрес proxy, например: s-nsk-proxy-01.global.bcs
+     * @param proxyPort порт proxy, например: 8080
+     */
+    @И("^используется proxy: \"([^\"]*)\" port: \"([^\"]*)\"$")
+    public void turnOnProxy(String proxyHost, String proxyPort) {
+        proxyHost = loadValueFromFileOrPropertyOrVariableOrDefault(proxyHost);
+        proxyPort = loadValueFromFileOrPropertyOrVariableOrDefault(proxyPort);
+
+        System.setProperty("http.proxyHost", proxyHost);
+        System.setProperty("http.proxyPort", proxyPort);
+        System.setProperty("https.proxyHost", proxyHost);
+        System.setProperty("https.proxyPort", proxyPort);
+
+        RestAssured.proxy = host(proxyHost).withPort(Integer.valueOf(proxyPort));
+
+    }
+
+    /**
+     * <p style="color: green; font-size: 1.5em">
+     * Выключить использование прокси</p>
+     */
+    @И("^выключено использование proxy$")
+    public void turnOffProxy() {
+        System.clearProperty("http.proxyHost");
+        System.clearProperty("http.proxyPort");
+        System.clearProperty("https.proxyHost");
+        System.clearProperty("https.proxyPort");
+
+        RestAssured.proxy = null;
+    }
+
+
     /**
      * <p style="color: green; font-size: 1.5em">
      * Получает ответ и сохраняет в переменную</p>
@@ -301,6 +340,7 @@ public class ApiSteps {
      * @return Response
      */
     private Response sendRequest(String method, String address,
+
                                  DataTable dataTable) {
         address = loadProperty(address, resolveVars(address));
         RequestSender request = createRequest(dataTable);
