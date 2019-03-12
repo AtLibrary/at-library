@@ -130,8 +130,9 @@ public class ApiSteps {
      *                        и из хранилища переменных из CoreScenario.
      *                        Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
-    @Тогда("^в (json|xml) ответа \"([^\"]*)\" значения равны значениям из таблицы$")
-    public void checkValuesBody(String typeContentBody, String valueToFind, DataTable dataTable) {
+    @Тогда("^в (json|xml) ответа \"([^\"]*)\" значения равны(|, без учета регистра,) значениям из таблицы$")
+    public void checkValuesBody(String typeContentBody, String valueToFind, String textRegister, DataTable dataTable) {
+        //TODO посмотреть есть ли более изящное решение проверки boolean
         Response response = (Response) CoreScenario.getInstance().getVar(valueToFind);
         for (List<String> row : dataTable.asLists()) {
             String path = row.get(0);
@@ -139,7 +140,7 @@ public class ApiSteps {
             String expectedValue =
                     loadValueFromFileOrPropertyOrVariableOrDefault(row.get(1));
 
-            String actualValue = null;
+            String actualValue = "";
 
             if (typeContentBody.equals("json")) {
                 actualValue = response.jsonPath().getString(path);
@@ -147,6 +148,10 @@ public class ApiSteps {
                 actualValue = response.xmlPath().getString(path);
             }
 
+            if(!textRegister.isEmpty()){
+                expectedValue = expectedValue.toLowerCase();
+                actualValue = actualValue.toLowerCase();
+            }
 
             Assert.assertEquals(
                     "Содержимое по " + typeContentBody + "path:" + path + " не равно" +
@@ -154,16 +159,6 @@ public class ApiSteps {
                             "\nреальное: " + actualValue +
                             "\n",
                     expectedValue, actualValue);
-//            ValidatableResponse validatableResponse = response
-//                    .then()
-//                    .assertThat();
-//
-//            //TODO посмотреть есть ли более изящное решение проверки boolean
-//            if ("true".equalsIgnoreCase(actualValue) || "false".equalsIgnoreCase(actualValue)) {
-//                validatableResponse.body(path, equalTo(Boolean.valueOf(actualValue.toLowerCase())));
-//            } else {
-//                validatableResponse.body(path, equalTo(actualValue));
-//            }
         }
     }
 
