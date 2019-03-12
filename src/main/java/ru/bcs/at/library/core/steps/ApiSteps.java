@@ -18,19 +18,23 @@ import cucumber.api.java.ru.Тогда;
 import io.cucumber.datatable.DataTable;
 import io.restassured.RestAssured;
 import io.restassured.http.Method;
+import io.restassured.path.json.config.JsonPathConfig;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSender;
 import io.restassured.specification.RequestSpecification;
 import lombok.extern.log4j.Log4j2;
+import org.junit.Assert;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
+import static io.restassured.config.JsonConfig.jsonConfig;
+import static io.restassured.config.RestAssuredConfig.newConfig;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static io.restassured.specification.ProxySpecification.host;
-import static org.hamcrest.Matchers.equalTo;
-import static ru.bcs.at.library.core.core.helpers.PropertyLoader.*;
+import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadProperty;
+import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault;
 import static ru.bcs.at.library.core.cucumber.ScopedVariables.resolveJsonVars;
 import static ru.bcs.at.library.core.cucumber.ScopedVariables.resolveVars;
 
@@ -127,15 +131,39 @@ public class ApiSteps {
      *                        Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
     @Тогда("^в (json|xml) ответа \"([^\"]*)\" значения равны значениям из таблицы$")
-    public void checkValuesInJson(String typeContentBody, String valueToFind, DataTable dataTable) {
+    public void checkValuesBody(String typeContentBody, String valueToFind, DataTable dataTable) {
         Response response = (Response) CoreScenario.getInstance().getVar(valueToFind);
         for (List<String> row : dataTable.asLists()) {
-            String name = row.get(0);
-            String value = row.get(1);
-            response
-                    .then()
-                    .assertThat()
-                    .body(name, equalTo(value));
+            String path = row.get(0);
+
+            String expectedValue =
+                    loadValueFromFileOrPropertyOrVariableOrDefault(row.get(1));
+
+            String actualValue = null;
+
+            if (typeContentBody.equals("json")) {
+                actualValue = response.jsonPath().getString(path);
+            } else if (typeContentBody.equals("xml")) {
+                actualValue = response.xmlPath().getString(path);
+            }
+
+
+            Assert.assertEquals(
+                    "Содержимое по " + typeContentBody + "path:" + path + " не равно" +
+                            "\nожидаемое: " + expectedValue +
+                            "\nреальное: " + actualValue +
+                            "\n",
+                    expectedValue, actualValue);
+//            ValidatableResponse validatableResponse = response
+//                    .then()
+//                    .assertThat();
+//
+//            //TODO посмотреть есть ли более изящное решение проверки boolean
+//            if ("true".equalsIgnoreCase(actualValue) || "false".equalsIgnoreCase(actualValue)) {
+//                validatableResponse.body(path, equalTo(Boolean.valueOf(actualValue.toLowerCase())));
+//            } else {
+//                validatableResponse.body(path, equalTo(actualValue));
+//            }
         }
     }
 
@@ -152,7 +180,7 @@ public class ApiSteps {
      *                        Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
     @Тогда("^значения из (json|xml) ответа \"([^\"]*)\", найденные по jsonpath из таблицы, сохранены в переменные$")
-    public void getValuesFromJsonAsString(String typeContentBody, String valueToFind, DataTable dataTable) {
+    public void getValuesFromBodyAsString(String typeContentBody, String valueToFind, DataTable dataTable) {
         Response response = (Response) CoreScenario.getInstance().getVar(valueToFind);
 
         for (List<String> row : dataTable.asLists()) {
@@ -228,7 +256,6 @@ public class ApiSteps {
                         request.body(body);
                         break;
                     }
-
 
                     default: {
                         throw new IllegalArgumentException(String.format("Некорректно задан тип %s для параметра запроса %s ", type, name));
@@ -343,6 +370,9 @@ public class ApiSteps {
 
                                  DataTable dataTable) {
         address = loadProperty(address, resolveVars(address));
+        RestAssured.config =
+                newConfig().jsonConfig(jsonConfig().numberReturnType(JsonPathConfig.NumberReturnType.BIG_DECIMAL));
+
         RequestSender request = createRequest(dataTable);
         return request.request(Method.valueOf(method), address);
     }

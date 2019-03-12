@@ -41,7 +41,6 @@ import java.net.MalformedURLException;
 import java.net.URI;
 
 import static com.codeborne.selenide.Configuration.browser;
-import static com.codeborne.selenide.Configuration.remote;
 import static com.codeborne.selenide.WebDriverRunner.*;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadProperty;
 
