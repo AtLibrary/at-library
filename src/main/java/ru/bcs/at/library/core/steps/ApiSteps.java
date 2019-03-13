@@ -283,14 +283,16 @@ public class ApiSteps {
      * Проверка что тело ответа соответсвует json схеме</p>
      *
      * @param variableName       переменная в которой сохранен Response
-     * @param expectedJsonSchema ожидаемый http статус код
+     * @param expectedJsonSchema путь до .json файла со схемой
      */
     @И("^ответ \"([^\"]*)\" соответсвует json схеме: \"([^\"]*)\"$")
     public void checkResponseStatusCode(String variableName, String expectedJsonSchema) {
         Response response = (Response) CoreScenario.getInstance().getVar(variableName);
+        String loadedJsonSchema =
+            loadValueFromFileOrPropertyOrVariableOrDefault(expectedJsonSchema);
         response.then()
                 .assertThat()
-                .body(matchesJsonSchemaInClasspath(expectedJsonSchema));
+                .body(matchesJsonSchemaInClasspath(loadedJsonSchema));
     }
 
 
