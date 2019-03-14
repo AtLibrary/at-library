@@ -148,7 +148,7 @@ public class ApiSteps {
                 actualValue = response.xmlPath().getString(path);
             }
 
-            if(!textRegister.isEmpty()){
+            if (!textRegister.isEmpty()) {
                 expectedValue = expectedValue.toLowerCase();
                 actualValue = actualValue.toLowerCase();
             }
@@ -283,11 +283,14 @@ public class ApiSteps {
      * Проверка что тело ответа соответсвует json схеме</p>
      *
      * @param variableName       переменная в которой сохранен Response
-     * @param expectedJsonSchema ожидаемый http статус код
+     * @param expectedJsonSchema путь до .json файла со схемой
      */
     @И("^ответ \"([^\"]*)\" соответсвует json схеме: \"([^\"]*)\"$")
-    public void checkResponseStatusCode(String variableName, String expectedJsonSchema) {
+    public void verifyingResponseMatchesJsonScheme(String variableName, String expectedJsonSchema) {
         Response response = (Response) CoreScenario.getInstance().getVar(variableName);
+        expectedJsonSchema =
+                loadValueFromFileOrPropertyOrVariableOrDefault(expectedJsonSchema);
+
         response.then()
                 .assertThat()
                 .body(matchesJsonSchemaInClasspath(expectedJsonSchema));
