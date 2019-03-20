@@ -57,7 +57,7 @@ public class ApiSteps {
      * @param address      url запроса (ожно задать как напрямую в шаге, так и указав в application.properties)
      * @param variableName имя переменной в которую сохраняется ответ
      */
-    @И("^выполнен (GET|POST|PUT|DELETE) запрос на URL \"([^\"]*)\". Полученный ответ сохранен в переменную \"([^\"]*)\"$")
+    @И("^выполнен (GET|PUT|POST|DELETE|HEAD|TRACE|OPTIONS|PATCH) запрос на URL \"([^\"]*)\". Полученный ответ сохранен в переменную \"([^\"]*)\"$")
     public void sendHttpRequestWithoutParams(String method, String address, String variableName) {
         Response response = sendRequest(method, address, null);
         getBodyAndSaveToVariable(variableName, response);
@@ -75,7 +75,7 @@ public class ApiSteps {
      *                     и из хранилища переменных из CoreScenario.
      *                     Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
-    @И("^выполнен (GET|POST|PUT|DELETE) запрос на URL \"([^\"]*)\" с headers и parameters из таблицы. Полученный ответ сохранен в переменную \"([^\"]*)\"$")
+    @И("^выполнен (GET|PUT|POST|DELETE|HEAD|TRACE|OPTIONS|PATCH) запрос на URL \"([^\"]*)\" с headers и parameters из таблицы. Полученный ответ сохранен в переменную \"([^\"]*)\"$")
     public void sendHttpRequestSaveResponse(String method, String address, String variableName, DataTable dataTable) {
         Response response = sendRequest(method, address, dataTable);
         getBodyAndSaveToVariable(variableName, response);
@@ -93,7 +93,7 @@ public class ApiSteps {
      *                           и из хранилища переменных из CoreScenario.
      *                           Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
-    @И("^выполнен (GET|POST|PUT|DELETE) запрос на URL \"([^\"]*)\" с headers и parameters из таблицы. Ожидается код ответа: (\\d+)$")
+    @И("^выполнен (GET|PUT|POST|DELETE|HEAD|TRACE|OPTIONS|PATCH) запрос на URL \"([^\"]*)\" с headers и parameters из таблицы. Ожидается код ответа: (\\d+)$")
     public void sendHttpRequestCheckResponseCode(String method, String address, int expectedStatusCode, DataTable dataTable) {
         Response response = sendRequest(method, address, dataTable);
         checkStatusCode(response, expectedStatusCode);
@@ -112,7 +112,7 @@ public class ApiSteps {
      *                           и из хранилища переменных из CoreScenario.
      *                           Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
-    @И("^выполнен (GET|POST|PUT|DELETE) запрос на URL \"([^\"]*)\" с headers и parameters из таблицы. Ожидается код ответа: (\\d+) Полученный ответ сохранен в переменную \"([^\"]*)\"$")
+    @И("^выполнен (GET|PUT|POST|DELETE|HEAD|TRACE|OPTIONS|PATCH) запрос на URL \"([^\"]*)\" с headers и parameters из таблицы. Ожидается код ответа: (\\d+) Полученный ответ сохранен в переменную \"([^\"]*)\"$")
     public void sendHttpRequestSaveResponseCheckResponseCode(String method, String address, int expectedStatusCode, String variableName, DataTable dataTable) {
         Response response = sendRequest(method, address, dataTable);
         checkStatusCode(response, expectedStatusCode);
@@ -197,6 +197,46 @@ public class ApiSteps {
             coreScenario.setVar(varName, value);
             coreScenario.write(typeContentBody.toUpperCase() + " path: " + path + ", значение: " + value + ", записано в переменную: " + varName);
         }
+    }
+
+    /**
+     * <p style="color: green; font-size: 1.5em">
+     * значения найденные по jsonPath из json ответа "ПЕРВЫЙ" равны значениям из json ответа "ВТОРОЙ"</p>
+     *
+     * @param nameResponseOne имя первого ответа
+     * @param nameResponseTwo имя второго ответа ответа
+     * @param dataTable       список jsonpath ключей
+     */
+    @Тогда("^значения найденные по jsonPath из json ответа \"([^\"]*)\" равны значениям из json ответа \"([^\"]*)\"$")
+    public void valuesFoundByPathEqual(String nameResponseOne, String nameResponseTwo, DataTable dataTable) {
+        Response response1 = (Response) CoreScenario.getInstance().getVar(nameResponseOne);
+        Response response2 = (Response) CoreScenario.getInstance().getVar(nameResponseTwo);
+
+        for (List<String> row : dataTable.asLists()) {
+            String path = row.get(0);
+
+            String actualValue = response1.jsonPath().getString(path);
+            String expectedValue = response2.jsonPath().getString(path);
+
+            Assert.assertNotNull(
+                    "Содержимое по jsonpath: " + path +
+                            "\nВ ответе: " + nameResponseOne +
+                            "\nНе должно быть: null ",
+                    actualValue);
+            Assert.assertNotNull(
+                    "Содержимое по jsonpath: " + path +
+                            "\nВ ответе: " + nameResponseTwo +
+                            "\nНе должно быть: null ",
+                    expectedValue);
+
+            Assert.assertEquals(
+                    "Содержимое по jsonpath: " + path + " не равно" +
+                            "\nВ ответе: " + expectedValue +
+                            "\nВ переменной: " + actualValue +
+                            "\n",
+                    expectedValue, actualValue);
+        }
+
     }
 
     /**
