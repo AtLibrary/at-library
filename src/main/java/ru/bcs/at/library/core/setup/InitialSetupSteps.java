@@ -33,6 +33,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import ru.bcs.at.library.core.core.helpers.LogReportListener;
 import ru.bcs.at.library.core.cucumber.api.CoreEnvironment;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 import ru.bcs.at.library.core.log.Log4jRestAssuredFilter;
@@ -52,8 +53,6 @@ import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadProperty;
 @Log4j2
 public class InitialSetupSteps {
 
-    private volatile static boolean turnOnAllureListener = false;
-
     @Delegate
     CoreScenario coreScenario = CoreScenario.getInstance();
 
@@ -70,14 +69,7 @@ public class InitialSetupSteps {
         RestAssured.baseURI = System.getProperty("baseURI", loadProperty("baseURI"));
         Configuration.baseUrl = System.getProperty("baseURI", loadProperty("baseURI"));
 
-        if (!turnOnAllureListener) {
-            SelenideLogger.addListener("AllureSelenide", new AllureSelenide().screenshots(true).savePageSource(false));
-            RestAssured.filters(
-                    new AllureRestAssured(),
-                    new Log4jRestAssuredFilter()
-            );
-            turnOnAllureListener = true;
-        }
+        LogReportListener.turnOn();
 
         /**
          * Если сценарий содержит тег @web" то будет создан WebDriver
@@ -109,6 +101,11 @@ public class InitialSetupSteps {
             Selenide.clearBrowserCookies();
             Selenide.close();
         }
+
+        /**
+         * Очищает окружение(среду) по окончанию сценария
+         */
+        coreScenario.removeEnvironment();
     }
 
     /**

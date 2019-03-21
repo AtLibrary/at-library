@@ -79,6 +79,10 @@ public final class CoreScenario {
         environment.set(coreEnvironment);
     }
 
+    public void removeEnvironment() {
+        environment.remove();
+    }
+
     /**
      * Получение страницы, тестирование которой производится в данный момент
      */

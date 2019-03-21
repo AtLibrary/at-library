@@ -6,7 +6,7 @@
 
     <groupId>ru.bcs</groupId>
     <artifactId>at-library-core</artifactId>
-    <version>13.03.2019</version>
+    <version>13.03.2019-rp</version>
 
     <name>at-library-core</name>
 
@@ -99,6 +99,12 @@
             <artifactId>allure-junit4</artifactId>
             <version>${allure.version}</version>
         </dependency>
+        <!--ОТЧЕТ reportportal-->
+        <dependency>
+            <groupId>com.epam.reportportal</groupId>
+            <artifactId>agent-java-cucumber4</artifactId>
+            <version>4.0.1-BCS</version>
+        </dependency>
         <!--LOMBOK-->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -180,6 +186,13 @@
                     <encoding>UTF-8</encoding>
                     <additionalOptions>-Xdoclint:none</additionalOptions>
                     <additionalJOption>-Xdoclint:none</additionalJOption>
+                    <doclet>ch.raffael.mddoclet.MarkdownDoclet</doclet>
+                    <docletArtifact>
+                        <groupId>ch.raffael.markdown-doclet</groupId>
+                        <artifactId>markdown-doclet</artifactId>
+                        <version>1.4</version>
+                    </docletArtifact>
+                    <useStandardDocletOptions>true</useStandardDocletOptions>
                 </configuration>
             </plugin>
         </plugins>

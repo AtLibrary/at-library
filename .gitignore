@@ -1,5 +1,5 @@
 target
 .idea
-autotest.iml
+at-library-core.iml
 .allure
 .DS_Store
