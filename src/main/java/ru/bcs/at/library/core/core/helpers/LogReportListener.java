@@ -18,6 +18,9 @@ public class LogReportListener {
 
     private volatile static boolean enabled = false;
 
+    private LogReportListener() {
+    }
+
     /**
      * Добавляет фильтры логирования.
      * <ul>
@@ -44,8 +47,5 @@ public class LogReportListener {
             RestAssured.filters(filters);
             enabled = true;
         }
-    }
-
-    private LogReportListener() {
     }
 }

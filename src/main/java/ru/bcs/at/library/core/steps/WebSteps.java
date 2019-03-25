@@ -104,7 +104,7 @@ public class WebSteps {
 
     /**
      * <p style="color: green; font-size: 1.5em">
-     * На странице происходит клик по заданному элементу
+     * На странице происходит click по заданному элементу
      *
      * @param elementName название кнопки|поля|блока
      *                    </p>
@@ -112,6 +112,24 @@ public class WebSteps {
     @И("^выполнено нажатие на (?:кнопку|поле|блок) \"([^\"]*)\"$")
     public void clickOnElement(String elementName) {
         coreScenario.getCurrentPage().getElement(elementName).click();
+    }
+
+    /**
+     * <p style="color: green; font-size: 1.5em">
+     * На странице происходит click по заданному элементу
+     * Если элемент Displayed то будет попытка click по родительскому элементу
+     *
+     * @param elementName название кнопки|поля|блока
+     *                    </p>
+     */
+    @И("^выполнено умное нажатие на (?:кнопку|поле|блок) \"([^\"]*)\"$")
+    public void clickElementOrParent(String elementName) {
+        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
+        if (element.isDisplayed()) {
+            element.click();
+        } else {
+            element.parent().click();
+        }
     }
 
     /**
@@ -192,7 +210,9 @@ public class WebSteps {
         coreScenario.setCurrentPage(coreScenario.getPage(nameOfPage));
         if (isIE()) {
             coreScenario.getCurrentPage().ieAppeared();
-        } else coreScenario.getCurrentPage().appeared();
+        } else {
+            coreScenario.getCurrentPage().appeared();
+        }
     }
 
     /**
@@ -208,7 +228,9 @@ public class WebSteps {
         coreScenario.setCurrentPage(coreScenario.getPage(nameOfPage));
         if (isIE()) {
             coreScenario.getCurrentPage().ieDisappeared();
-        } else coreScenario.getCurrentPage().disappeared();
+        } else {
+            coreScenario.getCurrentPage().disappeared();
+        }
     }
 
     /**
@@ -1092,6 +1114,40 @@ public class WebSteps {
     public void clickOnElementInBlock(String elementName, String blockName) {
         coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName).click();
     }
+
+    /**
+     * <p style="color: green; font-size: 1.5em">
+     * Получение текста элемента в блоке и сохранение его в переменную
+     *
+     * @param elementName имя элемента
+     * @param blockName   имя блока
+     * @param variableName имя переменной
+     *                    </p>
+     */
+    @Когда("^значение (?:элемента|поля) \"([^\"]*)\" в блоке \"([^\"]*)\" сохранено в переменную \"([^\"]*)\"$")
+    public void saveTextElementInBlock(String elementName, String blockName, String variableName) {
+        String elementText = coreScenario.getCurrentPage().getBlock(blockName).getAnyElementText(elementName);
+        coreScenario.setVar(variableName, elementText);
+        coreScenario.write("Значение [" + elementText + "] сохранено в переменную [" + variableName + "]");
+    }
+
+    /**
+     * <p style="color: green; font-size: 1.5em">
+     * Проверка того, что значение из поля в блоке совпадает со значением заданной переменной из хранилища
+     * </p>
+     *
+     * @param elementName имя элемента
+     * @param blockName   имя блока
+     * @param variableName имя переменной
+     */
+    @Тогда("^значение (?:поля|элемента) \"([^\"]*)\" в блоке \"([^\"]*)\" совпадает со значением из переменной \"([^\"]*)\"$")
+    public void compareFieldAndVariable(String elementName, String blockName, String variableName) {
+        String actualValue = coreScenario.getCurrentPage().getBlock(blockName).getAnyElementText(elementName);
+        String expectedValue = coreScenario.getVar(variableName).toString();
+        assertThat(String.format("Значение поля [%s] не совпадает со значением из переменной [%s]", elementName, variableName),
+                actualValue, equalTo(expectedValue));
+    }
+
 
     /**
      * <p style="color: green; font-size: 1.5em">

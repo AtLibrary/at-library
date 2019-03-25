@@ -32,6 +32,12 @@ public class ReportPortalRestAssuredFilter implements OrderedFilter {
     private String requestTemplatePath = "http-rp-request.ftl";
     private String responseTemplatePath = "http-rp-response.ftl";
 
+    private static Map<String, String> toMapConverter(final Iterable<? extends NameAndValue> items) {
+        final Map<String, String> result = new HashMap<>();
+        items.forEach(h -> result.put(h.getName(), h.getValue()));
+        return result;
+    }
+
     public void setRequestTemplate(final String templatePath) {
         this.requestTemplatePath = templatePath;
     }
@@ -95,12 +101,6 @@ public class ReportPortalRestAssuredFilter implements OrderedFilter {
             sb = sb.append("::").append(headers.get("SOAPAction").getValue());
         }
         return sb.toString();
-    }
-
-    private static Map<String, String> toMapConverter(final Iterable<? extends NameAndValue> items) {
-        final Map<String, String> result = new HashMap<>();
-        items.forEach(h -> result.put(h.getName(), h.getValue()));
-        return result;
     }
 
 

@@ -6,7 +6,7 @@
 
     <groupId>ru.bcs</groupId>
     <artifactId>at-library-core</artifactId>
-    <version>13.03.2019-rp</version>
+    <version>18.03.2019</version>
 
     <name>at-library-core</name>
 
@@ -45,6 +45,12 @@
     </distributionManagement>
 
     <dependencies>
+        <!--webdrivermanager-->
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+            <version>3.3.0</version>
+        </dependency>
         <!--WEB ТЕСТИРОВАНИЕ-->
         <dependency>
             <groupId>com.codeborne</groupId>

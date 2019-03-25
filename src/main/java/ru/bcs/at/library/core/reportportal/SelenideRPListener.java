@@ -21,6 +21,14 @@ public class SelenideRPListener implements LogEventListener {
     private boolean saveScreenshots = true;
     private boolean savePageHtml = true;
 
+    private static byte[] getScreenshotBytes() {
+        return ((TakesScreenshot) WebDriverRunner.getWebDriver()).getScreenshotAs(OutputType.BYTES);
+    }
+
+    private static byte[] getPageSourceBytes() {
+        return WebDriverRunner.getWebDriver().getPageSource().getBytes(StandardCharsets.UTF_8);
+    }
+
     public SelenideRPListener screenshots(final boolean saveScreenshots) {
         this.saveScreenshots = saveScreenshots;
         return this;
@@ -45,14 +53,6 @@ public class SelenideRPListener implements LogEventListener {
                 scenario.embed(getPageSourceBytes(), "text/html");
             }
         }
-    }
-
-    private static byte[] getScreenshotBytes() {
-        return ((TakesScreenshot) WebDriverRunner.getWebDriver()).getScreenshotAs(OutputType.BYTES);
-    }
-
-    private static byte[] getPageSourceBytes() {
-        return WebDriverRunner.getWebDriver().getPageSource().getBytes(StandardCharsets.UTF_8);
     }
 
 }
