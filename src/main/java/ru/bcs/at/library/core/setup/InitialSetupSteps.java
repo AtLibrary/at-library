@@ -129,14 +129,15 @@ public class InitialSetupSteps {
          * Уведомление о месте запуска тестов
          */
         if (Strings.isNullOrEmpty(Configuration.remote)) {
-            if (browser.equals(CHROME)) {
+            if (browser.equals(CHROME) && !System.getProperty("os.name").equals("Linux")) {
                 ChromeOptions options = new ChromeOptions();
+                options.addArguments("--disable-notifications");
                 options.setExperimentalOption("useAutomationExtension", false);
                 WebDriverRunner.setWebDriver(
                         new ChromeDriver(options)
                 );
             }
-
+            log.info("Тесты будут запущены на операционной системе: " + System.getProperty("os.name"));
             log.info("Тесты будут запущены локально в браузере: " + browser);
         } else {
             log.info("Тесты запущены на удаленной машине: " + Configuration.remote);

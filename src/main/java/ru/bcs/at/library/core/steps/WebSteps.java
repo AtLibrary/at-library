@@ -23,7 +23,6 @@ import cucumber.api.java.ru.Тогда;
 import io.cucumber.datatable.DataTable;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.hamcrest.Matchers;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
@@ -42,7 +41,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.not;
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverRunner.isIE;
 import static com.codeborne.selenide.WebDriverRunner.url;
@@ -243,10 +244,9 @@ public class WebSteps {
      */
     @Тогда("^значение (?:поля|элемента) \"([^\"]*)\" совпадает со значением из переменной \"([^\"]*)\"$")
     public void compareFieldAndVariable(String elementName, String variableName) {
-        String actualValue = coreScenario.getCurrentPage().getAnyElementText(elementName);
+        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
         String expectedValue = coreScenario.getVar(variableName).toString();
-        assertThat(String.format("Значение поля [%s] не совпадает со значением из переменной [%s]", elementName, variableName),
-                actualValue, equalTo(expectedValue));
+        element.shouldHave(exactText(expectedValue));
     }
 
     /**
@@ -368,9 +368,8 @@ public class WebSteps {
      */
     @Тогда("^поле \"([^\"]*)\" пусто$")
     public void fieldInputIsEmpty(String fieldName) {
-        assertThat(String.format("Поле [%s] не пусто", fieldName),
-                coreScenario.getCurrentPage().getAnyElementText(fieldName),
-                isEmptyOrNullString());
+        coreScenario.getCurrentPage().getElement(fieldName)
+                .shouldHave(empty);
     }
 
     /**
@@ -543,7 +542,19 @@ public class WebSteps {
     @Тогда("^(?:поле|элемент) \"([^\"]*)\" кликабельно$")
     public void clickableField(String elementName) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
-        assertTrue(String.format("Элемент [%s] не кликабелен", elementName), element.isEnabled());
+        element.shouldHave(enabled);
+    }
+
+
+    /**
+     * <p style="color: green; font-size: 1.5em">
+     * Проверка, что элемент на странице кликабелен
+     * </p>
+     */
+    @Тогда("^(?:поле|элемент) \"([^\"]*)\" кликабельнов течение (\\d+) (?:секунд|секунды)$")
+    public void clickableField(String elementName, int second) {
+        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
+        element.waitUntil(enabled, second * 1000);
     }
 
     /**
@@ -555,9 +566,7 @@ public class WebSteps {
     public void checkElemContainsAtrWithValue(String elementName, String attribute, String expectedAttributeValue) {
         expectedAttributeValue = getPropertyOrStringVariableOrValue(expectedAttributeValue);
         SelenideElement currentElement = coreScenario.getCurrentPage().getElement(elementName);
-        String currentAtrValue = currentElement.attr(attribute);
-        assertThat(String.format("Элемент [%s] не содержит атрибут [%s] со значением [%s]", elementName, attribute, expectedAttributeValue)
-                , currentAtrValue, equalToIgnoringCase(expectedAttributeValue));
+        currentElement.shouldHave(attribute(attribute, expectedAttributeValue));
     }
 
     /**
@@ -572,9 +581,10 @@ public class WebSteps {
     public void checkElemClassContainsExpectedValue(String elementName, String expectedClassValue) {
         SelenideElement currentElement = coreScenario.getCurrentPage().getElement(elementName);
         expectedClassValue = getPropertyOrStringVariableOrValue(expectedClassValue);
-        String currentClassValue = currentElement.getAttribute("class");
-        assertThat(String.format("Элемент [%s] не содержит класс со значением [%s]", elementName, expectedClassValue)
-                , currentClassValue.toLowerCase(), containsString(expectedClassValue.toLowerCase()));
+
+        currentElement.shouldHave(
+                attribute("class", expectedClassValue)
+        );
     }
 
     /**
@@ -585,9 +595,12 @@ public class WebSteps {
     @Тогда("^элемент \"([^\"]*)\" не содержит класс со значением \"(.*)\"$")
     public void checkElemClassNotContainsExpectedValue(String elementName, String expectedClassValue) {
         SelenideElement currentElement = coreScenario.getCurrentPage().getElement(elementName);
-        assertThat(String.format("Элемент [%s] содержит класс со значением [%s]", elementName, expectedClassValue),
-                currentElement.getAttribute("class").toLowerCase(),
-                Matchers.not(containsString(getPropertyOrStringVariableOrValue(expectedClassValue).toLowerCase())));
+
+        expectedClassValue = getPropertyOrStringVariableOrValue(expectedClassValue);
+
+        currentElement.shouldHave(
+                not(attribute("class", expectedClassValue))
+        );
     }
 
     /**
@@ -599,8 +612,8 @@ public class WebSteps {
     @Тогда("^(?:поле|элемент) \"([^\"]*)\" содержит значение \"(.*)\"$")
     public void testActualValueContainsSubstring(String elementName, String expectedValue) {
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
-        String actualValue = coreScenario.getCurrentPage().getAnyElementText(elementName);
-        assertThat(String.format("Поле [%s] не содержит значение [%s]", elementName, expectedValue), actualValue, containsString(expectedValue));
+        coreScenario.getCurrentPage().getElement(elementName)
+                .shouldHave(text(expectedValue));
     }
 
     /**
@@ -613,10 +626,10 @@ public class WebSteps {
      * </p>
      */
     @Тогда("^(?:поле|элемент) \"([^\"]*)\" содержит внутренний текст \"(.*)\"$")
-    public void testFieldContainsInnerText(String fieldName, String expectedText) {
-        expectedText = getPropertyOrStringVariableOrValue(expectedText);
-        String field = coreScenario.getCurrentPage().getElement(fieldName).innerText().trim().toLowerCase();
-        assertThat(String.format("Поле [%s] не содержит текст [%s]", fieldName, expectedText), field, containsString(expectedText.toLowerCase()));
+    public void testFieldContainsInnerText(String elementName, String expectedValue) {
+        expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
+        coreScenario.getCurrentPage().getElement(elementName)
+                .shouldHave(text(expectedValue));
     }
 
     /**
@@ -627,8 +640,8 @@ public class WebSteps {
     @Тогда("^значение (?:поля|элемента) \"([^\"]*)\" равно \"(.*)\"$")
     public void compareValInFieldAndFromStep(String elementName, String expectedValue) {
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
-        String actualValue = coreScenario.getCurrentPage().getAnyElementText(elementName);
-        assertThat(String.format("Значение поля [%s] не равно ожидаемому [%s]", elementName, expectedValue), actualValue, equalTo(expectedValue));
+        coreScenario.getCurrentPage().getElement(elementName)
+                .shouldHave(exactText(expectedValue));
     }
 
     /**
@@ -1032,7 +1045,7 @@ public class WebSteps {
             executeJavaScript("return window.scrollBy(0, 250);");
             sleep(1000);
         } while (!atBottom());
-        assertThat("Элемент " + elementName + " не найден", el.isDisplayed());
+        el.shouldHave(enabled);
     }
 
     /**
@@ -1052,7 +1065,7 @@ public class WebSteps {
             executeJavaScript("return window.scrollBy(0, 250);");
             sleep(1000);
         } while (!atBottom());
-        assertThat("Элемент с текстом " + expectedValue + " не найден", el.isDisplayed());
+        el.shouldHave(enabled);
     }
 
     /**
@@ -1119,10 +1132,10 @@ public class WebSteps {
      * <p style="color: green; font-size: 1.5em">
      * Получение текста элемента в блоке и сохранение его в переменную
      *
-     * @param elementName имя элемента
-     * @param blockName   имя блока
+     * @param elementName  имя элемента
+     * @param blockName    имя блока
      * @param variableName имя переменной
-     *                    </p>
+     *                     </p>
      */
     @Когда("^значение (?:элемента|поля) \"([^\"]*)\" в блоке \"([^\"]*)\" сохранено в переменную \"([^\"]*)\"$")
     public void saveTextElementInBlock(String elementName, String blockName, String variableName) {
@@ -1136,16 +1149,15 @@ public class WebSteps {
      * Проверка того, что значение из поля в блоке совпадает со значением заданной переменной из хранилища
      * </p>
      *
-     * @param elementName имя элемента
-     * @param blockName   имя блока
+     * @param elementName  имя элемента
+     * @param blockName    имя блока
      * @param variableName имя переменной
      */
     @Тогда("^значение (?:поля|элемента) \"([^\"]*)\" в блоке \"([^\"]*)\" совпадает со значением из переменной \"([^\"]*)\"$")
     public void compareFieldAndVariable(String elementName, String blockName, String variableName) {
-        String actualValue = coreScenario.getCurrentPage().getBlock(blockName).getAnyElementText(elementName);
         String expectedValue = coreScenario.getVar(variableName).toString();
-        assertThat(String.format("Значение поля [%s] не совпадает со значением из переменной [%s]", elementName, variableName),
-                actualValue, equalTo(expectedValue));
+        coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName)
+                .shouldHave(exactText(expectedValue));
     }
 
 

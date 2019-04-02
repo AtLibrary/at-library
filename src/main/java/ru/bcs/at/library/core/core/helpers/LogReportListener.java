@@ -16,7 +16,7 @@ import java.util.List;
 @Log4j2
 public class LogReportListener {
 
-    private volatile static boolean enabled = false;
+    // private volatile static boolean enabled = false;
 
     private LogReportListener() {
     }
@@ -29,23 +29,27 @@ public class LogReportListener {
      * <li> отчет allure</li>
      * </ul>
      */
-    public static synchronized void turnOn() {
-        if (!enabled) {
-            SelenideLogger.addListener("AllureSelenide", new AllureSelenide().screenshots(true).savePageSource(false));
-            SelenideLogger.addListener("RPSelenide", new SelenideRPListener().screenshots(true).savePageSource(false));
+//    public static synchronized void turnOn() {
+    public static void turnOn() {
+        //  if (!enabled) {
+        SelenideLogger.addListener("AllureSelenide", new AllureSelenide().screenshots(true).savePageSource(true));
+        log.debug("Включен Selenide в Allure");
 
-            List<Filter> filters = new ArrayList<>();
-            filters.add(new Log4jRestAssuredFilter());
-            log.debug("Включен вывод rest-assured в log4j");
+        SelenideLogger.addListener("RPSelenide", new SelenideRPListener().screenshots(true).savePageSource(true));
+        log.debug("Включен Selenide в Allure");
 
-            filters.add(new AllureRestAssured());
-            log.debug("Включен вывод rest-assured в Allure");
+        List<Filter> filters = new ArrayList<>();
+        filters.add(new Log4jRestAssuredFilter());
+        log.debug("Включен вывод rest-assured в log4j");
 
-            filters.add(new ReportPortalRestAssuredFilter());
-            log.debug("Включен вывод rest-assured в ReportPortal");
+        filters.add(new AllureRestAssured());
+        log.debug("Включен вывод rest-assured в Allure");
 
-            RestAssured.filters(filters);
-            enabled = true;
-        }
+        filters.add(new ReportPortalRestAssuredFilter());
+        log.debug("Включен вывод rest-assured в ReportPortal");
+
+        RestAssured.filters(filters);
+        // enabled = true;
+        // }
     }
 }
