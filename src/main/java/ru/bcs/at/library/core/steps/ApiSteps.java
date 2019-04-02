@@ -320,6 +320,29 @@ public class ApiSteps {
 
     /**
      * <p style="color: green; font-size: 1.5em">
+     * Сравнение кода http ответа с ожидаемым</p>
+     *
+     * @param variableName       переменная в которой сохранен Response
+     * @param dataTable массив с параметрами
+     */
+    @И("^в ответе \"([^\"]*)\" содержатся header со значениями из таблицы$")
+    public void checkResponseHeaderValues(String variableName, DataTable dataTable) {
+        Response response = (Response) CoreScenario.getInstance().getVar(variableName);
+
+        for (List<String> row : dataTable.asLists()) {
+            String header = row.get(0);
+            String headerValue = row.get(1);
+
+            if(header.isEmpty() || headerValue.isEmpty()){
+                throw new RuntimeException("Header и значение не могут быть пустыми");
+            }
+            checkHeaderValue(response, header, headerValue);
+        }
+
+    }
+
+    /**
+     * <p style="color: green; font-size: 1.5em">
      * Проверка что тело ответа соответсвует json схеме</p>
      *
      * @param variableName       переменная в которой сохранен Response
@@ -393,6 +416,19 @@ public class ApiSteps {
      */
     private void checkStatusCode(Response response, int expectedStatusCode) {
         response.then().statusCode(expectedStatusCode);
+    }
+
+
+    /**
+     * <p style="color: green; font-size: 1.5em">
+     * Сравнение кода http ответа с ожидаемым</p>
+     *
+     * @param response            ответ от сервиса
+     * @param expectedHeader      ожидаемый Header
+     * @param expectedHeaderValue ожидаемое содержание Header
+     */
+    private void checkHeaderValue(Response response, String expectedHeader, String expectedHeaderValue) {
+        response.then().assertThat().header(expectedHeader, expectedHeaderValue);
     }
 
     /**
