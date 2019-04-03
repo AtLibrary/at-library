@@ -241,6 +241,37 @@ public class ApiSteps {
 
     /**
      * <p style="color: green; font-size: 1.5em">
+     * элемент найденный по jsonPath из json ответа содержит указанное количество элементов</p>
+     *
+     * @param nameResponse имя ответа
+     * @param dataTable       список jsonpath ключей
+     */
+    @Тогда("^элемент найденный по jsonPath из json ответа \"([^\"]*)\" содержит указанное количество элементов$")
+    public void valuesFoundByPathContainElementCounts(String nameResponse, DataTable dataTable) {
+        Response response = (Response) CoreScenario.getInstance().getVar(nameResponse);
+
+        for (List<String> row : dataTable.asLists()) {
+            String path = row.get(0);
+            int count = Integer.parseInt(row.get(1));
+
+            String actualValue = response.jsonPath().getString(path);
+            //TODO Объект по jsonPath привести к массиву и получить его длину, сравнить с ожидаемой, вывести в ошибку
+
+            Assert.assertNotNull(
+                    "Содержимое по jsonpath: " + path +
+                            "\nВ ответе: " + nameResponse +
+                            "\nНе должно быть: null ",
+                    actualValue);
+
+            //if(  != count){
+            //    throw new RuntimeException( "jsonpath: " + path + " содержит не верное количество элементов.\nВ ответе: " +  +"\nОжидалось:"+count);
+            //}
+        }
+
+    }
+
+    /**
+     * <p style="color: green; font-size: 1.5em">
      * Создание запроса
      * Content-Type при необходимости должен быть указан в качестве header.</p>
      *
