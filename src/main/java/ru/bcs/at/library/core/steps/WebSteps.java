@@ -14,6 +14,7 @@
 package ru.bcs.at.library.core.steps;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import cucumber.api.java.ru.И;
@@ -276,9 +277,27 @@ public class WebSteps {
      */
     @И("^совершен переход на страницу \"([^\"]*)\" по ссылке \"([^\"]*)\"$")
     public void goToSelectedPageByLink(String pageName, String urlOrName) {
-        String address = loadProperty(urlOrName, resolveVars(urlOrName));
-        coreScenario.write(" url = " + address);
-        open(address);
+        String domain = loadProperty("domain", "domain");
+        String URL = loadProperty(urlOrName, resolveVars(urlOrName));
+        String baseURL = System.getProperty("baseURI", loadProperty("baseURI"));
+
+        if (System.getProperty("domain.authorization", "false").equals("true")) {
+            String login = loadProperty("domain.username", "domain.username");
+            String password = loadProperty("domain.password", "domain.password");
+            if (!urlOrName.contains("https://") && !urlOrName.contains("http://")) {
+                URL = domain + login + ":" + password + "@" + baseURL + URL;
+            }
+            open(URL);
+        } else {
+            open(URL);
+        }
+
+        if (URL.isEmpty()) {
+            coreScenario.write("URL = " + Configuration.baseUrl);
+        } else {
+            coreScenario.write("URL = " + URL);
+        }
+
         loadPage(pageName);
     }
 
