@@ -24,8 +24,13 @@ import io.restassured.specification.RequestSender;
 import io.restassured.specification.RequestSpecification;
 import lombok.extern.log4j.Log4j2;
 import org.junit.Assert;
+import ru.bcs.at.library.core.core.helpers.PropertyLoader;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
+import sun.misc.BASE64Decoder;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
@@ -395,6 +400,23 @@ public class ApiSteps {
         RestAssured.proxy = null;
     }
 
+    @И("^переменная \"([^\"]*)\" содержир base64 кодирование, декодирована в pdf и сохранена по пути \"([^\"]*)\" с именем \"([^\"]*)\" в формате \"([^\"]*)\"$")
+    public void saveBase64ToPdf(String encodeBytes, String path, String fName, String fFormat) throws IOException {
+        String base64Code = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(encodeBytes);
+        String fileName = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(fName);
+        String fileFormat = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(fFormat);
+        String pathToSave = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(path) + "\\"+fileName+"."+fileFormat;
+
+        BASE64Decoder decoder = new BASE64Decoder();
+        byte[] decodedBytes = decoder.decodeBuffer(base64Code);
+
+        File file = new File(pathToSave);
+        FileOutputStream fop = new FileOutputStream(file);
+
+        fop.write(decodedBytes);
+        fop.flush();
+        fop.close();
+    }
 
     /**
      * <p style="color: green; font-size: 1.5em">
