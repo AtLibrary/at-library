@@ -13,10 +13,7 @@
  */
 package ru.bcs.at.library.core.steps;
 
-import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.*;
 import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.Когда;
 import cucumber.api.java.ru.Пусть;
@@ -25,6 +22,7 @@ import io.cucumber.datatable.DataTable;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 
@@ -282,6 +280,24 @@ public class WebSteps {
         open(address);
         loadPage(pageName);
     }
+
+
+    /**
+     * <p style="color: green; font-size: 1.5em">
+     * Выполняется переход по заданной ссылке.
+     * Шаг содержит проверку, что после перехода загружена заданная страница.
+     * Ссылка может передаваться как строка, так и как ключ из application.properties
+     * </p>
+     */
+    @И("^совершен переход на страницу \"([^\"]*)\" в новой вкладке по ссылке \"([^\"]*)\"$")
+    public void goToSelectedPageByLinkNewTab(String pageName, String urlOrName) {
+        String url = resolveVars(getPropertyOrStringVariableOrValue(urlOrName));
+        coreScenario.write(" url = " + url);
+        ((JavascriptExecutor) WebDriverRunner.getWebDriver())
+                .executeScript("window.open('" + url + "','_blank');");
+        loadPage(pageName);
+    }
+
     /**
      * <p style="color: green; font-size: 1.5em">
      * Проверка того, что блок исчез/стал невидимым
