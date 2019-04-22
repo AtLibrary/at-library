@@ -49,6 +49,13 @@ import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadProperty;
 @Log4j2
 public class InitialSetupSteps {
 
+    /**
+     * <p>Включение слушателей Allure</p>
+     */
+    static {
+        LogReportListener.turnOn();
+    }
+
     @Delegate
     CoreScenario coreScenario = CoreScenario.getInstance();
 
@@ -61,11 +68,8 @@ public class InitialSetupSteps {
      */
     @Before
     public void beforeEachTest(Scenario scenario) throws MalformedURLException {
-
         RestAssured.baseURI = System.getProperty("baseURI", loadProperty("baseURI"));
         Configuration.baseUrl = System.getProperty("baseURI", loadProperty("baseURI"));
-
-        LogReportListener.turnOn();
 
         /**
          * Если сценарий содержит тег @web" то будет создан WebDriver
@@ -112,6 +116,58 @@ public class InitialSetupSteps {
         /**
          * Создает настойки прокси для запуска драйвера
          */
+        Proxy proxy = creteProxy();
+
+        /**
+         * Уведомление о месте запуска тестов
+         */
+        if (Strings.isNullOrEmpty(Configuration.remote)) {
+            initLocalStart();
+        } else {
+            initRemoteStart(proxy, scenario);
+        }
+    }
+
+    private void initRemoteStart(Proxy proxy, Scenario scenario) throws MalformedURLException {
+        log.info("Тесты запущены на удаленной машине: " + Configuration.remote);
+
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setBrowserName(browser);
+        capabilities.setCapability("enableVNC", true);
+        capabilities.setCapability("enableVideo", false);
+        capabilities.setCapability("screenResolution", "1920x1080");
+        capabilities.setCapability("width", "1920");
+        capabilities.setCapability("height", "1080");
+        capabilities.setCapability("name", scenario.getName());
+
+        if (proxy != null) {
+            capabilities.setCapability(CapabilityType.PROXY, proxy);
+        }
+
+        setWebDriver(
+                new RemoteWebDriver(
+                        URI.create(Configuration.remote).toURL(),
+                        capabilities));
+    }
+
+    private void initLocalStart() {
+        log.info("Тесты будут запущены на операционной системе: " + System.getProperty("os.name"));
+        log.info("Тесты будут запущены локально в браузере: " + browser);
+
+        if (browser.equals(CHROME) && !System.getProperty("os.name").equals("Linux")) {
+            ChromeOptions options = new ChromeOptions();
+            options.setExperimentalOption("useAutomationExtension", false);
+            WebDriverRunner.setWebDriver(
+                    new ChromeDriver(options)
+            );
+        }
+        /**
+         * Устанавливает разрешения экрана
+         */
+        getWebDriver().manage().window().setSize(new Dimension(1920, 1080));
+    }
+
+    private Proxy creteProxy() {
         Proxy proxy = null;
         String stringProxy = System.getProperty("proxy");
         if (!Strings.isNullOrEmpty(stringProxy)) {
@@ -125,50 +181,8 @@ public class InitialSetupSteps {
             log.info("Проставлена прокси: " + proxy);
         }
 
-        /**
-         * Уведомление о месте запуска тестов
-         */
-        if (Strings.isNullOrEmpty(Configuration.remote)) {
-            if (browser.equals(CHROME) && !System.getProperty("os.name").equals("Linux")) {
-                ChromeOptions options = new ChromeOptions();
-                options.addArguments("--disable-notifications");
-                options.setExperimentalOption("useAutomationExtension", false);
-                WebDriverRunner.setWebDriver(
-                        new ChromeDriver(options)
-                );
-            }
-            log.info("Тесты будут запущены на операционной системе: " + System.getProperty("os.name"));
-            log.info("Тесты будут запущены локально в браузере: " + browser);
-        } else {
-            log.info("Тесты запущены на удаленной машине: " + Configuration.remote);
-
-            DesiredCapabilities capabilities = new DesiredCapabilities();
-            capabilities.setBrowserName(browser);
-            capabilities.setCapability("enableVNC", true);
-            capabilities.setCapability("enableVideo", false);
-            capabilities.setCapability("screenResolution", "1920x1080");
-            capabilities.setCapability("width", "1920");
-            capabilities.setCapability("height", "1080");
-            capabilities.setCapability("name", scenario.getName());
-
-            if (proxy != null) {
-                capabilities.setCapability(CapabilityType.PROXY, proxy);
-            }
-
-            setWebDriver(
-                    new RemoteWebDriver(
-                            URI.create(Configuration.remote).toURL(),
-                            capabilities));
-        }
-
-        /**
-         * Устанавливает разрешения экрана
-         */
-        getWebDriver().manage().window().setSize(new Dimension(1920, 1080));
-        /**
-         * Удаляет все cookies
-         */
-        getWebDriver().manage().deleteAllCookies();
+        return proxy;
     }
+
 
 }
