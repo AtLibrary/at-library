@@ -13,6 +13,7 @@
  */
 package ru.bcs.at.library.core.steps;
 
+import com.codeborne.selenide.WebDriverRunner;
 import cucumber.api.java.ru.Если;
 import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.Когда;
@@ -59,6 +60,22 @@ public class BrowserSteps {
         String url = resolveVars(getPropertyOrStringVariableOrValue(address));
         open(url);
         coreScenario.write("Url = " + url);
+    }
+
+    /**
+     * <p style="color: green; font-size: 1.5em">
+     * Выполняется переход по заданной ссылке в новом окне,
+     *
+     * @param address Ссылка берется из property / переменной по ключу, если такая переменная не найдена,
+     *                то берется переданное значение
+     *                при этом все ключи переменных в фигурных скобках
+     *                меняются на их значения из хранилища coreScenario</p>
+     */
+    public void openUrlNewTab(String address) {
+        String url = resolveVars(getPropertyOrStringVariableOrValue(address));
+
+        ((JavascriptExecutor) WebDriverRunner.getWebDriver())
+                .executeScript("window.open('" + url + "','_blank');");
     }
 
     /**
