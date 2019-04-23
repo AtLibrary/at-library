@@ -6,30 +6,30 @@
 
     <groupId>ru.bcs</groupId>
     <artifactId>at-library-core</artifactId>
-    <version>11.04.2019</version>
+    <version>21.04.2019</version>
 
     <name>at-library-core</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!--WEB ТЕСТИРОВАНИЕ-->
-        <selenide.version>4.14.2</selenide.version>
+        <selenide.version>5.2.2</selenide.version>
+        <webdrivermanager.version>3.4.0</webdrivermanager.version>
         <!--API ТЕСТИРОВАНИЕ-->
-        <rest-assured.version>3.2.0</rest-assured.version>
+        <rest-assured.version>3.3.0</rest-assured.version>
         <!--CUCUMBER-->
-        <cucumber.version>4.2.0</cucumber.version>
+        <cucumber.version>4.3.0</cucumber.version>
+        <agent-java-cucumber4.version>4.0.1-BCS</agent-java-cucumber4.version>
         <!--ОТЧЕТ ALLURE-->
-        <allure.version>2.9.0</allure.version>
+        <allure.version>2.10.0</allure.version>
         <!--LOMBOK-->
         <lombok.version>1.16.20</lombok.version>
         <!--LOG-->
-        <log4j-core.version>2.11.1</log4j-core.version>
+        <logging.version>2.11.2</logging.version>
         <!--ВСПОМОГАТЕЛЬНЫЕ БИБЛИОТЕКИ-->
-        <browsermob.version>2.1.5</browsermob.version>
         <reflections.version>0.9.10</reflections.version>
         <guava.version>23.0</guava.version>
         <jsonpath.version>2.4.0</jsonpath.version>
-        <galenframework.version>2.4.0</galenframework.version>
     </properties>
 
     <distributionManagement>
@@ -49,7 +49,7 @@
         <dependency>
             <groupId>io.github.bonigarcia</groupId>
             <artifactId>webdrivermanager</artifactId>
-            <version>3.3.0</version>
+            <version>${webdrivermanager.version}</version>
         </dependency>
         <!--WEB ТЕСТИРОВАНИЕ-->
         <dependency>
@@ -109,7 +109,7 @@
         <dependency>
             <groupId>com.epam.reportportal</groupId>
             <artifactId>agent-java-cucumber4</artifactId>
-            <version>4.0.1-BCS</version>
+            <version>${agent-java-cucumber4.version}</version>
         </dependency>
         <!--LOMBOK-->
         <dependency>
@@ -121,14 +121,14 @@
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
-            <version>${log4j-core.version}</version>
+            <version>${logging.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>${logging.version}</version>
         </dependency>
         <!--ВСПОМОГАТЕЛЬНЫЕ БИБЛИОТЕКИ-->
-        <dependency>
-            <groupId>net.lightbody.bmp</groupId>
-            <artifactId>browsermob-core</artifactId>
-            <version>${browsermob.version}</version>
-        </dependency>
         <dependency>
             <groupId>org.reflections</groupId>
             <artifactId>reflections</artifactId>
@@ -143,11 +143,6 @@
             <groupId>com.jayway.jsonpath</groupId>
             <artifactId>json-path</artifactId>
             <version>${jsonpath.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.galenframework</groupId>
-            <artifactId>galen-java-support</artifactId>
-            <version>${galenframework.version}</version>
         </dependency>
     </dependencies>
 

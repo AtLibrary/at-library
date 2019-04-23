@@ -20,6 +20,7 @@ import com.google.common.base.Strings;
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import io.restassured.RestAssured;
 import lombok.experimental.Delegate;
 import lombok.extern.log4j.Log4j2;
@@ -154,13 +155,18 @@ public class InitialSetupSteps {
         log.info("Тесты будут запущены на операционной системе: " + System.getProperty("os.name"));
         log.info("Тесты будут запущены локально в браузере: " + browser);
 
+        ChromeDriver driver = null;
+
         if (browser.equals(CHROME) && !System.getProperty("os.name").equals("Linux")) {
             ChromeOptions options = new ChromeOptions();
             options.setExperimentalOption("useAutomationExtension", false);
-            WebDriverRunner.setWebDriver(
-                    new ChromeDriver(options)
-            );
+            driver = new ChromeDriver(options);
+        } else {
+            WebDriverManager.chromedriver().setup();
+            driver = new ChromeDriver();
         }
+
+        WebDriverRunner.setWebDriver(driver);
         /**
          * Устанавливает разрешения экрана
          */
