@@ -84,12 +84,12 @@
             <artifactId>cucumber-core</artifactId>
             <version>${cucumber.version}</version>
         </dependency>
+        <!--ОТЧЕТ ALLURE-->
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-cucumber4-jvm</artifactId>
             <version>${allure.version}</version>
         </dependency>
-        <!--ОТЧЕТ ALLURE-->
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-selenide</artifactId>

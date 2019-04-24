@@ -249,7 +249,7 @@ public class ApiSteps {
      * элемент найденный по jsonPath из json ответа содержит указанное количество элементов</p>
      *
      * @param nameResponse имя ответа
-     * @param dataTable       список jsonpath ключей
+     * @param dataTable    список jsonpath ключей
      */
     @Тогда("^элемент найденный по jsonPath из json ответа \"([^\"]*)\" содержит указанное количество элементов$")
     public void valuesFoundByPathContainElementCounts(String nameResponse, DataTable dataTable) {
@@ -358,8 +358,8 @@ public class ApiSteps {
      * <p style="color: green; font-size: 1.5em">
      * Сравнение кода http ответа с ожидаемым</p>
      *
-     * @param variableName       переменная в которой сохранен Response
-     * @param dataTable массив с параметрами
+     * @param variableName переменная в которой сохранен Response
+     * @param dataTable    массив с параметрами
      */
     @И("^в ответе \"([^\"]*)\" содержатся header со значениями из таблицы$")
     public void checkResponseHeaderValues(String variableName, DataTable dataTable) {
@@ -369,7 +369,7 @@ public class ApiSteps {
             String header = row.get(0);
             String headerValue = row.get(1);
 
-            if(header.isEmpty() || headerValue.isEmpty()){
+            if (header.isEmpty() || headerValue.isEmpty()) {
                 throw new RuntimeException("Header и значение не могут быть пустыми");
             }
             checkHeaderValue(response, header, headerValue);
@@ -436,7 +436,7 @@ public class ApiSteps {
         String base64Code = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(encodeBytes);
         String fileName = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(fName);
         String fileFormat = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(fFormat);
-        String pathToSave = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(path) + "\\"+fileName+"."+fileFormat;
+        String pathToSave = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(path) + "\\" + fileName + "." + fileFormat;
 
         BASE64Decoder decoder = new BASE64Decoder();
         byte[] decodedBytes = decoder.decodeBuffer(base64Code);

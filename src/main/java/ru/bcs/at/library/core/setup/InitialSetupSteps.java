@@ -96,17 +96,18 @@ public class InitialSetupSteps {
      */
     @After
     public void afterEachTest(Scenario scenario) {
-        boolean webTest = scenario.getSourceTagNames().contains("@web");
-        if (webTest) {
-            Selenide.clearBrowserLocalStorage();
-            Selenide.clearBrowserCookies();
-            Selenide.close();
-        }
-
         /**
          * Очищает окружение(среду) по окончанию сценария
          */
         coreScenario.removeEnvironment();
+
+        boolean webTest = scenario.getSourceTagNames().contains("@web");
+        if (webTest) {
+            Selenide.clearBrowserLocalStorage();
+            Selenide.clearBrowserCookies();
+            WebDriverRunner.getWebDriver().close();
+        }
+
     }
 
     /**
