@@ -6,7 +6,7 @@
 
     <groupId>ru.bcs</groupId>
     <artifactId>at-library-core</artifactId>
-    <version>21.04.2019</version>
+    <version>21.04.2019-test2</version>
 
     <name>at-library-core</name>
 
@@ -45,6 +45,11 @@
     </distributionManagement>
 
     <dependencies>
+        <dependency>
+            <groupId>io.appium</groupId>
+            <artifactId>java-client</artifactId>
+            <version>7.0.0</version>
+        </dependency>
         <!--webdrivermanager-->
         <dependency>
             <groupId>io.github.bonigarcia</groupId>
