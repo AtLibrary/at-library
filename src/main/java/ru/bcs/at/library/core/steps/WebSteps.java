@@ -24,10 +24,13 @@ import cucumber.api.java.ru.Тогда;
 import io.cucumber.datatable.DataTable;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriverException;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
+import ru.bcs.at.library.core.setup.AtCoreConfig;
 
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
@@ -114,7 +117,13 @@ public class WebSteps {
      */
     @И("^выполнено нажатие на (?:кнопку|поле|блок) \"([^\"]*)\"$")
     public void clickOnElement(String elementName) {
-        coreScenario.getCurrentPage().getElement(elementName).click();
+        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
+
+//        try {
+//            element.click();
+//        }catch (WebDriverException webDriverException){
+            element.getWrappedElement().click();
+//        }
     }
 
     /**
@@ -670,7 +679,8 @@ public class WebSteps {
     @Тогда("^значение (?:поля|элемента) \"([^\"]*)\" равно \"(.*)\"$")
     public void compareValInFieldAndFromStep(String elementName, String expectedValue) {
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
-        coreScenario.getCurrentPage().getElement(elementName)
+        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
+        element
                 .shouldHave(exactText(expectedValue));
     }
 
@@ -683,6 +693,28 @@ public class WebSteps {
     public void buttonIsNotActive(String elementName) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
         assertTrue(String.format("Элемент [%s] кликабелен", elementName), element.is(Condition.disabled));
+    }
+
+    /**
+     * <p style="color: green; font-size: 1.5em">
+     * Проверка, что радиокнопка выбрана
+     * </p>
+     */
+    @Тогда("^радиокнопка \"([^\"]*)\" выбрана$")
+    public void radioButtonIsSelected(String elementName) {
+        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
+        element.shouldHave(selected);
+    }
+
+    /**
+     * <p style="color: green; font-size: 1.5em">
+     * Проверка, что радиокнопка не выбрана
+     * </p>
+     */
+    @Тогда("^радиокнопка \"([^\"]*)\" не выбрана$")
+    public void radioButtonIsNotSelected(String elementName) {
+        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
+        element.shouldHave(not(selected));
     }
 
     /**

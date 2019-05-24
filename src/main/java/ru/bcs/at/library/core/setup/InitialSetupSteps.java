@@ -16,30 +16,18 @@ package ru.bcs.at.library.core.setup;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
-import com.google.common.base.Strings;
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import io.restassured.RestAssured;
 import lombok.experimental.Delegate;
 import lombok.extern.log4j.Log4j2;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.Proxy;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.CapabilityType;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import ru.bcs.at.library.core.core.helpers.LogReportListener;
 import ru.bcs.at.library.core.cucumber.api.CoreEnvironment;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 
 import java.net.MalformedURLException;
-import java.net.URI;
 
-import static com.codeborne.selenide.Configuration.browser;
-import static com.codeborne.selenide.WebDriverRunner.*;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadProperty;
 
 /**
@@ -75,9 +63,11 @@ public class InitialSetupSteps {
         /**
          * Если сценарий содержит тег @web" то будет создан WebDriver
          */
-        boolean webTest = scenario.getSourceTagNames().contains("@web");
-        if (webTest) {
-            startWebTest(scenario);
+        boolean uiTest =
+                scenario.getSourceTagNames().contains("@web") ||
+                        scenario.getSourceTagNames().contains("@mobile");
+        if (uiTest) {
+            new InitialDriver().startUITest(scenario);
         }
 
         /**
@@ -86,7 +76,7 @@ public class InitialSetupSteps {
          * @param scenario сценарий
          * @throws Exception
          */
-        coreScenario.setEnvironment(new CoreEnvironment(scenario, webTest));
+        coreScenario.setEnvironment(new CoreEnvironment(scenario, uiTest));
     }
 
 
@@ -101,94 +91,14 @@ public class InitialSetupSteps {
          */
         coreScenario.removeEnvironment();
 
-        boolean webTest = scenario.getSourceTagNames().contains("@web");
-        if (webTest) {
+        if (scenario.getSourceTagNames().contains("@web")) {
             Selenide.clearBrowserLocalStorage();
             Selenide.clearBrowserCookies();
             WebDriverRunner.getWebDriver().close();
         }
-
-    }
-
-    /**
-     * <p style="color: green; font-size: 1.5em">
-     * Создание WebDriver</p>
-     */
-    private void startWebTest(Scenario scenario) throws MalformedURLException {
-        /**
-         * Создает настойки прокси для запуска драйвера
-         */
-        Proxy proxy = creteProxy();
-
-        /**
-         * Уведомление о месте запуска тестов
-         */
-        if (Strings.isNullOrEmpty(Configuration.remote)) {
-            initLocalStart();
-        } else {
-            initRemoteStart(proxy, scenario);
+        if ( scenario.getSourceTagNames().contains("@mobile")) {
+            WebDriverRunner.getWebDriver().quit();
         }
-    }
-
-    private void initRemoteStart(Proxy proxy, Scenario scenario) throws MalformedURLException {
-        log.info("Тесты запущены на удаленной машине: " + Configuration.remote);
-
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setBrowserName(browser);
-        capabilities.setCapability("enableVNC", true);
-        capabilities.setCapability("enableVideo", false);
-        capabilities.setCapability("screenResolution", "1920x1080");
-        capabilities.setCapability("width", "1920");
-        capabilities.setCapability("height", "1080");
-        capabilities.setCapability("name", scenario.getName());
-
-        if (proxy != null) {
-            capabilities.setCapability(CapabilityType.PROXY, proxy);
-        }
-
-        setWebDriver(
-                new RemoteWebDriver(
-                        URI.create(Configuration.remote).toURL(),
-                        capabilities));
-    }
-
-    private void initLocalStart() {
-        log.info("Тесты будут запущены на операционной системе: " + System.getProperty("os.name"));
-        log.info("Тесты будут запущены локально в браузере: " + browser);
-
-        ChromeDriver driver = null;
-
-        if (browser.equals(CHROME) && !System.getProperty("os.name").equals("Linux")) {
-            ChromeOptions options = new ChromeOptions();
-            options.setExperimentalOption("useAutomationExtension", false);
-            driver = new ChromeDriver(options);
-        } else {
-            WebDriverManager.chromedriver().setup();
-            driver = new ChromeDriver();
-        }
-
-        WebDriverRunner.setWebDriver(driver);
-        /**
-         * Устанавливает разрешения экрана
-         */
-        getWebDriver().manage().window().setSize(new Dimension(1920, 1080));
-    }
-
-    private Proxy creteProxy() {
-        Proxy proxy = null;
-        String stringProxy = System.getProperty("proxy");
-        if (!Strings.isNullOrEmpty(stringProxy)) {
-            proxy = new Proxy()
-                    .setProxyType(Proxy.ProxyType.MANUAL)
-                    .setHttpProxy(stringProxy)
-                    .setFtpProxy(stringProxy)
-                    .setSslProxy(stringProxy)
-            ;
-            setProxy(proxy);
-            log.info("Проставлена прокси: " + proxy);
-        }
-
-        return proxy;
     }
 
 
