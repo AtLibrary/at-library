@@ -23,6 +23,7 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSender;
 import io.restassured.specification.RequestSpecification;
 import lombok.extern.log4j.Log4j2;
+import org.hamcrest.Matchers;
 import org.junit.Assert;
 import ru.bcs.at.library.core.core.helpers.PropertyLoader;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
@@ -38,6 +39,8 @@ import static io.restassured.config.JsonConfig.jsonConfig;
 import static io.restassured.config.RestAssuredConfig.newConfig;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static io.restassured.specification.ProxySpecification.host;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadProperty;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault;
 import static ru.bcs.at.library.core.cucumber.ScopedVariables.resolveJsonVars;
@@ -244,102 +247,36 @@ public class ApiSteps {
 
     }
 
-    /**
-     * <p style="color: green; font-size: 1.5em">
-     * элемент найденный по jsonPath из json ответа содержит указанное количество элементов</p>
-     *
-     * @param nameResponse имя ответа
-     * @param dataTable    список jsonpath ключей
-     */
-    @Тогда("^элемент найденный по jsonPath из json ответа \"([^\"]*)\" содержит указанное количество элементов$")
-    public void valuesFoundByPathContainElementCounts(String nameResponse, DataTable dataTable) {
-        Response response = (Response) CoreScenario.getInstance().getVar(nameResponse);
-
-        for (List<String> row : dataTable.asLists()) {
-            String path = row.get(0);
-            int count = Integer.parseInt(row.get(1));
-
-            String actualValue = response.jsonPath().getString(path);
-            //TODO Объект по jsonPath привести к массиву и получить его длину, сравнить с ожидаемой, вывести в ошибку
-
-            Assert.assertNotNull(
-                    "Содержимое по jsonpath: " + path +
-                            "\nВ ответе: " + nameResponse +
-                            "\nНе должно быть: null ",
-                    actualValue);
-
-            //if(  != count){
-            //    throw new RuntimeException( "jsonpath: " + path + " содержит не верное количество элементов.\nВ ответе: " +  +"\nОжидалось:"+count);
-            //}
-        }
-
-    }
-
-    /**
-     * <p style="color: green; font-size: 1.5em">
-     * Создание запроса
-     * Content-Type при необходимости должен быть указан в качестве header.</p>
-     *
-     * @param dataTable массив с параметрами
-     * @return сформированный запрос
-     */
-    private RequestSender createRequest(DataTable dataTable) {
-        String body = null;
-        RequestSpecification request = given();
-
-        if (dataTable != null) {
-            for (List<String> requestParam : dataTable.asLists()) {
-                String type = requestParam.get(0);
-                String name = requestParam.get(1);
-                String value =
-                        loadValueFromFileOrPropertyOrVariableOrDefault(requestParam.get(2));
-                switch (type.toUpperCase()) {
-                    case "RELAXED_HTTPS": {
-                        request.relaxedHTTPSValidation();
-                        break;
-                    }
-                    case "ACCESS_TOKEN": {
-                        request.header(name, "Bearer " + value.replace("\"", ""));
-                        break;
-                    }
-                    case "PARAMETER": {
-                        request.queryParam(name, value);
-                        break;
-                    }
-                    case "MULTIPART": {
-                        request.multiPart(name, value);
-                        break;
-                    }
-                    case "FORM_PARAMETER": {
-                        request.formParam(name, value);
-                        break;
-                    }
-                    case "PATH_PARAMETER": {
-                        request.pathParam(name, value);
-                        break;
-                    }
-                    case "HEADER": {
-                        request.header(name, value);
-                        break;
-                    }
-                    case "BODY": {
-                        body = resolveJsonVars(value);
-                        request.body(body);
-                        break;
-                    }
-
-                    default: {
-                        throw new IllegalArgumentException(String.format("Некорректно задан тип %s для параметра запроса %s ", type, name));
-                    }
-                }
-            }
-            if (body != null) {
-                coreScenario.write("Тело запроса:\n" + body);
-            }
-        }
-
-        return request;
-    }
+//    /**
+//     * <p style="color: green; font-size: 1.5em">
+//     * элемент найденный по jsonPath из json ответа содержит указанное количество элементов</p>
+//     *
+//     * @param nameResponse имя ответа
+//     * @param dataTable    список jsonpath ключей
+//     */
+//    @Тогда("^элемент найденный по jsonPath из json ответа \"([^\"]*)\" содержит указанное количество элементов$")
+//    public void valuesFoundByPathContainElementCounts(String nameResponse, DataTable dataTable) {
+//        Response response = (Response) CoreScenario.getInstance().getVar(nameResponse);
+//
+//        for (List<String> row : dataTable.asLists()) {
+//            String path = row.get(0);
+//            int count = Integer.parseInt(row.get(1));
+//
+//            String actualValue = response.jsonPath().getString(path);
+//            //TODO Объект по jsonPath привести к массиву и получить его длину, сравнить с ожидаемой, вывести в ошибку
+//
+//            Assert.assertNotNull(
+//                    "Содержимое по jsonpath: " + path +
+//                            "\nВ ответе: " + nameResponse +
+//                            "\nНе должно быть: null ",
+//                    actualValue);
+//
+//            //if(  != count){
+//            //    throw new RuntimeException( "jsonpath: " + path + " содержит не верное количество элементов.\nВ ответе: " +  +"\nОжидалось:"+count);
+//            //}
+//        }
+//
+//    }
 
     /**
      * <p style="color: green; font-size: 1.5em">
@@ -352,6 +289,25 @@ public class ApiSteps {
     public void checkResponseStatusCode(String variableName, int expectedStatusCode) {
         Response response = (Response) CoreScenario.getInstance().getVar(variableName);
         checkStatusCode(response, expectedStatusCode);
+    }
+
+
+    /**
+     * <p style="color: green; font-size: 1.5em">
+     * Сравнение body json ответа с ожидаемым</p>
+     *
+     * @param variableName     переменная в которой сохранен Response
+     * @param pathExpectedJson путь к json файлу
+     */
+    @И("^json в ответе \"([^\"]*)\" равен json: \"([^\"]*)\"")
+    public void checkResponseJson(String variableName, String pathExpectedJson) {
+        String json = loadValueFromFileOrPropertyOrVariableOrDefault(pathExpectedJson);
+        json = resolveJsonVars(json);
+        Response response = (Response) CoreScenario.getInstance().getVar(variableName);
+        response
+                .then().body(
+                equalTo(json)
+        );
     }
 
     /**
@@ -376,6 +332,65 @@ public class ApiSteps {
         }
 
     }
+
+    /**
+     * <p style="color: green; font-size: 1.5em">
+     * Проверка что массив найденный по ключу responseName содержит value</p>
+     *
+     * @param responseName переменная в которой сохранен Response
+     * @param key          ключ поиска массива
+     * @param value        ожидаемое значенме
+     */
+    @И("^в ответе \"([^\"]*)\" по ключу: \"([^\"]*)\" массив содержит \"([^\"]*)\"$")
+    public void checkArrayHasItem(String responseName, String key, String value) {
+        value = loadValueFromFileOrPropertyOrVariableOrDefault(value);
+        Response response = (Response) CoreScenario.getInstance().getVar(responseName);
+        response
+                .then()
+                .body(key, Matchers.hasItem(value));
+    }
+
+    /**
+     * <p style="color: green; font-size: 1.5em">
+     * Все объекты в коллекции имеют поле с определенным названием, содержащим конкретное значение</p>
+     *
+     * @param responseName переменная в которой сохранен Response
+     * @param key          ключ поиска массива
+     * @param value        ожидаемое значенме
+     */
+    @И("^в ответе \"([^\"]*)\" по ключу: \"([^\"]*)\" весь массив соотвествует \"([^\"]*)\"$")
+    public void checkArrayEqualAllItem(String responseName, String key, String value) {
+        value = loadValueFromFileOrPropertyOrVariableOrDefault(value);
+        Response response = (Response) CoreScenario.getInstance().getVar(responseName);
+
+        List<String> list = response
+                .getBody().jsonPath().getList(key);
+
+        for (String actualValue : list) {
+            if (!actualValue.equals(value)) {
+                throw new AssertionError(
+                        "Найденный по ключу" + key +
+                                "\n список: " + list +
+                                "\n содержит значения которые не equals: " + value);
+            }
+        }
+    }
+
+    /**
+     * <p style="color: green; font-size: 1.5em">
+     * Проверка что массив найденный по ключу key размером = value</p>
+     *
+     * @param responseName переменная в которой сохранен Response
+     * @param key          ключ поиска массива
+     * @param value        size
+     */
+    @И("^в ответе \"([^\"]*)\" по ключу: \"([^\"]*)\" размер массива \"([^\"]*)\"$")
+    public void checkArraySize(String responseName, String key, String value) {
+        value = loadValueFromFileOrPropertyOrVariableOrDefault(value);
+        Response response = (Response) CoreScenario.getInstance().getVar(responseName);
+        assertThat(response.jsonPath().getList(key).size(), equalTo(Integer.valueOf(value)));
+    }
+
 
     /**
      * <p style="color: green; font-size: 1.5em">
@@ -502,5 +517,71 @@ public class ApiSteps {
 
         RequestSender request = createRequest(dataTable);
         return request.request(Method.valueOf(method), address);
+    }
+
+    /**
+     * <p style="color: green; font-size: 1.5em">
+     * Создание запроса
+     * Content-Type при необходимости должен быть указан в качестве header.</p>
+     *
+     * @param dataTable массив с параметрами
+     * @return сформированный запрос
+     */
+    private RequestSender createRequest(DataTable dataTable) {
+        String body = null;
+        RequestSpecification request = given();
+
+        if (dataTable != null) {
+            for (List<String> requestParam : dataTable.asLists()) {
+                String type = requestParam.get(0);
+                String name = requestParam.get(1);
+                String value =
+                        loadValueFromFileOrPropertyOrVariableOrDefault(requestParam.get(2));
+                switch (type.toUpperCase()) {
+                    case "RELAXED_HTTPS": {
+                        request.relaxedHTTPSValidation();
+                        break;
+                    }
+                    case "ACCESS_TOKEN": {
+                        request.header(name, "Bearer " + value.replace("\"", ""));
+                        break;
+                    }
+                    case "PARAMETER": {
+                        request.queryParam(name, value);
+                        break;
+                    }
+                    case "MULTIPART": {
+                        request.multiPart(name, value);
+                        break;
+                    }
+                    case "FORM_PARAMETER": {
+                        request.formParam(name, value);
+                        break;
+                    }
+                    case "PATH_PARAMETER": {
+                        request.pathParam(name, value);
+                        break;
+                    }
+                    case "HEADER": {
+                        request.header(name, value);
+                        break;
+                    }
+                    case "BODY": {
+                        body = resolveJsonVars(value);
+                        request.body(body);
+                        break;
+                    }
+
+                    default: {
+                        throw new IllegalArgumentException(String.format("Некорректно задан тип %s для параметра запроса %s ", type, name));
+                    }
+                }
+            }
+            if (body != null) {
+                coreScenario.write("Тело запроса:\n" + body);
+            }
+        }
+
+        return request;
     }
 }

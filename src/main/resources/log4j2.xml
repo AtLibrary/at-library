@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration monitorinterval="30" status="info" strict="true">
+    <Properties>
+        <Property name="filename">logs/test_log.log</Property>
+        <Property name="logLevelPattern">%5p</Property>
+        <Property name="logExceptoinConvertionWord">%xwEx</Property>
+        <Property name="logPatternConsole">%d{yyyy-MM-dd HH:mm:ss.SSS} ${logLevelPattern} [%20.20t] %C{10} : %m%n
+        </Property>
+        <Property name="logPatternRP">[%d{HH:mm:ss}] [%20.20t] %-5p (%F:%L) - %m%n</Property>
+    </Properties>
+    <Appenders>
+        <Console name="Console">
+            <PatternLayout pattern="${logPatternConsole}"/>
+        </Console>
+        <RollingRandomAccessFile name="File" fileName="${filename}"
+                                 filePattern="logs/%d{yyyy-MM-dd}-%i.test-ef10-bms.log.gz">
+            <PatternLayout charset="UTF-8" pattern="${logPatternConsole}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <OnStartupTriggeringPolicy/>
+            </Policies>
+        </RollingRandomAccessFile>
+
+        <ReportPortalLog4j2Appender name="ReportPortalAppender">
+            <PatternLayout pattern="${logPatternRP}"/>
+        </ReportPortalLog4j2Appender>
+    </Appenders>
+
+    <Loggers>
+        <Root level="info" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="File"/>
+        </Root>
+        <Logger name="ru.bcs.at.library.core.log.Log4jRestAssuredFilter" level="trace" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="File"/>
+        </Logger>
+        <Logger name="ru.bcs" level="trace" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="File"/>
+        </Logger>
+    </Loggers>
+</Configuration>

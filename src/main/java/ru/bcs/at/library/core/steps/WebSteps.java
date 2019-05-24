@@ -365,6 +365,21 @@ public class WebSteps {
         valueInput.setValue(value);
     }
 
+
+    /**
+     * <p style="color: green; font-size: 1.5em">
+     * Набирается значение (в приоритете: из property, из переменной сценария, значение аргумента) в заданное поле.
+     * Перед использованием поле нужно очистить
+     * </p>
+     */
+    @Когда("^в поле \"([^\"]*)\" набирается значение \"(.*)\"$")
+    public void sendKeys(String elementName, String value) {
+        value = getPropertyOrStringVariableOrValue(value);
+        SelenideElement valueInput = coreScenario.getCurrentPage().getElement(elementName);
+        cleanField(elementName);
+        valueInput.sendKeys(value);
+    }
+
     /**
      * <p style="color: green; font-size: 1.5em">
      * Очищается заданное поле
@@ -373,11 +388,7 @@ public class WebSteps {
     @Когда("^очищено поле \"([^\"]*)\"$")
     public void cleanField(String nameOfField) {
         SelenideElement valueInput = coreScenario.getCurrentPage().getElement(nameOfField);
-        Keys removeKey = isIE() ? Keys.BACK_SPACE : Keys.DELETE;
-        do {
-            valueInput.scrollTo();
-            valueInput.doubleClick().sendKeys(removeKey);
-        } while (valueInput.getValue().length() != 0);
+        valueInput.clear();
     }
 
     /**
