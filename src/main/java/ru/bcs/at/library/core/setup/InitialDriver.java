@@ -4,7 +4,6 @@ import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
 import com.google.common.base.Strings;
 import cucumber.api.Scenario;
-import io.appium.java_client.ios.IOSDriver;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import lombok.extern.log4j.Log4j2;
 import org.junit.Assert;
@@ -12,6 +11,9 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.opera.OperaDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -19,7 +21,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import java.net.MalformedURLException;
 import java.net.URI;
 
-import static com.codeborne.selenide.Browsers.CHROME;
+import static com.codeborne.selenide.Browsers.*;
 import static com.codeborne.selenide.Configuration.browser;
 import static com.codeborne.selenide.WebDriverRunner.setWebDriver;
 import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
@@ -50,34 +52,65 @@ public class InitialDriver {
             initRemoteStart(proxy, scenario);
         }
 
+        /**
+         * Устанавливает разрешения экрана
+         */
+        WebDriverRunner.getWebDriver().manage().window().setSize(new Dimension(1920, 1080));
+
     }
 
     private void initLocalStart(Proxy proxy) {
         log.info("Тесты будут запущены на операционной системе: " + System.getProperty("os.name"));
         log.info("Тесты будут запущены локально в браузере: " + browser);
+        boolean linuxOS = System.getProperty("os.name").equals("Linux");
 
-        ChromeDriver driver = null;
 
-        if (browser.equals(CHROME) && !System.getProperty("os.name").equals("Linux")) {
-            ChromeOptions options = new ChromeOptions();
-            options.setExperimentalOption("useAutomationExtension", false);
-            driver = new ChromeDriver(options);
+        if (linuxOS) {
+            switch (browser) {
+                case CHROME: {
+                    WebDriverManager.chromedriver().setup();
+                    WebDriverRunner.setWebDriver(new ChromeDriver());
+                    break;
+                }
+                case FIREFOX: {
+                    WebDriverManager.firefoxdriver().setup();
+                    WebDriverRunner.setWebDriver(new FirefoxDriver());
+                    break;
+                }
+                case OPERA: {
+                    WebDriverManager.operadriver().setup();
+                    WebDriverRunner.setWebDriver(new OperaDriver());
+                    break;
+                }
+            }
         } else {
-            WebDriverManager.chromedriver().setup();
-            driver = new ChromeDriver();
+            switch (browser) {
+                case INTERNET_EXPLORER: {
+                    WebDriverRunner.setWebDriver(new InternetExplorerDriver());
+                    break;
+                }
+                case CHROME: {
+                    ChromeOptions options = new ChromeOptions();
+                    options.setExperimentalOption("useAutomationExtension", false);
+                    WebDriverRunner.setWebDriver(new ChromeDriver(options));
+                    break;
+                }
+                case FIREFOX: {
+                    WebDriverRunner.setWebDriver(new FirefoxDriver());
+                    break;
+                }
+                case OPERA: {
+                    WebDriverRunner.setWebDriver(new OperaDriver());
+                    break;
+                }
+            }
+
+            if (proxy != null) {
+                WebDriverRunner.setProxy(proxy);
+                log.info("Проставлена прокси: " + proxy);
+            }
+
         }
-
-        WebDriverRunner.setWebDriver(driver);
-
-        if (proxy != null) {
-            WebDriverRunner.setProxy(proxy);
-            log.info("Проставлена прокси: " + proxy);
-        }
-
-        /**
-         * Устанавливает разрешения экрана
-         */
-        WebDriverRunner.getWebDriver().manage().window().setSize(new Dimension(1920, 1080));
     }
 
     private void initRemoteStart(Proxy proxy, Scenario scenario) throws MalformedURLException {

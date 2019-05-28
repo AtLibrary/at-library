@@ -6,7 +6,7 @@
 
     <groupId>ru.bcs</groupId>
     <artifactId>at-library-core</artifactId>
-    <version>24.05.2019-test</version>
+    <version>25.05.2019</version>
 
     <name>at-library-core</name>
 
@@ -14,7 +14,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!--WEB ТЕСТИРОВАНИЕ-->
         <selenide.version>5.2.2</selenide.version>
-        <webdrivermanager.version>3.4.0</webdrivermanager.version>
+        <webdrivermanager.version>3.6.0</webdrivermanager.version>
         <!--API ТЕСТИРОВАНИЕ-->
         <rest-assured.version>3.3.0</rest-assured.version>
         <!--CUCUMBER-->
