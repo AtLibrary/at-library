@@ -6,17 +6,19 @@
 
     <groupId>ru.bcs</groupId>
     <artifactId>at-library-core</artifactId>
-    <version>25.05.2019</version>
+    <version>03.06.2019</version>
 
     <name>at-library-core</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!--WEB ТЕСТИРОВАНИЕ-->
-        <selenide.version>5.2.2</selenide.version>
+        <selenide.version>5.2.3</selenide.version>
         <webdrivermanager.version>3.6.0</webdrivermanager.version>
         <!--API ТЕСТИРОВАНИЕ-->
         <rest-assured.version>3.3.0</rest-assured.version>
+        <!--MOBILE ТЕСТИРОВАНИЕ-->
+        <io.appium.java-client.version>7.0.0</io.appium.java-client.version>
         <!--CUCUMBER-->
         <cucumber.version>4.3.0</cucumber.version>
         <agent-java-cucumber4.version>4.0.1-BCS</agent-java-cucumber4.version>
@@ -48,7 +50,7 @@
         <dependency>
             <groupId>io.appium</groupId>
             <artifactId>java-client</artifactId>
-            <version>7.0.0</version>
+            <version>${io.appium.java-client.version}</version>
         </dependency>
         <!--webdrivermanager-->
         <dependency>

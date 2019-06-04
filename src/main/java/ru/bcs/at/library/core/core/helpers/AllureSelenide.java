@@ -41,6 +41,24 @@ public class AllureSelenide implements LogEventListener {
         return this;
     }
 
+    private static byte[] getScreenshotBytes() {
+        return (byte[])((TakesScreenshot)WebDriverRunner.getWebDriver()).getScreenshotAs(OutputType.BYTES);
+    }
+
+    private static byte[] getPageSourceBytes() {
+        return WebDriverRunner.getWebDriver().getPageSource().getBytes(StandardCharsets.UTF_8);
+    }
+
+    @Override
+    public void afterEvent(LogEvent logEvent) {
+        onEvent(logEvent);
+    }
+
+    @Override
+    public void beforeEvent(LogEvent logEvent) {
+
+    }
+
     public void onEvent(LogEvent event) {
         this.lifecycle.getCurrentTestCase().ifPresent((uuid) -> {
             String stepUUID = UUID.randomUUID().toString();
@@ -50,8 +68,8 @@ public class AllureSelenide implements LogEventListener {
             });
             if (
                     EventStatus.FAIL.equals(event.getStatus())||
-                    EventStatus.IN_PROGRESS.equals(event.getStatus())||
-                    EventStatus.PASS.equals(event.getStatus())
+                            EventStatus.IN_PROGRESS.equals(event.getStatus())||
+                            EventStatus.PASS.equals(event.getStatus())
 
             ) {
                 if (this.saveScreenshots) {
@@ -71,14 +89,6 @@ public class AllureSelenide implements LogEventListener {
 
             this.lifecycle.stopStep(stepUUID);
         });
-    }
-
-    private static byte[] getScreenshotBytes() {
-        return (byte[])((TakesScreenshot)WebDriverRunner.getWebDriver()).getScreenshotAs(OutputType.BYTES);
-    }
-
-    private static byte[] getPageSourceBytes() {
-        return WebDriverRunner.getWebDriver().getPageSource().getBytes(StandardCharsets.UTF_8);
     }
 }
 

@@ -40,6 +40,15 @@ public class SelenideRPListener implements LogEventListener {
     }
 
     @Override
+    public void afterEvent(LogEvent logEvent) {
+        onEvent(logEvent);
+    }
+
+    @Override
+    public void beforeEvent(LogEvent logEvent) {
+
+    }
+
     public void onEvent(final LogEvent event) {
         Scenario scenario = CoreScenario.getInstance().getScenario();
         if (scenario == null) {

@@ -23,7 +23,7 @@ At-Library-Core
 <dependency>
     <groupId>ru.bcs</groupId>
     <artifactId>at-library-core</artifactId>
-    <version>25.05.2019</version>
+    <version>03.06.2019</version>
 </dependency>
 ```
 
