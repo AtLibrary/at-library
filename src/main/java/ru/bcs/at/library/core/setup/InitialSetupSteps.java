@@ -96,7 +96,7 @@ public class InitialSetupSteps {
             Selenide.clearBrowserCookies();
             WebDriverRunner.getWebDriver().close();
         }
-        if ( scenario.getSourceTagNames().contains("@mobile")) {
+        if (scenario.getSourceTagNames().contains("@mobile")) {
             WebDriverRunner.getWebDriver().quit();
         }
     }

@@ -3,23 +3,24 @@ package ru.bcs.at.library.core.core.helpers;
 
 import com.codeborne.selenide.WebDriverRunner;
 import com.codeborne.selenide.logevents.LogEvent;
-import com.codeborne.selenide.logevents.LogEventListener;
 import com.codeborne.selenide.logevents.LogEvent.EventStatus;
+import com.codeborne.selenide.logevents.LogEventListener;
 import io.qameta.allure.Allure;
 import io.qameta.allure.AllureLifecycle;
 import io.qameta.allure.model.Status;
 import io.qameta.allure.model.StatusDetails;
 import io.qameta.allure.model.StepResult;
 import io.qameta.allure.util.ResultsUtils;
-import java.nio.charset.StandardCharsets;
-import java.util.UUID;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 
+import java.nio.charset.StandardCharsets;
+import java.util.UUID;
+
 public class AllureSelenide implements LogEventListener {
+    private final AllureLifecycle lifecycle;
     private boolean saveScreenshots;
     private boolean savePageHtml;
-    private final AllureLifecycle lifecycle;
 
     public AllureSelenide() {
         this(Allure.getLifecycle());
@@ -31,6 +32,14 @@ public class AllureSelenide implements LogEventListener {
         this.lifecycle = lifecycle;
     }
 
+    private static byte[] getScreenshotBytes() {
+        return (byte[]) ((TakesScreenshot) WebDriverRunner.getWebDriver()).getScreenshotAs(OutputType.BYTES);
+    }
+
+    private static byte[] getPageSourceBytes() {
+        return WebDriverRunner.getWebDriver().getPageSource().getBytes(StandardCharsets.UTF_8);
+    }
+
     public AllureSelenide screenshots(boolean saveScreenshots) {
         this.saveScreenshots = saveScreenshots;
         return this;
@@ -39,14 +48,6 @@ public class AllureSelenide implements LogEventListener {
     public AllureSelenide savePageSource(boolean savePageHtml) {
         this.savePageHtml = savePageHtml;
         return this;
-    }
-
-    private static byte[] getScreenshotBytes() {
-        return (byte[])((TakesScreenshot)WebDriverRunner.getWebDriver()).getScreenshotAs(OutputType.BYTES);
-    }
-
-    private static byte[] getPageSourceBytes() {
-        return WebDriverRunner.getWebDriver().getPageSource().getBytes(StandardCharsets.UTF_8);
     }
 
     @Override
@@ -67,8 +68,8 @@ public class AllureSelenide implements LogEventListener {
                 stepResult.setStart(stepResult.getStart() - event.getDuration());
             });
             if (
-                    EventStatus.FAIL.equals(event.getStatus())||
-                            EventStatus.IN_PROGRESS.equals(event.getStatus())||
+                    EventStatus.FAIL.equals(event.getStatus()) ||
+                            EventStatus.IN_PROGRESS.equals(event.getStatus()) ||
                             EventStatus.PASS.equals(event.getStatus())
 
             ) {
@@ -81,8 +82,8 @@ public class AllureSelenide implements LogEventListener {
                 }
 
                 this.lifecycle.updateStep((stepResult) -> {
-                    StatusDetails details = (StatusDetails)ResultsUtils.getStatusDetails(event.getError()).orElse(new StatusDetails());
-                    stepResult.setStatus((Status)ResultsUtils.getStatus(event.getError()).orElse(Status.BROKEN));
+                    StatusDetails details = (StatusDetails) ResultsUtils.getStatusDetails(event.getError()).orElse(new StatusDetails());
+                    stepResult.setStatus((Status) ResultsUtils.getStatus(event.getError()).orElse(Status.BROKEN));
                     stepResult.setStatusDetails(details);
                 });
             }

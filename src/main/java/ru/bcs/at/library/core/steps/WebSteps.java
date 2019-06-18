@@ -17,6 +17,7 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
+import com.codeborne.selenide.ex.ElementShould;
 import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.Когда;
 import cucumber.api.java.ru.Пусть;
@@ -24,13 +25,10 @@ import cucumber.api.java.ru.Тогда;
 import io.cucumber.datatable.DataTable;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriverException;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
-import ru.bcs.at.library.core.setup.AtCoreConfig;
 
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
@@ -118,12 +116,7 @@ public class WebSteps {
     @И("^выполнено нажатие на (?:кнопку|поле|блок) \"([^\"]*)\"$")
     public void clickOnElement(String elementName) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
-
-//        try {
-//            element.click();
-//        }catch (WebDriverException webDriverException){
-            element.getWrappedElement().click();
-//        }
+        element.click();
     }
 
     /**
@@ -667,8 +660,12 @@ public class WebSteps {
     @Тогда("^(?:поле|элемент) \"([^\"]*)\" содержит внутренний текст \"(.*)\"$")
     public void testFieldContainsInnerText(String elementName, String expectedValue) {
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
-        coreScenario.getCurrentPage().getElement(elementName)
-                .shouldHave(text(expectedValue));
+        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
+        try {
+            element.shouldHave(text(expectedValue));
+        } catch (ElementShould ex) {
+            element.shouldHave(value(expectedValue));
+        }
     }
 
     /**
@@ -680,8 +677,11 @@ public class WebSteps {
     public void compareValInFieldAndFromStep(String elementName, String expectedValue) {
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
-        element
-                .shouldHave(exactText(expectedValue));
+        try {
+            element.shouldHave(text(expectedValue));
+        } catch (ElementShould ex) {
+            element.shouldHave(value(expectedValue));
+        }
     }
 
     /**
