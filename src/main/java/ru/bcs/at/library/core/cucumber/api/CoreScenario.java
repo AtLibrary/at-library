@@ -17,6 +17,7 @@ import com.codeborne.selenide.Selenide;
 import cucumber.api.Scenario;
 import lombok.extern.log4j.Log4j2;
 import ru.bcs.at.library.core.cucumber.ScopedVariables;
+import ru.bcs.at.library.core.setup.AtCoreConfig;
 
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
@@ -123,7 +124,9 @@ public final class CoreScenario {
      * Выводит дополнительный информационный текст в отчет (уровень логирования INFO)
      */
     public void write(Object object) {
-        this.getEnvironment().write(object);
+        if (AtCoreConfig.debugCore) {
+            this.getEnvironment().write(object);
+        }
     }
 
     /**

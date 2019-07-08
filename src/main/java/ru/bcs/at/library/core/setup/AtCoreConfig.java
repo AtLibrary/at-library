@@ -7,6 +7,8 @@ public class AtCoreConfig {
     public String deviceName = System.getProperty("deviceName", "iPhone 6s");
     public String platformVersion = System.getProperty("platformVersion", "12.2");
     public String app = System.getProperty("app", "ru.admitadteam.Cooking-eggs");
+    public static boolean debugCore = Boolean.getBoolean(System.getProperty("debug.core", "false"));
+
     private AtCoreConfig() {
     }
 
