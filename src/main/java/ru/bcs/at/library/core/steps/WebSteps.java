@@ -73,11 +73,11 @@ import static ru.bcs.at.library.core.cucumber.ScopedVariables.resolveVars;
  * не в степах, в степах - взаимодействие по русскому названию элемента.</p>
  */
 
-@Log4j2
+//@Log4j2
 public class WebSteps {
 
     private static final int DEFAULT_TIMEOUT = loadPropertyInt("waitingCustomElementsTimeout", 10000);
-    private CoreScenario coreScenario = CoreScenario.getInstance();
+    private static CoreScenario coreScenario = CoreScenario.getInstance();
 
     /**
      * <p style="color: green; font-size: 1.5em">
@@ -98,10 +98,10 @@ public class WebSteps {
 
     private static boolean checkResult(String result, String message) {
         if (isNull(result)) {
-            log.warn(message + " не найдена");
+            coreScenario.write(message + " не найдена");
             return false;
         }
-        log.info(message + " = " + result);
+        coreScenario.write(message + " = " + result);
         CoreScenario.getInstance().write(message + " = " + result);
         return true;
     }
@@ -804,7 +804,7 @@ public class WebSteps {
             currentStringDate = new SimpleDateFormat(dateFormat).format(date);
         } catch (IllegalArgumentException ex) {
             currentStringDate = new SimpleDateFormat("dd.MM.yyyy").format(date);
-            log.error("Неверный формат даты. Будет использоваться значание по умолчанию в формате dd.MM.yyyy");
+            coreScenario.write("Неверный формат даты. Будет использоваться значание по умолчанию в формате dd.MM.yyyy");
         }
         SelenideElement valueInput = coreScenario.getCurrentPage().getElement(fieldName);
         valueInput.setValue("");
