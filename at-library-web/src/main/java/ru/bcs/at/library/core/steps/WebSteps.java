@@ -57,6 +57,7 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 import static ru.bcs.at.library.core.cucumber.ScopedVariables.resolveVars;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.*;
+import static ru.bcs.at.library.core.steps.OtherSteps.*;
 
 
 /**
@@ -76,34 +77,7 @@ import static ru.bcs.at.library.core.core.helpers.PropertyLoader.*;
 public class WebSteps {
 
     private static final int DEFAULT_TIMEOUT = loadPropertyInt("waitingCustomElementsTimeout", 10000);
-    private static CoreScenario coreScenario = CoreScenario.getInstance();
-
-    /**
-     * <p style="color: green; font-size: 1.5em">
-     *
-     * @return Возвращает значение из property файла, если отсутствует, то из пользовательских переменных,
-     * если и оно отсутствует, то возвращает значение переданной на вход переменной
-     * </p>
-     */
-    protected static String getPropertyOrStringVariableOrValue(String propertyNameOrVariableNameOrValue) {
-        String propertyValue = tryLoadProperty(propertyNameOrVariableNameOrValue);
-        String variableValue = (String) CoreScenario.getInstance().tryGetVar(propertyNameOrVariableNameOrValue);
-
-        boolean propertyCheck = checkResult(propertyValue, "Переменная " + propertyNameOrVariableNameOrValue + " из property файла");
-        boolean variableCheck = checkResult(variableValue, "Переменная сценария " + propertyNameOrVariableNameOrValue);
-
-        return propertyCheck ? propertyValue : (variableCheck ? variableValue : propertyNameOrVariableNameOrValue);
-    }
-
-    private static boolean checkResult(String result, String message) {
-        if (isNull(result)) {
-            coreScenario.write(message + " не найдена");
-            return false;
-        }
-        coreScenario.write(message + " = " + result);
-        CoreScenario.getInstance().write(message + " = " + result);
-        return true;
-    }
+    private CoreScenario coreScenario = CoreScenario.getInstance();
 
     /**
      * <p style="color: green; font-size: 1.5em">
@@ -1252,103 +1226,5 @@ public class WebSteps {
                         .stream()
                         .map(SelenideElement::getText)
                         .collect(Collectors.toList()));
-    }
-
-    /**
-     * <p style="color: green; font-size: 1.5em">
-     *
-     * @return Возвращает каталог "Downloads" в домашней директории
-     * </p>
-     */
-    private File getDownloadsDir() {
-        String homeDir = System.getProperty("user.home");
-        return new File(homeDir + "/Downloads");
-    }
-
-    /**
-     * <p style="color: green; font-size: 1.5em">
-     *
-     * @param filesToDelete массив файлов
-     *                      Удаляет файлы, переданные в метод
-     *                      </p>
-     */
-    private void deleteFiles(File[] filesToDelete) {
-        for (File file : filesToDelete) {
-            file.delete();
-        }
-    }
-
-    /**
-     * <p style="color: green; font-size: 1.5em">
-     *
-     * @param maxValueInRange максимальная граница диапазона генерации случайных чисел
-     *                        Возвращает случайное число от нуля до maxValueInRange
-     *                        </p>
-     */
-    private int getRandom(int maxValueInRange) {
-        return (int) (Math.random() * maxValueInRange);
-    }
-
-    /**
-     * <p style="color: green; font-size: 1.5em">
-     * Возвращает последовательность случайных символов переданных алфавита и длины
-     * Принимает на вход варианты языков 'ru' и 'en'
-     * Для других входных параметров возвращает латинские символы (en)
-     *
-     * @param length
-     * @param lang   </p>
-     */
-    private String getRandCharSequence(int length, String lang) {
-
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < length; i++) {
-            char symbol = charGenerator(lang);
-            builder.append(symbol);
-        }
-        return builder.toString();
-    }
-
-    /**
-     * <p style="color: green; font-size: 1.5em">
-     * Возвращает случайный символ переданного алфавита
-     *
-     * @param lang </p>
-     */
-    private char charGenerator(String lang) {
-        Random random = new Random();
-        if (lang.equals("ru")) {
-            return (char) (1072 + random.nextInt(32));
-        } else {
-            return (char) (97 + random.nextInt(26));
-        }
-    }
-
-    /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка на соответствие строки паттерну
-     *
-     * @param pattern
-     * @param str     </p>
-     */
-    private boolean isTextMatches(String str, String pattern) {
-        Pattern r = Pattern.compile(pattern);
-        Matcher m = r.matcher(str);
-        return m.matches();
-    }
-
-    /**
-     * <p style="color: green; font-size: 1.5em">
-     * Возвращает локатор для поиска по нормализованному(без учета регистра) тексту
-     *
-     * @param expectedText </p>
-     */
-    private String getTranslateNormalizeSpaceText(String expectedText) {
-        StringBuilder text = new StringBuilder();
-        text.append("//*[contains(translate(normalize-space(text()), ");
-        text.append("'ABCDEFGHIJKLMNOPQRSTUVWXYZАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ', ");
-        text.append("'abcdefghijklmnopqrstuvwxyzабвгдеёжзийклмнопрстуфхчшщъыьэюя'), '");
-        text.append(expectedText.toLowerCase());
-        text.append("')]");
-        return text.toString();
     }
 }
