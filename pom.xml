@@ -27,7 +27,7 @@
         <io.appium.java-client.version>7.0.0</io.appium.java-client.version>
         <!--CUCUMBER-->
         <cucumber.version>4.3.0</cucumber.version>
-        <!--        <agent-java-cucumber4.version>4.0.2-BCS</agent-java-cucumber4.version>-->
+        <agent-java-cucumber4.version>4.0.2-BCS</agent-java-cucumber4.version>
         <!--ОТЧЕТ ALLURE-->
         <allure.version>2.10.0</allure.version>
         <!--LOMBOK-->
@@ -136,8 +136,9 @@
         <dependency>
             <groupId>com.epam.reportportal</groupId>
             <artifactId>agent-java-cucumber4</artifactId>
-            <version>4.1.0</version>
-            <type>pom</type>
+            <version>${agent-java-cucumber4.version}</version>
+            <!--            <version>4.1.0</version>-->
+            <!--            <type>pom</type>-->
         </dependency>
         <!--LOMBOK-->
         <dependency>

@@ -354,6 +354,7 @@ public abstract class CorePage extends ElementsContainer {
                 .collect(toMap(f -> f.getDeclaredAnnotation(Name.class).value(), this::extractFieldValueViaReflection));
     }
     //TODO добавить в сообщение о ошибке инфу какой именно @Name дублируется
+
     /**
      * Поиск по аннотации "Name"
      */

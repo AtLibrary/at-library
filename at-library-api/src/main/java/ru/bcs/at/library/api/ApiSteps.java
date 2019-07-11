@@ -39,14 +39,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
-import static io.restassured.RestAssured.given;
-import static io.restassured.config.JsonConfig.jsonConfig;
-import static io.restassured.config.RestAssuredConfig.newConfig;
-import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
-import static io.restassured.specification.ProxySpecification.host;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-
 /**
  * <h1 style="color: green; font-size: 2.2em">
  * API шаги
