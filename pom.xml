@@ -5,10 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ru.bcs</groupId>
-    <artifactId>at-library-core</artifactId>
+    <artifactId>at-library</artifactId>
     <version>07.07.2019</version>
 
-    <name>at-library-core</name>
+    <name>at-library</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
