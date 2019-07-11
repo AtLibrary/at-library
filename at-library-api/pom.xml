@@ -10,6 +10,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>at-library-api</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>ru.bcs</groupId>
+            <artifactId>at-library-core</artifactId>
+            <version>07.07.2019</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 
 
 </project>
