@@ -1,4 +1,4 @@
-At-Library-Core
+at-library
 =========================
 
 Quick start
@@ -32,7 +32,7 @@ https://jira.bcs.ru:4464/confluence/display/QA/Quick+start
 ```xml
 <dependency>
     <groupId>ru.bcs</groupId>
-    <artifactId>at-library-core</artifactId>
+    <artifactId>at-library</artifactId>
     <version>03.06.2019</version>
 </dependency>
 ```
@@ -214,12 +214,12 @@ ru.bcs.at.library.core.cucumber.api.CoreScenario
 Позволяет заполнить хранилище переменных, существующее в рамках одного сценария, значениями и читать эти значения при необходимости.
 
 ```java
-ru.bcs.at.library.core.steps.ApiSteps
+ru.bcs.at.library.core.steps.ru.bcs.at.library.api.ApiSteps
 ```
 Шаги для тестирования API, доступные по умолчанию в каждом новом проекте
 
 ```java
-ru.bcs.at.library.core.steps.WebSteps
+ru.bcs.at.library.web.WebSteps
 ```
 Шаги для тестирования UI, доступные по умолчанию в каждом новом проекте
 

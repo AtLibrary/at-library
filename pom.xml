@@ -5,10 +5,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ru.bcs</groupId>
-    <artifactId>at-library-core</artifactId>
+    <artifactId>at-library</artifactId>
+    <packaging>pom</packaging>
     <version>07.07.2019</version>
 
-    <name>at-library-core</name>
+    <modules>
+        <module>at-library-core</module>
+        <module>at-library-mobile</module>
+        <module>at-library-web</module>
+        <module>at-library-api</module>
+    </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -21,7 +27,7 @@
         <io.appium.java-client.version>7.0.0</io.appium.java-client.version>
         <!--CUCUMBER-->
         <cucumber.version>4.3.0</cucumber.version>
-        <agent-java-cucumber4.version>4.0.2-BCS</agent-java-cucumber4.version>
+        <!--        <agent-java-cucumber4.version>4.0.2-BCS</agent-java-cucumber4.version>-->
         <!--ОТЧЕТ ALLURE-->
         <allure.version>2.10.0</allure.version>
         <!--LOMBOK-->
@@ -130,7 +136,8 @@
         <dependency>
             <groupId>com.epam.reportportal</groupId>
             <artifactId>agent-java-cucumber4</artifactId>
-            <version>${agent-java-cucumber4.version}</version>
+            <version>4.1.0</version>
+            <type>pom</type>
         </dependency>
         <!--LOMBOK-->
         <dependency>
