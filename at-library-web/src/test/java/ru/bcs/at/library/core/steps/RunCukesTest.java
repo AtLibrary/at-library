@@ -1,4 +1,4 @@
-package ru.bcs.at.library.core.at;
+package ru.bcs.at.library.core.steps;
 
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         tags = "@all",
         features = "src/test/resources/features",
-        glue = {"ru.bcs.at.library.core", "ru.bcs.at.library.core.at"}
+        glue = {"ru.bcs.at.library"}
 )
 public class RunCukesTest {
 }

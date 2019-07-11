@@ -11,7 +11,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ru.bcs.at.library.web;
+package ru.bcs.at.library.core.steps;
 
 import com.codeborne.selenide.WebDriverRunner;
 import cucumber.api.java.ru.Если;
@@ -33,7 +33,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
 import static ru.bcs.at.library.core.cucumber.ScopedVariables.resolveVars;
-import static ru.bcs.at.library.web.WebSteps.getPropertyOrStringVariableOrValue;
 
 /**
  * <h1 style="color: green; font-size: 2.2em">
@@ -57,7 +56,7 @@ public class BrowserSteps {
      */
     @Когда("^совершен переход по ссылке \"([^\"]*)\"$")
     public void goToUrl(String address) {
-        String url = resolveVars(getPropertyOrStringVariableOrValue(address));
+        String url = resolveVars(WebSteps.getPropertyOrStringVariableOrValue(address));
         open(url);
         coreScenario.write("Url = " + url);
     }
@@ -72,7 +71,7 @@ public class BrowserSteps {
      *                меняются на их значения из хранилища coreScenario</p>
      */
     public void openUrlNewTab(String address) {
-        String url = resolveVars(getPropertyOrStringVariableOrValue(address));
+        String url = resolveVars(WebSteps.getPropertyOrStringVariableOrValue(address));
 
         ((JavascriptExecutor) WebDriverRunner.getWebDriver())
                 .executeScript("window.open('" + url + "','_blank');");
@@ -88,7 +87,7 @@ public class BrowserSteps {
     @Тогда("^текущий URL равен \"([^\"]*)\"$")
     public void checkCurrentURL(String url) {
         String currentUrl = url();
-        String expectedUrl = resolveVars(getPropertyOrStringVariableOrValue(url));
+        String expectedUrl = resolveVars(WebSteps.getPropertyOrStringVariableOrValue(url));
         assertThat("Текущий URL не совпадает с ожидаемым", currentUrl, is(expectedUrl));
     }
 
@@ -102,7 +101,7 @@ public class BrowserSteps {
     @Тогда("^текущий URL не равен \"([^\"]*)\"$")
     public void checkCurrentURLIsNotEquals(String url) {
         String currentUrl = url();
-        String expectedUrl = resolveVars(getPropertyOrStringVariableOrValue(url));
+        String expectedUrl = resolveVars(WebSteps.getPropertyOrStringVariableOrValue(url));
         assertThat("Текущий URL совпадает с ожидаемым", currentUrl, Matchers.not(expectedUrl));
     }
 
@@ -156,7 +155,7 @@ public class BrowserSteps {
      */
     @Тогда("^заголовок страницы равен \"([^\"]*)\"$")
     public void checkPageTitle(String pageTitleName) {
-        pageTitleName = getPropertyOrStringVariableOrValue(pageTitleName);
+        pageTitleName = WebSteps.getPropertyOrStringVariableOrValue(pageTitleName);
         String currentTitle = getWebDriver().getTitle().trim();
         assertThat(String.format("Заголовок страницы не совпадает с ожидаемым значением. Ожидаемый результат: %s, текущий результат: %s", pageTitleName, currentTitle),
                 pageTitleName, equalToIgnoringCase(currentTitle));

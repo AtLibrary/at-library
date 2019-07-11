@@ -9,8 +9,8 @@ import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 import static com.codeborne.selenide.Selenide.sleep;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static ru.bcs.at.library.core.helpers.PropertyLoader.getPropertyOrValue;
-import static ru.bcs.at.library.core.helpers.PropertyLoader.loadProperty;
+import static ru.bcs.at.library.core.core.helpers.PropertyLoader.getPropertyOrValue;
+import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadProperty;
 
 /**
  * <h1 style="color: green; font-size: 2.2em">

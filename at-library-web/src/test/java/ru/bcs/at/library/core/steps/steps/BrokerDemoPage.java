@@ -1,4 +1,4 @@
-package ru.bcs.at.library.core.at.pages;
+package ru.bcs.at.library.core.steps.steps;
 
 
 import com.codeborne.selenide.SelenideElement;

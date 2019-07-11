@@ -29,7 +29,7 @@ import java.util.stream.Stream;
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
-import static ru.bcs.at.library.core.helpers.PropertyLoader.loadProperty;
+import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadProperty;
 
 /**
  * <h1 style="color: green; font-size: 2.2em">

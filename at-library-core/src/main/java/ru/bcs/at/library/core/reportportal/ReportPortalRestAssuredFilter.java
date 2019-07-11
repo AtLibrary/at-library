@@ -14,7 +14,7 @@ import io.restassured.response.Response;
 import io.restassured.specification.FilterableRequestSpecification;
 import io.restassured.specification.FilterableResponseSpecification;
 import lombok.extern.log4j.Log4j2;
-import ru.bcs.at.library.core.helpers.LogReportListener;
+import ru.bcs.at.library.core.core.helpers.LogReportListener;
 import ru.bcs.at.library.core.log.DocumentFormatter;
 
 import java.util.HashMap;

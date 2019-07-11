@@ -24,7 +24,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static java.lang.String.format;
-import static ru.bcs.at.library.core.helpers.PropertyLoader.loadProperty;
+import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadProperty;
 
 /**
  * <h1 style="color: green; font-size: 2.2em">

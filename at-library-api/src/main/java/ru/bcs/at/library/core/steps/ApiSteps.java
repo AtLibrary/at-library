@@ -1,4 +1,4 @@
-package ru.bcs.at.library.api; /**
+package ru.bcs.at.library.core.steps; /**
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -31,7 +31,7 @@ import org.hamcrest.Matchers;
 import org.junit.Assert;
 import ru.bcs.at.library.core.cucumber.ScopedVariables;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
-import ru.bcs.at.library.core.helpers.PropertyLoader;
+import ru.bcs.at.library.core.core.helpers.PropertyLoader;
 import sun.misc.BASE64Decoder;
 
 import java.io.File;

@@ -1,9 +1,5 @@
 target
 .idea
 at-library.iml
-at-library-api.iml
-at-library-core.iml
-at-library-mobile.iml
-at-library-web.iml
 .allure
 .DS_Store

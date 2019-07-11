@@ -24,11 +24,11 @@ import lombok.experimental.Delegate;
 import lombok.extern.log4j.Log4j2;
 import ru.bcs.at.library.core.cucumber.api.CoreEnvironment;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
-import ru.bcs.at.library.core.helpers.LogReportListener;
+import ru.bcs.at.library.core.core.helpers.LogReportListener;
 
 import java.net.MalformedURLException;
 
-import static ru.bcs.at.library.core.helpers.PropertyLoader.loadProperty;
+import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadProperty;
 
 /**
  * <h1 style="color: green; font-size: 2.2em">

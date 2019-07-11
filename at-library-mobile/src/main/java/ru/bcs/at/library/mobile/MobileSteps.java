@@ -56,7 +56,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 import static ru.bcs.at.library.core.cucumber.ScopedVariables.resolveVars;
-import static ru.bcs.at.library.core.helpers.PropertyLoader.*;
+import static ru.bcs.at.library.core.core.helpers.PropertyLoader.*;
 
 
 /**

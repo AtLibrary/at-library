@@ -1,4 +1,4 @@
-package ru.bcs.at.library.core.helpers;
+package ru.bcs.at.library.core.core.helpers;
 
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.restassured.AllureRestAssured;
