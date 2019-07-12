@@ -19,14 +19,19 @@ import com.codeborne.selenide.WebDriverRunner;
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
+import io.qameta.allure.Attachment;
 import io.restassured.RestAssured;
 import lombok.experimental.Delegate;
 import lombok.extern.log4j.Log4j2;
+import org.openqa.selenium.logging.LogType;
+import ru.bcs.at.library.core.core.helpers.LogReportListener;
+import ru.bcs.at.library.core.cucumber.ScopedVariables;
 import ru.bcs.at.library.core.cucumber.api.CoreEnvironment;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
-import ru.bcs.at.library.core.core.helpers.LogReportListener;
 
 import java.net.MalformedURLException;
+import java.util.List;
+import java.util.logging.Level;
 
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadProperty;
 
@@ -92,6 +97,7 @@ public class InitialSetupSteps {
         coreScenario.removeEnvironment();
 
         if (scenario.getSourceTagNames().contains("@web")) {
+            attachmentWebDriverLogs();
             Selenide.clearBrowserLocalStorage();
             Selenide.clearBrowserCookies();
             WebDriverRunner.getWebDriver().close();
@@ -101,5 +107,18 @@ public class InitialSetupSteps {
         }
     }
 
-
+    @Attachment(value = "Web Driver Logs", type = "text/plain", fileExtension = ".log")
+    private static String attachmentWebDriverLogs() {
+        /**
+         * Чтоб все логи консоли успели загрузится
+         */
+        Selenide.sleep(1000);
+        List<String> webDriverLogs = Selenide.getWebDriverLogs(LogType.BROWSER, Level.ALL);
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String log : webDriverLogs) {
+            stringBuilder.append(log);
+            stringBuilder.append("\n\n");
+        }
+        return stringBuilder.toString();
+    }
 }
