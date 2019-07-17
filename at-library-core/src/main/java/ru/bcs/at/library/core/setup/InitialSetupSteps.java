@@ -25,7 +25,6 @@ import lombok.experimental.Delegate;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.logging.LogType;
 import ru.bcs.at.library.core.core.helpers.LogReportListener;
-import ru.bcs.at.library.core.cucumber.ScopedVariables;
 import ru.bcs.at.library.core.cucumber.api.CoreEnvironment;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 
@@ -52,6 +51,21 @@ public class InitialSetupSteps {
 
     @Delegate
     CoreScenario coreScenario = CoreScenario.getInstance();
+
+    @Attachment(value = "Web Driver Logs", type = "text/plain", fileExtension = ".log")
+    private static String attachmentWebDriverLogs() {
+        /**
+         * Чтоб все логи консоли успели загрузится
+         */
+        Selenide.sleep(1000);
+        List<String> webDriverLogs = Selenide.getWebDriverLogs(LogType.BROWSER, Level.ALL);
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String log : webDriverLogs) {
+            stringBuilder.append(log);
+            stringBuilder.append("\n\n");
+        }
+        return stringBuilder.toString();
+    }
 
     /**
      * <p style="color: green; font-size: 1.5em">
@@ -84,7 +98,6 @@ public class InitialSetupSteps {
         coreScenario.setEnvironment(new CoreEnvironment(scenario, uiTest));
     }
 
-
     /**
      * <p style="color: green; font-size: 1.5em">
      * Если сценарий содержит тег @web" то по завершению теста удаляет все куки и закрывает веб-браузер</p>
@@ -105,20 +118,5 @@ public class InitialSetupSteps {
         if (scenario.getSourceTagNames().contains("@mobile")) {
             WebDriverRunner.getWebDriver().quit();
         }
-    }
-
-    @Attachment(value = "Web Driver Logs", type = "text/plain", fileExtension = ".log")
-    private static String attachmentWebDriverLogs() {
-        /**
-         * Чтоб все логи консоли успели загрузится
-         */
-        Selenide.sleep(1000);
-        List<String> webDriverLogs = Selenide.getWebDriverLogs(LogType.BROWSER, Level.ALL);
-        StringBuilder stringBuilder = new StringBuilder();
-        for (String log : webDriverLogs) {
-            stringBuilder.append(log);
-            stringBuilder.append("\n\n");
-        }
-        return stringBuilder.toString();
     }
 }

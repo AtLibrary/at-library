@@ -200,7 +200,7 @@ public abstract class CorePage extends ElementsContainer {
      * Ex: CorePage.appeared().doSomething();
      */
     public final CorePage appeared() {
-        if(isAppeared){
+        if (isAppeared) {
             isAppeared();
         }
         return this;
@@ -211,7 +211,7 @@ public abstract class CorePage extends ElementsContainer {
      * Ex: CorePage.disappeared().doSomething();
      */
     public final CorePage disappeared() {
-        if(isAppeared){
+        if (isAppeared) {
             isDisappeared();
         }
         return this;

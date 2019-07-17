@@ -38,9 +38,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Random;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static com.codeborne.selenide.Condition.empty;
@@ -50,13 +47,12 @@ import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverRunner.isIE;
 import static com.codeborne.selenide.WebDriverRunner.url;
 import static java.lang.String.format;
-import static java.util.Objects.isNull;
 import static java.util.stream.Collectors.toList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
-import static ru.bcs.at.library.core.cucumber.ScopedVariables.resolveVars;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.*;
+import static ru.bcs.at.library.core.cucumber.ScopedVariables.resolveVars;
 import static ru.bcs.at.library.core.steps.OtherSteps.*;
 
 
@@ -77,7 +73,7 @@ import static ru.bcs.at.library.core.steps.OtherSteps.*;
 public class MobileSteps {
 
     private static final int DEFAULT_TIMEOUT = loadPropertyInt("waitingCustomElementsTimeout", 10000);
-    private  CoreScenario coreScenario = CoreScenario.getInstance();
+    private CoreScenario coreScenario = CoreScenario.getInstance();
 
     /**
      * <p style="color: green; font-size: 1.5em">

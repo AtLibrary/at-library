@@ -27,6 +27,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 
 import java.awt.*;
@@ -38,9 +39,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Random;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static com.codeborne.selenide.Condition.empty;
@@ -50,13 +48,12 @@ import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverRunner.isIE;
 import static com.codeborne.selenide.WebDriverRunner.url;
 import static java.lang.String.format;
-import static java.util.Objects.isNull;
 import static java.util.stream.Collectors.toList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
-import static ru.bcs.at.library.core.cucumber.ScopedVariables.resolveVars;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.*;
+import static ru.bcs.at.library.core.cucumber.ScopedVariables.resolveVars;
 import static ru.bcs.at.library.core.steps.OtherSteps.*;
 
 
@@ -353,6 +350,39 @@ public class WebSteps {
         SelenideElement valueInput = coreScenario.getCurrentPage().getElement(elementName);
         cleanField(elementName);
         valueInput.sendKeys(value);
+    }
+
+    /**
+     * <p style="color: green; font-size: 1.5em">
+     * Набирается значение посимвольно (в приоритете: из property, из переменной сценария, значение аргумента) в заданное поле.
+     * Перед использованием поле нужно очистить
+     * </p>
+     */
+    @Тогда("^в поле \"([^\"]*)\" посимвольно набирается значение \"([^\"]*)\"$")
+    public void sendKeysCharacterByCharacter(String elementName, String value) {
+        value = getPropertyOrStringVariableOrValue(value);
+        SelenideElement valueInput = coreScenario.getCurrentPage().getElement(elementName);
+        valueInput.clear();
+
+        WebDriver webDriver = WebDriverRunner.getWebDriver();
+
+        sleep(200);
+        ((JavascriptExecutor) webDriver).executeScript("arguments[0].click();", valueInput);
+        sleep(200);
+        valueInput.sendKeys(Keys.CONTROL, "a");
+        sleep(200);
+        valueInput.sendKeys(Keys.DELETE);
+        sleep(200);
+        ((JavascriptExecutor) webDriver).executeScript("arguments[0].click();", valueInput);
+        sleep(200);
+        valueInput.clear();
+
+        valueInput.sendKeys(Keys.CONTROL, "a");
+        for (char c : value.toCharArray()) {
+            valueInput.sendKeys(String.valueOf(c));
+            sleep(100);
+        }
+        sleep(200);
     }
 
     /**

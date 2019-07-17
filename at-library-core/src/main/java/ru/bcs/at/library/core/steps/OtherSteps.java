@@ -44,7 +44,7 @@ public class OtherSteps {
      *                      Удаляет файлы, переданные в метод
      *                      </p>
      */
-    public static  void deleteFiles(File[] filesToDelete) {
+    public static void deleteFiles(File[] filesToDelete) {
         for (File file : filesToDelete) {
             file.delete();
         }
@@ -57,7 +57,7 @@ public class OtherSteps {
      *                        Возвращает случайное число от нуля до maxValueInRange
      *                        </p>
      */
-    public static  int getRandom(int maxValueInRange) {
+    public static int getRandom(int maxValueInRange) {
         return (int) (Math.random() * maxValueInRange);
     }
 
@@ -70,7 +70,7 @@ public class OtherSteps {
      * @param length
      * @param lang   </p>
      */
-    public static  String getRandCharSequence(int length, String lang) {
+    public static String getRandCharSequence(int length, String lang) {
 
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < length; i++) {
@@ -86,7 +86,7 @@ public class OtherSteps {
      *
      * @param lang </p>
      */
-    public static  char charGenerator(String lang) {
+    public static char charGenerator(String lang) {
         Random random = new Random();
         if (lang.equals("ru")) {
             return (char) (1072 + random.nextInt(32));
@@ -102,7 +102,7 @@ public class OtherSteps {
      * @param pattern
      * @param str     </p>
      */
-    public static  boolean isTextMatches(String str, String pattern) {
+    public static boolean isTextMatches(String str, String pattern) {
         Pattern r = Pattern.compile(pattern);
         Matcher m = r.matcher(str);
         return m.matches();
