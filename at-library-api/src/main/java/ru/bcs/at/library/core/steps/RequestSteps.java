@@ -19,7 +19,8 @@ import java.util.List;
 
 public class RequestSteps {
 
-    public static final String REQUEST_URL = "^выполнен (GET|PUT|POST|DELETE|HEAD|TRACE|OPTIONS|PATCH) запрос на URL \"([^\"]*)\"";
+    public static int requestRetries = Integer.valueOf(System.getProperty("request.retries", "1"));
+    private static final String REQUEST_URL = "^выполнен (GET|PUT|POST|DELETE|HEAD|TRACE|OPTIONS|PATCH) запрос на URL \"([^\"]*)\"";
     private CoreScenario coreScenario = CoreScenario.getInstance();
 
     /**
@@ -88,88 +89,99 @@ public class RequestSteps {
      */
     @И(REQUEST_URL + " с headers и parameters из таблицы. Ожидается код ответа: (\\d+) Полученный ответ сохранен в переменную \"([^\"]*)\"$")
     public void sendHttpRequestSaveResponseCheckResponseCode(String method, String address, int expectedStatusCode, String variableName, DataTable dataTable) {
-        Response response = sendRequest(method, address, dataTable);
+        Response response = tryingSendRequestRetries(method, address, dataTable, expectedStatusCode);
         response.then().statusCode(expectedStatusCode);
         getBodyAndSaveToVariable(variableName, response);
     }
 
-
-    /**
-     * <p style="color: green; font-size: 1.5em">
-     * Отправка http запроса по заданному урлу без параметров и BODY.
-     * Результат сохраняется в заданную переменную</p>
-     *
-     * @param method       методов HTTP запроса
-     * @param address      url запроса (ожно задать как напрямую в шаге, так и указав в application.properties)
-     * @param variableName имя переменной в которую сохраняется ответ
-     */
-    @И(REQUEST_URL + " .Попыток (\\d+). Ожидается код ответа: (\\d+) Полученный ответ сохранен в переменную \"([^\"]*)\"$")
-    public void sendHttpRequestSaveResponseCheckResponseCode(String method, String address, int numberOfAttempts, int expectedStatusCode, String variableName) {
+    private Response tryingSendRequestRetries(String method, String address, DataTable dataTable, int expectedStatusCode) {
         Response response = null;
-        for (int i = 0; i < numberOfAttempts; i++) {
-            response = sendRequest(method, address, null);
-            if (response.statusCode() == expectedStatusCode) {
-                break;
-            }
-        }
-
-        getBodyAndSaveToVariable(variableName, response);
-        response.then().statusCode(expectedStatusCode);
-    }
-
-
-    /**
-     * <p style="color: green; font-size: 1.5em">
-     * Отправка http запроса по заданному урлу с параметрами и/или BODY.
-     * Результат сохраняется в заданную переменную</p>
-     *
-     * @param method             методов HTTP запроса
-     * @param address            url запроса (ожно задать как напрямую в шаге, так и указав в application.properties)
-     * @param expectedStatusCode ожидаемый код ответа
-     * @param dataTable          И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
-     *                           и из хранилища переменных из CoreScenario.
-     *                           Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
-     */
-    @И(REQUEST_URL + " с headers и parameters из таблицы. Попыток (\\d+). Ожидается код ответа: (\\d+)$")
-    public void sendHttpRequestCheckResponseCode(String method, String address, int numberOfAttempts, int expectedStatusCode, DataTable dataTable) {
-        Response response = null;
-        for (int i = 0; i < numberOfAttempts; i++) {
+        for (int i = 0; i < requestRetries; i++) {
             response = sendRequest(method, address, dataTable);
             if (response.statusCode() == expectedStatusCode) {
                 break;
             }
         }
-
-        response.then().statusCode(expectedStatusCode);
+        return response;
     }
 
-    /**
-     * <p style="color: green; font-size: 1.5em">
-     * Отправка http запроса по заданному урлу с параметрами и/или BODY.
-     * Результат сохраняется в заданную переменную</p>
-     *
-     * @param method             методов HTTP запроса
-     * @param address            url запроса (ожно задать как напрямую в шаге, так и указав в application.properties)
-     * @param expectedStatusCode ожидаемый код ответа
-     * @param variableName       имя переменной в которую сохраняется ответ
-     * @param dataTable          И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
-     *                           и из хранилища переменных из CoreScenario.
-     *                           Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
-     */
-    //TODO исправить шаг... убрать все это через количество ПОПЫТОК .Передавать параметром
-    @И(REQUEST_URL + " с headers и parameters из таблицы. Попыток (\\d+). Ожидается код ответа: (\\d+) Полученный ответ сохранен в переменную \"([^\"]*)\"$")
-    public void sendHttpRequestSaveResponseCheckResponseCode(String method, String address, int numberOfAttempts, int expectedStatusCode, String variableName, DataTable dataTable) {
-        Response response = null;
-        for (int i = 0; i < numberOfAttempts; i++) {
-            response = sendRequest(method, address, dataTable);
-            if (response.statusCode() == expectedStatusCode) {
-                break;
-            }
-        }
 
-        response.then().statusCode(expectedStatusCode);
-        getBodyAndSaveToVariable(variableName, response);
-    }
+//    /**
+//     * <p style="color: green; font-size: 1.5em">
+//     * Отправка http запроса по заданному урлу без параметров и BODY.
+//     * Результат сохраняется в заданную переменную</p>
+//     *
+//     * @param method       методов HTTP запроса
+//     * @param address      url запроса (ожно задать как напрямую в шаге, так и указав в application.properties)
+//     * @param variableName имя переменной в которую сохраняется ответ
+//     */
+//    @И(REQUEST_URL + " .Попыток (\\d+). Ожидается код ответа: (\\d+) Полученный ответ сохранен в переменную \"([^\"]*)\"$")
+//    public void sendHttpRequestSaveResponseCheckResponseCode(String method, String address, int numberOfAttempts, int expectedStatusCode, String variableName) {
+//        Response response = null;
+//        for (int i = 0; i < numberOfAttempts; i++) {
+//            response = sendRequest(method, address, null);
+//            if (response.statusCode() == expectedStatusCode) {
+//                break;
+//            }
+//        }
+//
+//        getBodyAndSaveToVariable(variableName, response);
+//        response.then().statusCode(expectedStatusCode);
+//    }
+//
+//
+//    /**
+//     * <p style="color: green; font-size: 1.5em">
+//     * Отправка http запроса по заданному урлу с параметрами и/или BODY.
+//     * Результат сохраняется в заданную переменную</p>
+//     *
+//     * @param method             методов HTTP запроса
+//     * @param address            url запроса (ожно задать как напрямую в шаге, так и указав в application.properties)
+//     * @param expectedStatusCode ожидаемый код ответа
+//     * @param dataTable          И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
+//     *                           и из хранилища переменных из CoreScenario.
+//     *                           Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
+//     */
+//    @И(REQUEST_URL + " с headers и parameters из таблицы. Попыток (\\d+). Ожидается код ответа: (\\d+)$")
+//    public void sendHttpRequestCheckResponseCode(String method, String address, int numberOfAttempts, int expectedStatusCode, DataTable dataTable) {
+//        Response response = null;
+//        for (int i = 0; i < numberOfAttempts; i++) {
+//            response = sendRequest(method, address, dataTable);
+//            if (response.statusCode() == expectedStatusCode) {
+//                break;
+//            }
+//        }
+//
+//        response.then().statusCode(expectedStatusCode);
+//    }
+//
+//    /**
+//     * <p style="color: green; font-size: 1.5em">
+//     * Отправка http запроса по заданному урлу с параметрами и/или BODY.
+//     * Результат сохраняется в заданную переменную</p>
+//     *
+//     * @param method             методов HTTP запроса
+//     * @param address            url запроса (ожно задать как напрямую в шаге, так и указав в application.properties)
+//     * @param expectedStatusCode ожидаемый код ответа
+//     * @param variableName       имя переменной в которую сохраняется ответ
+//     * @param dataTable          И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
+//     *                           и из хранилища переменных из CoreScenario.
+//     *                           Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
+//     */
+//    //TODO исправить шаг... убрать все это через количество ПОПЫТОК .Передавать параметром
+//    @И(REQUEST_URL + " с headers и parameters из таблицы. Попыток (\\d+). Ожидается код ответа: (\\d+) Полученный ответ сохранен в переменную \"([^\"]*)\"$")
+//    public void sendHttpRequestSaveResponseCheckResponseCode(String method, String address, int numberOfAttempts, int expectedStatusCode, String variableName, DataTable dataTable) {
+//        Response response = null;
+//        for (int i = 0; i < numberOfAttempts; i++) {
+//            response = sendRequest(method, address, dataTable);
+//            if (response.statusCode() == expectedStatusCode) {
+//                break;
+//            }
+//        }
+//
+//        response.then().statusCode(expectedStatusCode);
+//        getBodyAndSaveToVariable(variableName, response);
+//    }
 
 
     /**

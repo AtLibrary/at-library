@@ -378,8 +378,8 @@ public class WebSteps {
         valueInput.clear();
 
         valueInput.sendKeys(Keys.CONTROL, "a");
-        for (char c : value.toCharArray()) {
-            valueInput.sendKeys(String.valueOf(c));
+        for (char character : value.toCharArray()) {
+            valueInput.sendKeys(String.valueOf(character));
             sleep(100);
         }
         sleep(200);

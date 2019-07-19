@@ -246,9 +246,27 @@ public class OtherSteps {
      * <p style="color: green; font-size: 1.5em">
      * Написание автотеста в работе</p>
      */
+    @И("^ручной тест$")
+    public void manuelTest() {
+        throw new cucumber.api.PendingException("написание автотеста в работе");
+    }
+
+    /**
+     * <p style="color: green; font-size: 1.5em">
+     * Написание автотеста в работе</p>
+     */
     @И("^написание автотеста в работе$")
     public void pendingException() {
         throw new cucumber.api.PendingException("написание автотеста в работе");
+    }
+
+    /**
+     * <p style="color: green; font-size: 1.5em">
+     * Написание автотеста в работе</p>
+     */
+    @И("^написание автотеста в работе. Планируемая дата: \"([^\"]*)\"$")
+    public void pendingException(String date) {
+        throw new cucumber.api.PendingException("написание автотеста в работе. Планируемая дата: " + date);
     }
 
     /**
