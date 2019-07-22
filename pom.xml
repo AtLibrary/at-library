@@ -6,9 +6,15 @@
 
     <groupId>ru.bcs</groupId>
     <artifactId>at-library</artifactId>
-    <version>07.07.2019</version>
+    <packaging>pom</packaging>
+    <version>14.07.2019</version>
 
-    <name>at-library</name>
+    <modules>
+        <module>at-library-core</module>
+        <module>at-library-mobile</module>
+        <module>at-library-web</module>
+        <module>at-library-api</module>
+    </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -46,7 +52,6 @@
         </repository>
     </distributionManagement>
 
-
     <repositories>
         <repository>
             <snapshots>
@@ -58,9 +63,7 @@
         </repository>
     </repositories>
 
-
     <dependencies>
-
         <dependency>
             <groupId>io.appium</groupId>
             <artifactId>java-client</artifactId>
@@ -165,7 +168,6 @@
             <artifactId>json-path</artifactId>
             <version>${jsonpath.version}</version>
         </dependency>
-
     </dependencies>
 
     <build>

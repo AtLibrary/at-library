@@ -1,4 +1,4 @@
-At-Library-Core
+at-library
 =========================
 
 Quick start
@@ -32,7 +32,7 @@ https://jira.bcs.ru:4464/confluence/display/QA/Quick+start
 ```xml
 <dependency>
     <groupId>ru.bcs</groupId>
-    <artifactId>at-library-core</artifactId>
+    <artifactId>at-library</artifactId>
     <version>03.06.2019</version>
 </dependency>
 ```
@@ -219,7 +219,7 @@ ru.bcs.at.library.core.steps.ApiSteps
 Шаги для тестирования API, доступные по умолчанию в каждом новом проекте
 
 ```java
-ru.bcs.at.library.core.steps.WebSteps
+WebSteps
 ```
 Шаги для тестирования UI, доступные по умолчанию в каждом новом проекте
 
