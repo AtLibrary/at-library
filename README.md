@@ -16,24 +16,59 @@ https://jira.bcs.ru:4464/confluence/display/QA/Quick+start
 
 Подключение репозитория:
 ```xml
-<distributionManagement>
-    <snapshotRepository>
-        <id>snapshots</id>
-        <name>s-cicd-artif-01.global.bcs-snapshots</name>
-        <url>https://artifactory.gitlab.bcs.ru/artifactory/bcs-main-snapshots</url>
-    </snapshotRepository>
-    <repository>
-        <id>bcs-main-releases</id>
-        <url>https://artifactory.gitlab.bcs.ru/artifactory/bcs-main-releases</url>
-    </repository>
-</distributionManagement>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>s-cicd-artif-01.global.bcs-snapshots</name>
+            <url>https://artifactory.gitlab.bcs.ru/artifactory/bcs-main-snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>bcs-main-releases</id>
+            <url>https://artifactory.gitlab.bcs.ru/artifactory/bcs-main-releases</url>
+        </repository>
+    </distributionManagement>
+    <repositories>
+        <repository>
+            <id>bcs-main-releases</id>
+            <url>https://artifactory.gitlab.bcs.ru/artifactory/bcs-main-releases</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>snapshots</id>
+            <name>s-cicd-artif-01.global.bcs-snapshots</name>
+            <url>https://artifactory.gitlab.bcs.ru/artifactory/bcs-main-snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 ```
-Подключение завимости:
+Подключите одну из зависимостей(Зависит от проекта)
 ```xml
 <dependency>
-    <groupId>ru.bcs</groupId>
-    <artifactId>at-library</artifactId>
-    <version>03.06.2019</version>
+      <groupId>ru.bcs</groupId>
+      <artifactId>at-library-api</artifactId>
+      <version>14.07.2019</version>
+</dependency>
+
+<dependency>
+      <groupId>ru.bcs</groupId>
+      <artifactId>at-library-web</artifactId>
+      <version>14.07.2019</version>
+</dependency>
+
+<dependency>
+      <groupId>ru.bcs</groupId>
+      <artifactId>at-library-mobile</artifactId>
+      <version>14.07.2019</version>
 </dependency>
 ```
 
@@ -252,16 +287,13 @@ ru.bcs.at.library.core.setup.InitialSetupSteps
     <artifactId>maven-surefire-plugin</artifactId>
     <version>2.22.1</version>
     <configuration>
-        <forkCount>5</forkCount>
-        <reuseForks>true</reuseForks>
-        <includes>
-            <include>**/Parallel*IT.class</include>
-        </includes>
+        <threadCount>1</threadCount>
+        <parallel>classes</parallel>
         <testFailureIgnore>true</testFailureIgnore>
         <argLine>
             -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/1.9.1/aspectjweaver-1.9.1.jar"
             -Dcucumber.options="
-            --plugin io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm"
+            --plugin io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm --plugin com.epam.reportportal.cucumber.ScenarioReporter"
         </argLine>
     </configuration>
     <dependencies>
@@ -280,9 +312,8 @@ ru.bcs.at.library.core.setup.InitialSetupSteps
     <artifactId>allure-maven</artifactId>
     <version>2.10.0</version>
     <configuration>
-        <reportVersion>2.9.0</reportVersion>
+        <reportVersion>2.10.0</reportVersion>
         <resultsDirectory>allure-results</resultsDirectory>
     </configuration>
 </plugin>
-
 ```
