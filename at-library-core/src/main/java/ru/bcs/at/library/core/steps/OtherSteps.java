@@ -7,6 +7,8 @@ import org.hamcrest.Matchers;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -149,6 +151,60 @@ public class OtherSteps {
         coreScenario.write(message + " = " + result);
         CoreScenario.getInstance().write(message + " = " + result);
         return true;
+    }
+
+    /**
+     * <p style="color: green; font-size: 1.5em">
+     * Устанавливается значение текущей даты в хранилище переменных.
+     *
+     * @param variableName имя переменной
+     * @param dateFormat   формат даты
+     *                     </p>
+     */
+    @И("^установлено значение переменной \"([^\"]*)\" с текущей датой в формате \"([^\"]*)\"$")
+    public void setCurrentDate(String variableName, String dateFormat) {
+        long date = System.currentTimeMillis();
+        setDate(date, variableName, dateFormat);
+    }
+
+    /**
+     * <p style="color: green; font-size: 1.5em">
+     * Устанавливается значение текущей даты в хранилище переменных.
+     *
+     * @param variableName имя переменной
+     * @param dateFormat   формат даты
+     *                     </p>
+     */
+    @И("^установлено значение переменной \"([^\"]*)\" с текущей датой минус (\\d+) (?:час|часов) в формате \"([^\"]*)\"$")
+    public void setMinusDate(String variableName, int hour, String dateFormat) {
+        long time = new Date(System.currentTimeMillis() - hour * 1000).getTime();
+        setDate(time, variableName, dateFormat);
+    }
+
+    /**
+     * <p style="color: green; font-size: 1.5em">
+     * Устанавливается значение текущей даты + часы в хранилище переменных.
+     *
+     * @param variableName имя переменной
+     * @param dateFormat   формат даты
+     *                     </p>
+     */
+    @И("^установлено значение переменной \"([^\"]*)\" с текущей датой плюс (\\d+) (?:час|часов) в формате \"([^\"]*)\"$")
+    public void setPlusDate(String variableName, int hour, String dateFormat) {
+        long time = new Date(System.currentTimeMillis() + hour * 1000).getTime();
+        setDate(time, variableName, dateFormat);
+    }
+
+    private void setDate(long date, String variableName, String dateFormat) {
+        String currentStringDate;
+        try {
+            currentStringDate = new SimpleDateFormat(dateFormat).format(date);
+        } catch (IllegalArgumentException ex) {
+            currentStringDate = new SimpleDateFormat("dd.MM.yyyy").format(date);
+            coreScenario.write("Неверный формат даты. Будет использоваться значание по умолчанию в формате dd.MM.yyyy");
+        }
+
+        coreScenario.setVar(variableName, currentStringDate);
     }
 
     /**
