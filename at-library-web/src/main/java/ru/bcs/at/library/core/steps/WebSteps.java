@@ -83,7 +83,7 @@ public class WebSteps {
      * @param elementName название кнопки|поля|блока
      *                    </p>
      */
-    @И("^выполнено нажатие на (?:кнопку|поле|блок) \"([^\"]*)\"$")
+    @И("^выполнено нажатие на (?:кнопку|поле|блок|ссылка|чекбокс) \"([^\"]*)\"$")
     public void clickOnElement(String elementName) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
         element.click();
@@ -97,7 +97,7 @@ public class WebSteps {
      * @param elementName название кнопки|поля|блока
      *                    </p>
      */
-    @И("^выполнено умное нажатие на (?:кнопку|поле|блок) \"([^\"]*)\"$")
+    @И("^выполнено умное нажатие на (?:кнопку|поле|блок|ссылка|чекбокс) \"([^\"]*)\"$")
     public void clickElementOrParent(String elementName) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
         if (element.isDisplayed()) {
@@ -703,7 +703,7 @@ public class WebSteps {
      * Проверка, что радиокнопка выбрана
      * </p>
      */
-    @Тогда("^радиокнопка \"([^\"]*)\" выбрана$")
+    @Тогда("^(?:радиокнопка|чекбокс) \"([^\"]*)\" (?:выбрана$|выбран)")
     public void radioButtonIsSelected(String elementName) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
         element.shouldHave(selected);
@@ -714,7 +714,7 @@ public class WebSteps {
      * Проверка, что радиокнопка не выбрана
      * </p>
      */
-    @Тогда("^радиокнопка \"([^\"]*)\" не выбрана$")
+    @Тогда("^(?:радиокнопка|чекбокс) \"([^\"]*)\" не (?:выбрана$|выбран)")
     public void radioButtonIsNotSelected(String elementName) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
         element.shouldHave(not(selected));
@@ -1236,6 +1236,20 @@ public class WebSteps {
      */
     @И("^в блоке \"([^\"]*)\" найден список элементов\"([^\"]*)\" и сохранен в переменную \"([^\"]*)\"$")
     public void getElementsList(String blockName, String listName, String varName) {
+        coreScenario.setVar(varName, coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName));
+    }
+
+
+    /**
+     * <p style="color: green; font-size: 1.5em">
+     * </p>
+     *
+     * @param blockName имя блока
+     * @param listName
+     * @param varName
+     */
+    @И("^в блоке \"([^\"]*)\" найден список элементов\"([^\"]*)\" и сохранен в переменную \"([^\"]*)\"$")
+    public void clickCheckbox(String blockName, String listName, String varName) {
         coreScenario.setVar(varName, coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName));
     }
 

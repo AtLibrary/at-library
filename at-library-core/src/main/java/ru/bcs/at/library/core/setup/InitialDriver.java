@@ -55,8 +55,9 @@ public class InitialDriver {
         /**
          * Устанавливает разрешения экрана
          */
-        WebDriverRunner.getWebDriver().manage().window().setSize(new Dimension(1920, 1080));
-
+        if (testDevice.equals("web")) {
+            WebDriverRunner.getWebDriver().manage().window().setSize(new Dimension(1920, 1080));
+        }
     }
 
     private void initLocalStart(Proxy proxy) {
@@ -129,11 +130,10 @@ public class InitialDriver {
         }
 
         if (testDevice.equals("mobile")) {
-            AtCoreConfig atCoreConfig = AtCoreConfig.getInstance();
-            capabilities.setCapability(PLATFORM_NAME, atCoreConfig.platformName);
-            capabilities.setCapability("deviceName", atCoreConfig.deviceName);
-            capabilities.setCapability("platformVersion", atCoreConfig.platformVersion);
-            capabilities.setCapability("app", atCoreConfig.app);
+            capabilities.setCapability(PLATFORM_NAME, AtCoreConfig.platformName);
+            capabilities.setCapability("deviceName", AtCoreConfig.deviceName);
+            capabilities.setCapability("platformVersion", AtCoreConfig.platformVersion);
+            capabilities.setCapability("app", AtCoreConfig.app);
         }
 
         if (proxy != null) {
