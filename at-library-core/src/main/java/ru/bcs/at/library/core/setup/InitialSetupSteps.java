@@ -63,7 +63,9 @@ public class InitialSetupSteps {
         for (String log : webDriverLogs) {
             stringBuilder.append(log);
             stringBuilder.append("\n\n");
+            CoreScenario.getInstance().write(log);
         }
+
         return stringBuilder.toString();
     }
 

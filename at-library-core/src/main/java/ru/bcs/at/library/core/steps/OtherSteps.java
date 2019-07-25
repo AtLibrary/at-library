@@ -177,7 +177,7 @@ public class OtherSteps {
      */
     @И("^установлено значение переменной \"([^\"]*)\" с текущей датой минус (\\d+) (?:час|часов) в формате \"([^\"]*)\"$")
     public void setMinusDate(String variableName, int hour, String dateFormat) {
-        long time = new Date(System.currentTimeMillis() - hour * 1000).getTime();
+        long time = new Date(System.currentTimeMillis() - hour * 1000 * 3600).getTime();
         setDate(time, variableName, dateFormat);
     }
 
@@ -191,7 +191,7 @@ public class OtherSteps {
      */
     @И("^установлено значение переменной \"([^\"]*)\" с текущей датой плюс (\\d+) (?:час|часов) в формате \"([^\"]*)\"$")
     public void setPlusDate(String variableName, int hour, String dateFormat) {
-        long time = new Date(System.currentTimeMillis() + hour * 1000).getTime();
+        long time = new Date(System.currentTimeMillis() + hour * 1000 * 3600).getTime();
         setDate(time, variableName, dateFormat);
     }
 
