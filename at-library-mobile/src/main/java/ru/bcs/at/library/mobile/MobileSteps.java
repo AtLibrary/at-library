@@ -13,45 +13,28 @@
  */
 package ru.bcs.at.library.mobile;
 
-import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.SelenideElement;
-import com.codeborne.selenide.ex.ElementShould;
 import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.Когда;
-import cucumber.api.java.ru.Пусть;
 import cucumber.api.java.ru.Тогда;
 import io.cucumber.datatable.DataTable;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Assert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 
-import java.awt.*;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.ClipboardOwner;
-import java.awt.datatransfer.StringSelection;
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.codeborne.selenide.Condition.not;
-import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.WebDriverRunner.isIE;
-import static com.codeborne.selenide.WebDriverRunner.url;
-import static java.lang.String.format;
-import static java.util.stream.Collectors.toList;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.equalToIgnoringCase;
+import static org.junit.Assert.assertEquals;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.*;
-import static ru.bcs.at.library.core.steps.OtherSteps.*;
+import static ru.bcs.at.library.core.steps.OtherSteps.getPropertyOrStringVariableOrValue;
+import static ru.bcs.at.library.core.steps.OtherSteps.getRandCharSequence;
 
 
 /**
@@ -192,12 +175,20 @@ public class MobileSteps {
     @Тогда("^значение (?:поля|элемента) \"([^\"]*)\" равно \"(.*)\"$")
     public void compareValInFieldAndFromStep(String elementName, String expectedValue) {
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
-        WebElement element = coreScenario.getCurrentPage().getElement(elementName).getWrappedElement();
-
-        String elementText = element.getText();
-        Assert.assertEquals(expectedValue, elementText);
+        checkInTime(elementName, expectedValue);
     }
 
+    private void checkInTime(String elementName, String expectedValue) {
+        String elementText = "";
+        for (int i = 0; i < DEFAULT_TIMEOUT; ) {
+            elementText = coreScenario.getCurrentPage().getElement(elementName).getWrappedElement().getText();
+            if (elementText.equals(expectedValue)) {
+                break;
+            }
+            i = i + 100;
+        }
+        Assert.assertEquals(expectedValue, elementText);
+    }
 
     /**
      * <p style="color: green; font-size: 1.5em">
@@ -288,7 +279,6 @@ public class MobileSteps {
 
         throw new cucumber.api.PendingException("шаг не реализован");
     }
-    
 
 
     /**
@@ -380,7 +370,7 @@ public class MobileSteps {
             currentStringDate = new SimpleDateFormat("dd.MM.yyyy").format(date);
             coreScenario.write("Неверный формат даты. Будет использоваться значание по умолчанию в формате dd.MM.yyyy");
         }
-     
+
         WebElement element = coreScenario.getCurrentPage().getElement(elementName).getWrappedElement();
 
         element.sendKeys(currentStringDate);
@@ -476,7 +466,7 @@ public class MobileSteps {
         assertEquals(String.format("Неверное количество символов. Ожидаемый результат: %s, текущий результат: %s", num, length), num, length);
     }
 
-   
+
     /**
      * <p style="color: green; font-size: 1.5em">
      * Скроллит страницу вниз до появления элемента каждую секунду.

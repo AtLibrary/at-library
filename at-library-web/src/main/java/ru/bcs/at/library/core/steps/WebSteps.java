@@ -1239,20 +1239,6 @@ public class WebSteps {
         coreScenario.setVar(varName, coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName));
     }
 
-
-    /**
-     * <p style="color: green; font-size: 1.5em">
-     * </p>
-     *
-     * @param blockName имя блока
-     * @param listName
-     * @param varName
-     */
-    @И("^в блоке \"([^\"]*)\" найден список элементов\"([^\"]*)\" и сохранен в переменную \"([^\"]*)\"$")
-    public void clickCheckbox(String blockName, String listName, String varName) {
-        coreScenario.setVar(varName, coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName));
-    }
-
     /**
      * <p style="color: green; font-size: 1.5em">
      * </p>
