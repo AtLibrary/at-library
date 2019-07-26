@@ -703,7 +703,7 @@ public class WebSteps {
      * Проверка, что радиокнопка выбрана
      * </p>
      */
-    @Тогда("^(?:радиокнопка|чекбокс) \"([^\"]*)\" (?:выбрана$|выбран)")
+    @Тогда("^радиокнопка \"([^\"]*)\" выбрана$")
     public void radioButtonIsSelected(String elementName) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
         element.shouldHave(selected);
@@ -714,10 +714,32 @@ public class WebSteps {
      * Проверка, что радиокнопка не выбрана
      * </p>
      */
-    @Тогда("^(?:радиокнопка|чекбокс) \"([^\"]*)\" не (?:выбрана$|выбран)")
+    @Тогда("^радиокнопка \"([^\"]*)\" не выбрана")
     public void radioButtonIsNotSelected(String elementName) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
         element.shouldHave(not(selected));
+    }
+
+    /**
+     * <p style="color: green; font-size: 1.5em">
+     * Проверка, что радиокнопка выбрана
+     * </p>
+     */
+    @Тогда("^чекбокс \"([^\"]*)\" выбран$")
+    public void checkBoxIsChecked(String elementName) {
+        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
+        element.shouldHave(checked);
+    }
+
+    /**
+     * <p style="color: green; font-size: 1.5em">
+     * Проверка, что радиокнопка не выбрана
+     * </p>
+     */
+    @Тогда("^чекбокс \"([^\"]*)\" не выбран$")
+    public void checkBoxIsNotChecked(String elementName) {
+        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
+        element.shouldHave(not(checked));
     }
 
     /**
