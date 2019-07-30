@@ -1,4 +1,4 @@
-package ru.bcs.at.library.core.log;
+package ru.bcs.at.library.core.core.log;
 
 import com.google.gson.*;
 import lombok.extern.log4j.Log4j2;

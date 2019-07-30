@@ -5,9 +5,9 @@ import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
 import io.restassured.filter.Filter;
 import lombok.extern.log4j.Log4j2;
-import ru.bcs.at.library.core.log.Log4jRestAssuredFilter;
-import ru.bcs.at.library.core.reportportal.ReportPortalRestAssuredFilter;
-import ru.bcs.at.library.core.reportportal.SelenideRPListener;
+import ru.bcs.at.library.core.core.log.Log4jRestAssuredFilter;
+import ru.bcs.at.library.core.core.reportportal.ReportPortalRestAssuredFilter;
+import ru.bcs.at.library.core.core.reportportal.SelenideRPListener;
 
 import java.util.ArrayList;
 import java.util.List;

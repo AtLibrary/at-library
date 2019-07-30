@@ -19,9 +19,8 @@ import java.util.List;
 
 public class RequestSteps {
 
-    public static int requestRetries = Integer.valueOf(System.getProperty("request.retries", "1"));
-
     private static final String REQUEST_URL = "^выполнен (GET|PUT|POST|DELETE|HEAD|TRACE|OPTIONS|PATCH) запрос на URL \"([^\"]*)\"";
+    public static int requestRetries = Integer.valueOf(System.getProperty("request.retries", "1"));
     private CoreScenario coreScenario = CoreScenario.getInstance();
 
     /**

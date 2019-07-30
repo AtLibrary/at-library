@@ -1,4 +1,4 @@
-package ru.bcs.at.library.core.reportportal;
+package ru.bcs.at.library.core.core.reportportal;
 
 
 import io.qameta.allure.attachment.AttachmentData;
@@ -15,7 +15,7 @@ import io.restassured.specification.FilterableRequestSpecification;
 import io.restassured.specification.FilterableResponseSpecification;
 import lombok.extern.log4j.Log4j2;
 import ru.bcs.at.library.core.core.helpers.LogReportListener;
-import ru.bcs.at.library.core.log.DocumentFormatter;
+import ru.bcs.at.library.core.core.log.DocumentFormatter;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -9,12 +9,37 @@ Quick start
 
 https://jira.bcs.ru:4464/confluence/display/QA/Quick+start
 
-Если нет доступа, то завести СЗ на доступ к space: Quality Assurance
+Если нет доступа, то необходимо завести СЗ на доступ к space: Quality Assurance
 
-Настройка проекта
+BDD библиотека
+=======================
+BDD библиотека шагов для тестирования на основе:
+
+- cucumber
+- selenide
+- rest-assured
+- webdrivermanager
+- appium
+- allure
+
+Тесты пишутся на русском языке и представляют собой пользовательские сценарии, которые являются пользовательской документации на приложение.
+
+Архитектура проекта
+====================
+Проект разбит на 4 модуля:
+
+- at-library-api - шаги для написания API тестов
+- at-library-core - общий набор шагов (подключается по умлючанию при подключении любого модуля с шагами)
+- at-library-mobile - шаги для написания MOBILE тестов
+- at-library-web - шаги для написания WEB тестов
+
+В каждом модуле создан файл README.md описывающий подключение и работу с этим модулем.
+В корневом README.md описано подключение необходимых репозитория\плагинов в pom.xml
+
+
+Подключение репозиториев:
 ====================
 
-Подключение репозитория:
 ```xml
     <distributionManagement>
         <snapshotRepository>
@@ -51,218 +76,6 @@ https://jira.bcs.ru:4464/confluence/display/QA/Quick+start
         </repository>
     </repositories>
 ```
-Подключите одну из зависимостей(Зависит от проекта)
-```xml
-<dependency>
-      <groupId>ru.bcs</groupId>
-      <artifactId>at-library-api</artifactId>
-      <version>14.07.2019</version>
-</dependency>
-
-<dependency>
-      <groupId>ru.bcs</groupId>
-      <artifactId>at-library-web</artifactId>
-      <version>14.07.2019</version>
-</dependency>
-
-<dependency>
-      <groupId>ru.bcs</groupId>
-      <artifactId>at-library-mobile</artifactId>
-      <version>14.07.2019</version>
-</dependency>
-```
-
-BDD библиотека
-=======================
-BDD библиотека шагов для тестирования на основе cucumber и selenide.
-Тесты пишутся на русском языке и представляют собой пользовательские сценарии, которые могут выступать в качестве пользовательской документации на приложение.
-
-Для написания тестового сценария достаточно подключить библиотеку и воспользоваться любым готовым шагом из ru.bcs.at.library.core.steps
-
-Например:
-```gherkin
-Функционал: Страница депозитов
-  Сценарий: Открытие депозита
-    Допустим совершен переход на страницу "Депозиты" по ссылке "depositsUrl"
-    Когда выполнено нажатие на кнопку "Открыть депозит"
-    Тогда страница "Открытие депозита" загрузилась
-```
-
-
-application.properties
-=======================
-Для указания дополнительных параметров или тестовых данных создайте в своем проекте файл application.properties
-в main/java/resources
-
-Работа со страницами
-====================
-Для работы с элементами страницы ее необходимо задать как текущую.
-Таким образом можно получить доступ к методам взаимодействия с элементами, описанным в CorePage.
-
-Новую текущую страницу можно установить шагом
-```Когда страница "<Имя страницы>" загрузилась```
-
-Для страницы депозитов шаг может выглядеть так
-```Когда страница "Депозиты" загрузилась```
-
-Каждая страница, с которой предполагается взаимодействие, должна быть описана в классе наследующемся от CorePage.
-Для страницы и ее элементов следует задать имя на русском, через аннотацию Name, чтобы искать можно было именно по русскому описанию.
-Элементы страницы ищутся по локаторам, указанным в аннотации FindBy и должны иметь тип SelenideElement или List<SelenideElement>.
-
-Пример описания страницы:
-```java
-    @Name("Депозиты")
-    public class DepositsPage extends CorePage {
-
-        @FindBy(css = ".deposit_open")
-        @Name("Открыть депозит")
-        private SelenideElement depositOpenButton;
-
-        @FindBy(css = ".deposit_close")
-        @Name("Закрыть депозит")
-        private SelenideElement depositCloseButton;
-
-        @FindBy(css = ".deposit_list")
-        @Name("Список депозитов")
-        private List<SelenideElement> depositList;
-    }
-```
-
-Инициализация страницы
-Страница инициализируется каждый раз, когда вызываются методы initialize(<Имя класса страницы>.class)
-
-Пример инициализации страницы "Депозиты":
-```java
-DepositsPage page = (DepositsPage) getCurrentPage();
-CoreScenario.setCurrentPage(page.initialize().appeared());
-```
-
-Пример получения конкретной страницы:
-```java
-DepositsPage page = CoreScenario.getPage(DepositsPage.class);
-```
-
-Другой способ работы с методами страницы - это использование CoreScenario.withPage
-Пример использования: 
-```java
-withPage(TestPage.class, page -> { some actions with TestPage methods});
-```
-
-Для страницы инициализируется карта ее элементов - это те поля, что помечены аннотацией Name.
-Кроме того, осуществляется проверка, что загружена требуемая страница.
-Страница считается загруженной корректно, если за отведенное по умолчанию время были загружены основные ее элементы.
-Основными элементами являются поля класса страницы с аннотацией Name, но без аннотации Optional.
-Аннотация Optional указывает на то, что элемент является не обязательным для принятия решения о загрузке страницы.
-Например, если на странице есть список, который раскрывается после нажатия не него, т.е. видим не сразу после загрузки страницы,
-его можно пометить как Optional.
-Реализована возможность управления временем ожидания появления элемента на странице.
-Чтобы установить timeout, отличный от базового, нужно добавить в application.properties строку
-waitingAppearTimeout=150000
-
-Доступ к элементам страницы
-============================
-Данные строки позволяют по имени элемента найти его в карте элементов текущей страницы.
-
-```java
-CoreScenario.getCurrentPage().getElement("Открыть депозит")
-CoreScenario.getCurrentPage().getElementsList("Список депозитов")
- ```
-Блоки на странице
-============================
-Реализована возможность описывать блоки на странице (Page Element)
-Например:
-```java
-@FindBy(className = "header")
-@Name("Шапка страницы")
-public HeaderBlock header;
-```
-При загрузке страницы будут учитываться элементы, описанные в блоке
-
-Работа с REST запросами
-=======================
-
-В библиотеке реализована возможность отправки REST запросов и сохранения ответа в переменную.
-
-Поддерживаются следующие типы запросов: GET, POST, PUT, DELETE.
-   ```gherkin
-    Когда выполнен POST запрос на URL "url.token" с headers и parameters из таблицы. Полученный ответ сохранен в переменную "token_response"
-      | HEADER         | Content-Type | application/x-www-form-urlencoded |
-      | FORM_PARAMETER | username     | ОСКО.login                        |
-      | FORM_PARAMETER | password     | ОСКО.password                     |
-      | FORM_PARAMETER | grant_type   | password                          |
-      | FORM_PARAMETER | client_id    | ef-front                          |
-  ```
-В таблице переменных поддерживаются типы: header, parameter, body
-Для body-параметра сейчас поддерживается как работа с телом запроса, хранящимся в папке restBodies, так и с указанием текста body в самом шаге в соответствующей ячейке
-Значения параметров таблицы и частей url можно указывать в application.properties
-
-Отображение в отчете справочной информации
-============================================
-
-Для того, чтобы в отчете появился блок Output с информацией, полезной для анализа отчета, можно воспользоваться следующим методом
- ```java
-CoreScenario.write("Текущий URL = " + currentUrl + " \nОжидаемый URL = " + expectedUrl);
- ```
-
-Проверка логического выражения
-===============================
-У нас есть шаг, который например может выглядеть так:
- ```java
-Тогда верно что "amountToPay == amountMonthly + penalty + 100"
- ```
-Важно отметить, что равенство проверяется использованием операнда "==", неравенство, как "!="
-
-Использование переменных
-=========================
-Иногда есть необходимость использовать значения из одного шага в последующих.
-Для этого реализовано хранилище переменных в CoreScenario.
-Для сохранения/изъятия переменных используются методы setVar/getVar.
-
-Сохранение переменной в хранилище:
-```
-CoreScenario.setVar(<имя переменной>, <значение переменной>);
-```
-
-Получение значения переменной из хранилища:
-```
-CoreScenario.getVar(<имя переменной>)
-```
-
-
-Краткое описание главных классов
-=================================
-
-```java
-ru.bcs.at.library.core.cucumber.api.CoreEnvironment
-```
-Используется для хранения страниц и переменных внутри сценария
-scenario - Сценарий из Cucumber.api, с которым связана среда
-
-```java
-ru.bcs.at.library.core.cucumber.api.CorePage
-```
-Класс для реализации паттерна PageObject. Тут описаны основные методы взаимодействия с элементами страницы
-
-```java
-ru.bcs.at.library.core.cucumber.api.CoreScenario
-```
-Позволяет заполнить хранилище переменных, существующее в рамках одного сценария, значениями и читать эти значения при необходимости.
-
-```java
-ru.bcs.at.library.core.steps.ApiSteps
-```
-Шаги для тестирования API, доступные по умолчанию в каждом новом проекте
-
-```java
-WebSteps
-```
-Шаги для тестирования UI, доступные по умолчанию в каждом новом проекте
-
-```java
-ru.bcs.at.library.core.setup.InitialSetupSteps
-```
-Хуки предустановок, где происходит создание, закрытие браузера, получение скриншотов
-
 
 Подключение плагинов:
 ====================
@@ -281,6 +94,8 @@ ru.bcs.at.library.core.setup.InitialSetupSteps
 </plugin>
 ```
 Запускает тесты и генерирует отчёты по результатам их выполнения:
+
+В threadCount указыается количество потоков
 ```xml
 <plugin>
     <groupId>org.apache.maven.plugins</groupId>
@@ -317,3 +132,82 @@ ru.bcs.at.library.core.setup.InitialSetupSteps
     </configuration>
 </plugin>
 ```
+
+
+После подключения всех полагинов и зависимостей вы можете соберить проект командами:
+=========================
+Запуск локально на ubuntu
+```mvn
+clean test -Dselenide.browser=chrome  -Djava.net.useSystemProxies=true allure:serve
+```
+
+Запуск локально на windows
+```mvn
+clean test -Dselenide.browser="internet explorer" -Dwebdriver.ie.driver="C:\\Program Files\\Selenium\\Drivers\\IEDriver\\IEDriverServer.exe" allure:serve
+```
+Имена ключей для прописавание path к разным браузерам:
+```
+"webdriver.chrome.driver"
+"webdriver.edge.driver"
+"webdriver.ie.driver"
+"webdriver.opera.driver"
+"phantomjs.binary.path"
+"webdriver.gecko.driver"
+``` 
+
+Запуск удаленно на Selenoid
+```mvn
+clean test -Dselenide.browser="chrome" -Dremote=http://test:test-password@selenoid.t-global.bcs:4444/wd/hub/ -Dproxy=http://172.18.62.68:8080 allure:serve
+clean test -Dselenide.browser="internet explorer" -Dremote=http://test:test-password@selenoid.t-global.bcs:4444/wd/hub/ -Dproxy=http://172.18.62.68:8080 allure:serve
+```
+Запуск тестов с тегами (И)
+```mvn
+clean test allure:serve -Dcucumber.options="--tags @api --tags @web --plugin io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm"
+```
+Запуск тестов с тегами (ИЛИ)
+```mvn
+clean test allure:serve -Dcucumber.options="--tags @api,@web --plugin io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm"
+```
+
+Просмотр в Selenoid:
+=========================
+```url
+http://selenoid.t-global.bcs/#/
+```
+
+Просмотр отчета в ReportPortal:
+=========================
+```url
+https://reportportal.t-global.bcs/
+```
+
+Объяснение:
+=========================
+
+```mvn
+clean - очистка проекта
+```
+
+```mvn
+test - запуск тестов
+```
+
+```mvn
+allure:serve - запуск allure отчетов
+```
+
+```mvn
+-Dbrowser=chrome - использовать браузер chrome для прогона тестов
+```
+
+```mvn
+-Djava.net.useSystemProxies=true - установив для этого свойства значение true, использовать настройки прокси-сервера системы
+```
+```mvn
+-Dremote=http://selenoid.t-global.bcs:4444/wd/hub/ -Dproxy=http://172.18.62.68:8080 - для запуска тестов на selenoid
+```
+Чтобы установить базовый url(для api и ui тестов) его можно указать в application.properties по ключу baseURI=https://ef.tusvc.bcs.ru
+или передать параметром (если передан параметр и присутсивует в application.properties то будет использован тот что передан параметром)
+
+```mvn
+-DbaseURI=https://url.you.need

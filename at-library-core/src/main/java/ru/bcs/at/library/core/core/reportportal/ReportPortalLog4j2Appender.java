@@ -18,7 +18,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Report Portal.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ru.bcs.at.library.core.reportportal;
+package ru.bcs.at.library.core.core.reportportal;
 
 import com.epam.reportportal.cucumber.Utils;
 import cucumber.api.Scenario;

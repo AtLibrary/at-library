@@ -1,4 +1,4 @@
-package ru.bcs.at.library.core.reportportal;
+package ru.bcs.at.library.core.core.reportportal;
 
 import com.codeborne.selenide.WebDriverRunner;
 import com.codeborne.selenide.logevents.LogEvent;

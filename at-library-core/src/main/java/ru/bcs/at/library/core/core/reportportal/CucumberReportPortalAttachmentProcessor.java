@@ -1,4 +1,4 @@
-package ru.bcs.at.library.core.reportportal;
+package ru.bcs.at.library.core.core.reportportal;
 
 import com.epam.reportportal.cucumber.Utils;
 import io.qameta.allure.attachment.AttachmentContent;
@@ -9,7 +9,7 @@ import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 
 import java.nio.charset.StandardCharsets;
 
-import static ru.bcs.at.library.core.reportportal.ReportPortalRestAssuredFilter.ATTACHMENT_LOG_LEVEL;
+import static ru.bcs.at.library.core.core.reportportal.ReportPortalRestAssuredFilter.ATTACHMENT_LOG_LEVEL;
 
 
 public class CucumberReportPortalAttachmentProcessor implements AttachmentProcessor<AttachmentData> {

@@ -1,4 +1,4 @@
-package ru.bcs.at.library.core.log;
+package ru.bcs.at.library.core.core.log;
 
 import io.restassured.filter.FilterContext;
 import io.restassured.filter.OrderedFilter;

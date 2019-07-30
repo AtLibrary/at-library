@@ -1,4 +1,4 @@
-at-library-mobile
+at-library-web
 =========================
 
 Настройка проекта
@@ -7,7 +7,7 @@ at-library-mobile
 ```xml
 <dependency>
       <groupId>ru.bcs</groupId>
-      <artifactId>at-library-mobile</artifactId>
+      <artifactId>at-library-web</artifactId>
       <version>18.07.2019</version>
 </dependency>
 ```
@@ -17,20 +17,19 @@ at-library-mobile
 
 ```gherkin
 # language: ru
-@mobile
-Функционал: Тестирование мобильного приложения
+@web
+Функция: Создание демо аккаунта
 
-  Сценарий: Проверка общей суммы всех покупок
-    Когда страница "Домашняя" загрузилась
-    И выполнено нажатие на кнопку "iphone"
-    И выполнено нажатие на кнопку "mouse"
-    И выполнено нажатие на кнопку "ps4"
-    И выполнено нажатие на кнопку "photo"
-    И выполнено нажатие на кнопку "keyboard"
-    Тогда значение поля "money" равно "117300"
+  Сценарий: Проверка валидации поля Email
+    Когда совершен переход на страницу "BCS demo аккаунт" по ссылке "https://broker.ru/demo"
+    И в поле "ФИО" введено значение "Павлов Антон Павлович"
+    И в поле "Номер телефона" введено значение "9036704271"
+    И в поле "Email" введено значение "555.mail.ru"
+    И выполнено нажатие на кнопку "Открыть счет"
+    Тогда форма "Окно ввода SMS-кода" скрыта
 ```
 
-Работа со страницами
+Работа с страницами
 ====================
 Для работы с элементами страницы ее необходимо задать как текущую.
 Таким образом можно получить доступ к методам взаимодействия с элементами, описанным в CorePage.
@@ -38,8 +37,8 @@ at-library-mobile
 Новую текущую страницу можно установить шагом
 ```Когда страница "<Имя страницы>" загрузилась```
 
-Для страницы депозитов шаг может выглядеть так
-```Когда страница "Домашняя" загрузилась```
+Для страницы BCS demo аккаунт шаг может выглядеть так
+```Когда страница "BCS demo аккаунт" загрузилась```
 
 Каждая страница, с которой предполагается взаимодействие, должна быть описана в классе наследующемся от CorePage.
 Для страницы и ее элементов следует задать имя на русском, через аннотацию Name, чтобы искать можно было именно по русскому описанию.
@@ -47,72 +46,55 @@ at-library-mobile
 
 Пример описания страницы:
 ```java
-  @Name("Домашняя")
-  public class HomePage extends CorePage {
-  
-      @Name("iphone")
-      @FindBy(xpath = "//XCUIElementTypeButton[@name=\"iphone\"]")
-      private SelenideElement iphone;
-  
-      @Name("mouse")
-      @FindBy(xpath = "//XCUIElementTypeButton[@name=\"mouse\"]")
-      private SelenideElement mouse;
-  
-      @Name("ps4")
-      @FindBy(xpath = "//XCUIElementTypeButton[@name=\"ps4\"]")
-      private SelenideElement ps4;
-  
-      @Name("photo")
-      @FindBy(xpath = "//XCUIElementTypeButton[@name=\"photo\"]")
-      private SelenideElement photo;
-  
-      @Name("keyboard")
-      @FindBy(xpath = "//XCUIElementTypeButton[@name=\"keyboard\"]")
-      private SelenideElement keyboard;
-  
-      @Name("notebook")
-      @FindBy(xpath = "//XCUIElementTypeButton[@name=\"notebook \"]\n")
-      private SelenideElement notebook;
-  
-      @Name("money")
-      @FindBy(xpath = "//XCUIElementTypeStaticText[@name=\"money\"]")
-      private SelenideElement money;
-      
-      @Name("В корзину")
-      @FindBy(xpath = "//XCUIElementTypeButton[@name=\"add_to_cart\"]")
-      private SelenideElement addToCart;
-  
-      @Name("Купить")
-      @FindBy(xpath = "//XCUIElementTypeButton[@name=\"buy_now_button\"]")
-      private SelenideElement buyNowButton;
-  }
+   @Name("BCS demo аккаунт")
+   public class BrokerDemoPage extends CorePage {
+   
+       private static final String demoAccountForm = "[class='become-demo__form form js-demo-quik-form'] ";
+   
+       @Name("ФИО")
+       @FindBy(css = demoAccountForm + "[name=\"name\"]")
+       private SelenideElement inputFIO;
+   
+       @Name("Номер телефона")
+       @FindBy(css = demoAccountForm + "[name=\"phone\"]")
+       private SelenideElement inputPhone;
+   
+       @Name("Email")
+       @FindBy(css = demoAccountForm + "[name=\"email\"]")
+       private SelenideElement inputEmail;
+   
+       @Name("Открыть счет")
+       @FindBy(css = demoAccountForm + "[class='become-demo__form-submit'] button")
+       private SelenideElement buttonOpenScore;
+   }
 ```
 
 Инициализация страницы
 =================================
-Если непобходимо создавать собсвенные шаги по работе с mobile элементами'
+Если непобходимо создавать собсвенные шаги по работе с web элементами'
 
 Пример инициализации страницы "BCS demo аккаунт":
 ```java
-public class HomePageSteps {
+public class BrokerDemoPageSteps {
+    
     private CoreScenario coreScenario = CoreScenario.getInstance();
 
-    @И("выбор всех товаров и проверка обшей суммы: \"([^\"]*)\"")
-    public void loginSystem(String money) {
-        money = getPropertyOrStringVariableOrValue(money);
-        HomePage homePage =
-                (HomePage) coreScenario.getPage("Домашняя");
+    @И("создание пользователя с ФИО: \"([^\"]*)\" телефон: \"([^\"]*)\" email: \"([^\"]*)\"")
+    public void loginSystem(String fio, String password, String email) {
+        fio = getPropertyOrStringVariableOrValue(fio);
+        password = getPropertyOrStringVariableOrValue(password);
+        email = getPropertyOrStringVariableOrValue(email);
 
-        homePage.getElement("iphone").click();
-        homePage.getElement("mouse").click();
-        homePage.getElement("ps4").click();
-        homePage.getElement("photo").click();
-        homePage.getElement("notebook").click();
+        BrokerDemoPage brokerDemoPage =
+                (BrokerDemoPage) coreScenario.getPage("BCS demo аккаунт");
 
-        homePage.getElement("money").shouldHave(Condition.exactText(money));
+        brokerDemoPage.getElement("ФИО").sendKeys(fio);
+        brokerDemoPage.getElement("Номер телефона").sendKeys(password);
+        brokerDemoPage.getElement("Email").sendKeys(email);
+        
+        brokerDemoPage.getElement("Открыть счет").click();
     }
 }
-
 ```
 
 Для страницы инициализируется карта ее элементов - это те поля, что помечены аннотацией Name.
@@ -131,13 +113,11 @@ waitingAppearTimeout=150000
 Данные строки позволяют по имени элемента найти его в карте элементов текущей страницы.
 
 ```java
-        homePage.getElement("iphone").click();
-        homePage.getElement("mouse").click();
-        homePage.getElement("ps4").click();
-        homePage.getElement("photo").click();
-        homePage.getElement("notebook").click();
-      
-        homePage.getElement("money").shouldHave(Condition.exactText(money));
+        brokerDemoPage.getElement("ФИО").sendKeys(fio);
+        brokerDemoPage.getElement("Номер телефона").sendKeys(password);
+        brokerDemoPage.getElement("Email").sendKeys(email);
+        
+        brokerDemoPage.getElement("Открыть счет").click();
  ```
 
 

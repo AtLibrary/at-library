@@ -297,7 +297,6 @@ public class OtherSteps {
         sleep(1000 * seconds);
     }
 
-
     /**
      * <p style="color: green; font-size: 1.5em">
      * Написание автотеста в работе</p>

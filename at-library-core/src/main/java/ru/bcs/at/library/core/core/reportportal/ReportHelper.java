@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package ru.bcs.at.library.core.reportportal;
+package ru.bcs.at.library.core.core.reportportal;
 
 import com.epam.reportportal.cucumber.Utils;
 import cucumber.api.Scenario;
