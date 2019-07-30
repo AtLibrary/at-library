@@ -27,7 +27,6 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.WebDriverRunner.isIE;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalToIgnoringCase;
@@ -178,17 +177,6 @@ public class MobileSteps {
         checkInTime(elementName, expectedValue);
     }
 
-    private void checkInTime(String elementName, String expectedValue) {
-        String elementText = "";
-        for (int i = 0; i < DEFAULT_TIMEOUT; ) {
-            elementText = coreScenario.getCurrentPage().getElement(elementName).getWrappedElement().getText();
-            if (elementText.equals(expectedValue)) {
-                break;
-            }
-            i = i + 100;
-        }
-        Assert.assertEquals(expectedValue, elementText);
-    }
 
     /**
      * <p style="color: green; font-size: 1.5em">
@@ -566,7 +554,9 @@ public class MobileSteps {
      */
     @И("^выполнено нажатие на (?:кнопку|поле) \"([^\"]*)\" в блоке \"([^\"]*)\"$")
     public void clickOnElementInBlock(String elementName, String blockName) {
-        coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName).click();
+        coreScenario.getCurrentPage().getBlock(blockName)
+                .getElement(elementName).getWrappedElement()
+                .click();
     }
 
     /**
@@ -580,7 +570,10 @@ public class MobileSteps {
      */
     @Когда("^значение (?:элемента|поля) \"([^\"]*)\" в блоке \"([^\"]*)\" сохранено в переменную \"([^\"]*)\"$")
     public void saveTextElementInBlock(String elementName, String blockName, String variableName) {
-        String elementText = coreScenario.getCurrentPage().getBlock(blockName).getAnyElementText(elementName);
+        WebElement element = coreScenario.getCurrentPage().getBlock(blockName)
+                .getElement(elementName).getWrappedElement();
+
+        String elementText = element.getText();
         coreScenario.setVar(variableName, elementText);
         coreScenario.write("Значение [" + elementText + "] сохранено в переменную [" + variableName + "]");
     }
@@ -596,9 +589,13 @@ public class MobileSteps {
      */
     @Тогда("^значение (?:поля|элемента) \"([^\"]*)\" в блоке \"([^\"]*)\" совпадает со значением из переменной \"([^\"]*)\"$")
     public void compareFieldAndVariable(String elementName, String blockName, String variableName) {
-        String expectedValue = coreScenario.getVar(variableName).toString();
-        coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName)
-                .shouldHave(exactText(expectedValue));
+//        String expectedValue = coreScenario.getVar(variableName).toString();
+//        WebElement element = coreScenario.getCurrentPage().getBlock(blockName)
+//                .getElement(elementName).getWrappedElement();
+//
+//        coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName)
+//                .shouldHave(exactText(expectedValue));
+        throw new cucumber.api.PendingException("шаг не реализован");
     }
 
 
@@ -632,6 +629,18 @@ public class MobileSteps {
                         .stream()
                         .map(WebElement::getText)
                         .collect(Collectors.toList()));
+    }
+
+    private void checkInTime(String elementName, String expectedValue) {
+        String elementText = "";
+        for (int i = 0; i < DEFAULT_TIMEOUT; ) {
+            elementText = coreScenario.getCurrentPage().getElement(elementName).getWrappedElement().getText();
+            if (elementText.equals(expectedValue)) {
+                break;
+            }
+            i = i + 100;
+        }
+        Assert.assertEquals(expectedValue, elementText);
     }
 
 }
