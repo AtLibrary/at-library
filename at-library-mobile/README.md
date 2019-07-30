@@ -14,7 +14,6 @@ at-library-mobile
 
 Примеры шагов
 =======================
-
 ```gherkin
 # language: ru
 @mobile
@@ -30,9 +29,9 @@ at-library-mobile
     Тогда значение поля "money" равно "117300"
 ```
 
-Работа со страницами
+Работа с страницами
 ====================
-Для работы с элементами страницы ее необходимо задать как текущую.
+При написании сценария для работы с элементами страницы ее необходимо задать как текущую.
 Таким образом можно получить доступ к методам взаимодействия с элементами, описанным в CorePage.
 
 Новую текущую страницу можно установить шагом
@@ -45,51 +44,51 @@ at-library-mobile
 Когда страница "Домашняя" загрузилась
 ```
 
-Каждая страница, с которой предполагается взаимодействие, должна быть описана в классе наследующемся от CorePage.
-Для страницы и ее элементов следует задать имя на русском, через аннотацию Name, чтобы искать можно было именно по русскому описанию.
-Элементы страницы ищутся по локаторам, указанным в аннотации FindBy и должны иметь тип SelenideElement или List<SelenideElement>.
+- Каждая страница, с которой предполагается взаимодействие, должна быть описана в классе наследующемся от CorePage.
+- Для страницы и ее элементов следует задать имя на русском, через аннотацию Name, чтобы искать можно было именно по русскому описанию.
+- Элементы страницы ищутся по локаторам, указанным в аннотации FindBy и должны иметь тип SelenideElement или List<SelenideElement>.
 
 Пример описания страницы:
 ```java
-  @Name("Домашняя")
-  public class HomePage extends CorePage {
-  
-      @Name("iphone")
-      @FindBy(xpath = "//XCUIElementTypeButton[@name=\"iphone\"]")
-      private SelenideElement iphone;
-  
-      @Name("mouse")
-      @FindBy(xpath = "//XCUIElementTypeButton[@name=\"mouse\"]")
-      private SelenideElement mouse;
-  
-      @Name("ps4")
-      @FindBy(xpath = "//XCUIElementTypeButton[@name=\"ps4\"]")
-      private SelenideElement ps4;
-  
-      @Name("photo")
-      @FindBy(xpath = "//XCUIElementTypeButton[@name=\"photo\"]")
-      private SelenideElement photo;
-  
-      @Name("keyboard")
-      @FindBy(xpath = "//XCUIElementTypeButton[@name=\"keyboard\"]")
-      private SelenideElement keyboard;
-  
-      @Name("notebook")
-      @FindBy(xpath = "//XCUIElementTypeButton[@name=\"notebook \"]\n")
-      private SelenideElement notebook;
-  
-      @Name("money")
-      @FindBy(xpath = "//XCUIElementTypeStaticText[@name=\"money\"]")
-      private SelenideElement money;
-      
-      @Name("В корзину")
-      @FindBy(xpath = "//XCUIElementTypeButton[@name=\"add_to_cart\"]")
-      private SelenideElement addToCart;
-  
-      @Name("Купить")
-      @FindBy(xpath = "//XCUIElementTypeButton[@name=\"buy_now_button\"]")
-      private SelenideElement buyNowButton;
-  }
+@Name("Домашняя")
+public class HomePage extends CorePage {
+
+    @Name("iphone")
+    @FindBy(xpath = "//XCUIElementTypeButton[@name=\"iphone\"]")
+    private SelenideElement iphone;
+
+    @Name("mouse")
+    @FindBy(xpath = "//XCUIElementTypeButton[@name=\"mouse\"]")
+    private SelenideElement mouse;
+
+    @Name("ps4")
+    @FindBy(xpath = "//XCUIElementTypeButton[@name=\"ps4\"]")
+    private SelenideElement ps4;
+
+    @Name("photo")
+    @FindBy(xpath = "//XCUIElementTypeButton[@name=\"photo\"]")
+    private SelenideElement photo;
+
+    @Name("keyboard")
+    @FindBy(xpath = "//XCUIElementTypeButton[@name=\"keyboard\"]")
+    private SelenideElement keyboard;
+
+    @Name("notebook")
+    @FindBy(xpath = "//XCUIElementTypeButton[@name=\"notebook \"]\n")
+    private SelenideElement notebook;
+
+    @Name("money")
+    @FindBy(xpath = "//XCUIElementTypeStaticText[@name=\"money\"]")
+    private SelenideElement money;
+    
+    @Name("В корзину")
+    @FindBy(xpath = "//XCUIElementTypeButton[@name=\"add_to_cart\"]")
+    private SelenideElement addToCart;
+
+    @Name("Купить")
+    @FindBy(xpath = "//XCUIElementTypeButton[@name=\"buy_now_button\"]")
+    private SelenideElement buyNowButton;
+}
 ```
 
 Инициализация страницы
@@ -149,6 +148,7 @@ homePage.getElement("money").shouldHave(Condition.exactText(money));
 Блоки на странице
 ============================
 Реализована возможность описывать блоки на странице (Page Element)
+
 Например:
 ```java
 @FindBy(className = "header")
@@ -164,15 +164,15 @@ public HeaderBlock header;
 
 - Запуск удаленно на Selenoid
 ```mvn
-clean test -platformName=iOS -DdeviceName="iPhone 6s" -DplatformVersion=12.2 -Dapp=ru.admitadteam.SimpleScoreSwift -Dremote=http://test:test-password@selenoid.t-global.bcs:4444/wd/hub/ -Dproxy=http://172.18.62.68:8080 allure:serve
+clean test -DplatformName=iOS -DdeviceName="iPhone 6s" -DplatformVersion=12.2 -Dapp=ru.admitadteam.SimpleScoreSwift -Dremote=http://test:test-password@selenoid.t-global.bcs:4444/wd/hub/ -Dproxy=http://172.18.62.68:8080 allure:serve
 ```
-- Запуск тестов с тегами (И)
+- Запуск тестов по тегам (И)
 ```mvn
-clean test -platformName=iOS -DdeviceName="iPhone 6s" -DplatformVersion=12.2 -Dapp=ru.admitadteam.SimpleScoreSwift -Dremote=http://test:test-password@selenoid.t-global.bcs:4444/wd/hub/ -Dproxy=http://172.18.62.68:8080 -Dcucumber.options="--tags @api --tags @web --plugin io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm --plugin com.epam.reportportal.cucumber.ScenarioReporter"
+clean test -DplatformName=iOS -DdeviceName="iPhone 6s" -DplatformVersion=12.2 -Dapp=ru.admitadteam.SimpleScoreSwift -Dremote=http://test:test-password@selenoid.t-global.bcs:4444/wd/hub/ -Dproxy=http://172.18.62.68:8080 -Dcucumber.options="--tags @api --tags @web --plugin io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm --plugin com.epam.reportportal.cucumber.ScenarioReporter"
 ```
-- Запуск тестов с тегами (ИЛИ)
+- Запуск тестов по тегам (ИЛИ)
 ```mvn
-clean test -platformName=iOS -DdeviceName="iPhone 6s" -DplatformVersion=12.2 -Dapp=ru.admitadteam.SimpleScoreSwift -Dremote=http://test:test-password@selenoid.t-global.bcs:4444/wd/hub/ -Dproxy=http://172.18.62.68:8080 -Dcucumber.options="--tags @api,@web --plugin io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm --plugin com.epam.reportportal.cucumber.ScenarioReporter"
+clean test -DplatformName=iOS -DdeviceName="iPhone 6s"  -Dapp=ru.admitadteam.SimpleScoreSwift -Dremote=http://test:test-password@selenoid.t-global.bcs:4444/wd/hub/ -Dproxy=http://172.18.62.68:8080 -Dcucumber.options="--tags @api,@web --plugin io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm --plugin com.epam.reportportal.cucumber.ScenarioReporter"
 ```
 
 Пояснение к командам:
@@ -191,9 +191,21 @@ allure:serve - запуск allure отчетов
 ```
 
 ```mvn
--Dbrowser=chrome - использовать браузер chrome для прогона тестов
+-DplatformName=iOS - передается платформа на которой будут запущены тесты
 ```
 
 ```mvn
--Dremote=http://selenoid.t-global.bcs:4444/wd/hub/ -Dproxy=http://172.18.62.68:8080 - для запуска тестов на selenoid
+-DdeviceName="iPhone 6s" - передается имя девайса на котором будут запущены тесты
+```
+
+```mvn
+-DplatformVersion=12.2 - передается версия платформы на которой будут запущены тесты
+```
+
+```mvn
+-Dapp=ru.admitadteam.SimpleScoreSwift - передается название проекта который будет запущен для прогона тестов
+```
+
+```mvn
+-Dremote=http://test:test-password@selenoid.t-global.bcs:4444/wd/hub/ -Dproxy=http://172.18.62.68:8080 - для запуска тестов на selenoid
 ```

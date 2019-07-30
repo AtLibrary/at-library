@@ -3,13 +3,12 @@ at-library
 
 Quick start
 =========================
-Подробное описание как писать Автотесты. От установки java до создания отчета с результатом прогона АТ
-
-Ссылка на confluence:
+Подробное описание как писать Автотесты. От установки java до создания отчета с результатом прогона АТ выложено на confluence:
 
 https://jira.bcs.ru:4464/confluence/display/QA/Quick+start
 
-Если нет доступа, то необходимо завести СЗ на доступ к space: Quality Assurance
+Если нет доступа, то необходимо завести СЗ на доступ к space: 
+- Quality Assurance
 
 BDD библиотека
 =======================
@@ -22,60 +21,60 @@ BDD библиотека шагов для тестирования на осн�
 - appium
 - allure
 
-Тесты пишутся на русском языке и представляют собой пользовательские сценарии, которые являются пользовательской документации на приложение.
+Тест кейсы пишутся на русском языке и представляют собой пользовательские сценарии.
 
 Архитектура проекта
 ====================
 Проект разбит на 4 модуля:
 
 - at-library-api - шаги для написания API тестов
-- at-library-core - общий набор шагов (подключается по умлючанию при подключении любого модуля с шагами)
+- at-library-core - общий набор шагов и классов утилит(подключается по умолчанию при подключении любого модуля с шагами)
 - at-library-mobile - шаги для написания MOBILE тестов
 - at-library-web - шаги для написания WEB тестов
 
 В каждом модуле создан файл README.md описывающий подключение и работу с этим модулем.
 
-В корневом README.md описано подключение необходимых репозитория\плагинов в pom.xml
+В корневом(этом) README.md описано подключение необходимых репозитория\плагинов в pom.xml
 
 
 Подключение репозиториев:
 ====================
-
+- Подключение репозириев БКС для скачивания проекта из bcs artifactory
 ```xml
-    <distributionManagement>
-        <snapshotRepository>
-            <id>snapshots</id>
-            <name>s-cicd-artif-01.global.bcs-snapshots</name>
-            <url>https://artifactory.gitlab.bcs.ru/artifactory/bcs-main-snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>bcs-main-releases</id>
-            <url>https://artifactory.gitlab.bcs.ru/artifactory/bcs-main-releases</url>
-        </repository>
-    </distributionManagement>
-    <repositories>
-        <repository>
-            <id>bcs-main-releases</id>
-            <url>https://artifactory.gitlab.bcs.ru/artifactory/bcs-main-releases</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>snapshots</id>
-            <name>s-cicd-artif-01.global.bcs-snapshots</name>
-            <url>https://artifactory.gitlab.bcs.ru/artifactory/bcs-main-snapshots</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
+<distributionManagement>
+    <snapshotRepository>
+        <id>snapshots</id>
+        <name>s-cicd-artif-01.global.bcs-snapshots</name>
+        <url>https://artifactory.gitlab.bcs.ru/artifactory/bcs-main-snapshots</url>
+    </snapshotRepository>
+    <repository>
+        <id>bcs-main-releases</id>
+        <url>https://artifactory.gitlab.bcs.ru/artifactory/bcs-main-releases</url>
+    </repository>
+</distributionManagement>
+<repositories>
+    <repository>
+        <id>bcs-main-releases</id>
+        <url>https://artifactory.gitlab.bcs.ru/artifactory/bcs-main-releases</url>
+        <releases>
+            <enabled>true</enabled>
+        </releases>
+        <snapshots>
+            <enabled>false</enabled>
+        </snapshots>
+    </repository>
+    <repository>
+        <id>snapshots</id>
+        <name>s-cicd-artif-01.global.bcs-snapshots</name>
+        <url>https://artifactory.gitlab.bcs.ru/artifactory/bcs-main-snapshots</url>
+        <releases>
+            <enabled>false</enabled>
+        </releases>
+        <snapshots>
+            <enabled>true</enabled>
+        </snapshots>
+    </repository>
+</repositories>
 ```
 
 Подключение плагинов:
