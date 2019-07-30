@@ -35,10 +35,14 @@ at-library-web
 Таким образом можно получить доступ к методам взаимодействия с элементами, описанным в CorePage.
 
 Новую текущую страницу можно установить шагом
-```Когда страница "<Имя страницы>" загрузилась```
+```gherkin
+Когда страница "<Имя страницы>" загрузилась
+```
 
 Для страницы BCS demo аккаунт шаг может выглядеть так
-```Когда страница "BCS demo аккаунт" загрузилась```
+```gherkin
+Когда страница "BCS demo аккаунт" загрузилась
+```
 
 Каждая страница, с которой предполагается взаимодействие, должна быть описана в классе наследующемся от CorePage.
 Для страницы и ее элементов следует задать имя на русском, через аннотацию Name, чтобы искать можно было именно по русскому описанию.
@@ -97,27 +101,28 @@ public class BrokerDemoPageSteps {
 }
 ```
 
-Для страницы инициализируется карта ее элементов - это те поля, что помечены аннотацией Name.
-Кроме того, осуществляется проверка, что загружена требуемая страница.
-Страница считается загруженной корректно, если за отведенное по умолчанию время были загружены основные ее элементы.
-Основными элементами являются поля класса страницы с аннотацией Name, но без аннотации Optional.
-Аннотация Optional указывает на то, что элемент является не обязательным для принятия решения о загрузке страницы.
-Например, если на странице есть список, который раскрывается после нажатия не него, т.е. видим не сразу после загрузки страницы,
-его можно пометить как Optional.
-Реализована возможность управления временем ожидания появления элемента на странице.
-Чтобы установить timeout, отличный от базового, нужно добавить в application.properties строку
-waitingAppearTimeout=150000
+- Для страницы инициализируется карта ее элементов - это те поля, что помечены аннотацией Name.
+- Кроме того, осуществляется проверка, что загружена требуемая страница.
+- Страница считается загруженной корректно, если за отведенное по умолчанию время были загружены основные ее элементы. (по умолчанию проверка загрузки элментов отключена) Вклчается параметром:
+```mvn
+-Dappeared=true
+```
+- Основными элементами являются поля класса страницы с аннотацией Name, но без аннотации Optional.
+- Аннотация Optional указывает на то, что элемент является не обязательным для принятия решения о загрузке страницы.
+- Например, если на странице есть список, который раскрывается после нажатия не него, т.е. видим не сразу после загрузки страницы, его можно пометить как Optional.
+- Реализована возможность управления временем ожидания появления элемента на странице.
+- Чтобы установить timeout, отличный от базового, нужно добавить в application.properties строку: waitingAppearTimeout=150000
 
 Доступ к элементам страницы
 ============================
 Данные строки позволяют по имени элемента найти его в карте элементов текущей страницы.
 
 ```java
-        brokerDemoPage.getElement("ФИО").sendKeys(fio);
-        brokerDemoPage.getElement("Номер телефона").sendKeys(password);
-        brokerDemoPage.getElement("Email").sendKeys(email);
-        
-        brokerDemoPage.getElement("Открыть счет").click();
+brokerDemoPage.getElement("ФИО").sendKeys(fio);
+brokerDemoPage.getElement("Номер телефона").sendKeys(password);
+brokerDemoPage.getElement("Email").sendKeys(email);
+
+brokerDemoPage.getElement("Открыть счет").click();
  ```
 
 
@@ -131,3 +136,77 @@ waitingAppearTimeout=150000
 public HeaderBlock header;
 ```
 При загрузке страницы будут учитываться элементы, описанные в блоке
+
+
+Просмотр прогона тестов Selenoid:
+=========================
+```url
+http://selenoid.t-global.bcs/#/
+```
+
+После подключения всех плагинов и зависимостей вы можете запускать проект автотестов командами:
+=========================
+- Запуск локально на ubuntu
+```mvn
+clean test -Dselenide.browser=chrome  -Djava.net.useSystemProxies=true allure:serve
+```
+
+- Запуск локально на windows
+```mvn
+clean test -Dselenide.browser="internet explorer" -Dwebdriver.ie.driver="C:\\Program Files\\Selenium\\Drivers\\IEDriver\\IEDriverServer.exe" allure:serve
+```
+- Имена ключей для прописавание path к разным браузерам:
+```
+"webdriver.chrome.driver"
+"webdriver.edge.driver"
+"webdriver.ie.driver"
+"webdriver.opera.driver"
+"phantomjs.binary.path"
+"webdriver.gecko.driver"
+``` 
+
+- Запуск удаленно на Selenoid
+```mvn
+clean test -Dselenide.browser="chrome" -Dremote=http://test:test-password@selenoid.t-global.bcs:4444/wd/hub/ -Dproxy=http://172.18.62.68:8080 allure:serve
+clean test -Dselenide.browser="internet explorer" -Dremote=http://test:test-password@selenoid.t-global.bcs:4444/wd/hub/ -Dproxy=http://172.18.62.68:8080 allure:serve
+```
+- Запуск тестов с тегами (И)
+```mvn
+clean test allure:serve -Dcucumber.options="--tags @api --tags @web --plugin io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm --plugin com.epam.reportportal.cucumber.ScenarioReporter"
+```
+- Запуск тестов с тегами (ИЛИ)
+```mvn
+clean test allure:serve -Dcucumber.options="--tags @api,@web --plugin io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm --plugin com.epam.reportportal.cucumber.ScenarioReporter"
+```
+
+Пояснение к командам:
+=========================
+
+```mvn
+clean - очистка проекта
+```
+
+```mvn
+test - запуск тестов
+```
+
+```mvn
+allure:serve - запуск allure отчетов
+```
+
+```mvn
+-Dbrowser=chrome - использовать браузер chrome для прогона тестов
+```
+
+```mvn
+-Djava.net.useSystemProxies=true - установив для этого свойства значение true, использовать настройки прокси-сервера системы
+```
+```mvn
+-Dremote=http://selenoid.t-global.bcs:4444/wd/hub/ -Dproxy=http://172.18.62.68:8080 - для запуска тестов на selenoid
+```
+- Чтобы установить базовый url(для api и ui тестов) его можно указать в application.properties по ключу baseURI=https://ef.tusvc.bcs.ru
+или передать параметром (если передан параметр и присутсивует в application.properties то будет использован тот что передан параметром)
+
+```mvn
+-DbaseURI=https://url.you.need
+```

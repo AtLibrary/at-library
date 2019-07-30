@@ -36,10 +36,14 @@ at-library-mobile
 Таким образом можно получить доступ к методам взаимодействия с элементами, описанным в CorePage.
 
 Новую текущую страницу можно установить шагом
-```Когда страница "<Имя страницы>" загрузилась```
+```gherkin
+Когда страница "<Имя страницы>" загрузилась
+```
 
-Для страницы депозитов шаг может выглядеть так
-```Когда страница "Домашняя" загрузилась```
+Для страницы домашняя шаг может выглядеть так
+```gherkin
+Когда страница "Домашняя" загрузилась
+```
 
 Каждая страница, с которой предполагается взаимодействие, должна быть описана в классе наследующемся от CorePage.
 Для страницы и ее элементов следует задать имя на русском, через аннотацию Name, чтобы искать можно было именно по русскому описанию.
@@ -115,29 +119,30 @@ public class HomePageSteps {
 
 ```
 
-Для страницы инициализируется карта ее элементов - это те поля, что помечены аннотацией Name.
-Кроме того, осуществляется проверка, что загружена требуемая страница.
-Страница считается загруженной корректно, если за отведенное по умолчанию время были загружены основные ее элементы.
-Основными элементами являются поля класса страницы с аннотацией Name, но без аннотации Optional.
-Аннотация Optional указывает на то, что элемент является не обязательным для принятия решения о загрузке страницы.
-Например, если на странице есть список, который раскрывается после нажатия не него, т.е. видим не сразу после загрузки страницы,
-его можно пометить как Optional.
-Реализована возможность управления временем ожидания появления элемента на странице.
-Чтобы установить timeout, отличный от базового, нужно добавить в application.properties строку
-waitingAppearTimeout=150000
+- Для страницы инициализируется карта ее элементов - это те поля, что помечены аннотацией Name.
+- Кроме того, осуществляется проверка, что загружена требуемая страница.
+- Страница считается загруженной корректно, если за отведенное по умолчанию время были загружены основные ее элементы. (по умолчанию проверка загрузки элментов отключена) Вклчается параметром:
+```mvn
+-Dappeared=true
+```
+- Основными элементами являются поля класса страницы с аннотацией Name, но без аннотации Optional.
+- Аннотация Optional указывает на то, что элемент является не обязательным для принятия решения о загрузке страницы.
+- Например, если на странице есть список, который раскрывается после нажатия не него, т.е. видим не сразу после загрузки страницы, его можно пометить как Optional.
+- Реализована возможность управления временем ожидания появления элемента на странице.
+- Чтобы установить timeout, отличный от базового, нужно добавить в application.properties строку: waitingAppearTimeout=150000
 
 Доступ к элементам страницы
 ============================
 Данные строки позволяют по имени элемента найти его в карте элементов текущей страницы.
 
 ```java
-        homePage.getElement("iphone").click();
-        homePage.getElement("mouse").click();
-        homePage.getElement("ps4").click();
-        homePage.getElement("photo").click();
-        homePage.getElement("notebook").click();
-      
-        homePage.getElement("money").shouldHave(Condition.exactText(money));
+homePage.getElement("iphone").click();
+homePage.getElement("mouse").click();
+homePage.getElement("ps4").click();
+homePage.getElement("photo").click();
+homePage.getElement("notebook").click();
+
+homePage.getElement("money").shouldHave(Condition.exactText(money));
  ```
 
 
@@ -151,3 +156,44 @@ waitingAppearTimeout=150000
 public HeaderBlock header;
 ```
 При загрузке страницы будут учитываться элементы, описанные в блоке
+
+
+После подключения всех плагинов и зависимостей вы можете запускать проект автотестов командами:
+=========================
+
+
+- Запуск удаленно на Selenoid
+```mvn
+clean test -platformName=iOS -DdeviceName="iPhone 6s" -DplatformVersion=12.2 -Dapp=ru.admitadteam.SimpleScoreSwift -Dremote=http://test:test-password@selenoid.t-global.bcs:4444/wd/hub/ -Dproxy=http://172.18.62.68:8080 allure:serve
+```
+- Запуск тестов с тегами (И)
+```mvn
+clean test -platformName=iOS -DdeviceName="iPhone 6s" -DplatformVersion=12.2 -Dapp=ru.admitadteam.SimpleScoreSwift -Dremote=http://test:test-password@selenoid.t-global.bcs:4444/wd/hub/ -Dproxy=http://172.18.62.68:8080 -Dcucumber.options="--tags @api --tags @web --plugin io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm --plugin com.epam.reportportal.cucumber.ScenarioReporter"
+```
+- Запуск тестов с тегами (ИЛИ)
+```mvn
+clean test -platformName=iOS -DdeviceName="iPhone 6s" -DplatformVersion=12.2 -Dapp=ru.admitadteam.SimpleScoreSwift -Dremote=http://test:test-password@selenoid.t-global.bcs:4444/wd/hub/ -Dproxy=http://172.18.62.68:8080 -Dcucumber.options="--tags @api,@web --plugin io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm --plugin com.epam.reportportal.cucumber.ScenarioReporter"
+```
+
+Пояснение к командам:
+=========================
+
+```mvn
+clean - очистка проекта
+```
+
+```mvn
+test - запуск тестов
+```
+
+```mvn
+allure:serve - запуск allure отчетов
+```
+
+```mvn
+-Dbrowser=chrome - использовать браузер chrome для прогона тестов
+```
+
+```mvn
+-Dremote=http://selenoid.t-global.bcs:4444/wd/hub/ -Dproxy=http://172.18.62.68:8080 - для запуска тестов на selenoid
+```
