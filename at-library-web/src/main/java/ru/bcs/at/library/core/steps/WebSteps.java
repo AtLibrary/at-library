@@ -22,7 +22,6 @@ import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.Когда;
 import cucumber.api.java.ru.Пусть;
 import cucumber.api.java.ru.Тогда;
-import io.cucumber.datatable.DataTable;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -1155,15 +1154,6 @@ public class WebSteps {
         el.shouldHave(enabled);
     }
 
-    /**
-     * Проверка совпадения значения из переменной и значения из property
-     * </p>
-     */
-    @Тогда("^значения из переменной \"([^\"]*)\" и из property файла \"([^\"]*)\" совпадают$")
-    public void checkIfValueFromVariableEqualPropertyVariable(String envVarible, String propertyVariable) {
-        assertThat("Переменные " + envVarible + " и " + propertyVariable + " не совпадают",
-                (String) coreScenario.getVar(envVarible), equalToIgnoringCase(loadProperty(propertyVariable)));
-    }
 
     /**
      * Выполняется нажатие на кнопку и подгружается указанный файл
@@ -1176,29 +1166,6 @@ public class WebSteps {
         String file = loadValueFromFileOrPropertyOrVariableOrDefault(fileName);
         File attachmentFile = new File(file);
         coreScenario.getCurrentPage().getElement(buttonName).uploadFile(attachmentFile);
-    }
-
-    /**
-     * Выполняется чтение файла с шаблоном и заполнение его значениями из таблицы
-     * </p>
-     */
-    @И("^шаблон \"([^\"]*)\" заполнен данными из таблицы и сохранён в переменную \"([^\"]*)\"$")
-    public void fillTemplate(String templateName, String varName, DataTable table) {
-        String template = loadValueFromFileOrPropertyOrVariableOrDefault(templateName);
-        boolean error = false;
-        for (List<String> list : table.asLists()) {
-            String regexp = list.get(0);
-            String replacement = list.get(1);
-            if (template.contains(regexp)) {
-                template = template.replaceAll(regexp, replacement);
-            } else {
-                coreScenario.write("В шаблоне не найден элемент " + regexp);
-                error = true;
-            }
-        }
-        if (error)
-            throw new RuntimeException("В шаблоне не найдены требуемые регулярные выражения");
-        coreScenario.setVar(varName, template);
     }
 
     /**

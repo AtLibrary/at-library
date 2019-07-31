@@ -3,12 +3,14 @@ package ru.bcs.at.library.core.steps;
 import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.Когда;
 import cucumber.api.java.ru.Тогда;
+import io.cucumber.datatable.DataTable;
 import org.hamcrest.Matchers;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,6 +19,7 @@ import static com.codeborne.selenide.Selenide.sleep;
 import static java.util.Objects.isNull;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.equalToIgnoringCase;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.*;
 
 /**
@@ -283,6 +286,39 @@ public class OtherSteps {
         propertyVariableName = loadProperty(propertyVariableName);
         coreScenario.setVar(variableName, propertyVariableName);
         coreScenario.write("Значение сохраненной переменной " + propertyVariableName);
+    }
+
+    /**
+     * Проверка совпадения значения из переменной и значения из property
+     * </p>
+     */
+    @Тогда("^значения из переменной \"([^\"]*)\" и из property файла \"([^\"]*)\" совпадают$")
+    public void checkIfValueFromVariableEqualPropertyVariable(String envVarible, String propertyVariable) {
+        assertThat("Переменные " + envVarible + " и " + propertyVariable + " не совпадают",
+                (String) coreScenario.getVar(envVarible), equalToIgnoringCase(loadProperty(propertyVariable)));
+    }
+
+    /**
+     * Выполняется чтение файла с шаблоном и заполнение его значениями из таблицы
+     * </p>
+     */
+    @И("^шаблон \"([^\"]*)\" заполнен данными из таблицы и сохранён в переменную \"([^\"]*)\"$")
+    public void fillTemplate(String templateName, String varName, DataTable table) {
+        String template = loadValueFromFileOrPropertyOrVariableOrDefault(templateName);
+        boolean error = false;
+        for (List<String> list : table.asLists()) {
+            String regexp = list.get(0);
+            String replacement = list.get(1);
+            if (template.contains(regexp)) {
+                template = template.replaceAll(regexp, replacement);
+            } else {
+                coreScenario.write("В шаблоне не найден элемент " + regexp);
+                error = true;
+            }
+        }
+        if (error)
+            throw new RuntimeException("В шаблоне не найдены требуемые регулярные выражения");
+        coreScenario.setVar(varName, template);
     }
 
     /**
