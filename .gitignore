@@ -3,3 +3,8 @@ target
 at-library.iml
 .allure
 .DS_Store
+at-library-api
+at-library-core
+at-library-mobile
+at-library-web
+logs

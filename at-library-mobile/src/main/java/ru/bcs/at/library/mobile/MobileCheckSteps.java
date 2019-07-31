@@ -18,6 +18,7 @@ import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.Когда;
 import cucumber.api.java.ru.Тогда;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 
@@ -25,7 +26,7 @@ import static com.codeborne.selenide.WebDriverRunner.isIE;
 import static org.junit.Assert.assertEquals;
 import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 import static ru.bcs.at.library.core.steps.OtherSteps.getPropertyOrStringVariableOrValue;
-import static ru.bcs.at.library.mobile.MobileTestConfig.DEFAULT_TIMEOUT;
+import static ru.bcs.at.library.mobile.MobileTestConfig.*;
 
 /**
  * <h1 style="color: green; font-size: 2.2em">
@@ -136,7 +137,7 @@ public class MobileCheckSteps {
     public void compareValInFieldAndFromStep(String elementName, String expectedValue) {
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
         WebElement element = getWebElementInCurrentPage(elementName);
-        driverWait().until(textToBePresentInElementValue(element, expectedValue));
+        driverWait().until(ExpectedConditions.textToBePresentInElement(element, expectedValue));
     }
 
     /**
@@ -184,7 +185,6 @@ public class MobileCheckSteps {
         WebElement element = getWebElementInCurrentPage(elementName);
         driverWait(second).until(elementToBeClickable(element));
     }
-
 
     /**
      * <p style="color: green; font-size: 1.5em">
@@ -240,7 +240,6 @@ public class MobileCheckSteps {
         assertEquals(String.format("Неверное количество символов. Ожидаемый результат: %s, текущий результат: %s", num, length), num, length);
     }
 
-
     /**
      * <p style="color: green; font-size: 1.5em">
      * Получение текста элемента в блоке и сохранение его в переменную
@@ -252,13 +251,13 @@ public class MobileCheckSteps {
      */
     @Когда("^значение (?:элемента|поля) \"([^\"]*)\" в блоке \"([^\"]*)\" сохранено в переменную \"([^\"]*)\"$")
     public void saveTextElementInBlock(String elementName, String blockName, String variableName) {
-//        WebElement element = coreScenario.getCurrentPage().getBlock(blockName)
-//                .getElement(elementName).getWrappedElement();
-//
-//        String elementText = element.getText();
-//        coreScenario.setVar(variableName, elementText);
-//        coreScenario.write("Значение [" + elementText + "] сохранено в переменную [" + variableName + "]");
-        throw new cucumber.api.PendingException("шаг не реализован");
+        WebElement element = getWebElementInBlockCurrentPage(blockName, elementName);
+        driverWait().until(ExpectedConditions.visibilityOf(element));
+
+        String elementText = element.getText();
+
+        coreScenario.setVar(variableName, elementText);
+        coreScenario.write("Значение [" + elementText + "] сохранено в переменную [" + variableName + "]");
     }
 
     /**
@@ -268,19 +267,14 @@ public class MobileCheckSteps {
      *
      * @param elementName  имя элемента
      * @param blockName    имя блока
-     * @param variableName имя переменной
+     * @param expectedValue имя переменной
      */
     @Тогда("^значение (?:поля|элемента) \"([^\"]*)\" в блоке \"([^\"]*)\" совпадает со значением из переменной \"([^\"]*)\"$")
-    public void compareFieldAndVariable(String elementName, String blockName, String variableName) {
-//        String expectedValue = coreScenario.getVar(variableName).toString();
-//        WebElement element = coreScenario.getCurrentPage().getBlock(blockName)
-//                .getElement(elementName).getWrappedElement();
-//
-//        coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName)
-//                .shouldHave(exactText(expectedValue));
-        throw new cucumber.api.PendingException("шаг не реализован");
+    public void compareFieldAndVariable(String elementName, String blockName, String expectedValue) {
+        expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
+        WebElement element = getWebElementInBlockCurrentPage(blockName, elementName);
+        driverWait().until(ExpectedConditions.textToBePresentInElement(element, expectedValue));
     }
-
 
     /**
      * <p style="color: green; font-size: 1.5em">
@@ -315,29 +309,5 @@ public class MobileCheckSteps {
 //                        .collect(Collectors.toList()));
         throw new cucumber.api.PendingException("шаг не реализован");
     }
-
-    private WebElement getWebElementInCurrentPage(String elementName) {
-        return coreScenario.getCurrentPage().getElement(elementName).getWrappedElement();
-    }
-
-    private WebDriverWait driverWait() {
-        return driverWait(DEFAULT_TIMEOUT);
-    }
-
-    private WebDriverWait driverWait(int second) {
-        return new WebDriverWait(WebDriverRunner.getWebDriver(), second);
-    }
-
-//    private void checkElementText(WebElement element, String expectedValue) {
-//        String elementText = "";
-//        for (int i = 0; i < DEFAULT_TIMEOUT; ) {
-//            elementText = element.getText();
-//            if (elementText.equals(expectedValue)) {
-//                break;
-//            }
-//            i = i + 100;
-//        }
-//        Assert.assertEquals(expectedValue, elementText);
-//    }
 
 }

@@ -285,7 +285,7 @@ public class JsonVerificationSteps {
     //TODO проверить работу c XML
     @И("заполняю json-шаблон \"([^\"]*)\" данными из таблицы и сохраняю в переменную \"([^\"]*)\"")
     public void iFillInTheJsonTypeDataFromTheTableSafeguardTheVariable(String pathExpectedJson, String variableName, DataTable dataTable) {
-        String jsonExample = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(pathExpectedJson);
+        String jsonExample = OtherSteps.getPropertyOrStringVariableOrValue(pathExpectedJson);
 
         if (dataTable != null) {
             for (List<String> requestParam : dataTable.asLists()) {

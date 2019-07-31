@@ -17,7 +17,9 @@ import com.codeborne.selenide.WebDriverRunner;
 import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.Когда;
 import cucumber.api.java.ru.Тогда;
+import io.appium.java_client.AppiumDriver;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -26,11 +28,9 @@ import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 import java.io.File;
 import java.text.SimpleDateFormat;
 
-import static org.junit.Assert.assertEquals;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault;
-import static ru.bcs.at.library.core.steps.OtherSteps.getPropertyOrStringVariableOrValue;
-import static ru.bcs.at.library.core.steps.OtherSteps.getRandCharSequence;
-import static ru.bcs.at.library.mobile.MobileTestConfig.DEFAULT_TIMEOUT;
+import static ru.bcs.at.library.core.steps.OtherSteps.*;
+import static ru.bcs.at.library.mobile.MobileTestConfig.*;
 
 
 /**
@@ -57,9 +57,52 @@ public class MobileActionSteps {
      * @param elementName название кнопки|поля|блока
      *                    </p>
      */
-    @И("^выполнено нажатие на (?:кнопку|поле|блок) \"([^\"]*)\"$")
+    @И("^выполнено нажатие на (?:кнопку|поле|блок|ссылку|текст|чекбокс|радокнопку) \"([^\"]*)\"$")
     public void clickOnElement(String elementName) {
         WebElement element = getWebElementInCurrentPage(elementName);
+        driverWait().until(ExpectedConditions.elementToBeClickable(element));
+        element.click();
+    }
+
+    /**
+     * <p style="color: green; font-size: 1.5em">
+     * Нажатие на элемент по его тексту (в приоритете: из property, из переменной сценария, значение аргумента)
+     * </p>
+     */
+    @И("^выполнено нажатие на (?:кнопку|поле|блок|ссылку|текст|чекбокс|радокнопку) с текстом \"(.*)\"$")
+    public void findElement(String text) {
+        By xpath = By.xpath(getTranslateNormalizeSpaceText(getPropertyOrStringVariableOrValue(text)));
+        WebElement element = WebDriverRunner.getWebDriver().findElement(xpath);
+
+        driverWait().until(ExpectedConditions.elementToBeClickable(element));
+        element.click();
+    }
+
+    /**
+     * Выполняется нажатие на кнопку и подгружается указанный файл
+     * Селектор кнопки должны быть строго на input элемента
+     * Можно указать путь до файла. Например, src/test/resources/example.pdf
+     * </p>
+     */
+    @Когда("^выполнено нажатие на кнопку \"([^\"]*)\" и загружен файл \"([^\"]*)\"$")
+    public void clickOnButtonAndUploadFile(String buttonName, String fileName) {
+        String file = loadValueFromFileOrPropertyOrVariableOrDefault(fileName);
+        File attachmentFile = new File(file);
+        coreScenario.getCurrentPage().getElement(buttonName).uploadFile(attachmentFile);
+    }
+
+    /**
+     * <p style="color: green; font-size: 1.5em">
+     * Клик по заданному элементу в блоке
+     *
+     * @param elementName имя элемента
+     * @param blockName   имя блока
+     *
+     *                    </p>
+     */
+    @И("^выполнено нажатие на (?:кнопку|поле|блок|ссылку|текст|чекбокс|радокнопку) \"([^\"]*)\" в блоке \"([^\"]*)\"$")
+    public void clickOnElementInBlock(String elementName, String blockName) {
+        WebElement element = getWebElementInBlockCurrentPage(blockName, elementName);
         driverWait().until(ExpectedConditions.elementToBeClickable(element));
         element.click();
     }
@@ -75,41 +118,21 @@ public class MobileActionSteps {
         value = getPropertyOrStringVariableOrValue(value);
         WebElement element = getWebElementInCurrentPage(elementName);
         driverWait().until(ExpectedConditions.elementToBeClickable(element));
+        cleanField(elementName);
         element.sendKeys(value);
     }
 
-    /**
-     * <p style="color: green; font-size: 1.5em">
-     * Очищается заданное поле
-     * </p>
-     */
-    @Когда("^очищено поле \"([^\"]*)\"$")
-    public void cleanField(String elementName) {
-        WebElement element = getWebElementInCurrentPage(elementName);
-        driverWait().until(ExpectedConditions.elementToBeClickable(element));
-        element.clear();
-    }
 
     /**
      * <p style="color: green; font-size: 1.5em">
      * Добавление строки (в приоритете: из property, из переменной сценария, значение аргумента) в поле к уже заполненой строке
      * </p>
      */
-    @Когда("^в элемент \"([^\"]*)\" дописывается значение \"(.*)\"$")
+    @Когда("^в поле \"([^\"]*)\" дописывается значение \"(.*)\"$")
     public void addValue(String elementName, String value) {
         value = getPropertyOrStringVariableOrValue(value);
         WebElement element = getWebElementInCurrentPage(elementName);
         element.sendKeys(value);
-    }
-
-    /**
-     * <p style="color: green; font-size: 1.5em">
-     * Нажатие на элемент по его тексту (в приоритете: из property, из переменной сценария, значение аргумента)
-     * </p>
-     */
-    @И("^выполнено нажатие на элемент с текстом \"(.*)\"$")
-    public void findElement(String text) {
-        throw new cucumber.api.PendingException("шаг не реализован");
     }
 
     /**
@@ -134,18 +157,6 @@ public class MobileActionSteps {
         element.clear();
         element.sendKeys(currentStringDate);
         coreScenario.write("Текущая дата " + currentStringDate);
-    }
-
-    /**
-     * <p style="color: green; font-size: 1.5em">
-     * Скроллит экран до нужного элемента, имеющегося на странице, но видимого только в нижней/верхней части страницы.
-     * </p>
-     */
-    @Тогда("^страница прокручена до элемента \"([^\"]*)\"")
-    public void scrollPageToElement(String elementName) {
-        WebElement element = getWebElementInCurrentPage(elementName);
-
-        throw new cucumber.api.PendingException("шаг не реализован");
     }
 
     /**
@@ -207,22 +218,36 @@ public class MobileActionSteps {
         WebElement element = getWebElementInCurrentPage(elementName);
         cleanField(elementName);
         String numSeq = RandomStringUtils.randomNumeric(seqLength);
+
         element.sendKeys(numSeq);
         coreScenario.setVar(varName, numSeq);
         coreScenario.write(String.format("В поле [%s] введено значение [%s] и сохранено в переменную [%s]",
                 elementName, numSeq, varName));
     }
 
+    /**
+     * <p style="color: green; font-size: 1.5em">
+     * Очищается заданное поле
+     * </p>
+     */
+    @Когда("^очищено поле \"([^\"]*)\"$")
+    public void cleanField(String elementName) {
+        WebElement element = getWebElementInCurrentPage(elementName);
+        driverWait().until(ExpectedConditions.elementToBeClickable(element));
+        element.clear();
+    }
 
     /**
      * <p style="color: green; font-size: 1.5em">
-     * Производится проверка количества символов в поле со значением, указанным в шаге
+     * Скроллит экран до нужного элемента, имеющегося на странице, но видимого только в нижней/верхней части страницы.
      * </p>
      */
-    @Тогда("^в поле \"([^\"]*)\" содержится (\\d+) символов$")
-    public void checkFieldSymbolsCount(String elementName, int num) {
-        int length = getWebElementInCurrentPage(elementName).getText().length();
-        assertEquals(String.format("Неверное количество символов. Ожидаемый результат: %s, текущий результат: %s", num, length), num, length);
+    @Тогда("^страница прокручена до элемента \"([^\"]*)\"")
+    public void scrollPageToElement(String elementName) {
+
+        WebElement element = getWebElementInCurrentPage(elementName);
+
+        throw new cucumber.api.PendingException("шаг не реализован");
     }
 
     /**
@@ -254,6 +279,15 @@ public class MobileActionSteps {
      */
     @И("^страница прокручена до появления элемента с текстом \"([^\"]*)\"$")
     public void scrollWhileElemWithTextNotFoundOnPage(String expectedValue) {
+//        By xpath = By.xpath(getTranslateNormalizeSpaceText(getPropertyOrStringVariableOrValue(text)));
+//        WebElement element = WebDriverRunner.getWebDriver().findElement(xpath);
+//
+//        driverWait().until(ExpectedConditions.elementToBeClickable(element));
+//        element.click();
+//
+//        AppiumDriver driver = ((AppiumDriver) WebDriverRunner.getWebDriver());
+//
+
 //        WebElement el = null;
 //        do {
 //            el = $(By.xpath(getTranslateNormalizeSpaceText(getPropertyOrStringVariableOrValue(expectedValue))));
@@ -268,45 +302,12 @@ public class MobileActionSteps {
     }
 
     /**
-     * Выполняется нажатие на кнопку и подгружается указанный файл
-     * Селектор кнопки должны быть строго на input элемента
-     * Можно указать путь до файла. Например, src/test/resources/example.pdf
+     * <p style="color: green; font-size: 1.5em">
+     * Свайп на экране мобильного устройства
      * </p>
      */
-    @Когда("^выполнено нажатие на кнопку \"([^\"]*)\" и загружен файл \"([^\"]*)\"$")
-    public void clickOnButtonAndUploadFile(String buttonName, String fileName) {
-        String file = loadValueFromFileOrPropertyOrVariableOrDefault(fileName);
-        File attachmentFile = new File(file);
-        coreScenario.getCurrentPage().getElement(buttonName).uploadFile(attachmentFile);
-    }
-
-    /**
-     * <p style="color: green; font-size: 1.5em">
-     * Клик по заданному элементу в блоке
-     *
-     * @param elementName имя элемента
-     * @param blockName   имя блока
-     *
-     *                    </p>
-     */
-    @И("^выполнено нажатие на (?:кнопку|поле) \"([^\"]*)\" в блоке \"([^\"]*)\"$")
-    public void clickOnElementInBlock(String elementName, String blockName) {
-//        coreScenario.getCurrentPage().getBlock(blockName)
-//                .getElement(elementName).getWrappedElement()
-//                .click();
+    @И("^выполнен свайп (UP|DOWN|LEFT|RIGHT)$")
+    public void swipe(String direction) {
         throw new cucumber.api.PendingException("шаг не реализован");
     }
-
-    private WebElement getWebElementInCurrentPage(String elementName) {
-        return coreScenario.getCurrentPage().getElement(elementName).getWrappedElement();
-    }
-
-    private WebDriverWait driverWait() {
-        return driverWait(DEFAULT_TIMEOUT);
-    }
-
-    private WebDriverWait driverWait(int second) {
-        return new WebDriverWait(WebDriverRunner.getWebDriver(), second);
-    }
-
 }
