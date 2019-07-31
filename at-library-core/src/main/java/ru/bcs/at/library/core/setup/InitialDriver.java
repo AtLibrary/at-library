@@ -4,6 +4,7 @@ import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
 import com.google.common.base.Strings;
 import cucumber.api.Scenario;
+import io.appium.java_client.AppiumDriver;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import lombok.extern.log4j.Log4j2;
 import org.junit.Assert;
@@ -122,11 +123,21 @@ public class InitialDriver {
         capabilities.setCapability("enableVideo", false);
         capabilities.setCapability("name", scenario.getName());
 
+        if (proxy != null) {
+            capabilities.setCapability(CapabilityType.PROXY, proxy);
+            log.info("Проставлена прокси: " + proxy);
+        }
+
         if (testDevice.equals("web")) {
             capabilities.setBrowserName(Configuration.browser);
             capabilities.setCapability("screenResolution", "1920x1080");
             capabilities.setCapability("width", "1920");
             capabilities.setCapability("height", "1080");
+
+            setWebDriver(
+                    new RemoteWebDriver(
+                            URI.create(Configuration.remote).toURL(),
+                            capabilities));
         }
 
         if (testDevice.equals("mobile")) {
@@ -134,17 +145,13 @@ public class InitialDriver {
             capabilities.setCapability("deviceName", AtCoreConfig.deviceName);
             capabilities.setCapability("platformVersion", AtCoreConfig.platformVersion);
             capabilities.setCapability("app", AtCoreConfig.app);
+
+            setWebDriver(
+                    new AppiumDriver(
+                            URI.create(Configuration.remote).toURL(),
+                            capabilities));
         }
 
-        if (proxy != null) {
-            capabilities.setCapability(CapabilityType.PROXY, proxy);
-            log.info("Проставлена прокси: " + proxy);
-        }
-
-        setWebDriver(
-                new RemoteWebDriver(
-                        URI.create(Configuration.remote).toURL(),
-                        capabilities));
     }
 
     private Proxy creteProxy() {
