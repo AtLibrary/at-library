@@ -44,7 +44,7 @@ public class ProxySteps {
         System.setProperty("https.proxyHost", proxyHost);
         System.setProperty("https.proxyPort", proxyPort);
 
-        RestAssured.proxy = ProxySpecification.host(proxyHost).withPort(Integer.valueOf(proxyPort));
+        RestAssured.proxy = ProxySpecification.host(proxyHost).withPort(Integer.parseInt(proxyPort));
 
     }
 

@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         tags = "@all",
         features = "src/test/resources/features",
-        glue = {"ru.bcs.at.library"}
+        glue = {"ru.bcs"}
 )
 public class RunCukesTest {
 }

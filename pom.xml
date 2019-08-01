@@ -7,7 +7,7 @@
     <groupId>ru.bcs</groupId>
     <artifactId>at-library</artifactId>
     <packaging>pom</packaging>
-    <version>20.07.2019</version>
+    <version>23.07.2019</version>
 
     <modules>
         <module>at-library-core</module>
