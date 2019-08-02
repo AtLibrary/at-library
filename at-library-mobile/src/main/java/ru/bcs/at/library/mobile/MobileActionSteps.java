@@ -20,10 +20,11 @@ import cucumber.api.java.ru.Тогда;
 import io.appium.java_client.AppiumDriver;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
+import ru.bcs.at.library.mobile.utils.CustomMethods;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -242,12 +243,29 @@ public class MobileActionSteps {
      * Скроллит экран до нужного элемента, имеющегося на странице, но видимого только в нижней/верхней части страницы.
      * </p>
      */
-    @Тогда("^страница прокручена до элемента \"([^\"]*)\"")
-    public void scrollPageToElement(String elementName) {
+    @Тогда("^страница прокручена (UP|DOWN|LEFT|RIGHT) до элемента \"([^\"]*)\"")
+    public void scrollPageToElement(String direction, String elementName) {
+        AppiumDriver driver = (AppiumDriver) WebDriverRunner.getWebDriver().manage();
+        WebElement element = null;
 
-        WebElement element = getWebElementInCurrentPage(elementName);
+        for (int i = 1; i <= DEFAULT_SWIPE_NUMBER; i++) {
+            try {
+                element = coreScenario.getCurrentPage().getElement(elementName).getWrappedElement();
+            } catch (NoSuchElementException ex) {}
 
-        throw new cucumber.api.PendingException("шаг не реализован");
+            if (driver.getPlatformName().toLowerCase().equals("android"))
+                if (element != null) break;
+
+            if (driver.getPlatformName().toLowerCase().equals("ios"))
+                if (element.isDisplayed()) break;
+            CustomMethods.swipe(direction);
+        }
+
+        if (driver.getPlatformName().toLowerCase().equals("android"))
+            if (element == null) throw new NoSuchElementException(elementName);
+
+        if (driver.getPlatformName().toLowerCase().equals("ios"))
+            if (!element.isDisplayed()) throw new NoSuchElementException(elementName);
     }
 
     /**
@@ -286,7 +304,6 @@ public class MobileActionSteps {
 //        element.click();
 //
 //        AppiumDriver driver = ((AppiumDriver) WebDriverRunner.getWebDriver());
-//
 
 //        WebElement el = null;
 //        do {
@@ -308,6 +325,6 @@ public class MobileActionSteps {
      */
     @И("^выполнен свайп (UP|DOWN|LEFT|RIGHT)$")
     public void swipe(String direction) {
-        throw new cucumber.api.PendingException("шаг не реализован");
+        CustomMethods.swipe(direction);
     }
 }

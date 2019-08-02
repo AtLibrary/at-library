@@ -13,6 +13,8 @@
  */
 package ru.bcs.at.library.mobile;
 
+import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
 import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.Когда;
@@ -24,6 +26,7 @@ import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 
 import static com.codeborne.selenide.WebDriverRunner.isIE;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 import static ru.bcs.at.library.core.steps.OtherSteps.getPropertyOrStringVariableOrValue;
 import static ru.bcs.at.library.mobile.MobileTestConfig.*;
@@ -226,7 +229,8 @@ public class MobileCheckSteps {
      */
     @Тогда("^(?:поле|элемент) \"([^\"]*)\" (?:недоступно|недоступен) для редактирования$")
     public void fieldIsDisable(String elementName) {
-        throw new cucumber.api.PendingException("шаг не реализован");
+        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
+        assertTrue(String.format("Элемент [%s] доступен для редактирования", elementName), element.isDisplayed());
     }
 
     /**
@@ -265,8 +269,8 @@ public class MobileCheckSteps {
      * Проверка того, что значение из поля в блоке совпадает со значением заданной переменной из хранилища
      * </p>
      *
-     * @param elementName  имя элемента
-     * @param blockName    имя блока
+     * @param elementName   имя элемента
+     * @param blockName     имя блока
      * @param expectedValue имя переменной
      */
     @Тогда("^значение (?:поля|элемента) \"([^\"]*)\" в блоке \"([^\"]*)\" совпадает со значением из переменной \"([^\"]*)\"$")
