@@ -16,7 +16,7 @@ import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.WebDriverRunner.isIE;
 import static org.junit.Assert.*;
 import static ru.bcs.at.library.core.steps.OtherSteps.*;
-import static ru.bcs.at.library.core.steps.WebStepConfig.DEFAULT_TIMEOUT;
+import static ru.bcs.at.library.core.steps.WebTestConfig.DEFAULT_TIMEOUT;
 
 /**
  * <h1 style="color: green; font-size: 2.2em">

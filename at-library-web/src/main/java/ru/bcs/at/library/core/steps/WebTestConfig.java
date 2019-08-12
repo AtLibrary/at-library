@@ -14,6 +14,6 @@ import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadPropertyInt
  * можно было именно по русскому описанию, а не по селектору. Селекторы следует хранить только в классе страницы,
  * не в степах, в степах - взаимодействие по русскому названию элемента.</p>
  */
-public class WebStepConfig {
+public class WebTestConfig {
     public static final int DEFAULT_TIMEOUT = loadPropertyInt("waitingCustomElementsTimeout", 10000);
 }

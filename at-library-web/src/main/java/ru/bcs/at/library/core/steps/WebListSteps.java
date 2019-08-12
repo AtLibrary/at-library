@@ -21,7 +21,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.getPropertyOrValue;
 import static ru.bcs.at.library.core.steps.OtherSteps.*;
-import static ru.bcs.at.library.core.steps.WebStepConfig.DEFAULT_TIMEOUT;
+import static ru.bcs.at.library.core.steps.WebTestConfig.DEFAULT_TIMEOUT;
 
 public class WebListSteps {
     private CoreScenario coreScenario = CoreScenario.getInstance();
