@@ -251,13 +251,17 @@ public class MobileActionSteps {
         for (int i = 1; i <= DEFAULT_SWIPE_NUMBER; i++) {
             try {
                 element = coreScenario.getCurrentPage().getElement(elementName).getWrappedElement();
-            } catch (NoSuchElementException ex) {}
+            } catch (NoSuchElementException ex) {
+            }
 
-            if (driver.getPlatformName().toLowerCase().equals("android"))
+            if (driver.getPlatformName().toLowerCase().equals("android")) {
                 if (element != null) break;
+            }
 
-            if (driver.getPlatformName().toLowerCase().equals("ios"))
+            if (driver.getPlatformName().toLowerCase().equals("ios")) {
                 if (element.isDisplayed()) break;
+            }
+
             CustomMethods.swipe(direction);
         }
 
