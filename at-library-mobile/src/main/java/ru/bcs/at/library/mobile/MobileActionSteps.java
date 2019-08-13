@@ -245,7 +245,7 @@ public class MobileActionSteps {
      */
     @Тогда("^страница прокручена (UP|DOWN|LEFT|RIGHT) до элемента \"([^\"]*)\"")
     public void scrollPageToElement(String direction, String elementName) {
-        AppiumDriver driver = (AppiumDriver) WebDriverRunner.getWebDriver().manage();
+        AppiumDriver driver = (AppiumDriver) WebDriverRunner.getWebDriver();
         WebElement element = null;
 
         for (int i = 1; i <= DEFAULT_SWIPE_NUMBER; i++) {
