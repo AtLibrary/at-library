@@ -8,3 +8,4 @@ at-library-core.iml
 at-library-mobile.iml
 at-library-web.iml
 logs
+build/

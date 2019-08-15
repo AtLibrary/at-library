@@ -1,5 +1,6 @@
 package ru.bcs.at.library.core.steps;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
@@ -136,7 +137,7 @@ public class WebActionSteps {
      * @param elementName название кнопки|поля|блока
      *                    </p>
      */
-    @И("^выполнено нажатие на (?:кнопку|поле|блок|ссылка|чекбокс) \"([^\"]*)\"$")
+    @И("^выполнено нажатие на (?:кнопку|ссылку|поле|блок|чекбокс|радиокнопу|текст|элемент) \"([^\"]*)\"$")
     public void clickOnElement(String elementName) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
         element.click();
@@ -150,7 +151,7 @@ public class WebActionSteps {
      * @param elementName название кнопки|поля|блока
      *                    </p>
      */
-    @И("^выполнено умное нажатие на (?:кнопку|поле|блок|ссылка|чекбокс) \"([^\"]*)\"$")
+    @И("^выполнено умное нажатие на (?:кнопку|ссылку|поле|блок|чекбокс|радиокнопу|текст|элемент) \"([^\"]*)\"$")
     public void clickElementOrParent(String elementName) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
         if (element.isDisplayed()) {
@@ -270,6 +271,15 @@ public class WebActionSteps {
     public void cleanField(String nameOfField) {
         SelenideElement valueInput = coreScenario.getCurrentPage().getElement(nameOfField);
         valueInput.clear();
+        if (valueInput.is(Condition.not(Condition.value(""))) ||
+                valueInput.is(Condition.not(Condition.exactText("")))
+        ) {
+            valueInput.sendKeys(Keys.chord(Keys.CONTROL + "A" + Keys.BACK_SPACE));
+        }
+        valueInput.shouldHave(
+                Condition.value(""),
+                Condition.exactText("")
+        );
     }
 
     /**
@@ -277,7 +287,7 @@ public class WebActionSteps {
      * Выполняется наведение курсора на элемент
      * </p>
      */
-    @Когда("^выполнен ховер на (?:поле|элемент) \"([^\"]*)\"$")
+    @Когда("^выполнен ховер на (?:кнопку|ссылку|поле|блок|чекбокс|радиокнопу|текст|элемент) \"([^\"]*)\"$")
     public void elementHover(String elementName) {
         SelenideElement field = coreScenario.getCurrentPage().getElement(elementName);
         field.hover();
@@ -289,7 +299,7 @@ public class WebActionSteps {
      * Добавление строки (в приоритете: из property, из переменной сценария, значение аргумента) в поле к уже заполненой строке
      * </p>
      */
-    @Когда("^в элемент \"([^\"]*)\" дописывается значение \"(.*)\"$")
+    @Когда("^в (?:поле|элемент) \"([^\"]*)\" дописывается значение \"(.*)\"$")
     public void addValue(String elementName, String value) {
         value = getPropertyOrStringVariableOrValue(value);
         SelenideElement field = coreScenario.getCurrentPage().getElement(elementName);
@@ -317,7 +327,7 @@ public class WebActionSteps {
      * При неверном формате, используется dd.MM.yyyy
      * </p>
      */
-    @Когда("^элемент \"([^\"]*)\" заполняется текущей датой в формате \"([^\"]*)\"$")
+    @Когда("^(?:поле|элемент) \"([^\"]*)\" заполняется текущей датой в формате \"([^\"]*)\"$")
     public void currentDate(String fieldName, String dateFormat) {
         long date = System.currentTimeMillis();
         String currentStringDate;
@@ -339,7 +349,7 @@ public class WebActionSteps {
      * используя буфер обмена и клавиши SHIFT + INSERT
      * </p>
      */
-    @Когда("^вставлено значение \"([^\"]*)\" в элемент \"([^\"]*)\" с помощью горячих клавиш$")
+    @Когда("^вставлено значение \"([^\"]*)\" в (?:поле|элемент) \"([^\"]*)\" с помощью горячих клавиш$")
     public void pasteValueToTextField(String value, String fieldName) {
         value = getPropertyOrStringVariableOrValue(value);
         ClipboardOwner clipboardOwner = (clipboard, contents) -> {
@@ -518,7 +528,7 @@ public class WebActionSteps {
      *
      *                    </p>
      */
-    @И("^выполнено нажатие на (?:кнопку|поле) \"([^\"]*)\" в блоке \"([^\"]*)\"$")
+    @И("^выполнено нажатие на (?:кнопку|ссылку|поле|блок|чекбокс|радиокнопу|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\"$")
     public void clickOnElementInBlock(String elementName, String blockName) {
         coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName).click();
     }
