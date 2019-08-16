@@ -290,7 +290,7 @@ public class JsonVerificationSteps {
         if (dataTable != null) {
             for (List<String> requestParam : dataTable.asLists()) {
                 String key = requestParam.get(0);
-                String value = requestParam.get(1);
+                String value = OtherSteps.getPropertyOrStringVariableOrValue(requestParam.get(1));
 
                 jsonExample = jsonExample.replaceAll(key, value);
             }
