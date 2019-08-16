@@ -282,27 +282,4 @@ public class MobileActionSteps {
         driverWait().until(visibilityOf(element));
     }
 
-    /**
-     * <p style="color: green; font-size: 1.5em">
-     * Скроллит страницу вниз до появления элемента каждую секунду.
-     * Если достигнут футер страницы и элемент не найден - выбрасывается exception.
-     * </p>
-     */
-    @И("^страница прокручена до появления элемента \"([^\"]*)\"$")
-    public void scrollWhileElemNotFoundOnPage(String elementName) {
-        throw new cucumber.api.PendingException("шаг не реализован");
-    }
-
-    /**
-     * <p style="color: green; font-size: 1.5em">
-     * Скроллит страницу вниз до появления элемента с текстом из property файла, из переменной сценария или указанному в шаге каждую секунду.
-     * Если достигнут футер страницы и элемент не найден - выбрасывается exception.
-     * </p>
-     */
-    @И("^страница прокручена до появления элемента с текстом \"([^\"]*)\"$")
-    public void scrollWhileElemWithTextNotFoundOnPage(String expectedValue) {
-        throw new cucumber.api.PendingException("шаг не реализован");
-    }
-
-
 }

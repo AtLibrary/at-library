@@ -276,30 +276,4 @@ public class MobileCheckSteps {
         driverWait().until(ExpectedConditions.textToBePresentInElement(element, expectedValue));
     }
 
-    /**
-     * <p style="color: green; font-size: 1.5em">
-     * </p>
-     *
-     * @param blockName имя блока
-     * @param listName
-     * @param varName
-     */
-    @И("^в блоке \"([^\"]*)\" найден список элементов\"([^\"]*)\" и сохранен в переменную \"([^\"]*)\"$")
-    public void getElementsList(String blockName, String listName, String varName) {
-        throw new cucumber.api.PendingException("шаг не реализован");
-    }
-
-    /**
-     * <p style="color: green; font-size: 1.5em">
-     * </p>
-     *
-     * @param blockName имя блока
-     * @param listName
-     * @param varName
-     */
-    @И("^в блоке \"([^\"]*)\" найден список элементов\"([^\"]*)\" и сохранен текст в переменную \"([^\"]*)\"$")
-    public void getListElementsText(String blockName, String listName, String varName) {
-        throw new cucumber.api.PendingException("шаг не реализован");
-    }
-
 }
