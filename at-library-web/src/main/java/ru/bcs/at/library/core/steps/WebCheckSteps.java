@@ -258,9 +258,9 @@ public class WebCheckSteps {
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
         try {
-            element.waitUntil(text(expectedValue), DEFAULT_TIMEOUT);
+            element.waitUntil(exactText(expectedValue), DEFAULT_TIMEOUT);
         } catch (ElementShould ex) {
-            element.waitUntil(value(expectedValue), DEFAULT_TIMEOUT);
+            element.waitUntil(exactValue(expectedValue), DEFAULT_TIMEOUT);
         }
     }
 
