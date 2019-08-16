@@ -18,11 +18,11 @@ import io.restassured.response.Response;
 import lombok.extern.log4j.Log4j2;
 import ru.bcs.at.library.core.core.helpers.PropertyLoader;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
-import sun.misc.BASE64Decoder;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 
 /**
@@ -79,8 +79,7 @@ public class ApiSteps {
         String fileFormat = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(fFormat);
         String pathToSave = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(path) + "\\" + fileName + "." + fileFormat;
 
-        BASE64Decoder decoder = new BASE64Decoder();
-        byte[] decodedBytes = decoder.decodeBuffer(base64Code);
+        byte[] decodedBytes = Base64.getDecoder().decode(base64Code);
 
         File file = new File(pathToSave);
         FileOutputStream fop = new FileOutputStream(file);

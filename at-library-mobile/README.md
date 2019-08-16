@@ -8,7 +8,7 @@ at-library-mobile
 <dependency>
       <groupId>ru.bcs</groupId>
       <artifactId>at-library-mobile</artifactId>
-      <version>15.08.2019</version>
+      <version>16.08.2019</version>
 </dependency>
 ```
 
@@ -20,7 +20,7 @@ at-library-mobile
 Функционал: Тестирование мобильного приложения
 
   Сценарий: Проверка общей суммы всех покупок
-    Когда страница "Домашняя" загрузилась
+    Когда экран "Главный" загрузился
     И выполнено нажатие на кнопку "iphone"
     И выполнено нажатие на кнопку "mouse"
     И выполнено нажатие на кнопку "ps4"
@@ -29,28 +29,28 @@ at-library-mobile
     Тогда значение поля "money" равно "117300"
 ```
 
-Работа с страницами
+Работа с экраном
 ====================
-При написании сценария для работы с элементами страницы ее необходимо задать как текущую.
+При написании сценария для работы с элементами экрана его необходимо задать как текущий.
 Таким образом можно получить доступ к методам взаимодействия с элементами, описанным в CorePage.
 
-Новую текущую страницу можно установить шагом
+Новую текущий экран можно установить шагом
 ```gherkin
-Когда страница "<Имя страницы>" загрузилась
+Когда экран "<Имя экрана>" загрузилась
 ```
 
-Для страницы домашняя шаг может выглядеть так
+Для экрана Главный шаг может выглядеть так
 ```gherkin
-Когда страница "Домашняя" загрузилась
+Когда экран "Главный" загрузилась
 ```
 
-- Каждая страница, с которой предполагается взаимодействие, должна быть описана в классе наследующемся от CorePage.
-- Для страницы и ее элементов следует задать имя на русском, через аннотацию Name, чтобы искать можно было именно по русскому описанию.
-- Элементы страницы ищутся по локаторам, указанным в аннотации FindBy и должны иметь тип SelenideElement или List<SelenideElement>.
+- Каждая экран, с которой предполагается взаимодействие, должна быть описана в классе наследующемся от CorePage.
+- Для экрана и ее элементов следует задать имя на русском, через аннотацию Name, чтобы искать можно было именно по русскому описанию.
+- Элементы экрана ищутся по локаторам, указанным в аннотации FindBy и должны иметь тип SelenideElement или List<SelenideElement>.
 
-Пример описания страницы:
+Пример описания экрана:
 ```java
-@Name("Домашняя")
+@Name("Главный")
 public class HomePage extends CorePage {
 
     @Name("iphone")
@@ -91,11 +91,11 @@ public class HomePage extends CorePage {
 }
 ```
 
-Инициализация страницы
+Инициализация экрана
 =================================
 Если непобходимо создавать собсвенные шаги по работе с mobile элементами'
 
-Пример инициализации страницы "BCS demo аккаунт":
+Пример инициализации экрана "BCS demo аккаунт":
 ```java
 public class HomePageSteps {
     private CoreScenario coreScenario = CoreScenario.getInstance();
@@ -104,7 +104,7 @@ public class HomePageSteps {
     public void loginSystem(String money) {
         money = getPropertyOrStringVariableOrValue(money);
         HomePage homePage =
-                (HomePage) coreScenario.getPage("Домашняя");
+                (HomePage) coreScenario.getPage("Главный");
 
         homePage.getElement("iphone").click();
         homePage.getElement("mouse").click();
@@ -118,21 +118,21 @@ public class HomePageSteps {
 
 ```
 
-- Для страницы инициализируется карта ее элементов - это те поля, что помечены аннотацией Name.
-- Кроме того, осуществляется проверка, что загружена требуемая страница.
-- Страница считается загруженной корректно, если за отведенное по умолчанию время были загружены основные ее элементы. (по умолчанию проверка загрузки элментов отключена) Вклчается параметром:
+- Для экрана инициализируется карта ее элементов - это те поля, что помечены аннотацией Name.
+- Кроме того, осуществляется проверка, что загружена требуемая экран.
+- экран считается загруженной корректно, если за отведенное по умолчанию время были загружены основные ее элементы. (по умолчанию проверка загрузки элментов отключена) Вклчается параметром:
 ```mvn
 -Dappeared=true
 ```
-- Основными элементами являются поля класса страницы с аннотацией Name, но без аннотации Optional.
-- Аннотация Optional указывает на то, что элемент является не обязательным для принятия решения о загрузке страницы.
-- Например, если на странице есть список, который раскрывается после нажатия не него, т.е. видим не сразу после загрузки страницы, его можно пометить как Optional.
-- Реализована возможность управления временем ожидания появления элемента на странице.
+- Основными элементами являются поля класса экрана с аннотацией Name, но без аннотации Optional.
+- Аннотация Optional указывает на то, что элемент является не обязательным для принятия решения о загрузке экрана.
+- Например, если на экране есть список, который раскрывается после нажатия не него, т.е. видим не сразу после загрузки экрана, его можно пометить как Optional.
+- Реализована возможность управления временем ожидания появления элемента на экране.
 - Чтобы установить timeout, отличный от базового, нужно добавить в application.properties строку: waitingAppearTimeout=150000
 
-Доступ к элементам страницы
+Доступ к элементам экрана
 ============================
-Данные строки позволяют по имени элемента найти его в карте элементов текущей страницы.
+Данные строки позволяют по имени элемента найти его в карте элементов текущей экрана.
 
 ```java
 homePage.getElement("iphone").click();
@@ -145,17 +145,17 @@ homePage.getElement("money").shouldHave(Condition.exactText(money));
  ```
 
 
-Блоки на странице
+Блоки на экране
 ============================
-Реализована возможность описывать блоки на странице (Page Element)
+Реализована возможность описывать блоки на экране (Page Element)
 
 Например:
 ```java
 @FindBy(className = "header")
-@Name("Шапка страницы")
+@Name("Шапка экрана")
 public HeaderBlock header;
 ```
-При загрузке страницы будут учитываться элементы, описанные в блоке
+При загрузке экрана будут учитываться элементы, описанные в блоке
 
 
 После подключения всех плагинов и зависимостей вы можете запускать проект автотестов командами:
@@ -164,15 +164,15 @@ public HeaderBlock header;
 
 - Запуск удаленно на Selenoid
 ```mvn
-clean test -DplatformName=iOS -DdeviceName="iPhone 6s" -DplatformVersion=12.2 -Dapp=ru.admitadteam.SimpleScoreSwift -Dselenide.remote=http://test:test-password@selenoid.t-global.bcs:4444/wd/hub/ -Dproxy=http://172.18.62.68:8080 allure:serve
+clean test -DplatformName=iOS -DdeviceName="iPhone 6s" -DplatformVersion=12.4 -Dapp=ru.admitadteam.SimpleScoreSwift -Dselenide.remote=http://test:test-password@selenoid.t-global.bcs:4444/wd/hub/ -Dproxy=http://172.18.62.68:8080 allure:serve
 ```
 - Запуск тестов по тегам (И)
 ```mvn
-clean test -DplatformName=iOS -DdeviceName="iPhone 6s" -DplatformVersion=12.2 -Dapp=ru.admitadteam.SimpleScoreSwift -Dselenide.remote=http://test:test-password@selenoid.t-global.bcs:4444/wd/hub/ -Dproxy=http://172.18.62.68:8080 -Dcucumber.options="--tags @api --tags @web --plugin io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm --plugin com.epam.reportportal.cucumber.ScenarioReporter"
+clean test -DplatformName=iOS -DdeviceName="iPhone 6s" -DplatformVersion=12.4 -Dapp=ru.admitadteam.SimpleScoreSwift -Dselenide.remote=http://test:test-password@selenoid.t-global.bcs:4444/wd/hub/ -Dproxy=http://172.18.62.68:8080 -Dcucumber.options="--tags @api --tags @web --plugin io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm --plugin com.epam.reportportal.cucumber.ScenarioReporter"
 ```
 - Запуск тестов по тегам (ИЛИ)
 ```mvn
-clean test -DplatformName=iOS -DdeviceName="iPhone 6s"  -Dapp=ru.admitadteam.SimpleScoreSwift -Dselenide.remote=http://test:test-password@selenoid.t-global.bcs:4444/wd/hub/ -Dproxy=http://172.18.62.68:8080 -Dcucumber.options="--tags @api,@web --plugin io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm --plugin com.epam.reportportal.cucumber.ScenarioReporter"
+clean test -DplatformName=iOS -DdeviceName="iPhone 6s" -DplatformVersion=12.4 -Dapp=ru.admitadteam.SimpleScoreSwift -Dselenide.remote=http://test:test-password@selenoid.t-global.bcs:4444/wd/hub/ -Dproxy=http://172.18.62.68:8080 -Dcucumber.options="--tags @api,@web --plugin io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm --plugin com.epam.reportportal.cucumber.ScenarioReporter"
 ```
 
 Пояснение к командам:
@@ -199,7 +199,7 @@ allure:serve - запуск allure отчетов
 ```
 
 ```mvn
--DplatformVersion=12.2 - передается версия платформы на которой будут запущены тесты
+-DplatformVersion=12.4 - передается версия платформы на которой будут запущены тесты
 ```
 
 ```mvn

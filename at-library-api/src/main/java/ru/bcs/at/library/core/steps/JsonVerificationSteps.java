@@ -3,7 +3,6 @@ package ru.bcs.at.library.core.steps;
 import com.google.gson.JsonSyntaxException;
 import com.jayway.jsonpath.JsonPath;
 import cucumber.api.java.ru.И;
-import cucumber.api.java.ru.Тогда;
 import io.cucumber.datatable.DataTable;
 import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.response.Response;
@@ -35,7 +34,7 @@ public class JsonVerificationSteps {
      *                        и из хранилища переменных из CoreScenario.
      *                        Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
-    @Тогда("^в (json|xml) ответа \"([^\"]*)\" значения равны(|, без учета регистра,) значениям из таблицы$")
+    @И("^в (json|xml) ответа \"([^\"]*)\" значения равны(|, без учета регистра,) значениям из таблицы$")
     public void checkValuesBody(String typeContentBody, String valueToFind, String textRegister, DataTable dataTable) {
         //TODO посмотреть есть ли более изящное решение проверки boolean
         Response response = (Response) CoreScenario.getInstance().getVar(valueToFind);
@@ -80,7 +79,7 @@ public class JsonVerificationSteps {
      *                        и из хранилища переменных из CoreScenario.
      *                        Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
-    @Тогда("^значения из (json|xml) ответа \"([^\"]*)\", найденные по jsonpath из таблицы, сохранены в переменные$")
+    @И("^значения из (json|xml) ответа \"([^\"]*)\", найденные по jsonpath из таблицы, сохранены в переменные$")
     public void getValuesFromBodyAsString(String typeContentBody, String valueToFind, DataTable dataTable) {
         Response response = (Response) CoreScenario.getInstance().getVar(valueToFind);
 
@@ -109,7 +108,7 @@ public class JsonVerificationSteps {
      * <p style="color: green; font-size: 1.5em">
      * Проверка json</p>
      */
-    @Тогда("^в json \"([^\"]*)\" значения равны(|, без учета регистра,) значениям из таблицы$")
+    @И("^в json \"([^\"]*)\" значения равны(|, без учета регистра,) значениям из таблицы$")
     public void checkJson(String pathExpectedJson, String textRegister, DataTable dataTable) throws ParseException {
         String jsonString = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(pathExpectedJson);
         JSONParser parser = new JSONParser();
@@ -146,7 +145,7 @@ public class JsonVerificationSteps {
      * @param nameResponseTwo имя второго ответа ответа
      * @param dataTable       список jsonpath ключей
      */
-    @Тогда("^значения найденные по jsonPath из json ответа \"([^\"]*)\" равны значениям из json ответа \"([^\"]*)\"$")
+    @И("^значения найденные по jsonPath из json ответа \"([^\"]*)\" равны значениям из json ответа \"([^\"]*)\"$")
     public void valuesFoundByPathEqual(String nameResponseOne, String nameResponseTwo, DataTable dataTable) {
         Response response1 = (Response) CoreScenario.getInstance().getVar(nameResponseOne);
         Response response2 = (Response) CoreScenario.getInstance().getVar(nameResponseTwo);

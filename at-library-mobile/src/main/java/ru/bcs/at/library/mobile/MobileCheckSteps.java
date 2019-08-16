@@ -14,8 +14,6 @@
 package ru.bcs.at.library.mobile;
 
 import cucumber.api.java.ru.И;
-import cucumber.api.java.ru.Когда;
-import cucumber.api.java.ru.Тогда;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
@@ -29,15 +27,16 @@ import static ru.bcs.at.library.mobile.MobileTestConfig.*;
 
 /**
  * <h1 style="color: green; font-size: 2.2em">
- * WEB шаги
+ * MOBILE шаги
  * </h1>
  *
  * <p style="color: green; font-size: 1.5em">
- * В coreScenario используется хранилище переменных. Для сохранения/изъятия переменных используются методы setVar/getVar
- * Каждая страница, с которой предполагается взаимодействие, должна быть описана в соответствующем классе,
- * наследующем CorePage. Для каждого элемента следует задать имя на русском, через аннотацию @Name, чтобы искать
- * можно было именно по русскому описанию, а не по селектору. Селекторы следует хранить только в классе страницы,
- * не в степах, в степах - взаимодействие по русскому названию элемента.</p>
+ * Объект coreScenario используется как хранилище переменных.
+ * Для сохранения/изъятия переменных используются методы setVar/getVar
+ * <p>
+ * Каждый экран, с которым предполагается взаимодействие, должен быть описан в соответствующем классе наследующем CorePage.
+ * Для каждого элемента следует задать имя на русском, через аннотацию @Name, чтобы искать в шагах элемент по имени, а не по селектору.
+ * Селекторы следует хранить только в классе экрана, не в степах, в степах - взаимодействие по имени элемента</p>
  */
 
 public class MobileCheckSteps {
@@ -46,15 +45,15 @@ public class MobileCheckSteps {
 
     /**
      * <p style="color: green; font-size: 1.5em">
-     * Проверка того, что все элементы, которые описаны в классе страницы с аннотацией @Name,
-     * но без аннотации @Optional появились на странице
+     * Проверка того, что все элементы, которые описаны в классе экрана с аннотацией @Name,
+     * но без аннотации @Optional появились на экране
      * в течение WAITING_APPEAR_TIMEOUT, которое равно значению свойства "waitingAppearTimeout"
      * из application.properties. Если свойство не найдено, время таймаута равно 8 секундам
      * </p>
      *
-     * @param nameOfPage название страница|блок|форма|вкладка
+     * @param nameOfPage название экран|блок|форма
      */
-    @Тогда("^(?:страница|блок|форма|вкладка) \"([^\"]*)\" (?:загрузилась|загрузился)$")
+    @И("^(?:экран|блок|форма) \"([^\"]*)\" (?:загрузилась|загрузился)$")
     public void loadPage(String nameOfPage) {
         coreScenario.setCurrentPage(coreScenario.getPage(nameOfPage));
         if (isIE()) {
@@ -66,13 +65,13 @@ public class MobileCheckSteps {
 
     /**
      * <p style="color: green; font-size: 1.5em">
-     * Проверка того, что все элементы, которые описаны в классе страницы с аннотацией @Name,
-     * но без аннотации @Optional, не появились на странице
+     * Проверка того, что все элементы, которые описаны в классе экрана с аннотацией @Name,
+     * но без аннотации @Optional, не появились на экране
      * </p>
      *
-     * @param nameOfPage название страница|блок|форма|вкладка
+     * @param nameOfPage название экран|блок|форма
      */
-    @Тогда("^(?:страница|блок|форма|вкладка) \"([^\"]*)\" не (?:загрузилась|загрузился)$")
+    @И("^(?:экран|блок|форма) \"([^\"]*)\" не (?:загрузилась|загрузился)$")
     public void loadPageFailed(String nameOfPage) {
         coreScenario.setCurrentPage(coreScenario.getPage(nameOfPage));
         if (isIE()) {
@@ -84,14 +83,14 @@ public class MobileCheckSteps {
 
     /**
      * <p style="color: green; font-size: 1.5em">
-     * Проверка появления элемента(не списка) на странице в течение DEFAULT_TIMEOUT.
+     * Проверка появления элемента(не списка) на экране в течение DEFAULT_TIMEOUT.
      * В случае, если свойство "waitingCustomElementsTimeout" в application.properties не задано,
      * таймаут равен 10 секундам
      *
      * @param elementName название кнопки|поля|блока
      *                    </p>
      */
-    @Тогда("^элемент \"([^\"]*)\" отображается на странице$")
+    @И("^(?:кнопка|ссылка|поле|блок|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" отображается на экране$")
     public void elemIsPresentedOnPage(String elementName) {
         WebElement element = getWebElementInCurrentPage(elementName);
         driverWait().until(visibilityOf(element));
@@ -99,14 +98,14 @@ public class MobileCheckSteps {
 
     /**
      * <p style="color: green; font-size: 1.5em">
-     * Проверка появления элемента(не списка) на странице в течение
+     * Проверка появления элемента(не списка) на экране в течение
      * заданного количества секунд
      *
      * @param elementName название кнопки|поля|блока
      * @param seconds     количество секунд
      *                    </p>
      */
-    @Тогда("^элемент \"([^\"]*)\" отобразился на странице в течение (\\d+) (?:секунд|секунды)")
+    @И("^(?:кнопка|ссылка|поле|блок|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" отобразился на экране в течение (\\d+) (?:секунд|секунды)")
     public void testElementAppeared(String elementName, int seconds) {
         WebElement element = getWebElementInCurrentPage(elementName);
         driverWait(seconds).until(visibilityOf(element));
@@ -114,14 +113,14 @@ public class MobileCheckSteps {
 
     /**
      * <p style="color: green; font-size: 1.5em">
-     * Проверка того, что элемент исчезнет со страницы (станет невидимым) в течение DEFAULT_TIMEOUT.
+     * Проверка того, что элемент исчезнет со экрана (станет невидимым) в течение DEFAULT_TIMEOUT.
      * В случае, если свойство "waitingCustomElementsTimeout" в application.properties не задано,
      * таймаут равен 10 секундам
      *
      * @param elementName название кнопки|поля|блока
      *                    </p>
      */
-    @Тогда("^ожидается исчезновение элемента \"([^\"]*)\"")
+    @И("^ожидается исчезновение (?:кнопки|ссылки|поля|блока|чекбокса|радиокнопки|текста|элемента) \"([^\"]*)\"")
     public void elemDisappered(String elementName) {
         WebElement element = getWebElementInCurrentPage(elementName);
         driverWait().until(not(visibilityOf(element)));
@@ -132,7 +131,7 @@ public class MobileCheckSteps {
      * Проверка, что значение в поле равно значению, указанному в шаге (в приоритете: из property, из переменной сценария, значение аргумента)
      * </p>
      */
-    @Тогда("^значение (?:поля|элемента) \"([^\"]*)\" равно \"(.*)\"$")
+    @И("^значение (?:поля|элемента|текста) \"([^\"]*)\" равно \"(.*)\"$")
     public void compareValInFieldAndFromStep(String elementName, String expectedValue) {
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
         WebElement element = getWebElementInCurrentPage(elementName);
@@ -144,7 +143,7 @@ public class MobileCheckSteps {
      * Проверка, что поле для ввода пусто
      * </p>
      */
-    @Тогда("^поле \"([^\"]*)\" пусто$")
+    @И("^поле \"([^\"]*)\" пусто$")
     public void fieldInputIsEmpty(String elementName) {
         String expectedValue = "";
         compareValInFieldAndFromStep(elementName, expectedValue);
@@ -155,7 +154,7 @@ public class MobileCheckSteps {
      * Сохранение значения элемента в переменную
      * </p>
      */
-    @Когда("^значение (?:элемента|поля) \"([^\"]*)\" сохранено в переменную \"([^\"]*)\"$")
+    @И("^значение (?:поля|элемента|текста)  \"([^\"]*)\" сохранено в переменную \"([^\"]*)\"$")
     public void storeElementValueInVariable(String elementName, String variableName) {
         WebElement element = getWebElementInCurrentPage(elementName);
         String elementText = element.getText();
@@ -165,10 +164,10 @@ public class MobileCheckSteps {
 
     /**
      * <p style="color: green; font-size: 1.5em">
-     * Проверка, что элемент на странице кликабелен
+     * Проверка, что элемент на экране кликабелен
      * </p>
      */
-    @Тогда("^(?:поле|элемент) \"([^\"]*)\" кликабельно$")
+    @И("^(?:кнопка|ссылка|поле|блок|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" кликабельна$")
     public void clickableField(String elementName) {
         WebElement element = getWebElementInCurrentPage(elementName);
         driverWait().until(elementToBeClickable(element));
@@ -176,10 +175,10 @@ public class MobileCheckSteps {
 
     /**
      * <p style="color: green; font-size: 1.5em">
-     * Проверка, что элемент на странице кликабелен
+     * Проверка, что элемент на экране кликабелен
      * </p>
      */
-    @Тогда("^(?:поле|элемент) \"([^\"]*)\" кликабельнов течение (\\d+) (?:секунд|секунды)$")
+    @И("^(?:кнопка|ссылка|поле|блок|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" кликабельнов течение (\\d+) (?:секунд|секунды)$")
     public void clickableField(String elementName, int second) {
         WebElement element = getWebElementInCurrentPage(elementName);
         driverWait(second).until(elementToBeClickable(element));
@@ -190,7 +189,7 @@ public class MobileCheckSteps {
      * Проверка, что кнопка/ссылка недоступна для нажатия
      * </p>
      */
-    @Тогда("^(?:ссылка|кнопка) \"([^\"]*)\" недоступна для нажатия$")
+    @И("^(?:кнопка|ссылка|поле|блок|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" недоступна для нажатия$")
     public void buttonIsNotActive(String elementName) {
         WebElement element = getWebElementInCurrentPage(elementName);
         driverWait().until(not(elementToBeClickable(element)));
@@ -201,7 +200,7 @@ public class MobileCheckSteps {
      * Проверка, что радиокнопка выбрана
      * </p>
      */
-    @Тогда("^радиокнопка \"([^\"]*)\" выбрана$")
+    @И("^радиокнопка \"([^\"]*)\" выбрана$")
     public void radioButtonIsSelected(String elementName) {
         WebElement element = getWebElementInCurrentPage(elementName);
         driverWait().until(not(elementSelectionStateToBe(element, true)));
@@ -212,7 +211,7 @@ public class MobileCheckSteps {
      * Проверка, что радиокнопка не выбрана
      * </p>
      */
-    @Тогда("^радиокнопка \"([^\"]*)\" не выбрана$")
+    @И("^радиокнопка \"([^\"]*)\" не выбрана$")
     public void radioButtonIsNotSelected(String elementName) {
         WebElement element = getWebElementInCurrentPage(elementName);
         driverWait().until(not(elementSelectionStateToBe(element, false)));
@@ -223,7 +222,7 @@ public class MobileCheckSteps {
      * Проверка, что поле нередактируемо
      * </p>
      */
-    @Тогда("^(?:поле|элемент) \"([^\"]*)\" (?:недоступно|недоступен) для редактирования$")
+    @И("^(?:поле|элемент) \"([^\"]*)\" (?:недоступно|недоступен) для редактирования$")
     public void fieldIsDisable(String elementName) {
         WebElement element = getWebElementInCurrentPage(elementName);
         assertTrue(String.format("Элемент [%s] доступен для редактирования", elementName), element.isDisplayed());
@@ -234,7 +233,7 @@ public class MobileCheckSteps {
      * Производится проверка количества символов в поле со значением, указанным в шаге
      * </p>
      */
-    @Тогда("^в поле \"([^\"]*)\" содержится (\\d+) символов$")
+    @И("^в поле \"([^\"]*)\" содержится (\\d+) символов$")
     public void checkFieldSymbolsCount(String elementName, int num) {
         int length = getWebElementInCurrentPage(elementName).getText().length();
         assertEquals(String.format("Неверное количество символов. Ожидаемый результат: %s, текущий результат: %s", num, length), num, length);
@@ -249,7 +248,7 @@ public class MobileCheckSteps {
      * @param variableName имя переменной
      *                     </p>
      */
-    @Когда("^значение (?:элемента|поля) \"([^\"]*)\" в блоке \"([^\"]*)\" сохранено в переменную \"([^\"]*)\"$")
+    @И("^значение (?:элемента|поля|текста) \"([^\"]*)\" в блоке \"([^\"]*)\" сохранено в переменную \"([^\"]*)\"$")
     public void saveTextElementInBlock(String elementName, String blockName, String variableName) {
         WebElement element = getWebElementInBlockCurrentPage(blockName, elementName);
         driverWait().until(ExpectedConditions.visibilityOf(element));
@@ -269,7 +268,7 @@ public class MobileCheckSteps {
      * @param blockName     имя блока
      * @param expectedValue имя переменной
      */
-    @Тогда("^значение (?:поля|элемента) \"([^\"]*)\" в блоке \"([^\"]*)\" совпадает со значением из переменной \"([^\"]*)\"$")
+    @И("^значение (?:поля|элемента|текста) \"([^\"]*)\" в блоке \"([^\"]*)\" совпадает со значением из переменной \"([^\"]*)\"$")
     public void compareFieldAndVariable(String elementName, String blockName, String expectedValue) {
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
         WebElement element = getWebElementInBlockCurrentPage(blockName, elementName);

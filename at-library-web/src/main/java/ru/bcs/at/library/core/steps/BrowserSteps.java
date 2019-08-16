@@ -16,8 +16,6 @@ package ru.bcs.at.library.core.steps;
 import com.codeborne.selenide.WebDriverRunner;
 import cucumber.api.java.ru.Если;
 import cucumber.api.java.ru.И;
-import cucumber.api.java.ru.Когда;
-import cucumber.api.java.ru.Тогда;
 import lombok.extern.log4j.Log4j2;
 import org.hamcrest.Matchers;
 import org.openqa.selenium.*;
@@ -55,7 +53,7 @@ public class BrowserSteps {
      *                при этом все ключи переменных в фигурных скобках
      *                меняются на их значения из хранилища coreScenario</p>
      */
-    @Когда("^совершен переход по ссылке \"([^\"]*)\"$")
+    @И("^совершен переход по ссылке \"([^\"]*)\"$")
     public void goToUrl(String address) {
         String url = resolveVars(getPropertyOrStringVariableOrValue(address));
         open(url);
@@ -85,7 +83,7 @@ public class BrowserSteps {
      * @param url (берется из property / переменной, если такая переменная не найдена,
      *            то берется переданное значение)</p>
      */
-    @Тогда("^текущий URL равен \"([^\"]*)\"$")
+    @И("^текущий URL равен \"([^\"]*)\"$")
     public void checkCurrentURL(String url) {
         String currentUrl = url();
         String expectedUrl = resolveVars(getPropertyOrStringVariableOrValue(url));
@@ -99,7 +97,7 @@ public class BrowserSteps {
      * @param url (берется из property / переменной, если такая переменная не найдена,
      *            то берется переданное значение)</p>
      */
-    @Тогда("^текущий URL не равен \"([^\"]*)\"$")
+    @И("^текущий URL не равен \"([^\"]*)\"$")
     public void checkCurrentURLIsNotEquals(String url) {
         String currentUrl = url();
         String expectedUrl = resolveVars(getPropertyOrStringVariableOrValue(url));
@@ -110,7 +108,7 @@ public class BrowserSteps {
      * <p style="color: green; font-size: 1.5em">
      * Переключение на следующую вкладку браузера</p>
      */
-    @Когда("выполнено переключение на следующую вкладку")
+    @И("выполнено переключение на следующую вкладку")
     public void switchToTheNextTab() {
         String nextWindowHandle = nextWindowHandle();
         getWebDriver().switchTo().window(nextWindowHandle);
@@ -141,7 +139,7 @@ public class BrowserSteps {
      *
      * @param title заголовок вкладки
      */
-    @Когда("^выполнено переключение на вкладку с заголовком \"([^\"]*)\"$")
+    @И("^выполнено переключение на вкладку с заголовком \"([^\"]*)\"$")
     public void switchToTheTabWithTitle(String title) {
         switchTo().window(title);
         checkPageTitle(title);
@@ -154,7 +152,7 @@ public class BrowserSteps {
      *
      * @param pageTitleName ожидаемый заголовок текущей вкладки
      */
-    @Тогда("^заголовок страницы равен \"([^\"]*)\"$")
+    @И("^заголовок страницы равен \"([^\"]*)\"$")
     public void checkPageTitle(String pageTitleName) {
         pageTitleName = getPropertyOrStringVariableOrValue(pageTitleName);
         String currentTitle = getWebDriver().getTitle().trim();
@@ -224,7 +222,7 @@ public class BrowserSteps {
      * <p style="color: green; font-size: 1.5em">
      * Удалить все cookies</p>
      */
-    @Когда("^cookies приложения очищены$")
+    @И("^cookies приложения очищены$")
     public void deleteCookies() {
         clearBrowserCookies();
     }
@@ -237,7 +235,7 @@ public class BrowserSteps {
      * @param nameCookie   имя cookie
      * @param variableName имя переменной
      */
-    @Когда("^cookie с именем \"([^\"]*)\" сохранена в переменную \"([^\"]*)\"$")
+    @И("^cookie с именем \"([^\"]*)\" сохранена в переменную \"([^\"]*)\"$")
     public void saveCookieToVar(String nameCookie, String variableName) {
         String cookieName = resolveVars(nameCookie);
         Cookie var = getWebDriver().manage().getCookieNamed(cookieName);
@@ -250,7 +248,7 @@ public class BrowserSteps {
      *
      * @param variableName имя переменной
      */
-    @Когда("^cookies сохранены в переменную \"([^\"]*)\"$")
+    @И("^cookies сохранены в переменную \"([^\"]*)\"$")
     public void saveAllCookies(String variableName) {
         Set cookies = getWebDriver().manage().getCookies();
         coreScenario.setVar(variableName, cookies);
@@ -265,7 +263,7 @@ public class BrowserSteps {
      * @param cookieName  имя cookie
      * @param cookieValue значение cookie
      */
-    @Когда("^добавлена cookie с именем \"([^\"]*)\" и значением \"([^\"]*)\"$")
+    @И("^добавлена cookie с именем \"([^\"]*)\" и значением \"([^\"]*)\"$")
     public void replaceCookie(String cookieName, String cookieValue) {
         String nameCookie = resolveVars(cookieName);
         String valueCookie = resolveVars(cookieValue);

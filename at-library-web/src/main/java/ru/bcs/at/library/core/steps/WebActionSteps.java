@@ -5,9 +5,6 @@ import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
 import cucumber.api.java.ru.И;
-import cucumber.api.java.ru.Когда;
-import cucumber.api.java.ru.Пусть;
-import cucumber.api.java.ru.Тогда;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -102,7 +99,7 @@ public class WebActionSteps {
      *
      * @param nameOfPage название страница|блок|форма|вкладка
      */
-    @Тогда("^(?:страница|блок|форма|вкладка) \"([^\"]*)\" (?:загрузилась|загрузился)$")
+    @И("^(?:страница|блок|форма|вкладка) \"([^\"]*)\" (?:загрузилась|загрузился)$")
     public void loadPage(String nameOfPage) {
         coreScenario.setCurrentPage(coreScenario.getPage(nameOfPage));
         if (isIE()) {
@@ -120,7 +117,7 @@ public class WebActionSteps {
      *
      * @param nameOfPage название страница|блок|форма|вкладка
      */
-    @Тогда("^(?:страница|блок|форма|вкладка) \"([^\"]*)\" не (?:загрузилась|загрузился)$")
+    @И("^(?:страница|блок|форма|вкладка) \"([^\"]*)\" не (?:загрузилась|загрузился)$")
     public void loadPageFailed(String nameOfPage) {
         coreScenario.setCurrentPage(coreScenario.getPage(nameOfPage));
         if (isIE()) {
@@ -206,7 +203,7 @@ public class WebActionSteps {
      * Перед использованием поле нужно очистить
      * </p>
      */
-    @Когда("^в поле \"([^\"]*)\" введено значение \"(.*)\"$")
+    @И("^в поле \"([^\"]*)\" введено значение \"(.*)\"$")
     public void setFieldValue(String elementName, String value) {
         value = getPropertyOrStringVariableOrValue(value);
         SelenideElement valueInput = coreScenario.getCurrentPage().getElement(elementName);
@@ -221,7 +218,7 @@ public class WebActionSteps {
      * Перед использованием поле нужно очистить
      * </p>
      */
-    @Когда("^в поле \"([^\"]*)\" набирается значение \"(.*)\"$")
+    @И("^в поле \"([^\"]*)\" набирается значение \"(.*)\"$")
     public void sendKeys(String elementName, String value) {
         value = getPropertyOrStringVariableOrValue(value);
         SelenideElement valueInput = coreScenario.getCurrentPage().getElement(elementName);
@@ -235,7 +232,7 @@ public class WebActionSteps {
      * Перед использованием поле нужно очистить
      * </p>
      */
-    @Тогда("^в поле \"([^\"]*)\" посимвольно набирается значение \"([^\"]*)\"$")
+    @И("^в поле \"([^\"]*)\" посимвольно набирается значение \"([^\"]*)\"$")
     public void sendKeysCharacterByCharacter(String elementName, String value) {
         value = getPropertyOrStringVariableOrValue(value);
         SelenideElement valueInput = coreScenario.getCurrentPage().getElement(elementName);
@@ -267,7 +264,7 @@ public class WebActionSteps {
      * Очищается заданное поле
      * </p>
      */
-    @Когда("^очищено поле \"([^\"]*)\"$")
+    @И("^очищено поле \"([^\"]*)\"$")
     public void cleanField(String nameOfField) {
         SelenideElement valueInput = coreScenario.getCurrentPage().getElement(nameOfField);
         valueInput.clear();
@@ -287,7 +284,7 @@ public class WebActionSteps {
      * Выполняется наведение курсора на элемент
      * </p>
      */
-    @Когда("^выполнен ховер на (?:кнопку|ссылку|поле|блок|чекбокс|радиокнопу|текст|элемент) \"([^\"]*)\"$")
+    @И("^выполнен ховер на (?:кнопку|ссылку|поле|блок|чекбокс|радиокнопу|текст|элемент) \"([^\"]*)\"$")
     public void elementHover(String elementName) {
         SelenideElement field = coreScenario.getCurrentPage().getElement(elementName);
         field.hover();
@@ -299,7 +296,7 @@ public class WebActionSteps {
      * Добавление строки (в приоритете: из property, из переменной сценария, значение аргумента) в поле к уже заполненой строке
      * </p>
      */
-    @Когда("^в (?:поле|элемент) \"([^\"]*)\" дописывается значение \"(.*)\"$")
+    @И("^в (?:поле|элемент) \"([^\"]*)\" дописывается значение \"(.*)\"$")
     public void addValue(String elementName, String value) {
         value = getPropertyOrStringVariableOrValue(value);
         SelenideElement field = coreScenario.getCurrentPage().getElement(elementName);
@@ -327,7 +324,7 @@ public class WebActionSteps {
      * При неверном формате, используется dd.MM.yyyy
      * </p>
      */
-    @Когда("^(?:поле|элемент) \"([^\"]*)\" заполняется текущей датой в формате \"([^\"]*)\"$")
+    @И("^(?:поле|элемент) \"([^\"]*)\" заполняется текущей датой в формате \"([^\"]*)\"$")
     public void currentDate(String fieldName, String dateFormat) {
         long date = System.currentTimeMillis();
         String currentStringDate;
@@ -349,7 +346,7 @@ public class WebActionSteps {
      * используя буфер обмена и клавиши SHIFT + INSERT
      * </p>
      */
-    @Когда("^вставлено значение \"([^\"]*)\" в (?:поле|элемент) \"([^\"]*)\" с помощью горячих клавиш$")
+    @И("^вставлено значение \"([^\"]*)\" в (?:поле|элемент) \"([^\"]*)\" с помощью горячих клавиш$")
     public void pasteValueToTextField(String value, String fieldName) {
         value = getPropertyOrStringVariableOrValue(value);
         ClipboardOwner clipboardOwner = (clipboard, contents) -> {
@@ -368,7 +365,7 @@ public class WebActionSteps {
      * После выполнения проверки файл удаляется
      * </p>
      */
-    @Тогда("^файл по пути \"(.*)\" выгрузился в поле \"(.*)\"$")
+    @И("^файл по пути \"(.*)\" выгрузился в поле \"(.*)\"$")
     public void uploadFile(String path, String fieldName) {
         coreScenario.getCurrentPage()
                 .getElement(fieldName)
@@ -380,7 +377,7 @@ public class WebActionSteps {
      * Скроллит экран до нужного элемента, имеющегося на странице, но видимого только в нижней/верхней части страницы.
      * </p>
      */
-    @Тогда("^страница прокручена до элемента \"([^\"]*)\"")
+    @И("^страница прокручена до элемента \"([^\"]*)\"")
     public void scrollPageToElement(String elementName) {
         coreScenario.getCurrentPage().getElement(elementName).scrollTo();
     }
@@ -391,7 +388,7 @@ public class WebActionSteps {
      * Ввод в поле случайной последовательности латинских или кириллических букв задаваемой длины
      * </p>
      */
-    @Когда("^в поле \"([^\"]*)\" введено (\\d+) случайных символов на (кириллице|латинице)$")
+    @И("^в поле \"([^\"]*)\" введено (\\d+) случайных символов на (кириллице|латинице)$")
     public void setRandomCharSequence(String elementName, int seqLength, String lang) {
         SelenideElement valueInput = coreScenario.getCurrentPage().getElement(elementName);
         cleanField(elementName);
@@ -408,7 +405,7 @@ public class WebActionSteps {
      * Ввод в поле случайной последовательности латинских или кириллических букв задаваемой длины и сохранение этого значения в переменную
      * </p>
      */
-    @Когда("^в поле \"([^\"]*)\" введено (\\d+) случайных символов на (кириллице|латинице) и сохранено в переменную \"([^\"]*)\"$")
+    @И("^в поле \"([^\"]*)\" введено (\\d+) случайных символов на (кириллице|латинице) и сохранено в переменную \"([^\"]*)\"$")
     public void setRandomCharSequenceAndSaveToVar(String elementName, int seqLength, String lang, String varName) {
         SelenideElement valueInput = coreScenario.getCurrentPage().getElement(elementName);
         cleanField(elementName);
@@ -426,7 +423,7 @@ public class WebActionSteps {
      * Ввод в поле случайной последовательности цифр задаваемой длины
      * </p>
      */
-    @Когда("^в поле \"([^\"]*)\" введено случайное число из (\\d+) (?:цифр|цифры)$")
+    @И("^в поле \"([^\"]*)\" введено случайное число из (\\d+) (?:цифр|цифры)$")
     public void inputRandomNumSequence(String elementName, int seqLength) {
         SelenideElement valueInput = coreScenario.getCurrentPage().getElement(elementName);
         cleanField(elementName);
@@ -440,7 +437,7 @@ public class WebActionSteps {
      * Ввод в поле случайной последовательности цифр задаваемой длины и сохранение этого значения в переменную
      * </p>
      */
-    @Когда("^в поле \"([^\"]*)\" введено случайное число из (\\d+) (?:цифр|цифры) и сохранено в переменную \"([^\"]*)\"$")
+    @И("^в поле \"([^\"]*)\" введено случайное число из (\\d+) (?:цифр|цифры) и сохранено в переменную \"([^\"]*)\"$")
     public void inputAndSetRandomNumSequence(String elementName, int seqLength, String varName) {
         SelenideElement valueInput = coreScenario.getCurrentPage().getElement(elementName);
         cleanField(elementName);
@@ -458,7 +455,7 @@ public class WebActionSteps {
      * Скрипт можно передать как аргумент метода или значение из application.properties
      * </p>
      */
-    @Когда("^выполнен js-скрипт \"([^\"]*)\"")
+    @И("^выполнен js-скрипт \"([^\"]*)\"")
     public void executeJsScript(String scriptName) {
         String content = loadValueFromFileOrPropertyOrVariableOrDefault(scriptName);
         Selenide.executeJavaScript(content);
@@ -512,7 +509,7 @@ public class WebActionSteps {
      * Можно указать путь до файла. Например, src/test/resources/example.pdf
      * </p>
      */
-    @Когда("^выполнено нажатие на кнопку \"([^\"]*)\" и загружен файл \"([^\"]*)\"$")
+    @И("^выполнено нажатие на кнопку \"([^\"]*)\" и загружен файл \"([^\"]*)\"$")
     public void clickOnButtonAndUploadFile(String buttonName, String fileName) {
         String file = loadValueFromFileOrPropertyOrVariableOrDefault(fileName);
         File attachmentFile = new File(file);
@@ -549,7 +546,7 @@ public class WebActionSteps {
      * user.password - для пароля
      * </p>
      */
-    @Пусть("^пользователь \"([^\"]*)\" ввел логин и пароль$")
+    @И("^пользователь \"([^\"]*)\" ввел логин и пароль$")
     public void loginByUserData(String userCode) {
         String login = loadProperty(userCode + ".login");
         String password = loadProperty(userCode + ".password");

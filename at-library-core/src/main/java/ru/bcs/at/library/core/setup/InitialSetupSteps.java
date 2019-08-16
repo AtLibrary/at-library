@@ -32,7 +32,7 @@ import java.net.MalformedURLException;
 import java.util.List;
 import java.util.logging.Level;
 
-import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadProperty;
+import static ru.bcs.at.library.core.core.helpers.PropertyLoader.tryLoadProperty;
 
 /**
  * <h1 style="color: green; font-size: 2.2em">
@@ -78,8 +78,8 @@ public class InitialSetupSteps {
      */
     @Before
     public void beforeEachTest(Scenario scenario) throws MalformedURLException {
-        RestAssured.baseURI = System.getProperty("baseURI", loadProperty("baseURI"));
-        Configuration.baseUrl = System.getProperty("baseURI", loadProperty("baseURI"));
+        RestAssured.baseURI = System.getProperty("baseURI", tryLoadProperty("baseURI"));
+        Configuration.baseUrl = System.getProperty("baseURI", tryLoadProperty("baseURI"));
 
         /**
          * Если сценарий содержит тег @web" то будет создан WebDriver

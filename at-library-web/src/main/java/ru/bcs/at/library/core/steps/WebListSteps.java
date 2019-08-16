@@ -3,8 +3,6 @@ package ru.bcs.at.library.core.steps;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import cucumber.api.java.ru.И;
-import cucumber.api.java.ru.Когда;
-import cucumber.api.java.ru.Тогда;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 
 import java.util.ArrayList;
@@ -37,7 +35,7 @@ public class WebListSteps {
      * @param elementName      имя :поля|элемента
      */
     @SuppressWarnings("unchecked")
-    @Тогда("^список из переменной \"([^\"]*)\" содержит значение (?:поля|элемента) \"([^\"]*)\"$")
+    @И("^список из переменной \"([^\"]*)\" содержит значение (?:поля|элемента) \"([^\"]*)\"$")
     public void checkIfListContainsValueFromField(String variableListName, String elementName) {
         String actualValue = coreScenario.getCurrentPage().getAnyElementText(elementName);
         List<String> listFromVariable = ((List<String>) coreScenario.getVar(variableListName));
@@ -54,7 +52,7 @@ public class WebListSteps {
      * @param elementName название элемента
      *                    </p>
      */
-    @Тогда("^список \"([^\"]*)\" отображается на странице$")
+    @И("^список \"([^\"]*)\" отображается на странице$")
     public void listIsPresentedOnPage(String elementName) {
         coreScenario.getCurrentPage().waitElementsUntil(
                 Condition.appear, DEFAULT_TIMEOUT, coreScenario.getCurrentPage().getElementsList(elementName)
@@ -68,7 +66,7 @@ public class WebListSteps {
      * Для получения текста из элементов списка используется метод getText()
      * </p>
      */
-    @Тогда("^список \"([^\"]*)\" состоит из элементов из таблицы$")
+    @И("^список \"([^\"]*)\" состоит из элементов из таблицы$")
     public void checkIfListConsistsOfTableElements(String listName, List<String> textTable) {
         List<String> actualValues = coreScenario.getCurrentPage().getAnyElementsListTexts(listName);
         int numberOfTypes = actualValues.size();
@@ -83,7 +81,7 @@ public class WebListSteps {
      * Для получения текста из элементов списка используется метод innerText()
      * </p>
      */
-    @Тогда("^список \"([^\"]*)\" состоит из элементов таблицы$")
+    @И("^список \"([^\"]*)\" состоит из элементов таблицы$")
     public void checkIfListInnerTextConsistsOfTableElements(String listName, List<String> textTable) {
         List<String> actualValues = coreScenario.getCurrentPage().getAnyElementsListInnerTexts(listName);
         int numberOfTypes = actualValues.size();
@@ -99,7 +97,7 @@ public class WebListSteps {
      * (в приоритете: из property, из переменной сценария, значение аргумента)
      * </p>
      */
-    @Тогда("^в списке \"([^\"]*)\" выбран элемент с (?:текстом|значением) \"(.*)\"$")
+    @И("^в списке \"([^\"]*)\" выбран элемент с (?:текстом|значением) \"(.*)\"$")
     public void checkIfSelectedListElementMatchesValue(String listName, String expectedValue) {
         final String value = getPropertyOrStringVariableOrValue(expectedValue);
         List<SelenideElement> listOfElementsFromPage = coreScenario.getCurrentPage().getElementsList(listName);
@@ -120,7 +118,7 @@ public class WebListSteps {
      * Не чувствителен к регистру
      * </p>
      */
-    @Тогда("^в списке \"([^\"]*)\" выбран элемент содержащий текст \"([^\"]*)\"$")
+    @И("^в списке \"([^\"]*)\" выбран элемент содержащий текст \"([^\"]*)\"$")
     public void selectElementInListIfFoundByText(String listName, String expectedValue) {
         final String value = getPropertyOrStringVariableOrValue(expectedValue);
         List<SelenideElement> listOfElementsFromPage = coreScenario.getCurrentPage().getElementsList(listName);
@@ -142,7 +140,7 @@ public class WebListSteps {
      * </p>
      */
     @SuppressWarnings("unchecked")
-    @Тогда("^список \"([^\"]*)\" на странице совпадает со списком \"([^\"]*)\"$")
+    @И("^список \"([^\"]*)\" на странице совпадает со списком \"([^\"]*)\"$")
     public void checkListInnerTextCorrespondsToListFromVariable(String listName, String listVariable) {
         List<String> expectedList = new ArrayList<>((List<String>) coreScenario.getVar(listVariable));
         List<String> actualList = new ArrayList<>(coreScenario.getCurrentPage().getAnyElementsListInnerTexts(listName));
@@ -157,7 +155,7 @@ public class WebListSteps {
      * Проверка того, что элемент не отображается на странице
      * </p>
      */
-    @Тогда("^(?:поле|выпадающий список|элемент) \"([^\"]*)\" не отображается на странице$")
+    @И("^(?:поле|выпадающий список|элемент) \"([^\"]*)\" не отображается на странице$")
     public void elementIsNotVisible(String elementName) {
         coreScenario.getCurrentPage().waitElementsUntil(
                 not(Condition.appear), DEFAULT_TIMEOUT, coreScenario.getCurrentPage().getElement(elementName)
@@ -171,7 +169,7 @@ public class WebListSteps {
      * </p>
      */
     @SuppressWarnings("unchecked")
-    @Тогда("^список \"([^\"]*)\" со страницы совпадает со списком \"([^\"]*)\"$")
+    @И("^список \"([^\"]*)\" со страницы совпадает со списком \"([^\"]*)\"$")
     public void compareListFromUIAndFromVariable(String listName, String listVariable) {
         HashSet<String> expectedList = new HashSet<>((List<String>) coreScenario.getVar(listVariable));
         HashSet<String> actualList = new HashSet<>(coreScenario.getCurrentPage().getAnyElementsListTexts(listName));
@@ -183,7 +181,7 @@ public class WebListSteps {
      * Выбор из списка со страницы любого случайного элемента
      * </p>
      */
-    @Тогда("^выбран любой элемент в списке \"([^\"]*)\"$")
+    @И("^выбран любой элемент в списке \"([^\"]*)\"$")
     public void selectRandomElementFromList(String listName) {
         List<SelenideElement> listOfElementsFromPage = coreScenario.getCurrentPage().getElementsList(listName);
         listOfElementsFromPage.get(getRandom(listOfElementsFromPage.size()))
@@ -196,7 +194,7 @@ public class WebListSteps {
      * Выбор из списка со страницы любого случайного элемента и сохранение его значения в переменную
      * </p>
      */
-    @Когда("^выбран любой элемент из списка \"([^\"]*)\" и его значение сохранено в переменную \"([^\"]*)\"$")
+    @И("^выбран любой элемент из списка \"([^\"]*)\" и его значение сохранено в переменную \"([^\"]*)\"$")
     public void selectRandomElementFromListAndSaveVar(String listName, String varName) {
         List<SelenideElement> listOfElementsFromPage = coreScenario.getCurrentPage().getElementsList(listName);
         SelenideElement element = listOfElementsFromPage.get(getRandom(listOfElementsFromPage.size()));
@@ -212,7 +210,7 @@ public class WebListSteps {
      * Нумерация элементов начинается с 1
      * </p>
      */
-    @Тогда("^выбран (\\d+)-й элемент в списке \"([^\"]*)\"$")
+    @И("^выбран (\\d+)-й элемент в списке \"([^\"]*)\"$")
     public void selectElementNumberFromList(Integer elementNumber, String listName) {
         List<SelenideElement> listOfElementsFromPage = coreScenario.getCurrentPage().getElementsList(listName);
         SelenideElement elementToSelect;
@@ -232,7 +230,7 @@ public class WebListSteps {
      * Не чувствителен к регистру
      * </p>
      */
-    @Тогда("^элементы списка \"([^\"]*)\" содержат текст \"([^\"]*)\"$")
+    @И("^элементы списка \"([^\"]*)\" содержат текст \"([^\"]*)\"$")
     public void checkListElementsContainsText(String listName, String expectedValue) {
         final String value = getPropertyOrValue(expectedValue);
         List<SelenideElement> listOfElementsFromPage = coreScenario.getCurrentPage().getElementsList(listName);
@@ -248,7 +246,7 @@ public class WebListSteps {
      * Проверка, что каждый элемент списка не содержит ожидаемый текст
      * </p>
      */
-    @Тогда("^элементы списка \"([^\"]*)\" не содержат текст \"([^\"]*)\"$")
+    @И("^элементы списка \"([^\"]*)\" не содержат текст \"([^\"]*)\"$")
     public void checkListElementsNotContainsText(String listName, String expectedValue) {
         final String value = getPropertyOrValue(expectedValue);
         List<SelenideElement> listOfElementsFromPage = coreScenario.getCurrentPage().getElementsList(listName);
@@ -278,7 +276,7 @@ public class WebListSteps {
      * Производится проверка соответствия числа элементов списка значению, указанному в шаге
      * </p>
      */
-    @Тогда("^в списке \"([^\"]*)\" содержится (\\d+) (?:элемент|элементов|элемента)")
+    @И("^в списке \"([^\"]*)\" содержится (\\d+) (?:элемент|элементов|элемента)")
     public void listContainsNumberOfElements(String listName, int quantity) {
         List<SelenideElement> listOfElementsFromPage = coreScenario.getCurrentPage().getElementsList(listName);
         assertTrue(String.format("Число элементов в списке отличается от ожидаемого: %s", listOfElementsFromPage.size()), listOfElementsFromPage.size() == quantity);
@@ -289,7 +287,7 @@ public class WebListSteps {
      * Производится проверка соответствия числа элементов списка значению из property файла, из переменной сценария или указанному в шаге
      * </p>
      */
-    @Тогда("^в списке \"([^\"]*)\" содержится количество элементов, равное значению из переменной \"([^\"]*)\"")
+    @И("^в списке \"([^\"]*)\" содержится количество элементов, равное значению из переменной \"([^\"]*)\"")
     public void listContainsNumberFromVariable(String listName, String quantity) {
         int numberOfElements = Integer.parseInt(getPropertyOrStringVariableOrValue(quantity));
         listContainsNumberOfElements(listName, numberOfElements);
@@ -300,7 +298,7 @@ public class WebListSteps {
      * Производится сопоставление числа элементов списка и значения, указанного в шаге
      * </p>
      */
-    @Тогда("^в списке \"([^\"]*)\" содержится (более|менее) (\\d+) (?:элементов|элемента)")
+    @И("^в списке \"([^\"]*)\" содержится (более|менее) (\\d+) (?:элементов|элемента)")
     public void listContainsMoreOrLessElements(String listName, String moreOrLess, int quantity) {
         List<SelenideElement> listOfElementsFromPage = coreScenario.getCurrentPage().getElementsList(listName);
         if ("более".equals(moreOrLess)) {
