@@ -17,18 +17,19 @@ import com.codeborne.selenide.WebDriverRunner;
 import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.Когда;
 import cucumber.api.java.ru.Тогда;
-import io.appium.java_client.AppiumDriver;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
+import ru.bcs.at.library.core.setup.AtCoreConfig;
 import ru.bcs.at.library.mobile.utils.CustomMethods;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
 
+import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOf;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault;
 import static ru.bcs.at.library.core.steps.OtherSteps.*;
 import static ru.bcs.at.library.mobile.MobileTestConfig.*;
@@ -240,36 +241,45 @@ public class MobileActionSteps {
 
     /**
      * <p style="color: green; font-size: 1.5em">
+     * Свайп на экране мобильного устройства
+     * </p>
+     */
+    @И("^выполнен свайп (UP|DOWN|LEFT|RIGHT)$")
+    public void swipe(String direction) {
+        CustomMethods.swipe(direction);
+    }
+
+    /**
+     * <p style="color: green; font-size: 1.5em">
      * Скроллит экран до нужного элемента, имеющегося на странице, но видимого только в нижней/верхней части страницы.
      * </p>
      */
-    @Тогда("^страница прокручена (UP|DOWN|LEFT|RIGHT) до элемента \"([^\"]*)\"")
+    @Тогда("^страница свайпается (UP|DOWN|LEFT|RIGHT) до элемента \"([^\"]*)\"")
     public void scrollPageToElement(String direction, String elementName) {
-        AppiumDriver driver = (AppiumDriver) WebDriverRunner.getWebDriver();
+        String platform = AtCoreConfig.platformName.toLowerCase();
         WebElement element = null;
 
         for (int i = 1; i <= DEFAULT_SWIPE_NUMBER; i++) {
             try {
-                element = coreScenario.getCurrentPage().getElement(elementName).getWrappedElement();
+                element = getWebElementInCurrentPage(elementName);
             } catch (NoSuchElementException ex) {
+                coreScenario.write("Элемент: \"" + elementName + "\n не найден на экране. Будет сделан SWIPE №" + i);
             }
 
-            if (driver.getPlatformName().toLowerCase().equals("android")) {
-                if (element != null) break;
+            if (platform.equals("android")) {
+                if (element != null) {
+                    break;
+                }
             }
 
-            if (driver.getPlatformName().toLowerCase().equals("ios")) {
-                if (element.isDisplayed()) break;
+            if (platform.equals("ios")) {
+                if (element.isDisplayed()) {
+                    break;
+                }
             }
-
             CustomMethods.swipe(direction);
         }
-
-        if (driver.getPlatformName().toLowerCase().equals("android"))
-            if (element == null) throw new NoSuchElementException(elementName);
-
-        if (driver.getPlatformName().toLowerCase().equals("ios"))
-            if (!element.isDisplayed()) throw new NoSuchElementException(elementName);
+        driverWait().until(visibilityOf(element));
     }
 
     /**
@@ -280,16 +290,6 @@ public class MobileActionSteps {
      */
     @И("^страница прокручена до появления элемента \"([^\"]*)\"$")
     public void scrollWhileElemNotFoundOnPage(String elementName) {
-//        WebElement el = null;
-//        do {
-//            el = coreScenario.getCurrentPage().getElement(elementName).getWrappedElement();
-//            if (el.exists()) {
-//                break;
-//            }
-//            executeJavaScript("return window.scrollBy(0, 250);");
-//            sleep(1000);
-//        } while (!atBottom());
-//        el.shouldHave(enabled);
         throw new cucumber.api.PendingException("шаг не реализован");
     }
 
@@ -301,34 +301,8 @@ public class MobileActionSteps {
      */
     @И("^страница прокручена до появления элемента с текстом \"([^\"]*)\"$")
     public void scrollWhileElemWithTextNotFoundOnPage(String expectedValue) {
-//        By xpath = By.xpath(getTranslateNormalizeSpaceText(getPropertyOrStringVariableOrValue(text)));
-//        WebElement element = WebDriverRunner.getWebDriver().findElement(xpath);
-//
-//        driverWait().until(ExpectedConditions.elementToBeClickable(element));
-//        element.click();
-//
-//        AppiumDriver driver = ((AppiumDriver) WebDriverRunner.getWebDriver());
-
-//        WebElement el = null;
-//        do {
-//            el = $(By.xpath(getTranslateNormalizeSpaceText(getPropertyOrStringVariableOrValue(expectedValue))));
-//            if (el.exists()) {
-//                break;
-//            }
-//            executeJavaScript("return window.scrollBy(0, 250);");
-//            sleep(1000);
-//        } while (!atBottom());
-//        el.shouldHave(enabled);
         throw new cucumber.api.PendingException("шаг не реализован");
     }
 
-    /**
-     * <p style="color: green; font-size: 1.5em">
-     * Свайп на экране мобильного устройства
-     * </p>
-     */
-    @И("^выполнен свайп (UP|DOWN|LEFT|RIGHT)$")
-    public void swipe(String direction) {
-        CustomMethods.swipe(direction);
-    }
+
 }

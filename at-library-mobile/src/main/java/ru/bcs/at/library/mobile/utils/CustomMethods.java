@@ -4,6 +4,7 @@ import com.codeborne.selenide.WebDriverRunner;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.TouchAction;
 import org.openqa.selenium.Dimension;
+
 import static io.appium.java_client.touch.WaitOptions.waitOptions;
 import static io.appium.java_client.touch.offset.PointOption.point;
 import static java.time.Duration.ofMillis;
@@ -11,6 +12,7 @@ import static java.time.Duration.ofMillis;
 public class CustomMethods {
     /**
      * Свайп на сенсорном экране с помощью событий движения пальцем
+     *
      * @param direction Направление действия Свайпа
      */
     public static void swipe(String direction) {

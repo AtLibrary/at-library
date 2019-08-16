@@ -13,15 +13,11 @@
  */
 package ru.bcs.at.library.mobile;
 
-import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.SelenideElement;
-import com.codeborne.selenide.WebDriverRunner;
 import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.Когда;
 import cucumber.api.java.ru.Тогда;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 
 import static com.codeborne.selenide.WebDriverRunner.isIE;
@@ -229,7 +225,7 @@ public class MobileCheckSteps {
      */
     @Тогда("^(?:поле|элемент) \"([^\"]*)\" (?:недоступно|недоступен) для редактирования$")
     public void fieldIsDisable(String elementName) {
-        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
+        WebElement element = getWebElementInCurrentPage(elementName);
         assertTrue(String.format("Элемент [%s] доступен для редактирования", elementName), element.isDisplayed());
     }
 
@@ -290,7 +286,6 @@ public class MobileCheckSteps {
      */
     @И("^в блоке \"([^\"]*)\" найден список элементов\"([^\"]*)\" и сохранен в переменную \"([^\"]*)\"$")
     public void getElementsList(String blockName, String listName, String varName) {
-//        coreScenario.setVar(varName, coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName));
         throw new cucumber.api.PendingException("шаг не реализован");
     }
 
@@ -304,13 +299,6 @@ public class MobileCheckSteps {
      */
     @И("^в блоке \"([^\"]*)\" найден список элементов\"([^\"]*)\" и сохранен текст в переменную \"([^\"]*)\"$")
     public void getListElementsText(String blockName, String listName, String varName) {
-//        coreScenario.setVar(varName,
-//                coreScenario.getCurrentPage()
-//                        .getBlock(blockName)
-//                        .getElementsList(listName)
-//                        .stream()
-//                        .map(WebElement::getText)
-//                        .collect(Collectors.toList()));
         throw new cucumber.api.PendingException("шаг не реализован");
     }
 
