@@ -12,6 +12,10 @@ public class BuyPage extends CorePage {
     @FindBy(xpath = "//XCUIElementTypeStaticText[@name=\"money\"]")
     private SelenideElement money;
 
+    @Name("description")
+    @FindBy(xpath = "//XCUIElementTypeStaticText[@name=\"description\"]")
+    private SelenideElement description;
+
     @Name("Назад")
     @FindBy(xpath = "//XCUIElementTypeButton[@name=\"button_back\"]")
     private SelenideElement button_back;

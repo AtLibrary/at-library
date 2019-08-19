@@ -12,6 +12,10 @@ public class HomePage extends CorePage {
     @FindBy(xpath = "//XCUIElementTypeStaticText[@name=\"money\"]")
     private SelenideElement money;
 
+    @Name("description")
+    @FindBy(xpath = "//XCUIElementTypeStaticText[@name=\"description\"]")
+    private SelenideElement description;
+
     @Name("iphone")
     @FindBy(xpath = "//XCUIElementTypeButton[@name=\"iphone\"]")
     private SelenideElement iphone;

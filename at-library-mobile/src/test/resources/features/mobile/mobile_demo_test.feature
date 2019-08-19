@@ -47,3 +47,8 @@
     Тогда выполнено нажатие на кнопку "Назад"
     И экран "Главный" загрузился
     Тогда значение поля "money" равно "0"
+
+
+Total money:
+Thank you for your purchase. By clicking on the button you can return to the store. Total money:
+	At this step you can buy the goods or go back to the store. Total money:

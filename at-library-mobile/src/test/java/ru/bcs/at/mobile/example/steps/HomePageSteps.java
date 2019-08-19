@@ -23,6 +23,7 @@ public class HomePageSteps {
         homePage.getElement("mouse").click();
         homePage.getElement("ps4").click();
         homePage.getElement("photo").click();
+        homePage.getElement("keyboard").click();
         homePage.getElement("notebook").click();
 
         WebElement element = getWebElementInCurrentPage("money");
