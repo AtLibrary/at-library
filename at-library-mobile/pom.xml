@@ -44,7 +44,7 @@
                         -DplatformName=iOS
                         -DdeviceName="iPhone 6s"
                         -DplatformVersion=12.4
-                        -Dapp=ru.admitadteam.SimpleScoreSwift
+                        -Dapp=ru.bcs.demo.SimpleScoreSwift
                         -Dselenide.remote=http://test:test-password@selenoid.t-global.bcs:4444/wd/hub/
                         -Dproxy=http://172.18.62.68:8080
                         -Dcucumber.options="
