@@ -18,10 +18,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 
-import static com.codeborne.selenide.WebDriverRunner.isIE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.openqa.selenium.support.ui.ExpectedConditions.*;
+import static ru.bcs.at.library.core.cucumber.api.CoreScenario.sleep;
 import static ru.bcs.at.library.core.steps.OtherSteps.getPropertyOrStringVariableOrValue;
 import static ru.bcs.at.library.mobile.MobileTestConfig.*;
 
@@ -56,29 +56,9 @@ public class MobileCheckSteps {
     @И("^(?:экран|блок|форма) \"([^\"]*)\" (?:загрузилась|загрузился)$")
     public void loadPage(String nameOfPage) {
         coreScenario.setCurrentPage(coreScenario.getPage(nameOfPage));
-        if (isIE()) {
-            coreScenario.getCurrentPage().ieAppeared();
-        } else {
-            coreScenario.getCurrentPage().appeared();
-        }
-    }
-
-    /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка того, что все элементы, которые описаны в классе экрана с аннотацией @Name,
-     * но без аннотации @Optional, не появились на экране
-     * </p>
-     *
-     * @param nameOfPage название экран|блок|форма
-     */
-    @И("^(?:экран|блок|форма) \"([^\"]*)\" не (?:загрузилась|загрузился)$")
-    public void loadPageFailed(String nameOfPage) {
-        coreScenario.setCurrentPage(coreScenario.getPage(nameOfPage));
-        if (isIE()) {
-            coreScenario.getCurrentPage().ieDisappeared();
-        } else {
-            coreScenario.getCurrentPage().disappeared();
-        }
+        coreScenario.getCurrentPage().appeared();
+        //TODO нужно чтоб успел загрузится экран
+        sleep(1);
     }
 
     /**
@@ -93,7 +73,7 @@ public class MobileCheckSteps {
     @И("^(?:кнопка|ссылка|поле|блок|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" отображается на экране$")
     public void elemIsPresentedOnPage(String elementName) {
         WebElement element = getWebElementInCurrentPage(elementName);
-        driverWait().until(visibilityOf(element));
+        AssertMobile.display(element, true, DEFAULT_TIMEOUT);
     }
 
     /**
@@ -108,7 +88,7 @@ public class MobileCheckSteps {
     @И("^(?:кнопка|ссылка|поле|блок|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" отобразился на экране в течение (\\d+) (?:секунд|секунды)")
     public void testElementAppeared(String elementName, int seconds) {
         WebElement element = getWebElementInCurrentPage(elementName);
-        driverWait(seconds).until(visibilityOf(element));
+        AssertMobile.display(element, true, seconds);
     }
 
     /**
@@ -123,7 +103,7 @@ public class MobileCheckSteps {
     @И("^ожидается исчезновение (?:кнопки|ссылки|поля|блока|чекбокса|радиокнопки|текста|элемента) \"([^\"]*)\"")
     public void elemDisappered(String elementName) {
         WebElement element = getWebElementInCurrentPage(elementName);
-        driverWait().until(not(visibilityOf(element)));
+        AssertMobile.display(element, false, DEFAULT_TIMEOUT);
     }
 
     /**
@@ -135,7 +115,7 @@ public class MobileCheckSteps {
     public void compareValInFieldAndFromStep(String elementName, String expectedValue) {
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
         WebElement element = getWebElementInCurrentPage(elementName);
-        driverWait().until(ExpectedConditions.textToBePresentInElement(element, expectedValue));
+        AssertMobile.expectedText(element, expectedValue, DEFAULT_TIMEOUT);
     }
 
     /**

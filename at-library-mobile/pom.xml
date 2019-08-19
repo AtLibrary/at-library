@@ -48,7 +48,7 @@
                         -Dselenide.remote=http://test:test-password@selenoid.t-global.bcs:4444/wd/hub/
                         -Dproxy=http://172.18.62.68:8080
                         -Dcucumber.options="
-                        --plugin io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm"
+                        --plugin io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm --plugin com.epam.reportportal.cucumber.ScenarioReporter"
                     </argLine>
                 </configuration>
                 <dependencies>
