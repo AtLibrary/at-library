@@ -141,10 +141,14 @@ public class RequestSteps {
         if (dataTable != null) {
             for (List<String> requestParam : dataTable.asLists()) {
                 String type = requestParam.get(0);
-                String name = requestParam.get(1);
-                String value =
-                        PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(requestParam.get(2));
+
+                String name = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(requestParam.get(1));
+                String value = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(requestParam.get(2));
                 switch (type.toUpperCase()) {
+                    case "BASIC_AUTHENTICATION": {
+                        request.auth().basic(name, value);
+                        break;
+                    }
                     case "RELAXED_HTTPS": {
                         request.relaxedHTTPSValidation();
                         break;
@@ -178,7 +182,6 @@ public class RequestSteps {
                         request.body(body);
                         break;
                     }
-                    //добавлен case FILE для получения пути к файлу с проперти и прописание параметров загрузки файла
                     case "FILE": {
                         String filePath = PropertyLoader.loadProperty(value, ScopedVariables.resolveVars(value));
                         request.multiPart("file", new File(filePath), name);

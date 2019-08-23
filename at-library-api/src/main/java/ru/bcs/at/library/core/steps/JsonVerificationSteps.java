@@ -106,6 +106,34 @@ public class JsonVerificationSteps {
 
     /**
      * <p style="color: green; font-size: 1.5em">
+     * Получение Cookies из ответа</p>
+     *
+     * @param valueToFind     имя переменной которая содержит Response
+     * @param dataTable       И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
+     *                        и из хранилища переменных из CoreScenario.
+     *                        Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
+     */
+    @И("^значения из cookies ответа \"([^\"]*)\", сохранены в переменные из таблицы$")
+    public void getValuesFromCookiesAsString(String valueToFind, DataTable dataTable) {
+        Response response = (Response) CoreScenario.getInstance().getVar(valueToFind);
+
+        for (List<String> row : dataTable.asLists()) {
+            String nameCookies = row.get(0);
+            String varName = row.get(1);
+
+            String value = response.cookie(nameCookies);
+
+            if (value == null) {
+                throw new RuntimeException("В " + response.getCookies() + " не найдено значение по заданному nameCookies: " + nameCookies);
+            }
+
+            coreScenario.setVar(varName, value);
+            coreScenario.write("Значение Cookies с именем: " + nameCookies + " с value: " + value + ", записано в переменную: " + varName);
+        }
+    }
+
+    /**
+     * <p style="color: green; font-size: 1.5em">
      * Проверка json</p>
      */
     @И("^в json \"([^\"]*)\" значения равны(|, без учета регистра,) значениям из таблицы$")
@@ -118,8 +146,8 @@ public class JsonVerificationSteps {
 
             String expectedValue =
                     PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(row.get(1));
-
-            String actualValue = JsonPath.read(jsonObject, path);
+            Object read = JsonPath.read(jsonObject, path);
+            String actualValue = String.valueOf(read);
 
 
             if (!textRegister.isEmpty()) {
