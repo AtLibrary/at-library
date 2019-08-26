@@ -5,6 +5,7 @@ import io.cucumber.datatable.DataTable;
 import io.restassured.RestAssured;
 import io.restassured.config.JsonConfig;
 import io.restassured.config.RestAssuredConfig;
+import io.restassured.http.Cookie;
 import io.restassured.http.Method;
 import io.restassured.path.json.config.JsonPathConfig;
 import io.restassured.response.Response;
@@ -175,6 +176,11 @@ public class RequestSteps {
                     }
                     case "HEADER": {
                         request.header(name, value);
+                        break;
+                    }
+                    case "COOKIES": {
+                        Cookie myCookie = new Cookie.Builder(name, value).build();
+                        request.cookie(myCookie);
                         break;
                     }
                     case "BODY": {
