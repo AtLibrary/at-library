@@ -33,6 +33,8 @@ import java.util.List;
 @Log4j2
 public class ApiSteps {
 
+    private CoreScenario coreScenario = CoreScenario.getInstance();
+
     /**
      * <p style="color: green; font-size: 1.5em">
      * Сравнение кода http ответа с ожидаемым</p>
@@ -87,6 +89,21 @@ public class ApiSteps {
         fop.write(decodedBytes);
         fop.flush();
         fop.close();
+    }
+
+    /**
+//     * <p style="color: green; font-size: 1.5em">
+//     * Ответ, сохраннённый в переменной сохраняется в переменной.
+//     *
+//     * @param valueToFind     имя переменной, которая содержит Response
+//     * @param variableName    имя переменной хранилища переменных из CoreScenario, в которую необходимо сохранить значение.
+     */
+    @И("^значение из body ответа \"([^\"]*)\" сохранено в переменную \"([^\"]*)\"$")
+    public void getValuesFromBodyAsString(String valueToFind, String variableName) {
+        Response response = (Response) CoreScenario.getInstance().getVar(valueToFind);
+
+        coreScenario.setVar(variableName, response.getBody().asString());
+        coreScenario.write("Значение: " + response.getBody().asString() + ", записано в переменную: " + variableName);
     }
 
 }

@@ -1,5 +1,7 @@
 package ru.bcs.at.library.core.steps;
 
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
 import cucumber.api.java.ru.И;
 import io.cucumber.datatable.DataTable;
 import io.restassured.RestAssured;
@@ -16,7 +18,11 @@ import ru.bcs.at.library.core.cucumber.ScopedVariables;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.List;
+
+import static java.lang.String.format;
 
 public class RequestSteps {
 
@@ -184,6 +190,14 @@ public class RequestSteps {
                         break;
                     }
                     case "BODY": {
+                        URL url = PropertyLoader.class.getClassLoader().getResource(value);
+                        if (url != null) {
+                            try {
+                                value = Resources.toString(url, Charsets.UTF_8);
+                            } catch (IOException e) {
+                                throw new RuntimeException(format("Ошибка чтения файла ресурса: %s", url.getPath()));
+                            }
+                        }
                         body = ScopedVariables.resolveJsonVars(value);
                         request.body(body);
                         break;
@@ -194,7 +208,7 @@ public class RequestSteps {
                         break;
                     }
                     default: {
-                        throw new IllegalArgumentException(String.format("Некорректно задан тип %s для параметра запроса %s ", type, name));
+                        throw new IllegalArgumentException(format("Некорректно задан тип %s для параметра запроса %s ", type, name));
                     }
                 }
             }
