@@ -112,7 +112,9 @@ public class InitialSetupSteps {
         coreScenario.removeEnvironment();
 
         if (scenario.getSourceTagNames().contains("@web")) {
-            attachmentWebDriverLogs();
+            if (Configuration.browser.equals("chrome")) {
+                attachmentWebDriverLogs();
+            }
             Selenide.clearBrowserLocalStorage();
             Selenide.clearBrowserCookies();
             WebDriverRunner.getWebDriver().close();

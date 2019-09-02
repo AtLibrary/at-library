@@ -15,6 +15,7 @@ package ru.bcs.at.library.mobile;
 
 import com.codeborne.selenide.WebDriverRunner;
 import cucumber.api.java.ru.И;
+import cucumber.api.java.ru.То;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -114,6 +115,7 @@ public class MobileActionSteps {
      * Перед использованием поле нужно очистить
      * </p>
      */
+    @То("^в поле \"([^\"]*)\" введено значение$")
     @И("^в поле \"([^\"]*)\" введено значение \"(.*)\"$")
     public void setFieldValue(String elementName, String value) {
         value = getPropertyOrStringVariableOrValue(value);
@@ -129,6 +131,7 @@ public class MobileActionSteps {
      * Добавление строки (в приоритете: из property, из переменной сценария, значение аргумента) в поле к уже заполненой строке
      * </p>
      */
+    @То("^в поле \"([^\"]*)\" дописывается значение$")
     @И("^в поле \"([^\"]*)\" дописывается значение \"(.*)\"$")
     public void addValue(String elementName, String value) {
         value = getPropertyOrStringVariableOrValue(value);

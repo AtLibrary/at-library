@@ -243,6 +243,22 @@ public class OtherSteps {
 
     /**
      * <p style="color: green; font-size: 1.5em">
+     * Проверка равенства переменной
+     *
+     * @param variableName          переменная
+     * @param expectedValueVariable ожидаемое содержимое
+     *                              </p>
+     */
+    @Тогда("^значение переменной \"([^\"]*)\" равно \"([^\"]*)\"$")
+    public void checkVariable(String variableName, String expectedValueVariable) {
+        String valueVariable = coreScenario.getVar(variableName).toString();
+        expectedValueVariable = loadValueFromFileOrPropertyOrVariableOrDefault(expectedValueVariable);
+        assertThat(String.format("Значения в переменных [%s] и [%s] не совпадают", valueVariable, expectedValueVariable),
+                valueVariable, equalTo(expectedValueVariable));
+    }
+
+    /**
+     * <p style="color: green; font-size: 1.5em">
      * Проверка неравенства двух переменных из хранилища
      *
      * @param firstVariableName  первая переменная
@@ -307,8 +323,8 @@ public class OtherSteps {
         String template = loadValueFromFileOrPropertyOrVariableOrDefault(templateName);
         boolean error = false;
         for (List<String> list : table.asLists()) {
-            String regexp = list.get(0);
-            String replacement = list.get(1);
+            String regexp = loadValueFromFileOrPropertyOrVariableOrDefault(list.get(0));
+            String replacement = loadValueFromFileOrPropertyOrVariableOrDefault(list.get(1));
             if (template.contains(regexp)) {
                 template = template.replaceAll(regexp, replacement);
             } else {

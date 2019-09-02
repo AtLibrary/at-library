@@ -14,6 +14,7 @@
 package ru.bcs.at.library.mobile;
 
 import cucumber.api.java.ru.И;
+import cucumber.api.java.ru.То;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
@@ -111,6 +112,7 @@ public class MobileCheckSteps {
      * Проверка, что значение в поле равно значению, указанному в шаге (в приоритете: из property, из переменной сценария, значение аргумента)
      * </p>
      */
+    @То("^значение (?:поля|элемента|текста) \"([^\"]*)\" равно$")
     @И("^значение (?:поля|элемента|текста) \"([^\"]*)\" равно \"(.*)\"$")
     public void compareValInFieldAndFromStep(String elementName, String expectedValue) {
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);

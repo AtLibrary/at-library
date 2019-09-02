@@ -108,10 +108,10 @@ public class JsonVerificationSteps {
      * <p style="color: green; font-size: 1.5em">
      * Получение Cookies из ответа</p>
      *
-     * @param valueToFind     имя переменной которая содержит Response
-     * @param dataTable       И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
-     *                        и из хранилища переменных из CoreScenario.
-     *                        Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
+     * @param valueToFind имя переменной которая содержит Response
+     * @param dataTable   И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
+     *                    и из хранилища переменных из CoreScenario.
+     *                    Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
     @И("^значения из cookies ответа \"([^\"]*)\", сохранены в переменные из таблицы$")
     public void getValuesFromCookiesAsString(String valueToFind, DataTable dataTable) {

@@ -3,6 +3,7 @@ package ru.bcs.at.library.core.steps;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.ex.ElementShould;
 import cucumber.api.java.ru.И;
+import cucumber.api.java.ru.То;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 
 import java.io.File;
@@ -252,6 +253,7 @@ public class WebCheckSteps {
      * Проверка, что значение в поле равно значению, указанному в шаге (в приоритете: из property, из переменной сценария, значение аргумента)
      * </p>
      */
+    @То("^(?:значение|содержимое) (?:поля|элемента|текста) \"([^\"]*)\" (?:совпадает с текстом|равно)$")
     @И("^(?:значение|содержимое) (?:поля|элемента|текста) \"([^\"]*)\" (?:совпадает с текстом|равно) \"(.*)\"$")
     public void compareValInFieldAndFromStep(String elementName, String expectedValue) {
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);

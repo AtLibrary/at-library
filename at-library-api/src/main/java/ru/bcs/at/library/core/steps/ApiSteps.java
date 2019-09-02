@@ -92,11 +92,11 @@ public class ApiSteps {
     }
 
     /**
-//     * <p style="color: green; font-size: 1.5em">
-//     * Ответ, сохраннённый в переменной сохраняется в переменной.
-//     *
-//     * @param valueToFind     имя переменной, которая содержит Response
-//     * @param variableName    имя переменной хранилища переменных из CoreScenario, в которую необходимо сохранить значение.
+     * //     * <p style="color: green; font-size: 1.5em">
+     * //     * Ответ, сохраннённый в переменной сохраняется в переменной.
+     * //     *
+     * //     * @param valueToFind     имя переменной, которая содержит Response
+     * //     * @param variableName    имя переменной хранилища переменных из CoreScenario, в которую необходимо сохранить значение.
      */
     @И("^значение из body ответа \"([^\"]*)\" сохранено в переменную \"([^\"]*)\"$")
     public void getValuesFromBodyAsString(String valueToFind, String variableName) {
