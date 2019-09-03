@@ -122,10 +122,8 @@ public class RequestSteps {
      * @param dataTable список параметров для http запроса
      * @return Response
      */
-    private Response sendRequest(String method, String address,
-
-                                 DataTable dataTable) {
-        address = PropertyLoader.loadProperty(address, ScopedVariables.resolveVars(address));
+    private Response sendRequest(String method, String address, DataTable dataTable) {
+        address = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(address);
         RestAssured.config =
                 RestAssuredConfig.newConfig().jsonConfig(JsonConfig.jsonConfig().numberReturnType(JsonPathConfig.NumberReturnType.BIG_DECIMAL));
 
@@ -190,14 +188,7 @@ public class RequestSteps {
                         break;
                     }
                     case "BODY": {
-                        URL url = PropertyLoader.class.getClassLoader().getResource(value);
-                        if (url != null) {
-                            try {
-                                value = Resources.toString(url, Charsets.UTF_8);
-                            } catch (IOException e) {
-                                throw new RuntimeException(format("Ошибка чтения файла ресурса: %s", url.getPath()));
-                            }
-                        }
+                        value = checkBody(value);
                         body = ScopedVariables.resolveJsonVars(value);
                         request.body(body);
                         break;
@@ -218,6 +209,25 @@ public class RequestSteps {
         }
 
         return request;
+    }
+
+    /**
+     * <p style="color: green; font-size: 1.5em">
+     * Получает тела запроса</p>
+     * TODO описать
+     *
+     * @param value
+     */
+    private String checkBody(String value) {
+        URL url = PropertyLoader.class.getClassLoader().getResource(value);
+        if (url != null) {
+            try {
+                value = Resources.toString(url, Charsets.UTF_8);
+            } catch (IOException e) {
+                throw new RuntimeException(format("Ошибка чтения файла ресурса: %s", url.getPath()));
+            }
+        }
+        return value;
     }
 
     /**

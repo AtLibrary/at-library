@@ -19,6 +19,7 @@ import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 import java.util.List;
 
 import static ru.bcs.at.library.core.cucumber.ScopedVariables.isJSONValid;
+import static ru.bcs.at.library.core.cucumber.ScopedVariables.isXMLValid;
 
 public class JsonVerificationSteps {
 
@@ -310,23 +311,31 @@ public class JsonVerificationSteps {
      * @return сформированный json
      */
     //TODO проверить работу c XML
-    @И("заполняю json-шаблон \"([^\"]*)\" данными из таблицы и сохраняю в переменную \"([^\"]*)\"")
-    public void iFillInTheJsonTypeDataFromTheTableSafeguardTheVariable(String pathExpectedJson, String variableName, DataTable dataTable) {
-        String jsonExample = OtherSteps.getPropertyOrStringVariableOrValue(pathExpectedJson);
+    @И("заполняю ([^\"]*)-шаблон \"([^\"]*)\" данными из таблицы и сохраняю в переменную \"([^\"]*)\"")
+    public void iFillInTheJsonTypeDataFromTheTableSafeguardTheVariable(String type, String pathExpectedJson, String variableName, DataTable dataTable) {
+        String fileExample = OtherSteps.getPropertyOrStringVariableOrValue(pathExpectedJson);
 
         if (dataTable != null) {
             for (List<String> requestParam : dataTable.asLists()) {
                 String key = requestParam.get(0);
                 String value = OtherSteps.getPropertyOrStringVariableOrValue(requestParam.get(1));
 
-                jsonExample = jsonExample.replaceAll(key, value);
+                fileExample = fileExample.replaceAll(key, value);
             }
         }
-        if (!isJSONValid(jsonExample)) {
-            throw new JsonSyntaxException("Json " + variableName + "не прошел валидацию" +
-                    "\nубедитесь в его корретности:\n" + jsonExample);
+        if (type.equals("JSON")) {
+            if (!isJSONValid(fileExample)) {
+                throw new JsonSyntaxException("Json " + variableName + "не прошел валидацию" +
+                        "\nубедитесь в его корретности:\n" + fileExample);
+            }
         }
-        coreScenario.setVar(variableName, jsonExample);
+        if (type.equals("XML")) {
+            if (!isXMLValid(fileExample)) {
+                throw new JsonSyntaxException("Xml " + variableName + "не прошел валидацию" +
+                        "\nубедитесь в его корретности:\n" + fileExample);
+            }
+        }
+        coreScenario.setVar(variableName, fileExample);
     }
 
 }

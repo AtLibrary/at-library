@@ -16,8 +16,12 @@ package ru.bcs.at.library.core.cucumber;
 import com.google.common.collect.Maps;
 import com.google.gson.JsonParser;
 import groovy.lang.GroovyShell;
+import groovy.util.XmlParser;
+import org.xml.sax.SAXException;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -103,6 +107,20 @@ public class ScopedVariables {
             parser.parse(jsonInString);
         } catch (com.google.gson.JsonSyntaxException ex) {
             return false;
+        }
+        return true;
+    }
+
+    /**
+     * @param xmlInString - строка для валидации
+     * @return Проверяет, является ли переданная в качестве аргумента строка валидным XML
+     */
+    public static boolean isXMLValid(String xmlInString) {
+        try {
+            XmlParser parser = new XmlParser();
+            parser.parse(xmlInString);
+        } catch (ParserConfigurationException | IOException | SAXException e) {
+            e.printStackTrace();
         }
         return true;
     }
