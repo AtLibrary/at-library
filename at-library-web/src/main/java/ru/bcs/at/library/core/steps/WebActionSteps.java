@@ -382,6 +382,7 @@ public class WebActionSteps {
      * Скроллит экран до нужного элемента, имеющегося на странице, но видимого только в нижней/верхней части страницы.
      * </p>
      */
+    @Deprecated
     @И("^страница прокручена до элемента \"([^\"]*)\"")
     public void scrollPageToElement(String elementName) {
         coreScenario.getCurrentPage().getElement(elementName).scrollTo();
@@ -393,6 +394,7 @@ public class WebActionSteps {
      * Ввод в поле случайной последовательности латинских или кириллических букв задаваемой длины
      * </p>
      */
+    @Deprecated
     @И("^в поле \"([^\"]*)\" введено (\\d+) случайных символов на (кириллице|латинице)$")
     public void setRandomCharSequence(String elementName, int seqLength, String lang) {
         SelenideElement valueInput = coreScenario.getCurrentPage().getElement(elementName);
@@ -410,6 +412,7 @@ public class WebActionSteps {
      * Ввод в поле случайной последовательности латинских или кириллических букв задаваемой длины и сохранение этого значения в переменную
      * </p>
      */
+    @Deprecated
     @И("^в поле \"([^\"]*)\" введено (\\d+) случайных символов на (кириллице|латинице) и сохранено в переменную \"([^\"]*)\"$")
     public void setRandomCharSequenceAndSaveToVar(String elementName, int seqLength, String lang, String varName) {
         SelenideElement valueInput = coreScenario.getCurrentPage().getElement(elementName);
@@ -428,6 +431,7 @@ public class WebActionSteps {
      * Ввод в поле случайной последовательности цифр задаваемой длины
      * </p>
      */
+    @Deprecated
     @И("^в поле \"([^\"]*)\" введено случайное число из (\\d+) (?:цифр|цифры)$")
     public void inputRandomNumSequence(String elementName, int seqLength) {
         SelenideElement valueInput = coreScenario.getCurrentPage().getElement(elementName);
@@ -442,6 +446,7 @@ public class WebActionSteps {
      * Ввод в поле случайной последовательности цифр задаваемой длины и сохранение этого значения в переменную
      * </p>
      */
+    @Deprecated
     @И("^в поле \"([^\"]*)\" введено случайное число из (\\d+) (?:цифр|цифры) и сохранено в переменную \"([^\"]*)\"$")
     public void inputAndSetRandomNumSequence(String elementName, int seqLength, String varName) {
         SelenideElement valueInput = coreScenario.getCurrentPage().getElement(elementName);
