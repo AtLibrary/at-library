@@ -12,12 +12,12 @@ import net.minidev.json.parser.ParseException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
-import ru.bcs.at.library.core.core.helpers.PropertyLoader;
 import ru.bcs.at.library.core.cucumber.ScopedVariables;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 
 import java.util.List;
 
+import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault;
 import static ru.bcs.at.library.core.cucumber.ScopedVariables.isJSONValid;
 import static ru.bcs.at.library.core.cucumber.ScopedVariables.isXMLValid;
 
@@ -43,7 +43,7 @@ public class JsonVerificationSteps {
             String path = row.get(0);
 
             String expectedValue =
-                    PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(row.get(1));
+                    loadValueFromFileOrPropertyOrVariableOrDefault(row.get(1));
 
             String actualValue = "";
 
@@ -139,14 +139,14 @@ public class JsonVerificationSteps {
      */
     @И("^в json \"([^\"]*)\" значения равны(|, без учета регистра,) значениям из таблицы$")
     public void checkJson(String pathExpectedJson, String textRegister, DataTable dataTable) throws ParseException {
-        String jsonString = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(pathExpectedJson);
+        String jsonString = loadValueFromFileOrPropertyOrVariableOrDefault(pathExpectedJson);
         JSONParser parser = new JSONParser();
         JSONObject jsonObject = (JSONObject) parser.parse(jsonString);
         for (List<String> row : dataTable.asLists()) {
             String path = row.get(0);
 
             String expectedValue =
-                    PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(row.get(1));
+                    loadValueFromFileOrPropertyOrVariableOrDefault(row.get(1));
             Object read = JsonPath.read(jsonObject, path);
             String actualValue = String.valueOf(read);
 
@@ -215,7 +215,7 @@ public class JsonVerificationSteps {
      */
     @И("^json в ответе \"([^\"]*)\" равен json: \"([^\"]*)\"")
     public void checkResponseJson(String variableName, String pathExpectedJson) {
-        String json = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(pathExpectedJson);
+        String json = loadValueFromFileOrPropertyOrVariableOrDefault(pathExpectedJson);
         json = ScopedVariables.resolveJsonVars(json);
         Response response = (Response) CoreScenario.getInstance().getVar(variableName);
         response
@@ -234,7 +234,7 @@ public class JsonVerificationSteps {
      */
     @И("^в ответе \"([^\"]*)\" по ключу: \"([^\"]*)\" массив содержит \"([^\"]*)\"$")
     public void checkArrayHasItem(String responseName, String key, String value) {
-        value = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(value);
+        value = loadValueFromFileOrPropertyOrVariableOrDefault(value);
         Response response = (Response) CoreScenario.getInstance().getVar(responseName);
         response
                 .then()
@@ -251,7 +251,7 @@ public class JsonVerificationSteps {
      */
     @И("^в ответе \"([^\"]*)\" по ключу: \"([^\"]*)\" весь массив соотвествует \"([^\"]*)\"$")
     public void checkArrayEqualAllItem(String responseName, String key, String value) {
-        value = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(value);
+        value = loadValueFromFileOrPropertyOrVariableOrDefault(value);
         Response response = (Response) CoreScenario.getInstance().getVar(responseName);
 
         List<String> list = response
@@ -277,7 +277,7 @@ public class JsonVerificationSteps {
      */
     @И("^в ответе \"([^\"]*)\" по ключу: \"([^\"]*)\" размер массива \"([^\"]*)\"$")
     public void checkArraySize(String responseName, String key, String value) {
-        value = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(value);
+        value = loadValueFromFileOrPropertyOrVariableOrDefault(value);
         Response response = (Response) CoreScenario.getInstance().getVar(responseName);
         MatcherAssert.assertThat(response.jsonPath().getList(key).size(), Matchers.equalTo(Integer.valueOf(value)));
     }
@@ -294,7 +294,7 @@ public class JsonVerificationSteps {
     public void verifyingResponseMatchesJsonScheme(String variableName, String expectedJsonSchema) {
         Response response = (Response) CoreScenario.getInstance().getVar(variableName);
         expectedJsonSchema =
-                PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(expectedJsonSchema);
+                loadValueFromFileOrPropertyOrVariableOrDefault(expectedJsonSchema);
 
         response.then()
                 .assertThat()
@@ -313,12 +313,13 @@ public class JsonVerificationSteps {
     //TODO проверить работу c XML
     @И("заполняю ([^\"]*)-шаблон \"([^\"]*)\" данными из таблицы и сохраняю в переменную \"([^\"]*)\"")
     public void iFillInTheJsonTypeDataFromTheTableSafeguardTheVariable(String type, String pathExpectedJson, String variableName, DataTable dataTable) {
-        String fileExample = OtherSteps.getPropertyOrStringVariableOrValue(pathExpectedJson);
+        String jsonPath = loadValueFromFileOrPropertyOrVariableOrDefault(pathExpectedJson);
+        String fileExample = loadValueFromFileOrPropertyOrVariableOrDefault(jsonPath);
 
         if (dataTable != null) {
             for (List<String> requestParam : dataTable.asLists()) {
                 String key = requestParam.get(0);
-                String value = OtherSteps.getPropertyOrStringVariableOrValue(requestParam.get(1));
+                String value = loadValueFromFileOrPropertyOrVariableOrDefault(requestParam.get(1));
 
                 fileExample = fileExample.replaceAll(key, value);
             }
