@@ -152,9 +152,9 @@ public class WebActionSteps {
     @И("^выполнено умное нажатие на (?:кнопку|ссылку|поле|блок|чекбокс|радиокнопу|текст|элемент) \"([^\"]*)\"$")
     public void clickElementOrParent(String elementName) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
-        if (element.isDisplayed()) {
+        try {
             element.click();
-        } else {
+        } catch (Exception e) {
             element.parent().click();
         }
     }

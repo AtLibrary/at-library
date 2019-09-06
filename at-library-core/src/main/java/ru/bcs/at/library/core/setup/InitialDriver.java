@@ -130,6 +130,7 @@ public class InitialDriver {
 
         if (testDevice.equals("web")) {
             capabilities.setBrowserName(Configuration.browser);
+            capabilities.setVersion(Configuration.browserVersion);
             capabilities.setCapability("screenResolution", "1920x1080");
             capabilities.setCapability("width", "1920");
             capabilities.setCapability("height", "1080");
@@ -173,7 +174,7 @@ public class InitialDriver {
         boolean web = scenario.getSourceTagNames().contains("@web");
         boolean mobile = scenario.getSourceTagNames().contains("@mobile");
         if (web && mobile) {
-            Assert.fail("Сценарий подписан тегом @web и @mobile . Подпишите одним из низ");
+            Assert.fail("Сценарий подписан тегом @web и @mobile . Подпишите одним из них");
         }
         if (web) {
             return "web";

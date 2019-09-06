@@ -7,7 +7,7 @@
     <groupId>ru.bcs</groupId>
     <artifactId>at-library</artifactId>
     <packaging>pom</packaging>
-    <version>04.09.2019</version>
+    <version>05.09.2019</version>
 
     <modules>
         <module>at-library-core</module>
@@ -19,8 +19,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!--WEB ТЕСТИРОВАНИЕ-->
-        <selenide.version>5.2.3</selenide.version>
-        <webdrivermanager.version>3.6.0</webdrivermanager.version>
+        <selenide.version>5.3.0</selenide.version>
+        <webdrivermanager.version>3.6.2</webdrivermanager.version>
         <!--API ТЕСТИРОВАНИЕ-->
         <rest-assured.version>3.3.0</rest-assured.version>
         <!--MOBILE ТЕСТИРОВАНИЕ-->
@@ -64,22 +64,23 @@
     </repositories>
 
     <dependencies>
+        <!--MOBILE ТЕСТИРОВАНИЕ-->
         <dependency>
             <groupId>io.appium</groupId>
             <artifactId>java-client</artifactId>
             <version>${io.appium.java-client.version}</version>
-        </dependency>
-        <!--webdrivermanager-->
-        <dependency>
-            <groupId>io.github.bonigarcia</groupId>
-            <artifactId>webdrivermanager</artifactId>
-            <version>${webdrivermanager.version}</version>
         </dependency>
         <!--WEB ТЕСТИРОВАНИЕ-->
         <dependency>
             <groupId>com.codeborne</groupId>
             <artifactId>selenide</artifactId>
             <version>${selenide.version}</version>
+        </dependency>
+        <!--WebDriverManager-->
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+            <version>${webdrivermanager.version}</version>
         </dependency>
         <!--API ТЕСТИРОВАНИЕ-->
         <dependency>
