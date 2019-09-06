@@ -8,7 +8,7 @@ at-library-web
 <dependency>
       <groupId>ru.bcs</groupId>
       <artifactId>at-library-web</artifactId>
-      <version>05.09.2019</version>
+      <version>09.09.2019</version>
 </dependency>
 ```
 
