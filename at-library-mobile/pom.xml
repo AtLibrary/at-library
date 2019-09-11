@@ -5,7 +5,7 @@
     <parent>
         <artifactId>at-library</artifactId>
         <groupId>ru.bcs</groupId>
-        <version>09.09.2019</version>
+        <version>11.09.2019</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -14,7 +14,7 @@
         <dependency>
             <groupId>ru.bcs</groupId>
             <artifactId>at-library-core</artifactId>
-            <version>09.09.2019</version>
+            <version>11.09.2019</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
@@ -46,7 +46,7 @@
                         -DplatformVersion=12.4
                         -Dapp=ru.bcs.demo.SimpleScoreSwift
                         -Dselenide.remote=http://test:test-password@selenoid.t-global.bcs:4444/wd/hub/
-                        -Dproxy=http://172.18.62.68:8080
+                        -Dproxy=172.18.62.68:8080
                         -Dcucumber.options="
                         --plugin io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm"
                     </argLine>

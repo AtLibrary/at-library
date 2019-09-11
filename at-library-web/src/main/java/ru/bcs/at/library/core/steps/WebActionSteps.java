@@ -1,6 +1,9 @@
 package ru.bcs.at.library.core.steps;
 
-import com.codeborne.selenide.*;
+import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.WebDriverRunner;
 import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.То;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -9,7 +12,6 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
-import ru.bcs.at.library.core.setup.AtCoreConfig;
 
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;

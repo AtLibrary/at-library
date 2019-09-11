@@ -8,7 +8,7 @@ at-library-web
 <dependency>
       <groupId>ru.bcs</groupId>
       <artifactId>at-library-web</artifactId>
-      <version>09.09.2019</version>
+      <version>11.09.2019</version>
 </dependency>
 ```
 
@@ -167,8 +167,8 @@ clean test -Dselenide.browser="internet explorer" -Dwebdriver.ie.driver="C:\\Pro
 
 - Запуск удаленно на Selenoid
 ```mvn
-clean test -Dselenide.browser="chrome" -Dselenide.remote=http://test:test-password@selenoid.t-global.bcs:4444/wd/hub/ -Dproxy=http://172.18.62.68:8080 allure:serve
-clean test -Dselenide.browser="internet explorer" -Dselenide.remote=http://test:test-password@selenoid.t-global.bcs:4444/wd/hub/ -Dproxy=http://172.18.62.68:8080 allure:serve
+clean test -Dselenide.browser="chrome" -Dselenide.remote=http://test:test-password@selenoid.t-global.bcs:4444/wd/hub/ -Dproxy=172.18.62.68:8080 allure:serve
+clean test -Dselenide.browser="internet explorer" -Dselenide.remote=http://test:test-password@selenoid.t-global.bcs:4444/wd/hub/ -Dproxy=172.18.62.68:8080 allure:serve
 ```
 - Запуск тестов с тегами (И)
 ```mvn
@@ -202,7 +202,7 @@ allure:serve - запуск allure отчетов
 -Djava.net.useSystemProxies=true - установив для этого свойства значение true, использовать настройки прокси-сервера системы
 ```
 ```mvn
--Dselenide.remote=http://test:test-password@selenoid.t-global.bcs:4444/wd/hub/ -Dproxy=http://172.18.62.68:8080 - для запуска тестов на selenoid
+-Dselenide.remote=http://test:test-password@selenoid.t-global.bcs:4444/wd/hub/ -Dproxy=172.18.62.68:8080 - для запуска тестов на selenoid
 ```
 - Чтобы установить базовый url(для api и ui тестов) его можно указать в application.properties по ключу baseURI=https://ef.tusvc.bcs.ru
 или передать параметром (если передан параметр и присутсивует в application.properties то будет использован тот что передан параметром)

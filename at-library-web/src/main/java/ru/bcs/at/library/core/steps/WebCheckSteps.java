@@ -1,7 +1,6 @@
 package ru.bcs.at.library.core.steps;
 
 import com.codeborne.selenide.SelenideElement;
-import com.codeborne.selenide.ex.ElementShould;
 import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.То;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
@@ -223,11 +222,11 @@ public class WebCheckSteps {
     public void testFieldContainsInnerText(String elementName, String expectedValue) {
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
-        try {
-            element.waitUntil(text(expectedValue), DEFAULT_TIMEOUT);
-        } catch (ElementShould ex) {
-            element.waitUntil(value(expectedValue), DEFAULT_TIMEOUT);
-        }
+        element.waitUntil(
+                or("Текст элемента содержит",
+                        text(expectedValue),
+                        value(expectedValue)),
+                DEFAULT_TIMEOUT);
     }
 
     /**
@@ -241,11 +240,11 @@ public class WebCheckSteps {
     public void testFieldNotContainsInnerText(String elementName, String expectedValue) {
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
-        try {
-            element.waitUntil(not(text(expectedValue)), DEFAULT_TIMEOUT);
-        } catch (ElementShould ex) {
-            element.waitUntil(not(value(expectedValue)), DEFAULT_TIMEOUT);
-        }
+        element.waitUntil(
+                and("Текст элемента не содержит",
+                        not(text(expectedValue)),
+                        not(value(expectedValue))),
+                DEFAULT_TIMEOUT);
     }
 
     /**
@@ -258,11 +257,11 @@ public class WebCheckSteps {
     public void compareValInFieldAndFromStep(String elementName, String expectedValue) {
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
-        try {
-            element.waitUntil(exactText(expectedValue), DEFAULT_TIMEOUT);
-        } catch (ElementShould ex) {
-            element.waitUntil(exactValue(expectedValue), DEFAULT_TIMEOUT);
-        }
+        element.waitUntil(
+                or("Текст элемента равен",
+                        exactText(expectedValue),
+                        exactValue(expectedValue)),
+                DEFAULT_TIMEOUT);
     }
 
     /**

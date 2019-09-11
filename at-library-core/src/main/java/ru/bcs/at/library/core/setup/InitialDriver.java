@@ -117,6 +117,7 @@ public class InitialDriver {
 
     private void initRemoteStart(Proxy proxy, Scenario scenario) throws MalformedURLException {
         log.info("Тесты запущены на удаленной машине: " + Configuration.remote);
+        log.info("Тесты будут запущены в браузере: " + browser);
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("enableVNC", true);
@@ -130,7 +131,6 @@ public class InitialDriver {
 
         if (testDevice.equals("web")) {
             capabilities.setBrowserName(Configuration.browser);
-            capabilities.setVersion(Configuration.browserVersion);
             capabilities.setCapability("screenResolution", "1920x1080");
             capabilities.setCapability("width", "1920");
             capabilities.setCapability("height", "1080");

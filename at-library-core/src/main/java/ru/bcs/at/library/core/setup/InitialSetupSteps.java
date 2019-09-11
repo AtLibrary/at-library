@@ -13,7 +13,6 @@
  */
 package ru.bcs.at.library.core.setup;
 
-import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
 import cucumber.api.Scenario;
@@ -32,6 +31,10 @@ import java.net.MalformedURLException;
 import java.util.List;
 import java.util.logging.Level;
 
+import static com.codeborne.selenide.Browsers.CHROME;
+import static com.codeborne.selenide.Browsers.OPERA;
+import static com.codeborne.selenide.Configuration.baseUrl;
+import static com.codeborne.selenide.Configuration.browser;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.tryLoadProperty;
 
 /**
@@ -79,7 +82,7 @@ public class InitialSetupSteps {
     @Before
     public void beforeEachTest(Scenario scenario) throws MalformedURLException {
         RestAssured.baseURI = System.getProperty("baseURI", tryLoadProperty("baseURI"));
-        Configuration.baseUrl = System.getProperty("baseURI", tryLoadProperty("baseURI"));
+        baseUrl = System.getProperty("baseURI", tryLoadProperty("baseURI"));
 
         /**
          * Если сценарий содержит тег @web" то будет создан WebDriver
@@ -112,7 +115,7 @@ public class InitialSetupSteps {
         coreScenario.removeEnvironment();
 
         if (scenario.getSourceTagNames().contains("@web")) {
-            if (Configuration.browser.equals("chrome")) {
+            if (browser.equals(CHROME) || browser.equals(OPERA)) {
                 attachmentWebDriverLogs();
             }
             Selenide.clearBrowserLocalStorage();

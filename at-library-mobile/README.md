@@ -8,7 +8,7 @@ at-library-mobile
 <dependency>
       <groupId>ru.bcs</groupId>
       <artifactId>at-library-mobile</artifactId>
-      <version>09.09.2019</version>
+      <version>11.09.2019</version>
 </dependency>
 ```
 
@@ -164,15 +164,15 @@ public HeaderBlock header;
 
 - Запуск удаленно на Selenoid
 ```mvn
-clean test -DplatformName=iOS -DdeviceName="iPhone 6s" -DplatformVersion=12.4 -Dapp=ru.admitadteam.SimpleScoreSwift -Dselenide.remote=http://test:test-password@selenoid.t-global.bcs:4444/wd/hub/ -Dproxy=http://172.18.62.68:8080 allure:serve
+clean test -DplatformName=iOS -DdeviceName="iPhone 6s" -DplatformVersion=12.4 -Dapp=ru.admitadteam.SimpleScoreSwift -Dselenide.remote=http://test:test-password@selenoid.t-global.bcs:4444/wd/hub/ -Dproxy=172.18.62.68:8080 allure:serve
 ```
 - Запуск тестов по тегам (И)
 ```mvn
-clean test -DplatformName=iOS -DdeviceName="iPhone 6s" -DplatformVersion=12.4 -Dapp=ru.admitadteam.SimpleScoreSwift -Dselenide.remote=http://test:test-password@selenoid.t-global.bcs:4444/wd/hub/ -Dproxy=http://172.18.62.68:8080 -Dcucumber.options="--tags @api --tags @web --plugin io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm --plugin com.epam.reportportal.cucumber.ScenarioReporter"
+clean test -DplatformName=iOS -DdeviceName="iPhone 6s" -DplatformVersion=12.4 -Dapp=ru.admitadteam.SimpleScoreSwift -Dselenide.remote=http://test:test-password@selenoid.t-global.bcs:4444/wd/hub/ -Dproxy=172.18.62.68:8080 -Dcucumber.options="--tags @api --tags @web --plugin io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm --plugin com.epam.reportportal.cucumber.ScenarioReporter"
 ```
 - Запуск тестов по тегам (ИЛИ)
 ```mvn
-clean test -DplatformName=iOS -DdeviceName="iPhone 6s" -DplatformVersion=12.4 -Dapp=ru.admitadteam.SimpleScoreSwift -Dselenide.remote=http://test:test-password@selenoid.t-global.bcs:4444/wd/hub/ -Dproxy=http://172.18.62.68:8080 -Dcucumber.options="--tags @api,@web --plugin io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm --plugin com.epam.reportportal.cucumber.ScenarioReporter"
+clean test -DplatformName=iOS -DdeviceName="iPhone 6s" -DplatformVersion=12.4 -Dapp=ru.admitadteam.SimpleScoreSwift -Dselenide.remote=http://test:test-password@selenoid.t-global.bcs:4444/wd/hub/ -Dproxy=172.18.62.68:8080 -Dcucumber.options="--tags @api,@web --plugin io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm --plugin com.epam.reportportal.cucumber.ScenarioReporter"
 ```
 
 Пояснение к командам:
@@ -207,5 +207,5 @@ allure:serve - запуск allure отчетов
 ```
 
 ```mvn
--Dselenide.remote=http://test:test-password@selenoid.t-global.bcs:4444/wd/hub/ -Dproxy=http://172.18.62.68:8080 - для запуска тестов на selenoid
+-Dselenide.remote=http://test:test-password@selenoid.t-global.bcs:4444/wd/hub/ -Dproxy=172.18.62.68:8080 - для запуска тестов на selenoid
 ```

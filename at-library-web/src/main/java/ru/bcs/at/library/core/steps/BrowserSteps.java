@@ -32,6 +32,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
 import static ru.bcs.at.library.core.cucumber.ScopedVariables.resolveVars;
 import static ru.bcs.at.library.core.steps.OtherSteps.getPropertyOrStringVariableOrValue;
+import static ru.bcs.at.library.core.steps.WebTestConfig.DEFAULT_TIMEOUT;
 
 /**
  * <h1 style="color: green; font-size: 2.2em">
@@ -150,14 +151,22 @@ public class BrowserSteps {
      * Производится сравнение заголовка страницы со значением, указанным в шаге
      * (в приоритете: из property, из переменной сценария, значение аргумента)</p>
      *
-     * @param pageTitleName ожидаемый заголовок текущей вкладки
+     * @param expectedTitle ожидаемый заголовок текущей вкладки
      */
     @И("^заголовок страницы равен \"([^\"]*)\"$")
-    public void checkPageTitle(String pageTitleName) {
-        pageTitleName = getPropertyOrStringVariableOrValue(pageTitleName);
-        String currentTitle = getWebDriver().getTitle().trim();
-        assertThat(String.format("Заголовок страницы не совпадает с ожидаемым значением. Ожидаемый результат: %s, текущий результат: %s", pageTitleName, currentTitle),
-                pageTitleName, equalToIgnoringCase(currentTitle));
+    public void checkPageTitle(String expectedTitle) {
+        expectedTitle = getPropertyOrStringVariableOrValue(expectedTitle);
+        String actualTitle = "";
+        int sleepTime = 100;
+        for (int time = 0; time < DEFAULT_TIMEOUT; time += 100) {
+            actualTitle = title();
+            if (actualTitle.toLowerCase().equals(expectedTitle.toLowerCase())) {
+                break;
+            }
+            sleep(sleepTime);
+        }
+        assertThat(String.format("Заголовок страницы не совпадает с ожидаемым значением. Ожидаемый результат: %s, текущий результат: %s", expectedTitle, actualTitle),
+                expectedTitle, equalToIgnoringCase(actualTitle));
     }
 
     /**
@@ -168,7 +177,7 @@ public class BrowserSteps {
      */
     @И("^заголовок страницы сохранен в переменную \"([^\"]*)\"$")
     public void savePageTitleToVariable(String variableName) {
-        String titleName = getWebDriver().getTitle().trim();
+        String titleName = title();
         coreScenario.setVar(variableName, titleName);
         coreScenario.write("Значение заголовка страницы [" + titleName + "] сохранено в переменную [" + variableName + "]");
     }
