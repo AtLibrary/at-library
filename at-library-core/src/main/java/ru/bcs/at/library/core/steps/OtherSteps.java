@@ -69,8 +69,8 @@ public class OtherSteps {
      * Принимает на вход варианты языков 'ru' и 'en'
      * Для других входных параметров возвращает латинские символы (en)
      *
-     * @param length
-     * @param lang   </p>
+     * @param length длина последовательности
+     * @param lang   варианты языков 'ru' или 'en'</p>
      */
     public static String getRandCharSequence(int length, String lang) {
 
@@ -85,7 +85,7 @@ public class OtherSteps {
     /**
      * <p>Возвращает случайный символ переданного алфавита
      *
-     * @param lang </p>
+     * @param lang варианты языков 'ru' или 'en'</p>
      */
     public static char charGenerator(String lang) {
         Random random = new Random();
@@ -99,8 +99,8 @@ public class OtherSteps {
     /**
      * <p>Проверка на соответствие строки паттерну
      *
-     * @param pattern
-     * @param str     </p>
+     * @param pattern шаблон для проверки
+     * @param str     строка для проверки</p>
      */
     public static boolean isTextMatches(String str, String pattern) {
         Pattern r = Pattern.compile(pattern);
@@ -109,7 +109,7 @@ public class OtherSteps {
     }
 
     /**
-     * <p>Возвращает локатор для поиска по нормализованному(без учета регистра) тексту
+     * <p>Возвращает локатор для поиска по нормализованному (без учета регистра) тексту
      *
      * @param expectedText </p>
      */
@@ -325,9 +325,9 @@ public class OtherSteps {
      * @param seconds секунд
      *                </p>
      */
-    @Когда("^выполнено ожидание в течение (\\d+) (?:секунд|секунды)")
-    public void waitForSeconds(long seconds) {
-        sleep(1000 * seconds);
+    @Когда("^выполнено ожидание в течение ([\\d]+) (?:секунд|секунды)$")
+    public void waitForSeconds(Integer seconds) {
+        sleep(1000L * seconds);
     }
 
     /**

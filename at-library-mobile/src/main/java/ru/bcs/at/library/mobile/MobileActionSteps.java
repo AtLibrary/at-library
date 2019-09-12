@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -14,6 +14,7 @@ package ru.bcs.at.library.mobile;
 import com.codeborne.selenide.WebDriverRunner;
 import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.То;
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -26,6 +27,7 @@ import ru.bcs.at.library.mobile.utils.CustomMethods;
 import java.io.File;
 import java.text.SimpleDateFormat;
 
+import static com.codeborne.selenide.Selenide.sleep;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOf;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault;
 import static ru.bcs.at.library.core.steps.OtherSteps.*;
@@ -43,6 +45,7 @@ import static ru.bcs.at.library.mobile.MobileTestConfig.*;
  * Селекторы следует хранить только в классе экрана, не в степах, в степах - взаимодействие по имени элемента</p>
  */
 
+@Log4j2
 public class MobileActionSteps {
 
     private CoreScenario coreScenario = CoreScenario.getInstance();
@@ -218,9 +221,26 @@ public class MobileActionSteps {
     /**
      * <p>Свайп на экране мобильного устройства</p>
      */
-    @И("^выполнен свайп \"(UP|DOWN|LEFT|RIGHT)\"$")
-    public void swipe(String direction) {
-        CustomMethods.swipe(direction);
+    @И("^выполнен свайп \"(UP|DOWN|LEFT|RIGHT)\"(?: (\\d+)-(\\d+)%%|)(?: по (\\d+)%|)$")
+    public void swipe(String direction, Integer startPercent, Integer endPercent, Integer otherAxisPercent) {
+        if (startPercent != null && endPercent != null) {
+            if ((direction.equals("UP") || direction.equals("LEFT")) && startPercent < endPercent ||
+                    (direction.equals("DOWN") || direction.equals("RIGHT")) && startPercent > endPercent) {
+                log.warn(String.format("%d-%d%% не соответствует направлению свайпа %s, " +
+                                "будет выполнен свайп %d-%d%%",
+                        startPercent, endPercent, direction, endPercent, startPercent));
+            }
+
+            if (startPercent > endPercent) {
+                Integer temp = startPercent;
+                startPercent = endPercent;
+                endPercent = temp;
+            }
+        }
+
+        CustomMethods.swipe(direction, startPercent, endPercent, otherAxisPercent);
+
+        sleep(1000L);
     }
 
     /**
@@ -245,13 +265,15 @@ public class MobileActionSteps {
             }
 
             if (platform.equals("ios")) {
-                if (element.isDisplayed()) {
+                if (element != null && element.isDisplayed()) {
                     break;
                 }
             }
             CustomMethods.swipe(direction);
         }
         driverWait().until(visibilityOf(element));
+
+        sleep(1000L);
     }
 
 }
