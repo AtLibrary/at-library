@@ -1,14 +1,16 @@
 package ru.bcs.at.library.core.setup;
 
+import static ru.bcs.at.library.core.core.helpers.PropertyLoader.tryLoadProperty;
+
 public class AtCoreConfig {
 
-    public static String platformName = System.getProperty("platformName", "iOS");
-    public static String deviceName = System.getProperty("deviceName", "iPhone 6s");
-    public static String platformVersion = System.getProperty("platformVersion", "12.2");
-    public static String app = System.getProperty("app", "ru.bsc.demo.SimpleScoreSwift");
-    public static boolean debugCore = Boolean.getBoolean(System.getProperty("debug.core", "true"));
-    public static boolean isAppeared = Boolean.getBoolean(System.getProperty("appeared", "false"));
-
+    public static String platformName = tryLoadProperty("platformName");
+    public static String deviceName = tryLoadProperty("deviceName");
+    public static String platformVersion = tryLoadProperty("platformVersion");
+    public static String app = tryLoadProperty("app");
+    public static String appPackageName = tryLoadProperty("appPackageName");
+    public static boolean debugCore = Boolean.getBoolean(tryLoadProperty("debugCore"));
+    public static boolean isAppeared = Boolean.getBoolean(tryLoadProperty("isAppeared"));
 }
 
 

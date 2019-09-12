@@ -12,10 +12,10 @@
 package ru.bcs.at.library.core.setup;
 
 import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.WebDriverRunner;
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
+import io.appium.java_client.AppiumDriver;
 import io.qameta.allure.Attachment;
 import io.restassured.RestAssured;
 import lombok.experimental.Delegate;
@@ -33,6 +33,7 @@ import static com.codeborne.selenide.Browsers.CHROME;
 import static com.codeborne.selenide.Browsers.OPERA;
 import static com.codeborne.selenide.Configuration.baseUrl;
 import static com.codeborne.selenide.Configuration.browser;
+import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.tryLoadProperty;
 
 /**
@@ -114,10 +115,13 @@ public class InitialSetupSteps {
             }
             Selenide.clearBrowserLocalStorage();
             Selenide.clearBrowserCookies();
-            WebDriverRunner.getWebDriver().close();
+            getWebDriver().close();
         }
         if (scenario.getSourceTagNames().contains("@mobile")) {
-            WebDriverRunner.getWebDriver().quit();
+            AppiumDriver appiumDriver = (AppiumDriver) getWebDriver();
+            appiumDriver.closeApp();
+            appiumDriver.removeApp(AtCoreConfig.appPackageName);
+            appiumDriver.quit();
         }
     }
 }
