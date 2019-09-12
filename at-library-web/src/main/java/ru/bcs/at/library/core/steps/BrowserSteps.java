@@ -2,10 +2,8 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p style="color: green; font-size: 1.5em">
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p style="color: green; font-size: 1.5em">
- * Unless required by applicable law or agreed to in writing, software
+ * <p>http://www.apache.org/licenses/LICENSE-2.0
+ * <p>Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
@@ -35,9 +33,7 @@ import static ru.bcs.at.library.core.steps.OtherSteps.getPropertyOrStringVariabl
 import static ru.bcs.at.library.core.steps.WebTestConfig.DEFAULT_TIMEOUT;
 
 /**
- * <h1 style="color: green; font-size: 2.2em">
- * Браузер шаги
- * </h1>
+ * <h1>Браузер шаги</h1>
  */
 @Log4j2
 public class BrowserSteps {
@@ -46,8 +42,7 @@ public class BrowserSteps {
 
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Выполняется переход по заданной ссылке,
+     * <p>Выполняется переход по заданной ссылке,
      *
      * @param address Ссылка берется из property / переменной по ключу, если такая переменная не найдена,
      *                то берется переданное значение
@@ -62,8 +57,7 @@ public class BrowserSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Выполняется переход по заданной ссылке в новом окне,
+     * <p>Выполняется переход по заданной ссылке в новом окне,
      *
      * @param address Ссылка берется из property / переменной по ключу, если такая переменная не найдена,
      *                то берется переданное значение
@@ -78,8 +72,7 @@ public class BrowserSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка, что текущий URL совпадает с ожидаемым
+     * <p>Проверка, что текущий URL совпадает с ожидаемым
      *
      * @param url (берется из property / переменной, если такая переменная не найдена,
      *            то берется переданное значение)</p>
@@ -92,8 +85,7 @@ public class BrowserSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка, что текущий URL не совпадает с ожидаемым
+     * <p>Проверка, что текущий URL не совпадает с ожидаемым
      *
      * @param url (берется из property / переменной, если такая переменная не найдена,
      *            то берется переданное значение)</p>
@@ -106,8 +98,7 @@ public class BrowserSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Переключение на следующую вкладку браузера</p>
+     * <p>Переключение на следующую вкладку браузера</p>
      */
     @И("выполнено переключение на следующую вкладку")
     public void switchToTheNextTab() {
@@ -117,8 +108,7 @@ public class BrowserSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Выполняется обновление страницы</p>
+     * <p>Выполняется обновление страницы</p>
      */
     @И("^выполнено обновление текущей страницы$")
     public void refreshPage() {
@@ -126,8 +116,7 @@ public class BrowserSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Производится закрытие текущей вкладки</p>
+     * <p>Производится закрытие текущей вкладки</p>
      */
     @И("выполнено закрытие текущей вкладки")
     public void closeCurrentTab() {
@@ -135,8 +124,7 @@ public class BrowserSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Переключение на вкладку браузера с заголовком</p>
+     * <p>Переключение на вкладку браузера с заголовком</p>
      *
      * @param title заголовок вкладки
      */
@@ -147,8 +135,7 @@ public class BrowserSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Производится сравнение заголовка страницы со значением, указанным в шаге
+     * <p>Производится сравнение заголовка страницы со значением, указанным в шаге
      * (в приоритете: из property, из переменной сценария, значение аргумента)</p>
      *
      * @param expectedTitle ожидаемый заголовок текущей вкладки
@@ -170,8 +157,7 @@ public class BrowserSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Производится сохранение заголовка страницы в переменную</p>
+     * <p>Производится сохранение заголовка страницы в переменную</p>
      *
      * @param variableName имя переменной
      */
@@ -183,8 +169,7 @@ public class BrowserSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Устанавливает размеры окна браузера</p>
+     * <p>Устанавливает размеры окна браузера</p>
      *
      * @param width  ширина
      * @param height высота
@@ -196,8 +181,7 @@ public class BrowserSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Разворачивает окно с браузером на весь экран</p>
+     * <p>Разворачивает окно с браузером на весь экран</p>
      */
     @Если("^окно развернуто на весь экран$")
     public void expandWindowToFullScreen() {
@@ -206,8 +190,7 @@ public class BrowserSteps {
 
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Выполняется переход в конец страницы</p>
+     * <p>Выполняется переход в конец страницы</p>
      */
     @И("^совершен переход в конец страницы$")
     public void scrollDown() {
@@ -218,8 +201,7 @@ public class BrowserSteps {
 
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Метод осуществляет снятие скриншота и прикрепление его к cucumber отчету.</p>
+     * <p>Метод осуществляет снятие скриншота и прикрепление его к cucumber отчету.</p>
      */
     @И("^снят скриншот текущей страницы$")
     public void takeScreenshot() {
@@ -228,8 +210,7 @@ public class BrowserSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Удалить все cookies</p>
+     * <p>Удалить все cookies</p>
      */
     @И("^cookies приложения очищены$")
     public void deleteCookies() {
@@ -237,8 +218,7 @@ public class BrowserSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Поиск cookie по имени.
+     * <p>Поиск cookie по имени.
      * Сохранение cookie в переменную для дальнейшего использования</p>
      *
      * @param nameCookie   имя cookie
@@ -252,8 +232,7 @@ public class BrowserSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Сохраняем все cookies в переменную для дальнейшего использования</p>
+     * <p>Сохраняем все cookies в переменную для дальнейшего использования</p>
      *
      * @param variableName имя переменной
      */
@@ -265,8 +244,7 @@ public class BrowserSteps {
 
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Находим cookie по имени и подменяем ее значение.
+     * <p>Находим cookie по имени и подменяем ее значение.
      * Имя cookie и домен не меняются</p>
      *
      * @param cookieName  имя cookie

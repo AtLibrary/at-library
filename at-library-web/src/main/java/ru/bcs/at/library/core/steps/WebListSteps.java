@@ -26,10 +26,8 @@ public class WebListSteps {
 
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка того, что значение из поля содержится в списке,
-     * полученном из хранилища переменных по заданному ключу
-     * </p>
+     * <p>Проверка того, что значение из поля содержится в списке,
+     * полученном из хранилища переменных по заданному ключу</p>
      *
      * @param variableListName имя переменной
      * @param elementName      имя :поля|элемента
@@ -44,8 +42,7 @@ public class WebListSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка появления списка на странице в течение DEFAULT_TIMEOUT.
+     * <p>Проверка появления списка на странице в течение DEFAULT_TIMEOUT.
      * В случае, если свойство "waitingCustomElementsTimeout" в application.properties не задано,
      * таймаут равен 10 секундам
      *
@@ -60,11 +57,9 @@ public class WebListSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка, что список со страницы состоит только из элементов,
+     * <p>Проверка, что список со страницы состоит только из элементов,
      * перечисленных в таблице
-     * Для получения текста из элементов списка используется метод getText()
-     * </p>
+     * Для получения текста из элементов списка используется метод getText()</p>
      */
     @И("^список \"([^\"]*)\" состоит из элементов из таблицы$")
     public void checkIfListConsistsOfTableElements(String listName, List<String> textTable) {
@@ -75,11 +70,9 @@ public class WebListSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка, что список со страницы состоит только из элементов,
+     * <p>Проверка, что список со страницы состоит только из элементов,
      * перечисленных в таблице
-     * Для получения текста из элементов списка используется метод innerText()
-     * </p>
+     * Для получения текста из элементов списка используется метод innerText()</p>
      */
     @И("^список \"([^\"]*)\" состоит из элементов таблицы$")
     public void checkIfListInnerTextConsistsOfTableElements(String listName, List<String> textTable) {
@@ -92,10 +85,8 @@ public class WebListSteps {
 
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Выбор из списка со страницы элемента с заданным значением
-     * (в приоритете: из property, из переменной сценария, значение аргумента)
-     * </p>
+     * <p>Выбор из списка со страницы элемента с заданным значением
+     * (в приоритете: из property, из переменной сценария, значение аргумента)</p>
      */
     @И("^в списке \"([^\"]*)\" выбран элемент с (?:текстом|значением) \"(.*)\"$")
     public void checkIfSelectedListElementMatchesValue(String listName, String expectedValue) {
@@ -112,11 +103,9 @@ public class WebListSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Выбор из списка со страницы элемента, который содержит заданный текст
+     * <p>Выбор из списка со страницы элемента, который содержит заданный текст
      * (в приоритете: из property, из переменной сценария, значение аргумента)
-     * Не чувствителен к регистру
-     * </p>
+     * Не чувствителен к регистру</p>
      */
     @И("^в списке \"([^\"]*)\" выбран элемент содержащий текст \"([^\"]*)\"$")
     public void selectElementInListIfFoundByText(String listName, String expectedValue) {
@@ -133,11 +122,9 @@ public class WebListSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка, что список со страницы совпадает со списком из переменной
+     * <p>Проверка, что список со страницы совпадает со списком из переменной
      * без учёта порядка элементов
-     * Для получения текста из элементов списка используется метод innerText()
-     * </p>
+     * Для получения текста из элементов списка используется метод innerText()</p>
      */
     @SuppressWarnings("unchecked")
     @И("^список \"([^\"]*)\" на странице совпадает со списком \"([^\"]*)\"$")
@@ -151,9 +138,7 @@ public class WebListSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка того, что элемент не отображается на странице
-     * </p>
+     * <p>Проверка того, что элемент не отображается на странице</p>
      */
     @И("^(?:поле|выпадающий список|элемент) \"([^\"]*)\" не отображается на странице$")
     public void elementIsNotVisible(String elementName) {
@@ -163,10 +148,8 @@ public class WebListSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка, что список со страницы совпадает со списком из переменной
-     * без учёта порядка элементов
-     * </p>
+     * <p>Проверка, что список со страницы совпадает со списком из переменной
+     * без учёта порядка элементов</p>
      */
     @SuppressWarnings("unchecked")
     @И("^список \"([^\"]*)\" со страницы совпадает со списком \"([^\"]*)\"$")
@@ -177,9 +160,7 @@ public class WebListSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Выбор из списка со страницы любого случайного элемента
-     * </p>
+     * <p>Выбор из списка со страницы любого случайного элемента</p>
      */
     @И("^выбран любой элемент в списке \"([^\"]*)\"$")
     public void selectRandomElementFromList(String listName) {
@@ -190,9 +171,7 @@ public class WebListSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Выбор из списка со страницы любого случайного элемента и сохранение его значения в переменную
-     * </p>
+     * <p>Выбор из списка со страницы любого случайного элемента и сохранение его значения в переменную</p>
      */
     @И("^выбран любой элемент из списка \"([^\"]*)\" и его значение сохранено в переменную \"([^\"]*)\"$")
     public void selectRandomElementFromListAndSaveVar(String listName, String varName) {
@@ -205,10 +184,8 @@ public class WebListSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Выбор n-го элемента из списка со страницы
-     * Нумерация элементов начинается с 1
-     * </p>
+     * <p>Выбор n-го элемента из списка со страницы
+     * Нумерация элементов начинается с 1</p>
      */
     @И("^выбран (\\d+)-й элемент в списке \"([^\"]*)\"$")
     public void selectElementNumberFromList(Integer elementNumber, String listName) {
@@ -225,10 +202,8 @@ public class WebListSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка, что каждый элемент списка содержит ожидаемый текст
-     * Не чувствителен к регистру
-     * </p>
+     * <p>Проверка, что каждый элемент списка содержит ожидаемый текст
+     * Не чувствителен к регистру</p>
      */
     @И("^элементы списка \"([^\"]*)\" содержат текст \"([^\"]*)\"$")
     public void checkListElementsContainsText(String listName, String expectedValue) {
@@ -242,9 +217,7 @@ public class WebListSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка, что каждый элемент списка не содержит ожидаемый текст
-     * </p>
+     * <p>Проверка, что каждый элемент списка не содержит ожидаемый текст</p>
      */
     @И("^элементы списка \"([^\"]*)\" не содержат текст \"([^\"]*)\"$")
     public void checkListElementsNotContainsText(String listName, String expectedValue) {
@@ -258,9 +231,7 @@ public class WebListSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проход по списку и проверка текста у элемента на соответствие формату регулярного выражения
-     * </p>
+     * <p>Проход по списку и проверка текста у элемента на соответствие формату регулярного выражения</p>
      */
     @И("элементы списка \"([^\"]*)\" соответствуют формату \"([^\"]*)\"$")
     public void checkListTextsByRegExp(String listName, String pattern) {
@@ -272,9 +243,7 @@ public class WebListSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Производится проверка соответствия числа элементов списка значению, указанному в шаге
-     * </p>
+     * <p>Производится проверка соответствия числа элементов списка значению, указанному в шаге</p>
      */
     @И("^в списке \"([^\"]*)\" содержится (\\d+) (?:элемент|элементов|элемента)")
     public void listContainsNumberOfElements(String listName, int quantity) {
@@ -283,9 +252,7 @@ public class WebListSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Производится проверка соответствия числа элементов списка значению из property файла, из переменной сценария или указанному в шаге
-     * </p>
+     * <p>Производится проверка соответствия числа элементов списка значению из property файла, из переменной сценария или указанному в шаге</p>
      */
     @И("^в списке \"([^\"]*)\" содержится количество элементов, равное значению из переменной \"([^\"]*)\"")
     public void listContainsNumberFromVariable(String listName, String quantity) {
@@ -294,9 +261,7 @@ public class WebListSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Производится сопоставление числа элементов списка и значения, указанного в шаге
-     * </p>
+     * <p>Производится сопоставление числа элементов списка и значения, указанного в шаге</p>
      */
     @И("^в списке \"([^\"]*)\" содержится (более|менее) (\\d+) (?:элементов|элемента)")
     public void listContainsMoreOrLessElements(String listName, String moreOrLess, int quantity) {
@@ -308,8 +273,7 @@ public class WebListSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * </p>
+     * <p></p>
      *
      * @param blockName имя блока
      * @param listName
@@ -321,8 +285,7 @@ public class WebListSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * </p>
+     * <p></p>
      *
      * @param blockName имя блока
      * @param listName

@@ -2,10 +2,8 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p style="color: green; font-size: 1.5em">
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p style="color: green; font-size: 1.5em">
- * Unless required by applicable law or agreed to in writing, software
+ * <p>http://www.apache.org/licenses/LICENSE-2.0
+ * <p>Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
@@ -27,12 +25,9 @@ import static ru.bcs.at.library.core.steps.OtherSteps.getPropertyOrStringVariabl
 import static ru.bcs.at.library.mobile.MobileTestConfig.*;
 
 /**
- * <h1 style="color: green; font-size: 2.2em">
- * MOBILE шаги
- * </h1>
+ * <h1>MOBILE шаги</h1>
  *
- * <p style="color: green; font-size: 1.5em">
- * Объект coreScenario используется как хранилище переменных.
+ * <p>Объект coreScenario используется как хранилище переменных.
  * Для сохранения/изъятия переменных используются методы setVar/getVar
  * <p>
  * Каждый экран, с которым предполагается взаимодействие, должен быть описан в соответствующем классе наследующем CorePage.
@@ -45,12 +40,10 @@ public class MobileCheckSteps {
     private CoreScenario coreScenario = CoreScenario.getInstance();
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка того, что все элементы, которые описаны в классе экрана с аннотацией @Name,
+     * <p>Проверка того, что все элементы, которые описаны в классе экрана с аннотацией @Name,
      * но без аннотации @Optional появились на экране
      * в течение WAITING_APPEAR_TIMEOUT, которое равно значению свойства "waitingAppearTimeout"
-     * из application.properties. Если свойство не найдено, время таймаута равно 8 секундам
-     * </p>
+     * из application.properties. Если свойство не найдено, время таймаута равно 8 секундам</p>
      *
      * @param nameOfPage название экран|блок|форма
      */
@@ -63,8 +56,7 @@ public class MobileCheckSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка появления элемента(не списка) на экране в течение DEFAULT_TIMEOUT.
+     * <p>Проверка появления элемента(не списка) на экране в течение DEFAULT_TIMEOUT.
      * В случае, если свойство "waitingCustomElementsTimeout" в application.properties не задано,
      * таймаут равен 10 секундам
      *
@@ -78,8 +70,7 @@ public class MobileCheckSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка появления элемента(не списка) на экране в течение
+     * <p>Проверка появления элемента(не списка) на экране в течение
      * заданного количества секунд
      *
      * @param elementName название кнопки|поля|блока
@@ -93,8 +84,7 @@ public class MobileCheckSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка того, что элемент исчезнет со экрана (станет невидимым) в течение DEFAULT_TIMEOUT.
+     * <p>Проверка того, что элемент исчезнет со экрана (станет невидимым) в течение DEFAULT_TIMEOUT.
      * В случае, если свойство "waitingCustomElementsTimeout" в application.properties не задано,
      * таймаут равен 10 секундам
      *
@@ -108,9 +98,7 @@ public class MobileCheckSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка, что значение в поле равно значению, указанному в шаге (в приоритете: из property, из переменной сценария, значение аргумента)
-     * </p>
+     * <p>Проверка, что значение в поле равно значению, указанному в шаге (в приоритете: из property, из переменной сценария, значение аргумента)</p>
      */
     @То("^значение (?:поля|элемента|текста) \"([^\"]*)\" равно$")
     @И("^значение (?:поля|элемента|текста) \"([^\"]*)\" равно \"(.*)\"$")
@@ -121,9 +109,7 @@ public class MobileCheckSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка, что поле для ввода пусто
-     * </p>
+     * <p>Проверка, что поле для ввода пусто</p>
      */
     @И("^поле \"([^\"]*)\" пусто$")
     public void fieldInputIsEmpty(String elementName) {
@@ -132,9 +118,7 @@ public class MobileCheckSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Сохранение значения элемента в переменную
-     * </p>
+     * <p>Сохранение значения элемента в переменную</p>
      */
     @И("^значение (?:поля|элемента|текста)  \"([^\"]*)\" сохранено в переменную \"([^\"]*)\"$")
     public void storeElementValueInVariable(String elementName, String variableName) {
@@ -145,9 +129,7 @@ public class MobileCheckSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка, что элемент на экране кликабелен
-     * </p>
+     * <p>Проверка, что элемент на экране кликабелен</p>
      */
     @И("^(?:кнопка|ссылка|поле|блок|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" кликабельна$")
     public void clickableField(String elementName) {
@@ -156,9 +138,7 @@ public class MobileCheckSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка, что элемент на экране кликабелен
-     * </p>
+     * <p>Проверка, что элемент на экране кликабелен</p>
      */
     @И("^(?:кнопка|ссылка|поле|блок|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" кликабельнов течение (\\d+) (?:секунд|секунды)$")
     public void clickableField(String elementName, int second) {
@@ -167,9 +147,7 @@ public class MobileCheckSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка, что кнопка/ссылка недоступна для нажатия
-     * </p>
+     * <p>Проверка, что кнопка/ссылка недоступна для нажатия</p>
      */
     @И("^(?:кнопка|ссылка|поле|блок|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" недоступна для нажатия$")
     public void buttonIsNotActive(String elementName) {
@@ -178,9 +156,7 @@ public class MobileCheckSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка, что радиокнопка выбрана
-     * </p>
+     * <p>Проверка, что радиокнопка выбрана</p>
      */
     @И("^радиокнопка \"([^\"]*)\" выбрана$")
     public void radioButtonIsSelected(String elementName) {
@@ -189,9 +165,7 @@ public class MobileCheckSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка, что радиокнопка не выбрана
-     * </p>
+     * <p>Проверка, что радиокнопка не выбрана</p>
      */
     @И("^радиокнопка \"([^\"]*)\" не выбрана$")
     public void radioButtonIsNotSelected(String elementName) {
@@ -200,9 +174,7 @@ public class MobileCheckSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка, что поле нередактируемо
-     * </p>
+     * <p>Проверка, что поле нередактируемо</p>
      */
     @И("^(?:поле|элемент) \"([^\"]*)\" (?:недоступно|недоступен) для редактирования$")
     public void fieldIsDisable(String elementName) {
@@ -211,9 +183,7 @@ public class MobileCheckSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Производится проверка количества символов в поле со значением, указанным в шаге
-     * </p>
+     * <p>Производится проверка количества символов в поле со значением, указанным в шаге</p>
      */
     @И("^в поле \"([^\"]*)\" содержится (\\d+) символов$")
     public void checkFieldSymbolsCount(String elementName, int num) {
@@ -222,8 +192,7 @@ public class MobileCheckSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Получение текста элемента в блоке и сохранение его в переменную
+     * <p>Получение текста элемента в блоке и сохранение его в переменную
      *
      * @param elementName  имя элемента
      * @param blockName    имя блока
@@ -242,9 +211,7 @@ public class MobileCheckSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка того, что значение из поля в блоке совпадает со значением заданной переменной из хранилища
-     * </p>
+     * <p>Проверка того, что значение из поля в блоке совпадает со значением заданной переменной из хранилища</p>
      *
      * @param elementName   имя элемента
      * @param blockName     имя блока

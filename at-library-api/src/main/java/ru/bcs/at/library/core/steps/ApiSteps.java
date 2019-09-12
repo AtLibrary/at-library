@@ -2,10 +2,8 @@ package ru.bcs.at.library.core.steps; /**
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p style="color: green; font-size: 1.5em">
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p style="color: green; font-size: 1.5em">
- * Unless required by applicable law or agreed to in writing, software
+ * <p>http://www.apache.org/licenses/LICENSE-2.0
+ * <p>Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
@@ -26,9 +24,7 @@ import java.util.Base64;
 import java.util.List;
 
 /**
- * <h1 style="color: green; font-size: 2.2em">
- * API шаги
- * </h1>
+ * <h1>API шаги</h1>
  */
 @Log4j2
 public class ApiSteps {
@@ -36,29 +32,67 @@ public class ApiSteps {
     private CoreScenario coreScenario = CoreScenario.getInstance();
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Сравнение кода http ответа с ожидаемым</p>
+     * <p>Сравнение кода http ответа с ожидаемым</p>
      *
-     * @param variableName       переменная в которой сохранен Response
-     * @param expectedStatusCode ожидаемый http статус код
+     * @param responseNameVariable переменная в которой сохранен Response
+     * @param expectedStatusCode   ожидаемый http статус код
      */
     @И("^в ответе \"([^\"]*)\" statusCode: (\\d+)$")
-    public void checkResponseStatusCode(String variableName, int expectedStatusCode) {
-        Response response = (Response) CoreScenario.getInstance().getVar(variableName);
+    public void checkResponseStatusCode(String responseNameVariable, int expectedStatusCode) {
+        Response response = (Response) CoreScenario.getInstance().getVar(responseNameVariable);
         response.then().statusCode(expectedStatusCode);
     }
 
+    /**
+     * <p>Ответ, сохраннённый в переменной сохраняется в переменной.
+     *
+     * @param responseNameVariable имя переменной, которая содержит Response
+     * @param variableName         имя переменной хранилища переменных из CoreScenario, в которую необходимо сохранить значение.
+     */
+    @И("^значение из body ответа \"([^\"]*)\" сохранено в переменную \"([^\"]*)\"$")
+    public void getValuesFromBodyAsString(String responseNameVariable, String variableName) {
+        Response response = (Response) CoreScenario.getInstance().getVar(responseNameVariable);
+
+        coreScenario.setVar(variableName, response.getBody().asString());
+        coreScenario.write("Значение: " + response.getBody().asString() + ", записано в переменную: " + variableName);
+    }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Сравнение в http ответе реальных header с ожидаемыми</p>
+     * <p>Получение Cookies из ответа</p>
      *
-     * @param variableNameResponse переменная в которой сохранен Response
+     * @param responseNameVariable имя переменной которая содержит Response
+     * @param dataTable            И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
+     *                             и из хранилища переменных из CoreScenario.
+     *                             Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
+     */
+    @И("^значения из cookies ответа \"([^\"]*)\", сохранены в переменные из таблицы$")
+    public void getValuesFromCookiesAsString(String responseNameVariable, DataTable dataTable) {
+        Response response = (Response) CoreScenario.getInstance().getVar(responseNameVariable);
+
+        for (List<String> row : dataTable.asLists()) {
+            String nameCookies = row.get(0);
+            String varName = row.get(1);
+
+            String value = response.cookie(nameCookies);
+
+            if (value == null) {
+                throw new RuntimeException("В " + response.getCookies() + " не найдено значение по заданному nameCookies: " + nameCookies);
+            }
+
+            coreScenario.setVar(varName, value);
+            coreScenario.write("Значение Cookies с именем: " + nameCookies + " с value: " + value + ", записано в переменную: " + varName);
+        }
+    }
+
+    /**
+     * <p>Сравнение в http ответе реальных header с ожидаемыми</p>
+     *
+     * @param responseNameVariable переменная в которой сохранен Response
      * @param dataTable            массив с параметрами
      */
     @И("^в ответе \"([^\"]*)\" содержатся header со значениями из таблицы$")
-    public void checkResponseHeaderValues(String variableNameResponse, DataTable dataTable) {
-        Response response = (Response) CoreScenario.getInstance().getVar(variableNameResponse);
+    public void checkResponseHeaderValues(String responseNameVariable, DataTable dataTable) {
+        Response response = (Response) CoreScenario.getInstance().getVar(responseNameVariable);
 
         for (List<String> row : dataTable.asLists()) {
             String expectedHeaderName = row.get(0);
@@ -71,7 +105,6 @@ public class ApiSteps {
             response.then()
                     .assertThat().header(expectedHeaderName, expectedHeaderValue);
         }
-
     }
 
     @И("^переменная \"([^\"]*)\" содержир base64 кодирование, декодирована в pdf и сохранена по пути \"([^\"]*)\" с именем \"([^\"]*)\" в формате \"([^\"]*)\"$")
@@ -90,20 +123,4 @@ public class ApiSteps {
         fop.flush();
         fop.close();
     }
-
-    /**
-     * //     * <p style="color: green; font-size: 1.5em">
-     * //     * Ответ, сохраннённый в переменной сохраняется в переменной.
-     * //     *
-     * //     * @param valueToFind     имя переменной, которая содержит Response
-     * //     * @param variableName    имя переменной хранилища переменных из CoreScenario, в которую необходимо сохранить значение.
-     */
-    @И("^значение из body ответа \"([^\"]*)\" сохранено в переменную \"([^\"]*)\"$")
-    public void getValuesFromBodyAsString(String valueToFind, String variableName) {
-        Response response = (Response) CoreScenario.getInstance().getVar(valueToFind);
-
-        coreScenario.setVar(variableName, response.getBody().asString());
-        coreScenario.write("Значение: " + response.getBody().asString() + ", записано в переменную: " + variableName);
-    }
-
 }

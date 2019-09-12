@@ -2,10 +2,8 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p style="color: green; font-size: 1.5em">
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p style="color: green; font-size: 1.5em">
- * Unless required by applicable law or agreed to in writing, software
+ * <p>http://www.apache.org/licenses/LICENSE-2.0
+ * <p>Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
@@ -33,9 +31,7 @@ import java.nio.file.Paths;
 import java.util.Properties;
 
 /**
- * <h1 style="color: green; font-size: 2.2em">
- * Класс для получения свойств
- * </h1>
+ * <h1>Класс для получения свойств</h1>
  */
 @Log4j2
 public class PropertyLoader {
@@ -47,11 +43,9 @@ public class PropertyLoader {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Возвращает значение системного свойства
+     * <p>Возвращает значение системного свойства
      * (из доступных для данной JVM) по его названию,
-     * в случае, если оно не найдено, вернется значение по умолчанию
-     * </p>
+     * в случае, если оно не найдено, вернется значение по умолчанию</p>
      *
      * @param propertyName название свойства
      * @param defaultValue значение по умолчанию
@@ -63,11 +57,9 @@ public class PropertyLoader {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Возвращает Integer значение системного свойства
+     * <p>Возвращает Integer значение системного свойства
      * (из доступных для данной JVM) по его названию,
-     * в случае, если оно не найдено, вернется значение по умолчанию
-     * </p>
+     * в случае, если оно не найдено, вернется значение по умолчанию</p>
      *
      * @param propertyName название свойства
      * @param defaultValue Integer значение по умолчанию
@@ -83,11 +75,9 @@ public class PropertyLoader {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Возвращает Boolean значение системного свойства
+     * <p>Возвращает Boolean значение системного свойства
      * (из доступных для данной JVM) по его названию,
-     * в случае, если оно не найдено, вернется значение по умолчанию
-     * </p>
+     * в случае, если оно не найдено, вернется значение по умолчанию</p>
      *
      * @param propertyName название свойства
      * @param defaultValue Boolean значение по умолчанию
@@ -100,9 +90,7 @@ public class PropertyLoader {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Возвращает свойство по его названию из property-файла
-     * </p>
+     * <p>Возвращает свойство по его названию из property-файла</p>
      *
      * @param propertyName название свойства
      * @return значение свойства, в случае, если значение не найдено,
@@ -117,10 +105,8 @@ public class PropertyLoader {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Возвращает значение свойства из property-файла по его названию,
-     * если значение не найдено, возвращает это же значение в качестве значения по умолчанию
-     * </p>
+     * <p>Возвращает значение свойства из property-файла по его названию,
+     * если значение не найдено, возвращает это же значение в качестве значения по умолчанию</p>
      *
      * @param propertyNameOrValue название свойства/значение по умолчанию
      * @return значение по ключу value, если значение не найдено,
@@ -131,10 +117,8 @@ public class PropertyLoader {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Возвращает значение свойства из property-файла по его названию,
-     * Если ничего не найдено, возвращает значение по умолчанию
-     * </p>
+     * <p>Возвращает значение свойства из property-файла по его названию,
+     * Если ничего не найдено, возвращает значение по умолчанию</p>
      *
      * @param propertyName название свойства
      * @param defaultValue значение по умолчанию
@@ -146,10 +130,8 @@ public class PropertyLoader {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Возвращает значение свойства типа Integer из property-файла по названию,
-     * если ничего не найдено, возвращает значение по умолчанию
-     * </p>
+     * <p>Возвращает значение свойства типа Integer из property-файла по названию,
+     * если ничего не найдено, возвращает значение по умолчанию</p>
      *
      * @param propertyName название свойства
      * @param defaultValue значение по умолчанию
@@ -161,12 +143,10 @@ public class PropertyLoader {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Вспомогательный метод, возвращает значение свойства по имени.
+     * <p>Вспомогательный метод, возвращает значение свойства по имени.
      * Сначала поиск в System переменным,
      * затем в property-файле, если указано системное свойство "profile"
-     * Если ничего не найдено, поиск в /application.properties
-     * </p>
+     * Если ничего не найдено, поиск в /application.properties</p>
      *
      * @param propertyName название свойства
      * @return значение свойства
@@ -186,10 +166,8 @@ public class PropertyLoader {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Получает значение из application.properties, файла по переданному пути, значение из хранилища переменных или как String аргумент
-     * Используется для получение body.json api шагах, либо для получения script.js в ui шагах
-     * </p>
+     * <p>Получает значение из application.properties, файла по переданному пути, значение из хранилища переменных или как String аргумент
+     * Используется для получение body.json api шагах, либо для получения script.js в ui шагах</p>
      *
      * @param valueToFind - ключ к значению в application.properties, путь к файлу c нужным значением, значение как String
      * @return значение как String
@@ -223,8 +201,7 @@ public class PropertyLoader {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Вспомогательный метод, возвращает свойства из файла /application.properties</p>
+     * <p>Вспомогательный метод, возвращает свойства из файла /application.properties</p>
      *
      * @return свойства из файла /application.properties
      */
@@ -241,10 +218,8 @@ public class PropertyLoader {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Вспомогательный метод, возвращает свойства из кастомного application.properties по пути
-     * из системного свойства "profile"
-     * </p>
+     * <p>Вспомогательный метод, возвращает свойства из кастомного application.properties по пути
+     * из системного свойства "profile"</p>
      *
      * @return прочитанные свойства из кастомного файла application.properties, если свойство "profile" указано, иначе пустой объект
      */

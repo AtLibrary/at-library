@@ -2,10 +2,8 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p style="color: green; font-size: 1.5em">
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p style="color: green; font-size: 1.5em">
- * Unless required by applicable law or agreed to in writing, software
+ * <p>http://www.apache.org/licenses/LICENSE-2.0
+ * <p>Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
@@ -38,9 +36,7 @@ import static com.codeborne.selenide.Configuration.browser;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.tryLoadProperty;
 
 /**
- * <h1 style="color: green; font-size: 2.2em">
- * Начальная настройка
- * </h1>
+ * <h1>Начальная настройка</h1>
  */
 @Log4j2
 public class InitialSetupSteps {
@@ -73,8 +69,7 @@ public class InitialSetupSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Действия выполняемые перед каждым сценарием</p>
+     * <p>Действия выполняемые перед каждым сценарием</p>
      * <p>Включение слушателей Allure</p>
      * <p>Если сценарий содержит тег @web" то будет создан WebDriver</p>
      * <p>Создает окружение(среду) для запуска сценария</p>
@@ -104,8 +99,7 @@ public class InitialSetupSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Если сценарий содержит тег @web" то по завершению теста удаляет все куки и закрывает веб-браузер</p>
+     * <p>Если сценарий содержит тег @web" то по завершению теста удаляет все куки и закрывает веб-браузер</p>
      */
     @After
     public void afterEachTest(Scenario scenario) {

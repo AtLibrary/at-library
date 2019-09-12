@@ -23,8 +23,7 @@ import static org.hamcrest.Matchers.equalToIgnoringCase;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.*;
 
 /**
- * <h1 style="color: green; font-size: 2.2em">
- * Шаги утилиты
+ * <h1>Шаги утилиты
  * </>
  */
 public class OtherSteps {
@@ -34,8 +33,7 @@ public class OtherSteps {
     /**
      * <p style="color: green; font-size: 1.5em">
      *
-     * @return Возвращает каталог "Downloads" в домашней директории
-     * </p>
+     * @return Возвращает каталог "Downloads" в домашней директории</p>
      */
     public static File getDownloadsDir() {
         String homeDir = System.getProperty("user.home");
@@ -67,8 +65,7 @@ public class OtherSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Возвращает последовательность случайных символов переданных алфавита и длины
+     * <p>Возвращает последовательность случайных символов переданных алфавита и длины
      * Принимает на вход варианты языков 'ru' и 'en'
      * Для других входных параметров возвращает латинские символы (en)
      *
@@ -86,8 +83,7 @@ public class OtherSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Возвращает случайный символ переданного алфавита
+     * <p>Возвращает случайный символ переданного алфавита
      *
      * @param lang </p>
      */
@@ -101,8 +97,7 @@ public class OtherSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка на соответствие строки паттерну
+     * <p>Проверка на соответствие строки паттерну
      *
      * @param pattern
      * @param str     </p>
@@ -114,8 +109,7 @@ public class OtherSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Возвращает локатор для поиска по нормализованному(без учета регистра) тексту
+     * <p>Возвращает локатор для поиска по нормализованному(без учета регистра) тексту
      *
      * @param expectedText </p>
      */
@@ -133,8 +127,7 @@ public class OtherSteps {
      * <p style="color: green; font-size: 1.5em">
      *
      * @return Возвращает значение из property файла, если отсутствует, то из пользовательских переменных,
-     * если и оно отсутствует, то возвращает значение переданной на вход переменной
-     * </p>
+     * если и оно отсутствует, то возвращает значение переданной на вход переменной</p>
      */
     public static String getPropertyOrStringVariableOrValue(String propertyNameOrVariableNameOrValue) {
         String propertyValue = tryLoadProperty(propertyNameOrVariableNameOrValue);
@@ -157,8 +150,7 @@ public class OtherSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Устанавливается значение текущей даты в хранилище переменных.
+     * <p>Устанавливается значение текущей даты в хранилище переменных.
      *
      * @param variableName имя переменной
      * @param dateFormat   формат даты
@@ -171,8 +163,7 @@ public class OtherSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Устанавливается значение текущей даты в хранилище переменных.
+     * <p>Устанавливается значение текущей даты в хранилище переменных.
      *
      * @param variableName имя переменной
      * @param dateFormat   формат даты
@@ -185,8 +176,7 @@ public class OtherSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Устанавливается значение текущей даты + часы в хранилище переменных.
+     * <p>Устанавливается значение текущей даты + часы в хранилище переменных.
      *
      * @param variableName имя переменной
      * @param dateFormat   формат даты
@@ -211,8 +201,7 @@ public class OtherSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Устанавливается значение переменной в хранилище переменных.
+     * <p>Устанавливается значение переменной в хранилище переменных.
      * Один из кейсов: установка login пользователя
      *
      * @param variableName имя переменной
@@ -226,8 +215,7 @@ public class OtherSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка равенства двух переменных из хранилища
+     * <p>Проверка равенства двух переменных из хранилища
      *
      * @param firstVariableName  первая переменная
      * @param secondVariableName вторая переменная
@@ -242,8 +230,7 @@ public class OtherSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка равенства переменной
+     * <p>Проверка равенства переменной
      *
      * @param variableName          переменная
      * @param expectedValueVariable ожидаемое содержимое
@@ -258,8 +245,7 @@ public class OtherSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка неравенства двух переменных из хранилища
+     * <p>Проверка неравенства двух переменных из хранилища
      *
      * @param firstVariableName  первая переменная
      * @param secondVariableName вторая переменная
@@ -274,8 +260,7 @@ public class OtherSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка выражения на истинность
+     * <p>Проверка выражения на истинность
      *
      * @param expression выражение из property, из переменной сценария или значение аргумента
      *                   Например, string1.equals(string2)
@@ -289,8 +274,7 @@ public class OtherSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Сохранено значение из property файла в переменную
+     * <p>Сохранено значение из property файла в переменную
      *
      * @param propertyVariableName ключ в файле application.properties
      * @param variableName         имя переменной
@@ -305,8 +289,7 @@ public class OtherSteps {
     }
 
     /**
-     * Проверка совпадения значения из переменной и значения из property
-     * </p>
+     * Проверка совпадения значения из переменной и значения из property</p>
      */
     @Тогда("^значения из переменной \"([^\"]*)\" и из property файла \"([^\"]*)\" совпадают$")
     public void checkIfValueFromVariableEqualPropertyVariable(String envVarible, String propertyVariable) {
@@ -315,8 +298,7 @@ public class OtherSteps {
     }
 
     /**
-     * Выполняется чтение файла с шаблоном и заполнение его значениями из таблицы
-     * </p>
+     * Выполняется чтение файла с шаблоном и заполнение его значениями из таблицы</p>
      */
     @И("^шаблон \"([^\"]*)\" заполнен данными из таблицы и сохранён в переменную \"([^\"]*)\"$")
     public void fillTemplate(String templateName, String varName, DataTable table) {
@@ -338,8 +320,7 @@ public class OtherSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Ожидание в течение заданного количества секунд
+     * <p>Ожидание в течение заданного количества секунд
      *
      * @param seconds секунд
      *                </p>
@@ -350,8 +331,7 @@ public class OtherSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Написание автотеста в работе</p>
+     * <p>Написание автотеста в работе</p>
      */
     @И("^ручной тест$")
     public void manuelTest() {
@@ -359,8 +339,7 @@ public class OtherSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Написание автотеста в работе</p>
+     * <p>Написание автотеста в работе</p>
      */
     @И("^написание автотеста в работе$")
     public void pendingException() {
@@ -368,8 +347,7 @@ public class OtherSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Написание автотеста в работе</p>
+     * <p>Написание автотеста в работе</p>
      */
     @И("^написание автотеста в работе. Планируемая дата: \"([^\"]*)\"$")
     public void pendingException(String date) {
@@ -377,8 +355,7 @@ public class OtherSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Автотест реализован на старом фреймворке</p>
+     * <p>Автотест реализован на старом фреймворке</p>
      */
     @И("^автотест реализован на старом фреймворке$")
     public void oldFramework() {

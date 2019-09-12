@@ -30,8 +30,7 @@ import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
 @Log4j2
 public class InitialDriver {
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Создание WebDriver</p>
+     * <p>Создание WebDriver</p>
      */
 
     private String testDevice;

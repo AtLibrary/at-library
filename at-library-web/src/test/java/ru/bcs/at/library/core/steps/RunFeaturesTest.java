@@ -10,5 +10,5 @@ import org.junit.runner.RunWith;
         features = "src/test/resources/features",
         glue = {"ru.bcs"}
 )
-public class RunCukesTest {
+public class RunFeaturesTest {
 }

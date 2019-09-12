@@ -2,10 +2,8 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p style="color: green; font-size: 1.5em">
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p style="color: green; font-size: 1.5em">
- * Unless required by applicable law or agreed to in writing, software
+ * <p>http://www.apache.org/licenses/LICENSE-2.0
+ * <p>Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
@@ -35,12 +33,9 @@ import static ru.bcs.at.library.mobile.MobileTestConfig.*;
 
 
 /**
- * <h1 style="color: green; font-size: 2.2em">
- * MOBILE шаги
- * </h1>
+ * <h1>MOBILE шаги</h1>
  *
- * <p style="color: green; font-size: 1.5em">
- * Объект coreScenario используется как хранилище переменных.
+ * <p>Объект coreScenario используется как хранилище переменных.
  * Для сохранения/изъятия переменных используются методы setVar/getVar
  * <p>
  * Каждый экран, с которым предполагается взаимодействие, должен быть описан в соответствующем классе наследующем CorePage.
@@ -53,8 +48,7 @@ public class MobileActionSteps {
     private CoreScenario coreScenario = CoreScenario.getInstance();
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * На экране происходит click по заданному элементу
+     * <p>На экране происходит click по заданному элементу
      *
      * @param elementName название кнопки|поля|блока
      *                    </p>
@@ -67,9 +61,7 @@ public class MobileActionSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Нажатие на элемент по его тексту (в приоритете: из property, из переменной сценария, значение аргумента)
-     * </p>
+     * <p>Нажатие на элемент по его тексту (в приоритете: из property, из переменной сценария, значение аргумента)</p>
      */
     @И("^выполнено нажатие на (?:кнопку|ссылку|поле|блок|чекбокс|радокнопку|текст|элемент) с текстом \"(.*)\"$")
     public void findElement(String text) {
@@ -83,8 +75,7 @@ public class MobileActionSteps {
     /**
      * Выполняется нажатие на кнопку и подгружается указанный файл
      * Селектор кнопки должны быть строго на input элемента
-     * Можно указать путь до файла. Например, src/test/resources/example.pdf
-     * </p>
+     * Можно указать путь до файла. Например, src/test/resources/example.pdf</p>
      */
     @И("^выполнено нажатие на кнопку \"([^\"]*)\" и загружен файл \"([^\"]*)\"$")
     public void clickOnButtonAndUploadFile(String buttonName, String fileName) {
@@ -94,8 +85,7 @@ public class MobileActionSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Клик по заданному элементу в блоке
+     * <p>Клик по заданному элементу в блоке
      *
      * @param elementName имя элемента
      * @param blockName   имя блока
@@ -110,10 +100,8 @@ public class MobileActionSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Устанавливается значение (в приоритете: из property, из переменной сценария, значение аргумента) в заданное поле.
-     * Перед использованием поле нужно очистить
-     * </p>
+     * <p>Устанавливается значение (в приоритете: из property, из переменной сценария, значение аргумента) в заданное поле.
+     * Перед использованием поле нужно очистить</p>
      */
     @То("^в поле \"([^\"]*)\" введено значение$")
     @И("^в поле \"([^\"]*)\" введено значение \"(.*)\"$")
@@ -127,9 +115,7 @@ public class MobileActionSteps {
 
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Добавление строки (в приоритете: из property, из переменной сценария, значение аргумента) в поле к уже заполненой строке
-     * </p>
+     * <p>Добавление строки (в приоритете: из property, из переменной сценария, значение аргумента) в поле к уже заполненой строке</p>
      */
     @То("^в поле \"([^\"]*)\" дописывается значение$")
     @И("^в поле \"([^\"]*)\" дописывается значение \"(.*)\"$")
@@ -140,10 +126,8 @@ public class MobileActionSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Ввод в поле текущей даты в заданном формате
-     * При неверном формате, используется dd.MM.yyyy
-     * </p>
+     * <p>Ввод в поле текущей даты в заданном формате
+     * При неверном формате, используется dd.MM.yyyy</p>
      */
     @И("^поле \"([^\"]*)\" заполняется текущей датой в формате \"([^\"]*)\"$")
     public void currentDate(String elementName, String dateFormat) {
@@ -164,9 +148,7 @@ public class MobileActionSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Ввод в поле случайной последовательности латинских или кириллических букв задаваемой длины
-     * </p>
+     * <p>Ввод в поле случайной последовательности латинских или кириллических букв задаваемой длины</p>
      */
     @И("^в поле \"([^\"]*)\" введено (\\d+) случайных символов на (кириллице|латинице)$")
     public void setRandomCharSequence(String elementName, int seqLength, String lang) {
@@ -181,9 +163,7 @@ public class MobileActionSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Ввод в поле случайной последовательности латинских или кириллических букв задаваемой длины и сохранение этого значения в переменную
-     * </p>
+     * <p>Ввод в поле случайной последовательности латинских или кириллических букв задаваемой длины и сохранение этого значения в переменную</p>
      */
     @И("^в поле \"([^\"]*)\" введено (\\d+) случайных символов на (кириллице|латинице) и сохранено в переменную \"([^\"]*)\"$")
     public void setRandomCharSequenceAndSaveToVar(String elementName, int seqLength, String lang, String varName) {
@@ -199,9 +179,7 @@ public class MobileActionSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Ввод в поле случайной последовательности цифр задаваемой длины
-     * </p>
+     * <p>Ввод в поле случайной последовательности цифр задаваемой длины</p>
      */
     @И("^в поле \"([^\"]*)\" введено случайное число из (\\d+) (?:цифр|цифры)$")
     public void inputRandomNumSequence(String elementName, int seqLength) {
@@ -213,9 +191,7 @@ public class MobileActionSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Ввод в поле случайной последовательности цифр задаваемой длины и сохранение этого значения в переменную
-     * </p>
+     * <p>Ввод в поле случайной последовательности цифр задаваемой длины и сохранение этого значения в переменную</p>
      */
     @И("^в поле \"([^\"]*)\" введено случайное число из (\\d+) (?:цифр|цифры) и сохранено в переменную \"([^\"]*)\"$")
     public void inputAndSetRandomNumSequence(String elementName, int seqLength, String varName) {
@@ -230,9 +206,7 @@ public class MobileActionSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Очищается заданное поле
-     * </p>
+     * <p>Очищается заданное поле</p>
      */
     @И("^очищено поле \"([^\"]*)\"$")
     public void cleanField(String elementName) {
@@ -242,9 +216,7 @@ public class MobileActionSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Свайп на экране мобильного устройства
-     * </p>
+     * <p>Свайп на экране мобильного устройства</p>
      */
     @И("^выполнен свайп \"(UP|DOWN|LEFT|RIGHT)\"$")
     public void swipe(String direction) {
@@ -252,9 +224,7 @@ public class MobileActionSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Скроллит экран до нужного элемента, имеющегося на экране, но видимого только в нижней/верхней части экрана.
-     * </p>
+     * <p>Скроллит экран до нужного элемента, имеющегося на экране, но видимого только в нижней/верхней части экрана.</p>
      */
     @И("^экран свайпается \"(UP|DOWN|LEFT|RIGHT)\" до элемента \"([^\"]*)\"")
     public void scrollPageToElement(String direction, String elementName) {

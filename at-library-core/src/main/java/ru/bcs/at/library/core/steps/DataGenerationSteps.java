@@ -15,9 +15,7 @@ public class DataGenerationSteps {
     private static CoreScenario coreScenario = CoreScenario.getInstance();
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Конкатенация строк
-     * </p>
+     * <p>Конкатенация строк</p>
      */
     @И("конкатенация строк \"([^\"]*)\" и \"([^\"]*)\" и сохранено в переменную \"([^\"]*)\"$")
     public void concatenationString(String text1, String text2, String varName) {
@@ -27,9 +25,7 @@ public class DataGenerationSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Генерация последовательности латинских или кириллических букв задаваемой длины
-     * </p>
+     * <p>Генерация последовательности латинских или кириллических букв задаваемой длины</p>
      */
     @И("^генерация (\\d+) случайных символов на (кириллице|латинице) и сохранено в переменную \"([^\"]*)\"$")
     public void setRandomCharSequence(int seqLength, String lang, String varName) {
@@ -44,9 +40,7 @@ public class DataGenerationSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Генерация последовательности цифр задаваемой длины и сохранение этого значения в переменную
-     * </p>
+     * <p>Генерация последовательности цифр задаваемой длины и сохранение этого значения в переменную</p>
      */
     @И("^генерация случайного числа из (\\d+) (?:цифр|цифры) и сохранение в переменную \"([^\"]*)\"$")
     public void randomNumSequence(int seqLength, String varName) {
@@ -56,8 +50,7 @@ public class DataGenerationSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Создает случайную строку, длина которой находится между включающим минимумом и максимум </ p>
+     * <p>Создает случайную строку, длина которой находится между включающим минимумом и максимум </ p>
      */
     @И("^генерация случайного числа в диапазоне от (\\d+) до (\\d+) и сохранение в переменную \"([^\"]*)\"$")
     public void rRandomNumSequence(int min, int max, String varName) {
@@ -67,9 +60,7 @@ public class DataGenerationSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Генерация случайного boolean и сохранение в переменную
-     * </p>
+     * <p>Генерация случайного boolean и сохранение в переменную</p>
      */
     @И("^генерация случайного boolean и сохранение в переменную \"([^\"]*)\"$")
     public void randomBoolean(String varName) {
@@ -79,9 +70,7 @@ public class DataGenerationSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Выбрано случайное знание из списка и сохранено в переменную
-     * </p>
+     * <p>Выбрано случайное знание из списка и сохранено в переменную</p>
      */
     @И("^сохранено в переменную \"([^\"]*)\" случайное значение из списка:$")
     public void randomStingInList(String varName, List<String> list) {

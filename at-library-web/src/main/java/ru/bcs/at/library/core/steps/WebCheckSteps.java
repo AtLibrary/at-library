@@ -17,12 +17,9 @@ import static ru.bcs.at.library.core.steps.OtherSteps.*;
 import static ru.bcs.at.library.core.steps.WebTestConfig.DEFAULT_TIMEOUT;
 
 /**
- * <h1 style="color: green; font-size: 2.2em">
- * WEB шаги
- * </h1>
+ * <h1>WEB шаги</h1>
  *
- * <p style="color: green; font-size: 1.5em">
- * В coreScenario используется хранилище переменных. Для сохранения/изъятия переменных используются методы setVar/getVar
+ * <p>В coreScenario используется хранилище переменных. Для сохранения/изъятия переменных используются методы setVar/getVar
  * Каждая страница, с которой предполагается взаимодействие, должна быть описана в соответствующем классе,
  * наследующем CorePage. Для каждого элемента следует задать имя на русском, через аннотацию @Name, чтобы искать
  * можно было именно по русскому описанию, а не по селектору. Селекторы следует хранить только в классе страницы,
@@ -33,8 +30,7 @@ public class WebCheckSteps {
 
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка появления элемента(не списка) на странице в течение DEFAULT_TIMEOUT.
+     * <p>Проверка появления элемента(не списка) на странице в течение DEFAULT_TIMEOUT.
      * В случае, если свойство "waitingCustomElementsTimeout" в application.properties не задано,
      * таймаут равен 10 секундам
      *
@@ -48,8 +44,7 @@ public class WebCheckSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка появления элемента(не списка) на странице в течение
+     * <p>Проверка появления элемента(не списка) на странице в течение
      * заданного количества секунд
      *
      * @param elementName название кнопки|поля|блока
@@ -64,8 +59,7 @@ public class WebCheckSteps {
 
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка того, что элемент исчезнет со страницы (станет невидимым) в течение DEFAULT_TIMEOUT.
+     * <p>Проверка того, что элемент исчезнет со страницы (станет невидимым) в течение DEFAULT_TIMEOUT.
      * В случае, если свойство "waitingCustomElementsTimeout" в application.properties не задано,
      * таймаут равен 10 секундам
      *
@@ -80,9 +74,7 @@ public class WebCheckSteps {
 
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка того, что значение из поля совпадает со значением заданной переменной из хранилища
-     * </p>
+     * <p>Проверка того, что значение из поля совпадает со значением заданной переменной из хранилища</p>
      *
      * @param elementName  название поля|элемента
      * @param variableName имя переменной
@@ -96,9 +88,7 @@ public class WebCheckSteps {
 
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка того, что блок исчез/стал невидимым
-     * </p>
+     * <p>Проверка того, что блок исчез/стал невидимым</p>
      */
     @И("^(?:страница|блок|форма) \"([^\"]*)\" (?:скрыт|скрыта)")
     public void blockDisappeared(String nameOfPage) {
@@ -109,9 +99,7 @@ public class WebCheckSteps {
 
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка, что поле для ввода пусто
-     * </p>
+     * <p>Проверка, что поле для ввода пусто</p>
      */
     @И("^поле \"([^\"]*)\" пусто$")
     public void fieldInputIsEmpty(String elementName) {
@@ -120,9 +108,7 @@ public class WebCheckSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Сохранение значения элемента в переменную
-     * </p>
+     * <p>Сохранение значения элемента в переменную</p>
      */
     @И("^значение (?:элемента|поля) \"([^\"]*)\" сохранено в переменную \"([^\"]*)\"$")
     public void storeElementValueInVariable(String elementName, String variableName) {
@@ -132,9 +118,7 @@ public class WebCheckSteps {
 
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка, что элемент на странице кликабелен
-     * </p>
+     * <p>Проверка, что элемент на странице кликабелен</p>
      */
     @И("^(?:кнопка|ссылка|поле|блок|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" кликабельно$")
     public void clickableField(String elementName) {
@@ -144,9 +128,7 @@ public class WebCheckSteps {
 
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка, что элемент на странице кликабелен
-     * </p>
+     * <p>Проверка, что элемент на странице кликабелен</p>
      */
     @И("^(?:кнопка|ссылка|поле|блок|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" кликабельнов течение (\\d+) (?:секунд|секунды)$")
     public void clickableField(String elementName, int second) {
@@ -155,9 +137,7 @@ public class WebCheckSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка, что у элемента есть атрибут с ожидаемым значением (в приоритете: из property, из переменной сценария, значение аргумента)
-     * </p>
+     * <p>Проверка, что у элемента есть атрибут с ожидаемым значением (в приоритете: из property, из переменной сценария, значение аргумента)</p>
      */
     @И("^(?:кнопка|ссылка|поле|блок|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" содержит атрибут \"([^\"]*)\" со значением \"(.*)\"$")
     public void checkElemContainsAtrWithValue(String elementName, String attribute, String expectedAttributeValue) {
@@ -167,12 +147,10 @@ public class WebCheckSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка, что элемент содержит указанный класс (в приоритете: из property, из переменной сценария, значение аргумента)
+     * <p>Проверка, что элемент содержит указанный класс (в приоритете: из property, из переменной сценария, значение аргумента)
      * Например:
      * если нужно проверить что элемент не отображается на странице, но проверки Selenium отрабатывают неверно,
-     * можно использовать данный метод и проверить, что среди его классов есть disabled
-     * </p>
+     * можно использовать данный метод и проверить, что среди его классов есть disabled</p>
      */
     @И("^(?:кнопка|ссылка|поле|блок|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" содержит класс со значением \"(.*)\"$")
     public void checkElemClassContainsExpectedValue(String elementName, String expectedClassValue) {
@@ -184,9 +162,7 @@ public class WebCheckSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка, что элемент не содержит указанный класс
-     * </p>
+     * <p>Проверка, что элемент не содержит указанный класс</p>
      */
     @И("^(?:кнопка|ссылка|поле|блок|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" не содержит класс со значением \"(.*)\"$")
     public void checkElemClassNotContainsExpectedValue(String elementName, String expectedClassValue) {
@@ -199,10 +175,8 @@ public class WebCheckSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка, что значение в поле содержит значение (в приоритете: из property, из переменной сценария, значение аргумента),
-     * указанное в шаге
-     * </p>
+     * <p>Проверка, что значение в поле содержит значение (в приоритете: из property, из переменной сценария, значение аргумента),
+     * указанное в шаге</p>
      */
     @И("^(?:поле|элемент|текст) \"([^\"]*)\" содержит (?:значение|текст) \"(.*)\"$")
     public void testActualValueContainsSubstring(String elementName, String expectedValue) {
@@ -212,11 +186,9 @@ public class WebCheckSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка, что значение в поле содержит текст, указанный в шаге
+     * <p>Проверка, что значение в поле содержит текст, указанный в шаге
      * (в приоритете: из property, из переменной сценария, значение аргумента).
-     * Не чувствителен к регистру
-     * </p>
+     * Не чувствителен к регистру</p>
      */
     @И("^(?:поле|элемент|текст) \"([^\"]*)\" содержит внутренний текст \"(.*)\"$")
     public void testFieldContainsInnerText(String elementName, String expectedValue) {
@@ -230,11 +202,9 @@ public class WebCheckSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка, что значение в поле содержит текст, указанный в шаге
+     * <p>Проверка, что значение в поле содержит текст, указанный в шаге
      * (в приоритете: из property, из переменной сценария, значение аргумента).
-     * Не чувствителен к регистру
-     * </p>
+     * Не чувствителен к регистру</p>
      */
     @И("^(?:поле|элемент|текст) \"([^\"]*)\" не содержит внутренний текст \"(.*)\"$")
     public void testFieldNotContainsInnerText(String elementName, String expectedValue) {
@@ -248,9 +218,7 @@ public class WebCheckSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка, что значение в поле равно значению, указанному в шаге (в приоритете: из property, из переменной сценария, значение аргумента)
-     * </p>
+     * <p>Проверка, что значение в поле равно значению, указанному в шаге (в приоритете: из property, из переменной сценария, значение аргумента)</p>
      */
     @То("^(?:значение|содержимое) (?:поля|элемента|текста) \"([^\"]*)\" (?:совпадает с текстом|равно)$")
     @И("^(?:значение|содержимое) (?:поля|элемента|текста) \"([^\"]*)\" (?:совпадает с текстом|равно) \"(.*)\"$")
@@ -265,9 +233,7 @@ public class WebCheckSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка, что кнопка/ссылка недоступна для нажатия
-     * </p>
+     * <p>Проверка, что кнопка/ссылка недоступна для нажатия</p>
      */
     @И("^(?:кнопка|ссылка|поле|блок|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" (?:недоступна|недоступен) для нажатия$")
     public void buttonIsNotActive(String elementName) {
@@ -276,9 +242,7 @@ public class WebCheckSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка, что радиокнопка выбрана
-     * </p>
+     * <p>Проверка, что радиокнопка выбрана</p>
      */
     @И("^радиокнопка \"([^\"]*)\" выбрана$")
     public void radioButtonIsSelected(String elementName) {
@@ -287,9 +251,7 @@ public class WebCheckSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка, что радиокнопка не выбрана
-     * </p>
+     * <p>Проверка, что радиокнопка не выбрана</p>
      */
     @И("^радиокнопка \"([^\"]*)\" не выбрана")
     public void radioButtonIsNotSelected(String elementName) {
@@ -298,9 +260,7 @@ public class WebCheckSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка, что радиокнопка выбрана
-     * </p>
+     * <p>Проверка, что радиокнопка выбрана</p>
      */
     @И("^чекбокс \"([^\"]*)\" выбран$")
     public void checkBoxIsChecked(String elementName) {
@@ -309,9 +269,7 @@ public class WebCheckSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка, что радиокнопка не выбрана
-     * </p>
+     * <p>Проверка, что радиокнопка не выбрана</p>
      */
     @И("^чекбокс \"([^\"]*)\" не выбран$")
     public void checkBoxIsNotChecked(String elementName) {
@@ -320,9 +278,7 @@ public class WebCheckSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка, что поле нередактируемо
-     * </p>
+     * <p>Проверка, что поле нередактируемо</p>
      */
     @И("^(?:поле|элемент) \"([^\"]*)\" (?:недоступно|недоступен) для редактирования$")
     public void fieldIsDisable(String elementName) {
@@ -332,11 +288,9 @@ public class WebCheckSteps {
 
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка, что на странице не отображаются редактируемые элементы, такие как:
+     * <p>Проверка, что на странице не отображаются редактируемые элементы, такие как:
      * -input
-     * -textarea
-     * </p>
+     * -textarea</p>
      */
     @И("^открыта read-only форма$")
     public void openReadOnlyForm() {
@@ -354,11 +308,9 @@ public class WebCheckSteps {
 
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Выполняется поиск нужного файла в папке /Downloads
+     * <p>Выполняется поиск нужного файла в папке /Downloads
      * Поиск осуществляется по содержанию ожидаемого текста в названии файла. Можно передавать регулярное выражение.
-     * После выполнения проверки файл удаляется
-     * </p>
+     * После выполнения проверки файл удаляется</p>
      */
     @И("^файл \"(.*)\" загрузился в папку /Downloads$")
     public void testFileDownloaded(String fileName) {
@@ -373,9 +325,7 @@ public class WebCheckSteps {
 
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Производится проверка количества символов в поле со значением, указанным в шаге
-     * </p>
+     * <p>Производится проверка количества символов в поле со значением, указанным в шаге</p>
      */
     @И("^в поле \"([^\"]*)\" содержится (\\d+) символов$")
     public void checkFieldSymbolsCount(String element, int num) {
@@ -385,8 +335,7 @@ public class WebCheckSteps {
 
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Получение текста элемента в блоке и сохранение его в переменную
+     * <p>Получение текста элемента в блоке и сохранение его в переменную
      *
      * @param elementName  имя элемента
      * @param blockName    имя блока
@@ -401,9 +350,7 @@ public class WebCheckSteps {
     }
 
     /**
-     * <p style="color: green; font-size: 1.5em">
-     * Проверка того, что значение из поля в блоке совпадает со значением заданной переменной из хранилища
-     * </p>
+     * <p>Проверка того, что значение из поля в блоке совпадает со значением заданной переменной из хранилища</p>
      *
      * @param elementName  имя элемента
      * @param blockName    имя блока
