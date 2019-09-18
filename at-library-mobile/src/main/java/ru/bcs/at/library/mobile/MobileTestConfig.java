@@ -15,6 +15,10 @@ public class MobileTestConfig {
     public static final int DEFAULT_TIMEOUT = loadPropertyInt("waitingCustomElementsTimeout", 10);
     public static final int DEFAULT_SWIPE_NUMBER = 15;
 
+    public static boolean isDisplayedSelenideElementInCurrentPage(String elementName) {
+        return CoreScenario.getInstance().getCurrentPage().getElement(elementName).isDisplayed();
+    }
+
     public static WebElement getWebElementInCurrentPage(String elementName) {
         return CoreScenario.getInstance().getCurrentPage().getElement(elementName).getWrappedElement();
     }
