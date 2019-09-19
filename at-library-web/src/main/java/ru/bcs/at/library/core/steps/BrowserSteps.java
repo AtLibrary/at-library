@@ -11,6 +11,7 @@
  */
 package ru.bcs.at.library.core.steps;
 
+import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
 import cucumber.api.java.ru.Если;
 import cucumber.api.java.ru.И;
@@ -30,7 +31,6 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
 import static ru.bcs.at.library.core.cucumber.ScopedVariables.resolveVars;
 import static ru.bcs.at.library.core.steps.OtherSteps.getPropertyOrStringVariableOrValue;
-import static ru.bcs.at.library.core.steps.WebTestConfig.DEFAULT_TIMEOUT;
 
 /**
  * <h1>Браузер шаги</h1>
@@ -145,7 +145,7 @@ public class BrowserSteps {
         expectedTitle = getPropertyOrStringVariableOrValue(expectedTitle);
         String actualTitle = "";
         int sleepTime = 100;
-        for (int time = 0; time < DEFAULT_TIMEOUT; time += 100) {
+        for (int time = 0; time < Configuration.timeout; time += 100) {
             actualTitle = title();
             if (actualTitle.toLowerCase().equals(expectedTitle.toLowerCase())) {
                 break;

@@ -1,6 +1,7 @@
 package ru.bcs.at.library.core.steps;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.SelenideElement;
 import cucumber.api.java.ru.И;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
@@ -19,7 +20,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.getPropertyOrValue;
 import static ru.bcs.at.library.core.steps.OtherSteps.*;
-import static ru.bcs.at.library.core.steps.WebTestConfig.DEFAULT_TIMEOUT;
 
 public class WebListSteps {
     private CoreScenario coreScenario = CoreScenario.getInstance();
@@ -42,7 +42,7 @@ public class WebListSteps {
     }
 
     /**
-     * <p>Проверка появления списка на странице в течение DEFAULT_TIMEOUT.
+     * <p>Проверка появления списка на странице в течение Configuration.timeout.
      * В случае, если свойство "waitingCustomElementsTimeout" в application.properties не задано,
      * таймаут равен 10 секундам
      *
@@ -51,8 +51,9 @@ public class WebListSteps {
      */
     @И("^список \"([^\"]*)\" отображается на странице$")
     public void listIsPresentedOnPage(String elementName) {
+        List<SelenideElement> elementsList = coreScenario.getCurrentPage().getElementsList(elementName);
         coreScenario.getCurrentPage().waitElementsUntil(
-                Condition.appear, DEFAULT_TIMEOUT, coreScenario.getCurrentPage().getElementsList(elementName)
+                Condition.appear, (int)Configuration.timeout, elementsList
         );
     }
 
@@ -142,8 +143,9 @@ public class WebListSteps {
      */
     @И("^(?:поле|выпадающий список|элемент) \"([^\"]*)\" не отображается на странице$")
     public void elementIsNotVisible(String elementName) {
+        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
         coreScenario.getCurrentPage().waitElementsUntil(
-                not(Condition.appear), DEFAULT_TIMEOUT, coreScenario.getCurrentPage().getElement(elementName)
+                not(Condition.appear), (int)Configuration.timeout, element
         );
     }
 
