@@ -7,7 +7,7 @@
     <groupId>ru.bcs</groupId>
     <artifactId>at-library</artifactId>
     <packaging>pom</packaging>
-    <version>14.09.2019</version>
+    <version>15.09.2019</version>
 
     <modules>
         <module>at-library-core</module>
@@ -130,7 +130,7 @@
             <artifactId>allure-junit4</artifactId>
             <version>${allure.version}</version>
         </dependency>
-        <!--ОТЧЕТ reportportal-->
+        <!--ОТЧЕТ REPORT PORTAL-->
         <dependency>
             <groupId>com.epam.reportportal</groupId>
             <artifactId>agent-java-cucumber4</artifactId>
@@ -223,4 +223,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>

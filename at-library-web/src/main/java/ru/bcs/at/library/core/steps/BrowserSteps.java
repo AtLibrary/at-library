@@ -40,7 +40,6 @@ public class BrowserSteps {
 
     private CoreScenario coreScenario = CoreScenario.getInstance();
 
-
     /**
      * <p>Выполняется переход по заданной ссылке,
      *
@@ -188,7 +187,6 @@ public class BrowserSteps {
         getWebDriver().manage().window().maximize();
     }
 
-
     /**
      * <p>Выполняется переход в конец страницы</p>
      */
@@ -198,7 +196,6 @@ public class BrowserSteps {
         actions.keyDown(Keys.CONTROL).sendKeys(Keys.END).build().perform();
         actions.keyUp(Keys.CONTROL).perform();
     }
-
 
     /**
      * <p>Метод осуществляет снятие скриншота и прикрепление его к cucumber отчету.</p>
@@ -241,7 +238,6 @@ public class BrowserSteps {
         Set cookies = getWebDriver().manage().getCookies();
         coreScenario.setVar(variableName, cookies);
     }
-
 
     /**
      * <p>Находим cookie по имени и подменяем ее значение.

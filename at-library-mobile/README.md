@@ -8,7 +8,7 @@ at-library-mobile
 <dependency>
       <groupId>ru.bcs</groupId>
       <artifactId>at-library-mobile</artifactId>
-      <version>14.09.2019</version>
+      <version>15.09.2019</version>
 </dependency>
 ```
 

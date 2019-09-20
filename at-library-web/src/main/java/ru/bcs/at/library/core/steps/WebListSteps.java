@@ -24,7 +24,6 @@ import static ru.bcs.at.library.core.steps.OtherSteps.*;
 public class WebListSteps {
     private CoreScenario coreScenario = CoreScenario.getInstance();
 
-
     /**
      * <p>Проверка того, что значение из поля содержится в списке,
      * полученном из хранилища переменных по заданному ключу</p>
@@ -83,7 +82,6 @@ public class WebListSteps {
         assertTrue(String.format("Значения элементов в списке %s: %s не совпадают с ожидаемыми значениями из таблицы %s", listName, actualValues, textTable),
                 actualValues.containsAll(textTable));
     }
-
 
     /**
      * <p>Выбор из списка со страницы элемента с заданным значением
@@ -275,7 +273,6 @@ public class WebListSteps {
     }
 
     /**
-     * <p></p>
      *
      * @param blockName имя блока
      * @param listName
@@ -287,7 +284,6 @@ public class WebListSteps {
     }
 
     /**
-     * <p></p>
      *
      * @param blockName имя блока
      * @param listName

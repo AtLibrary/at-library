@@ -23,6 +23,7 @@ import java.net.URL;
 import java.util.List;
 
 import static java.lang.String.format;
+import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault;
 
 public class RequestSteps {
 
@@ -142,8 +143,9 @@ public class RequestSteps {
             for (List<String> requestParam : dataTable.asLists()) {
                 String type = requestParam.get(0);
 
-                String name = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(requestParam.get(1));
-                String value = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(requestParam.get(2));
+                String name = loadValueFromFileOrPropertyOrVariableOrDefault(requestParam.get(1));
+                String value = loadValueFromFileOrPropertyOrVariableOrDefault(requestParam.get(2));
+                value = loadValueFromFileOrPropertyOrVariableOrDefault(value);
                 switch (type.toUpperCase()) {
                     case "BASIC_AUTHENTICATION": {
                         request.auth().basic(name, value);

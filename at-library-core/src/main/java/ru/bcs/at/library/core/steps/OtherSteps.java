@@ -1,8 +1,7 @@
 package ru.bcs.at.library.core.steps;
 
 import cucumber.api.java.ru.И;
-import cucumber.api.java.ru.Когда;
-import cucumber.api.java.ru.Тогда;
+import cucumber.api.java.ru.То;
 import io.cucumber.datatable.DataTable;
 import org.hamcrest.Matchers;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
@@ -208,6 +207,7 @@ public class OtherSteps {
      * @param value        значение переменной
      *                     </p>
      */
+    @То("^установлено значение переменной \"([^\"]*)\" равным$")
     @И("^установлено значение переменной \"([^\"]*)\" равным \"(.*)\"$")
     public void setVariable(String variableName, String value) {
         value = getPropertyOrValue(value);
@@ -221,7 +221,7 @@ public class OtherSteps {
      * @param secondVariableName вторая переменная
      *                           </p>
      */
-    @Тогда("^значения в переменных \"([^\"]*)\" и \"([^\"]*)\" совпадают$")
+    @И("^значения в переменных \"([^\"]*)\" и \"([^\"]*)\" совпадают$")
     public void compareTwoVariables(String firstVariableName, String secondVariableName) {
         String firstValueToCompare = coreScenario.getVar(firstVariableName).toString();
         String secondValueToCompare = coreScenario.getVar(secondVariableName).toString();
@@ -236,7 +236,8 @@ public class OtherSteps {
      * @param expectedValueVariable ожидаемое содержимое
      *                              </p>
      */
-    @Тогда("^значение переменной \"([^\"]*)\" равно \"([^\"]*)\"$")
+    @То("^значение переменной \"([^\"]*)\" равно$")
+    @И("^значение переменной \"([^\"]*)\" равно \"([^\"]*)\"$")
     public void checkVariable(String variableName, String expectedValueVariable) {
         String valueVariable = coreScenario.getVar(variableName).toString();
         expectedValueVariable = loadValueFromFileOrPropertyOrVariableOrDefault(expectedValueVariable);
@@ -251,7 +252,7 @@ public class OtherSteps {
      * @param secondVariableName вторая переменная
      *                           </p>
      */
-    @Тогда("^значения в переменных \"([^\"]*)\" и \"([^\"]*)\" не совпадают$")
+    @И("^значения в переменных \"([^\"]*)\" и \"([^\"]*)\" не совпадают$")
     public void checkingTwoVariablesAreNotEquals(String firstVariableName, String secondVariableName) {
         String firstValueToCompare = coreScenario.getVar(firstVariableName).toString();
         String secondValueToCompare = coreScenario.getVar(secondVariableName).toString();
@@ -268,7 +269,7 @@ public class OtherSteps {
      *                   Любое Java-выражение, возвращающие boolean
      *                   </p>
      */
-    @Тогда("^верно, что \"([^\"]*)\"$")
+    @И("^верно, что \"([^\"]*)\"$")
     public void expressionExpression(String expression) {
         coreScenario.getVars().evaluate("assert(" + expression + ")");
     }
@@ -291,7 +292,7 @@ public class OtherSteps {
     /**
      * Проверка совпадения значения из переменной и значения из property</p>
      */
-    @Тогда("^значения из переменной \"([^\"]*)\" и из property файла \"([^\"]*)\" совпадают$")
+    @И("^значения из переменной \"([^\"]*)\" и из property файла \"([^\"]*)\" совпадают$")
     public void checkIfValueFromVariableEqualPropertyVariable(String envVarible, String propertyVariable) {
         assertThat("Переменные " + envVarible + " и " + propertyVariable + " не совпадают",
                 (String) coreScenario.getVar(envVarible), equalToIgnoringCase(loadProperty(propertyVariable)));
@@ -325,7 +326,7 @@ public class OtherSteps {
      * @param seconds секунд
      *                </p>
      */
-    @Когда("^выполнено ожидание в течение (\\d+) (?:секунд|секунды)")
+    @И("^выполнено ожидание в течение (\\d+) (?:секунд|секунды)")
     public void waitForSeconds(long seconds) {
         sleep(1000 * seconds);
     }

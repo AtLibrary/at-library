@@ -28,7 +28,6 @@ import static ru.bcs.at.library.core.steps.OtherSteps.*;
 public class WebCheckSteps {
     private CoreScenario coreScenario = CoreScenario.getInstance();
 
-
     /**
      * <p>Проверка появления элемента(не списка) на странице в течение Configuration.timeout.
      * В случае, если свойство "waitingCustomElementsTimeout" в application.properties не задано,
@@ -57,7 +56,6 @@ public class WebCheckSteps {
         element.waitUntil(appear, seconds * 1000);
     }
 
-
     /**
      * <p>Проверка того, что элемент исчезнет со страницы (станет невидимым) в течение Configuration.timeout.
      * В случае, если свойство "waitingCustomElementsTimeout" в application.properties не задано,
@@ -72,7 +70,6 @@ public class WebCheckSteps {
         element.waitUntil(disappears, Configuration.timeout);
     }
 
-
     /**
      * <p>Проверка того, что значение из поля совпадает со значением заданной переменной из хранилища</p>
      *
@@ -86,7 +83,6 @@ public class WebCheckSteps {
         element.shouldHave(exactText(expectedValue));
     }
 
-
     /**
      * <p>Проверка того, что блок исчез/стал невидимым</p>
      */
@@ -96,7 +92,6 @@ public class WebCheckSteps {
             coreScenario.getPage(nameOfPage).ieDisappeared();
         } else coreScenario.getPage(nameOfPage).disappeared();
     }
-
 
     /**
      * <p>Проверка, что поле для ввода пусто</p>
@@ -116,7 +111,6 @@ public class WebCheckSteps {
         coreScenario.write("Значение [" + coreScenario.getCurrentPage().getAnyElementText(elementName) + "] сохранено в переменную [" + variableName + "]");
     }
 
-
     /**
      * <p>Проверка, что элемент на странице кликабелен</p>
      */
@@ -125,7 +119,6 @@ public class WebCheckSteps {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
         element.waitUntil(enabled, Configuration.timeout);
     }
-
 
     /**
      * <p>Проверка, что элемент на странице кликабелен</p>
