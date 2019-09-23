@@ -250,7 +250,7 @@ public class WebActionSteps {
         if (valueInput.is(Condition.not(Condition.value(""))) ||
                 valueInput.is(Condition.not(Condition.exactText("")))
         ) {
-            valueInput.sendKeys(Keys.chord(Keys.CONTROL + "A" + Keys.BACK_SPACE));
+            valueInput.sendKeys(Keys.chord(Keys.CONTROL + "a" + Keys.BACK_SPACE));
         }
         valueInput.shouldHave(
                 Condition.value(""),

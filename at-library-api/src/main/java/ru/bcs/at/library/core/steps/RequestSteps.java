@@ -109,6 +109,24 @@ public class RequestSteps {
         getBodyAndSaveToVariable(responseNameVariable, response);
     }
 
+    /**
+     * <p>Отправка http запроса по заданному урлу с параметрами и/или BODY.
+     * Результат сохраняется в заданную переменную</p>
+     *
+     * @param method               методов HTTP запроса
+     * @param address              url запроса (можно задать как напрямую в шаге, так и указав в application.properties)
+     * @param expectedStatusCode   ожидаемый код ответа
+     * @param responseNameVariable имя переменной в которую сохраняется ответ
+     */
+    @И(REQUEST_URL + ". Ожидается код ответа: (\\d+) Полученный ответ сохранен в переменную \"([^\"]*)\"$")
+    public void sendHttpRequestSaveResponseCheckResponseCode(String method,
+                                                             String address,
+                                                             int expectedStatusCode,
+                                                             String responseNameVariable) {
+        Response response = tryingSendRequestRetries(method, address, null, expectedStatusCode);
+        response.then().statusCode(expectedStatusCode);
+        getBodyAndSaveToVariable(responseNameVariable, response);
+    }
 
     /**
      * <p>Отправка http запроса</p>
