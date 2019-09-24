@@ -7,7 +7,7 @@
     <groupId>ru.bcs</groupId>
     <artifactId>at-library</artifactId>
     <packaging>pom</packaging>
-    <version>15.09.2019</version>
+    <version>25.09.2019</version>
 
     <modules>
         <module>at-library-core</module>
@@ -19,19 +19,19 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!--WEB ТЕСТИРОВАНИЕ-->
-        <selenide.version>5.3.0</selenide.version>
-        <webdrivermanager.version>3.6.2</webdrivermanager.version>
+        <selenide.version>5.3.1</selenide.version>
+        <webdrivermanager.version>3.7.1</webdrivermanager.version>
         <!--API ТЕСТИРОВАНИЕ-->
-        <rest-assured.version>3.3.0</rest-assured.version>
+        <rest-assured.version>4.1.1</rest-assured.version>
         <!--MOBILE ТЕСТИРОВАНИЕ-->
-        <io.appium.java-client.version>7.0.0</io.appium.java-client.version>
+        <io.appium.java-client.version>7.2.0</io.appium.java-client.version>
         <!--CUCUMBER-->
-        <cucumber.version>4.3.0</cucumber.version>
+        <cucumber.version>4.7.2</cucumber.version>
         <agent-java-cucumber4.version>4.0.2-BCS</agent-java-cucumber4.version>
         <!--ОТЧЕТ ALLURE-->
-        <allure.version>2.10.0</allure.version>
+        <allure.version>2.13.0</allure.version>
         <!--LOMBOK-->
-        <lombok.version>1.16.20</lombok.version>
+        <lombok.version>1.18.10</lombok.version>
         <!--LOG-->
         <logging.version>2.11.2</logging.version>
         <!--ВСПОМОГАТЕЛЬНЫЕ БИБЛИОТЕКИ-->
@@ -168,6 +168,12 @@
             <groupId>com.jayway.jsonpath</groupId>
             <artifactId>json-path</artifactId>
             <version>${jsonpath.version}</version>
+        </dependency>
+        <!--МОКИРОВАНИЕ-->
+        <dependency>
+            <groupId>net.andreinc.mockneat</groupId>
+            <artifactId>mockneat</artifactId>
+            <version>0.1.7</version>
         </dependency>
     </dependencies>
 

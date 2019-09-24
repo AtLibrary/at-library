@@ -1,6 +1,7 @@
 package ru.bcs.at.library.core.steps;
 
 import cucumber.api.java.ru.И;
+import net.andreinc.mockneat.MockNeat;
 import org.apache.commons.lang3.RandomStringUtils;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 
@@ -78,5 +79,15 @@ public class DataGenerationSteps {
         String randomString = list.get(random);
         coreScenario.setVar(varName, randomString);
         coreScenario.write("Строка равна :" + randomString);
+    }
+
+    /**
+     * <p>Сгенерирован случайный email и сохранен в переменную</p>
+     */
+    @И("^генерация случайного email и сохранение в переменную \"([^\"]*)\"$")
+    public void randomEmail(String varName) {
+        String randomEmail = MockNeat.secure().emails().val();
+        coreScenario.setVar(varName, randomEmail);
+        coreScenario.write("Email равен :" + randomEmail);
     }
 }

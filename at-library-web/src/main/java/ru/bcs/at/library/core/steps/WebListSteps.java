@@ -52,7 +52,7 @@ public class WebListSteps {
     public void listIsPresentedOnPage(String elementName) {
         List<SelenideElement> elementsList = coreScenario.getCurrentPage().getElementsList(elementName);
         coreScenario.getCurrentPage().waitElementsUntil(
-                Condition.appear, (int)Configuration.timeout, elementsList
+                Condition.appear, (int) Configuration.timeout, elementsList
         );
     }
 
@@ -143,7 +143,7 @@ public class WebListSteps {
     public void elementIsNotVisible(String elementName) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
         coreScenario.getCurrentPage().waitElementsUntil(
-                not(Condition.appear), (int)Configuration.timeout, element
+                not(Condition.appear), (int) Configuration.timeout, element
         );
     }
 
@@ -273,7 +273,6 @@ public class WebListSteps {
     }
 
     /**
-     *
      * @param blockName имя блока
      * @param listName
      * @param varName
@@ -284,7 +283,6 @@ public class WebListSteps {
     }
 
     /**
-     *
      * @param blockName имя блока
      * @param listName
      * @param varName

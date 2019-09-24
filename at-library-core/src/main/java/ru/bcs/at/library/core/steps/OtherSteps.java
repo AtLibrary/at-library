@@ -6,6 +6,8 @@ import io.cucumber.datatable.DataTable;
 import org.hamcrest.Matchers;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -318,6 +320,17 @@ public class OtherSteps {
         if (error)
             throw new RuntimeException("В шаблоне не найдены требуемые регулярные выражения");
         coreScenario.setVar(varName, template);
+    }
+
+
+    /**
+     * <p>Валидация что текст является email-ом</p>
+     */
+    @То("^значение переменной \"([^\"]*)\" является email-ом")
+    public void checkEmail(String variableName) throws AddressException {
+        String valueVariable = coreScenario.getVar(variableName).toString();
+        new InternetAddress(valueVariable)
+                .validate();
     }
 
     /**
