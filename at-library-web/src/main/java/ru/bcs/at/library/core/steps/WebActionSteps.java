@@ -56,7 +56,6 @@ public class WebActionSteps {
         loadPage(pageName);
     }
 
-
     /**
      * <p>Выполняется переход по заданной ссылке в новой вкладке.
      * Шаг содержит проверку, что после перехода загружена заданная страница.
@@ -144,7 +143,6 @@ public class WebActionSteps {
         }
     }
 
-
     /**
      * <p>Эмулирует нажатие клавиш на клавиатуре</p>
      */
@@ -193,7 +191,6 @@ public class WebActionSteps {
         cleanField(elementName);
         valueInput.setValue(value);
     }
-
 
     /**
      * <p>Набирается значение (в приоритете: из property, из переменной сценария, значение аргумента) в заданное поле.
@@ -267,7 +264,6 @@ public class WebActionSteps {
         field.hover();
     }
 
-
     /**
      * <p>Добавление строки (в приоритете: из property, из переменной сценария, значение аргумента) в поле к уже заполненой строке</p>
      */
@@ -327,7 +323,6 @@ public class WebActionSteps {
         coreScenario.getCurrentPage().getElement(fieldName).sendKeys(Keys.chord(Keys.SHIFT, Keys.INSERT));
     }
 
-
     /**
      * <p>Выполняется поиск нужного файла в папке /Downloads
      * Поиск осуществляется по содержанию ожидаемого текста в названии файла. Можно передавать регулярное выражение.
@@ -348,7 +343,6 @@ public class WebActionSteps {
     public void scrollPageToElement(String elementName) {
         coreScenario.getCurrentPage().getElement(elementName).scrollTo();
     }
-
 
     /**
      * <p>Ввод в поле случайной последовательности латинских или кириллических букв задаваемой длины</p>
@@ -411,7 +405,6 @@ public class WebActionSteps {
                 elementName, numSeq, varName));
     }
 
-
     /**
      * <p>Выполняется запуск js-скрипта с указанием в js.executeScript его логики
      * Скрипт можно передать как аргумент метода или значение из application.properties</p>
@@ -421,7 +414,6 @@ public class WebActionSteps {
         String content = loadValueFromFileOrPropertyOrVariableOrDefault(scriptName);
         Selenide.executeJavaScript(content);
     }
-
 
     /**
      * <p>Скроллит страницу вниз до появления элемента каждую секунду.
@@ -459,7 +451,6 @@ public class WebActionSteps {
         el.shouldHave(enabled);
     }
 
-
     /**
      * Выполняется нажатие на кнопку и подгружается указанный файл
      * Селектор кнопки должны быть строго на input элемента
@@ -484,7 +475,6 @@ public class WebActionSteps {
     public void clickOnElementInBlock(String elementName, String blockName) {
         coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName).click();
     }
-
 
     /**
      * <p>Шаг авторизации.

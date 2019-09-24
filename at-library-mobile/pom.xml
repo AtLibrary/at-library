@@ -5,7 +5,7 @@
     <parent>
         <artifactId>at-library</artifactId>
         <groupId>ru.bcs</groupId>
-        <version>23.09.2019</version>
+        <version>25.09.2019</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -14,7 +14,7 @@
         <dependency>
             <groupId>ru.bcs</groupId>
             <artifactId>at-library-core</artifactId>
-            <version>23.09.2019</version>
+            <version>25.09.2019</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
@@ -65,7 +65,7 @@
                 <artifactId>allure-maven</artifactId>
                 <version>2.10.0</version>
                 <configuration>
-                    <reportVersion>2.9.0</reportVersion>
+                    <reportVersion>2.13.0</reportVersion>
                     <resultsDirectory>allure-results</resultsDirectory>
                 </configuration>
             </plugin>

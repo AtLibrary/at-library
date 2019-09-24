@@ -1,5 +1,6 @@
 package ru.bcs.at.library.core.steps;
 
+import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.SelenideElement;
 import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.То;
@@ -14,7 +15,6 @@ import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.WebDriverRunner.isIE;
 import static org.junit.Assert.*;
 import static ru.bcs.at.library.core.steps.OtherSteps.*;
-import static ru.bcs.at.library.core.steps.WebTestConfig.DEFAULT_TIMEOUT;
 
 /**
  * <h1>WEB шаги</h1>
@@ -28,9 +28,8 @@ import static ru.bcs.at.library.core.steps.WebTestConfig.DEFAULT_TIMEOUT;
 public class WebCheckSteps {
     private CoreScenario coreScenario = CoreScenario.getInstance();
 
-
     /**
-     * <p>Проверка появления элемента(не списка) на странице в течение DEFAULT_TIMEOUT.
+     * <p>Проверка появления элемента(не списка) на странице в течение Configuration.timeout.
      * В случае, если свойство "waitingCustomElementsTimeout" в application.properties не задано,
      * таймаут равен 10 секундам
      *
@@ -40,7 +39,7 @@ public class WebCheckSteps {
     @И("^(?:кнопка|ссылка|поле|блок|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" отображается на странице$")
     public void elemIsPresentedOnPage(String elementName) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
-        element.waitUntil(appear, DEFAULT_TIMEOUT);
+        element.waitUntil(appear, Configuration.timeout);
     }
 
     /**
@@ -57,9 +56,8 @@ public class WebCheckSteps {
         element.waitUntil(appear, seconds * 1000);
     }
 
-
     /**
-     * <p>Проверка того, что элемент исчезнет со страницы (станет невидимым) в течение DEFAULT_TIMEOUT.
+     * <p>Проверка того, что элемент исчезнет со страницы (станет невидимым) в течение Configuration.timeout.
      * В случае, если свойство "waitingCustomElementsTimeout" в application.properties не задано,
      * таймаут равен 10 секундам
      *
@@ -69,9 +67,8 @@ public class WebCheckSteps {
     @И("^ожидается исчезновение (?:кнопки|ссылки|поля|блока|чекбокса|радиокнопи|текста|элемента) \"([^\"]*)\"")
     public void elemDisappered(String elementName) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
-        element.waitUntil(disappears, DEFAULT_TIMEOUT);
+        element.waitUntil(disappears, Configuration.timeout);
     }
-
 
     /**
      * <p>Проверка того, что значение из поля совпадает со значением заданной переменной из хранилища</p>
@@ -86,7 +83,6 @@ public class WebCheckSteps {
         element.shouldHave(exactText(expectedValue));
     }
 
-
     /**
      * <p>Проверка того, что блок исчез/стал невидимым</p>
      */
@@ -97,14 +93,13 @@ public class WebCheckSteps {
         } else coreScenario.getPage(nameOfPage).disappeared();
     }
 
-
     /**
      * <p>Проверка, что поле для ввода пусто</p>
      */
     @И("^поле \"([^\"]*)\" пусто$")
     public void fieldInputIsEmpty(String elementName) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
-        element.waitUntil(empty, DEFAULT_TIMEOUT);
+        element.waitUntil(empty, Configuration.timeout);
     }
 
     /**
@@ -116,16 +111,14 @@ public class WebCheckSteps {
         coreScenario.write("Значение [" + coreScenario.getCurrentPage().getAnyElementText(elementName) + "] сохранено в переменную [" + variableName + "]");
     }
 
-
     /**
      * <p>Проверка, что элемент на странице кликабелен</p>
      */
     @И("^(?:кнопка|ссылка|поле|блок|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" кликабельно$")
     public void clickableField(String elementName) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
-        element.waitUntil(enabled, DEFAULT_TIMEOUT);
+        element.waitUntil(enabled, Configuration.timeout);
     }
-
 
     /**
      * <p>Проверка, что элемент на странице кликабелен</p>
@@ -143,7 +136,7 @@ public class WebCheckSteps {
     public void checkElemContainsAtrWithValue(String elementName, String attribute, String expectedAttributeValue) {
         expectedAttributeValue = getPropertyOrStringVariableOrValue(expectedAttributeValue);
         SelenideElement currentElement = coreScenario.getCurrentPage().getElement(elementName);
-        currentElement.waitUntil(attribute(attribute, expectedAttributeValue), DEFAULT_TIMEOUT);
+        currentElement.waitUntil(attribute(attribute, expectedAttributeValue), Configuration.timeout);
     }
 
     /**
@@ -158,7 +151,7 @@ public class WebCheckSteps {
         expectedClassValue = getPropertyOrStringVariableOrValue(expectedClassValue);
 
         currentElement.waitUntil(
-                attribute("class", expectedClassValue), DEFAULT_TIMEOUT);
+                attribute("class", expectedClassValue), Configuration.timeout);
     }
 
     /**
@@ -171,7 +164,7 @@ public class WebCheckSteps {
         expectedClassValue = getPropertyOrStringVariableOrValue(expectedClassValue);
 
         currentElement.waitUntil(
-                not(attribute("class", expectedClassValue)), DEFAULT_TIMEOUT);
+                not(attribute("class", expectedClassValue)), Configuration.timeout);
     }
 
     /**
@@ -182,7 +175,7 @@ public class WebCheckSteps {
     public void testActualValueContainsSubstring(String elementName, String expectedValue) {
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
         coreScenario.getCurrentPage().getElement(elementName)
-                .waitUntil(text(expectedValue), DEFAULT_TIMEOUT);
+                .waitUntil(text(expectedValue), Configuration.timeout);
     }
 
     /**
@@ -198,7 +191,7 @@ public class WebCheckSteps {
                 or("Текст элемента содержит",
                         text(expectedValue),
                         value(expectedValue)),
-                DEFAULT_TIMEOUT);
+                Configuration.timeout);
     }
 
     /**
@@ -214,7 +207,7 @@ public class WebCheckSteps {
                 and("Текст элемента не содержит",
                         not(text(expectedValue)),
                         not(value(expectedValue))),
-                DEFAULT_TIMEOUT);
+                Configuration.timeout);
     }
 
     /**
@@ -229,7 +222,7 @@ public class WebCheckSteps {
                 or("Текст элемента равен",
                         exactText(expectedValue),
                         exactValue(expectedValue)),
-                DEFAULT_TIMEOUT);
+                Configuration.timeout);
     }
 
     /**
@@ -238,7 +231,7 @@ public class WebCheckSteps {
     @И("^(?:кнопка|ссылка|поле|блок|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" (?:недоступна|недоступен) для нажатия$")
     public void buttonIsNotActive(String elementName) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
-        element.waitUntil(disabled, DEFAULT_TIMEOUT);
+        element.waitUntil(disabled, Configuration.timeout);
     }
 
     /**
@@ -247,7 +240,7 @@ public class WebCheckSteps {
     @И("^радиокнопка \"([^\"]*)\" выбрана$")
     public void radioButtonIsSelected(String elementName) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
-        element.waitUntil(selected, DEFAULT_TIMEOUT);
+        element.waitUntil(selected, Configuration.timeout);
     }
 
     /**
@@ -256,7 +249,7 @@ public class WebCheckSteps {
     @И("^радиокнопка \"([^\"]*)\" не выбрана")
     public void radioButtonIsNotSelected(String elementName) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
-        element.waitUntil(not(selected), DEFAULT_TIMEOUT);
+        element.waitUntil(not(selected), Configuration.timeout);
     }
 
     /**
@@ -265,7 +258,7 @@ public class WebCheckSteps {
     @И("^чекбокс \"([^\"]*)\" выбран$")
     public void checkBoxIsChecked(String elementName) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
-        element.waitUntil(checked, DEFAULT_TIMEOUT);
+        element.waitUntil(checked, Configuration.timeout);
     }
 
     /**
@@ -274,7 +267,7 @@ public class WebCheckSteps {
     @И("^чекбокс \"([^\"]*)\" не выбран$")
     public void checkBoxIsNotChecked(String elementName) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
-        element.waitUntil(not(checked), DEFAULT_TIMEOUT);
+        element.waitUntil(not(checked), Configuration.timeout);
     }
 
     /**
@@ -283,7 +276,7 @@ public class WebCheckSteps {
     @И("^(?:поле|элемент) \"([^\"]*)\" (?:недоступно|недоступен) для редактирования$")
     public void fieldIsDisable(String elementName) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
-        element.waitUntil(disabled, DEFAULT_TIMEOUT);
+        element.waitUntil(disabled, Configuration.timeout);
     }
 
 
