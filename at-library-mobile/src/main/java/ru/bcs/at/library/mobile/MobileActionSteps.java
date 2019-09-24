@@ -51,12 +51,25 @@ public class MobileActionSteps {
     private CoreScenario coreScenario = CoreScenario.getInstance();
 
     /**
+     * <p>На экране происходит click по заданному элементу, проверяя наличие кнопки|поля|блока на текущей странице
+     *
+     * @param elementName    название кнопки|поля|блока
+     *                       </p>
+     */
+    @И("^выполнено нажатие на (?:кнопку|ссылку|поле|блок|чекбокс|радокнопку|текст|элемент) \"([^\"]+)\" если отображается$")
+    public void clickOnElementIfDisplayed(String elementName) {
+        if (isDisplayedSelenideElementInCurrentPage(elementName)) {
+            clickOnElement(elementName);
+        }
+    }
+
+    /**
      * <p>На экране происходит click по заданному элементу
      *
      * @param elementName название кнопки|поля|блока
      *                    </p>
      */
-    @И("^выполнено нажатие на (?:кнопку|ссылку|поле|блок|чекбокс|радокнопку|текст|элемент) \"([^\"]*)\"$")
+    @И("^выполнено нажатие на (?:кнопку|ссылку|поле|блок|чекбокс|радокнопку|текст|элемент) \"([^\"]+)\"$")
     public void clickOnElement(String elementName) {
         WebElement element = getWebElementInCurrentPage(elementName);
         driverWait().until(ExpectedConditions.elementToBeClickable(element));
@@ -64,9 +77,21 @@ public class MobileActionSteps {
     }
 
     /**
+     * <p>Нажатие на элемент по его тексту (в приоритете: из property, из переменной сценария, значение аргумента),
+     * проверяя наличие кнопки|поля|блока на текущей странице
+     * </p>
+     */
+    @И("^выполнено нажатие на (?:кнопку|ссылку|поле|блок|чекбокс|радокнопку|текст|элемент) с текстом \"([^\"]+)\" если отображается$")
+    public void findElementIfDisplayed(String text) {
+        if (isDisplayedSelenideElementInCurrentPage(text)) {
+            findElement(text);
+        }
+    }
+
+    /**
      * <p>Нажатие на элемент по его тексту (в приоритете: из property, из переменной сценария, значение аргумента)</p>
      */
-    @И("^выполнено нажатие на (?:кнопку|ссылку|поле|блок|чекбокс|радокнопку|текст|элемент) с текстом \"(.*)\"$")
+    @И("^выполнено нажатие на (?:кнопку|ссылку|поле|блок|чекбокс|радокнопку|текст|элемент) с текстом \"([^\"]+)\"$")
     public void findElement(String text) {
         By xpath = By.xpath(getTranslateNormalizeSpaceText(getPropertyOrStringVariableOrValue(text)));
         WebElement element = WebDriverRunner.getWebDriver().findElement(xpath);
