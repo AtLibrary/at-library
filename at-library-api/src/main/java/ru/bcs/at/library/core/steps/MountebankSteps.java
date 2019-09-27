@@ -19,7 +19,9 @@ import org.mbtest.javabank.ImposterParser;
 import org.mbtest.javabank.http.core.Stub;
 import org.mbtest.javabank.http.imposters.Imposter;
 import org.mbtest.javabank.http.responses.Is;
+import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 
+import static java.lang.String.format;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.tryLoadProperty;
 
@@ -29,28 +31,25 @@ import static ru.bcs.at.library.core.core.helpers.PropertyLoader.tryLoadProperty
 @Log4j2
 public class MountebankSteps {
 
-    private static final int DEFAULT_MB_DEPLOY_PORT = 4545;
+    private CoreScenario coreScenario = CoreScenario.getInstance();
+
+    private static final int DEFAULT_MB_PORT = 4545;
 
     private static final String MB_HOST = System.getProperty("mbHost", tryLoadProperty("mbHost"));
     private static final String MB_PORT = System.getProperty("mbPort", tryLoadProperty("mbPort"));
     private static Client client = new Client(MB_HOST, Integer.parseInt(MB_PORT));
 
     /**
-     * <p>Создание mountebank-заглушки по-умолчанию</p>
-     */
-    @И("^разворачивается mb заглушка по-умолчанию$")
-    public void deployImposter() {
-        deployImposter(DEFAULT_MB_DEPLOY_PORT);
-    }
-
-    /**
      * <p>Создание mountebank-заглушки по-умолчанию на указанном порте</p>
      *
      * @param deployPort   порт разворачивания заглушки по-умолчанию
      */
-    @И("^разворачивается mb заглушка по-умолчанию на порте (\\d+)$")
-    public void deployImposter(int deployPort) {
-        checkMB(client);
+    @И("^разворачивается mb заглушка по-умолчанию(?: на порте (\\d+)|)$")
+    public void deployImposter(Integer deployPort) {
+        checkMB();
+        if (deployPort == null) {
+            deployPort = DEFAULT_MB_PORT;
+        }
         client.deleteImposter(deployPort);
         client.createImposter(new Imposter().onPort(deployPort));
     }
@@ -64,7 +63,7 @@ public class MountebankSteps {
     public void deployImposter(String imposterJson) throws ParseException {
         Imposter imposter = ImposterParser.parse(loadValueFromFileOrPropertyOrVariableOrDefault(imposterJson));
 
-        checkMB(client);
+        checkMB();
         client.deleteImposter(imposter.getPort());
         client.createImposter(imposter);
     }
@@ -79,19 +78,9 @@ public class MountebankSteps {
     public void deployImposter(String imposterJson, int deployPort) throws ParseException {
         Imposter imposter = ImposterParser.parse(loadValueFromFileOrPropertyOrVariableOrDefault(imposterJson));
 
-        checkMB(client);
+        checkMB();
         client.deleteImposter(deployPort);
         client.createImposter(imposter.onPort(deployPort));
-    }
-
-    /**
-     * <p>Создание mountebank-заглушки с указанным ответом</p>
-     *
-     * @param response   ответ на любой запрос новой заглушки заглушки
-     */
-    @И("^разворачивается mb заглушка с ответом из файла '([^\']+)'$")
-    public void deployImposterWithResponse(String response) {
-        deployImposterWithResponse(response, DEFAULT_MB_DEPLOY_PORT);
     }
 
     /**
@@ -100,33 +89,31 @@ public class MountebankSteps {
      * @param response    ответ на любой запрос новой заглушки заглушки
      * @param deployPort  порт разворачивания заглушки с указанным ответом
      */
-    @И("^разворачивается mb заглушка с ответом из файла '([^\']+)' на порте (\\d+)$")
-    public void deployImposterWithResponse(String response, int deployPort) {
+    @И("^разворачивается mb заглушка с ответом из файла '([^\']+)'(?: на порте (\\d+)|)$")
+    public void deployImposterWithResponse(String response, Integer deployPort) {
         Stub stub = new Stub().withResponse(
                 new Is().withBody(
                         loadValueFromFileOrPropertyOrVariableOrDefault(response)
                 )
         );
 
-        checkMB(client);
+        checkMB();
+        if (deployPort == null) {
+            deployPort = DEFAULT_MB_PORT;
+        }
         client.deleteImposter(deployPort);
         client.createImposter(new Imposter().onPort(deployPort).addStub(stub));
     }
 
     /**
-     * <p>Удаление mountebank-заглушки на порте по-умолчанию</p>
-     */
-    @И("^удаляется mb заглушка$")
-    public void deleteImposter() {
-        deleteImposter(DEFAULT_MB_DEPLOY_PORT);
-    }
-
-    /**
      * <p>Удаление mountebank-заглушки на указанном порте</p>
      */
-    @И("^удаляется mb заглушка на порте (\\d+)$")
-    public void deleteImposter(int destroyPort) {
-        checkMB(client);
+    @И("^удаляется mb заглушка(?: на порте (\\d+)|)$")
+    public void deleteImposter(Integer destroyPort) {
+        checkMB();
+        if (destroyPort == null) {
+            destroyPort = DEFAULT_MB_PORT;
+        }
         client.deleteImposter(destroyPort);
     }
 
@@ -135,11 +122,51 @@ public class MountebankSteps {
      */
     @И("^удаляются все mb заглушки$")
     public void deleteAllImposters() {
-        checkMB(client);
+        checkMB();
         client.deleteAllImposters();
     }
 
-    private void checkMB(Client client) {
-        Assert.assertTrue("Mountebank is not running!", client.isMountebankRunning());
+    /**
+     * <p>Получение запросов mountebank-заглушки на порте</p>
+     */
+    @И("^получены запросы mb заглушки(?: на порте (\\d+)|) и сохранен в переменную \"([^\"]+)\"$")
+    public void getRequestsOnPort(Integer gettingPort, String requestsNameVariable) throws ParseException, net.minidev.json.parser.ParseException {
+        checkMB();
+        if (gettingPort == null) {
+            gettingPort = DEFAULT_MB_PORT;
+        }
+        System.out.println(client.getImposter(gettingPort).getRequests().toString());
+        coreScenario.setVar(requestsNameVariable, client.getImposter(gettingPort).getRequests().toString());
+    }
+
+    /**
+     * <p>Получение запроса mountebank-заглушки на порте</p>
+     */
+    @И("^получен (\\d+) запрос mb заглушки(?: на порте (\\d+)|) и сохранен в переменную \"([^\"]+)\"$")
+    public void getRequestOnPort(int reqNum, Integer gettingPort, String requestNameVariable) throws ParseException, net.minidev.json.parser.ParseException {
+        checkMB();
+        if (gettingPort == null) {
+            gettingPort = DEFAULT_MB_PORT;
+        }
+        coreScenario.setVar(requestNameVariable, client.getImposter(gettingPort).getRequest(reqNum));
+    }
+
+    /**
+     * <p>Получение последнего запроса mountebank-заглушки на порте</p>
+     */
+    @И("^получен последний запрос mb заглушки(?: на порте (\\d+)|) и сохранен в переменную \"([^\"]+)\"$")
+    public void getLastRequestOnPort(Integer gettingPort, String requestNameVariable) throws ParseException, net.minidev.json.parser.ParseException {
+        checkMB();
+        if (gettingPort == null) {
+            gettingPort = DEFAULT_MB_PORT;
+        }
+        coreScenario.setVar(requestNameVariable, client.getImposter(gettingPort).getLastRequest());
+    }
+
+    private void checkMB() {
+        if (client == null) {
+            client = new Client(MB_HOST, Integer.parseInt(MB_PORT));
+        }
+        Assert.assertTrue(format("Mountebank on '%s' is not running!", client.getBaseUrl()), client.isMountebankRunning());
     }
 }

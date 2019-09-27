@@ -5,7 +5,7 @@
     <parent>
         <artifactId>at-library</artifactId>
         <groupId>ru.bcs</groupId>
-        <version>24.09.2019.2</version>
+        <version>27.09.2019</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -15,18 +15,20 @@
         <dependency>
             <groupId>ru.bcs</groupId>
             <artifactId>at-library-core</artifactId>
-            <version>24.09.2019.2</version>
+            <version>27.09.2019</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.mbtest.javabank</groupId>
             <artifactId>javabank-core</artifactId>
-            <version>0.4.11</version>
+            <version>0.4.12</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.mbtest.javabank</groupId>
             <artifactId>javabank-client</artifactId>
-            <version>0.4.11</version>
+            <version>0.4.12</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 

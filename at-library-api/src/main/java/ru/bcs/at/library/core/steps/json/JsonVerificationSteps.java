@@ -156,6 +156,33 @@ public class JsonVerificationSteps {
     }
 
     /**
+     * <p>В json строке, сохраннённой в переменной, происходит поиск значений по jsonpath из первого столбца таблицы.
+     * Полученные значения сохраняются в переменных. Название переменной указывается во втором столбце таблицы.
+     * Шаг работает со всеми типами json элементов: объекты, массивы, строки, числа, литералы true, false и null.</p>
+     *
+     * @param valueToFind     имя переменной которая содержит Response
+     * @param dataTable       И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
+     *                        и из хранилища переменных из CoreScenario.
+     *                        Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
+     */
+    @И("^значения из json \"([^\"]*)\", найденные по jsonpath из таблицы, сохранены в переменные$")
+    public void getValuesFromJsonAsString(String valueToFind, DataTable dataTable) throws ParseException {
+        String jsonString = loadValueFromFileOrPropertyOrVariableOrDefault(valueToFind);
+        JSONParser parser = new JSONParser();
+        JSONObject jsonObject = (JSONObject) parser.parse(jsonString);
+        for (List<String> row : dataTable.asLists()) {
+            String path = row.get(0);
+
+            String variableName =
+                    loadValueFromFileOrPropertyOrVariableOrDefault(row.get(1));
+            Object read = JsonPath.read(jsonObject, path);
+            String value = String.valueOf(read);
+
+            coreScenario.setVar(variableName, value);
+        }
+    }
+
+    /**
      * <p>Проверка json</p>
      */
     @И("^в json \"([^\"]*)\" значения равны(|, без учета регистра,) значениям из таблицы$")
@@ -166,11 +193,9 @@ public class JsonVerificationSteps {
         for (List<String> row : dataTable.asLists()) {
             String path = row.get(0);
 
-            String expectedValue =
-                    loadValueFromFileOrPropertyOrVariableOrDefault(row.get(1));
+            String expectedValue = loadValueFromFileOrPropertyOrVariableOrDefault(row.get(1));
             Object read = JsonPath.read(jsonObject, path);
             String actualValue = String.valueOf(read);
-
 
             if (!textRegister.isEmpty()) {
                 expectedValue = expectedValue.toLowerCase();
@@ -183,6 +208,29 @@ public class JsonVerificationSteps {
                             "\nреальное: " + actualValue +
                             "\n",
                     expectedValue, actualValue);
+        }
+    }
+
+    /**
+     * <p>Проверка json</p>
+     */
+    @И("^в json \"([^\"]*)\" значения соответствуют шаблонам из таблицы$")
+    public void checkJsonByRegex(String pathExpectedJson, DataTable dataTable) throws ParseException {
+        String jsonString = loadValueFromFileOrPropertyOrVariableOrDefault(pathExpectedJson);
+        JSONParser parser = new JSONParser();
+        JSONObject jsonObject = (JSONObject) parser.parse(jsonString);
+        for (List<String> row : dataTable.asLists()) {
+            String path = row.get(0);
+            String regex = loadValueFromFileOrPropertyOrVariableOrDefault(row.get(1));
+            Object read = JsonPath.read(jsonObject, path);
+            String actualValue = String.valueOf(read);
+
+            Assert.assertTrue(
+                    "Содержимое по  jsonpath:" + path + " не соответствует" +
+                            "\nожидаемое: " + regex +
+                            "\nреальное: " + actualValue +
+                            "\n",
+                    actualValue.matches(regex));
         }
     }
 

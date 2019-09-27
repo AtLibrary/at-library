@@ -245,14 +245,18 @@ public class WebActionSteps {
         SelenideElement valueInput = coreScenario.getCurrentPage().getElement(nameOfField);
         valueInput.clear();
         if (valueInput.is(Condition.not(Condition.value(""))) ||
+                valueInput.is(Condition.not(Condition.text(""))) ||
+                valueInput.is(Condition.not(Condition.exactValue(""))) ||
                 valueInput.is(Condition.not(Condition.exactText("")))
         ) {
             valueInput.sendKeys(Keys.chord(Keys.CONTROL + "a" + Keys.BACK_SPACE));
         }
         valueInput.shouldHave(
                 Condition.value(""),
+                Condition.text(""),
+                Condition.exactValue(""),
                 Condition.exactText("")
-        );
+                );
     }
 
     /**
