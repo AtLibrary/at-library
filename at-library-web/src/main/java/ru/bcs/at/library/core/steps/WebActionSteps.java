@@ -244,19 +244,10 @@ public class WebActionSteps {
     public void cleanField(String nameOfField) {
         SelenideElement valueInput = coreScenario.getCurrentPage().getElement(nameOfField);
         valueInput.clear();
-        if (valueInput.is(Condition.not(Condition.value(""))) ||
-                valueInput.is(Condition.not(Condition.text(""))) ||
-                valueInput.is(Condition.not(Condition.exactValue(""))) ||
-                valueInput.is(Condition.not(Condition.exactText("")))
-        ) {
+        if (valueInput.is(Condition.not(Condition.empty))) {
             valueInput.sendKeys(Keys.chord(Keys.CONTROL + "a" + Keys.BACK_SPACE));
         }
-        valueInput.shouldHave(
-                Condition.value(""),
-                Condition.text(""),
-                Condition.exactValue(""),
-                Condition.exactText("")
-                );
+        valueInput.shouldHave(Condition.empty);
     }
 
     /**
