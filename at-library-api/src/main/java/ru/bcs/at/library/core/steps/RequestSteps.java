@@ -27,7 +27,7 @@ import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadValueFromFi
 
 public class RequestSteps {
 
-    private static final String REQUEST_URL = "^выполнен (GET|PUT|POST|DELETE|HEAD|TRACE|OPTIONS|PATCH) запрос на URL \"([^\"]*)\"";
+    private static final String REQUEST_URL = "^выполнен (GET|PUT|POST|DELETE|HEAD|TRACE|OPTIONS|PATCH) запрос на URL \"([^\"]+)\"";
     public static int requestRetries = Integer.parseInt(System.getProperty("request.retries", "1"));
     private CoreScenario coreScenario = CoreScenario.getInstance();
 
@@ -39,7 +39,7 @@ public class RequestSteps {
      * @param address              url запроса (можно задать как напрямую в шаге, так и указав в application.properties)
      * @param responseNameVariable имя переменной в которую сохраняется ответ
      */
-    @И(REQUEST_URL + ". Полученный ответ сохранен в переменную \"([^\"]*)\"$")
+    @И(REQUEST_URL + ". Полученный ответ сохранен в переменную \"([^\"]+)\"$")
     public void sendHttpRequestWithoutParams(String method,
                                              String address,
                                              String responseNameVariable) {
@@ -58,7 +58,7 @@ public class RequestSteps {
      *                             и из хранилища переменных из CoreScenario.
      *                             Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
-    @И(REQUEST_URL + " с headers и parameters из таблицы. Полученный ответ сохранен в переменную \"([^\"]*)\"$")
+    @И(REQUEST_URL + " с headers и parameters из таблицы. Полученный ответ сохранен в переменную \"([^\"]+)\"$")
     public void sendHttpRequestSaveResponse(String method,
                                             String address,
                                             String responseNameVariable,
@@ -99,7 +99,7 @@ public class RequestSteps {
      *                             и из хранилища переменных из CoreScenario.
      *                             Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
-    @И(REQUEST_URL + " с headers и parameters из таблицы. Ожидается код ответа: (\\d+) Полученный ответ сохранен в переменную \"([^\"]*)\"$")
+    @И(REQUEST_URL + " с headers и parameters из таблицы. Ожидается код ответа: (\\d+) Полученный ответ сохранен в переменную \"([^\"]+)\"$")
     public void sendHttpRequestSaveResponseCheckResponseCode(String method,
                                                              String address,
                                                              int expectedStatusCode,
@@ -119,7 +119,7 @@ public class RequestSteps {
      * @param expectedStatusCode   ожидаемый код ответа
      * @param responseNameVariable имя переменной в которую сохраняется ответ
      */
-    @И(REQUEST_URL + ". Ожидается код ответа: (\\d+) Полученный ответ сохранен в переменную \"([^\"]*)\"$")
+    @И(REQUEST_URL + ". Ожидается код ответа: (\\d+) Полученный ответ сохранен в переменную \"([^\"]+)\"$")
     public void sendHttpRequestSaveResponseCheckResponseCode(String method,
                                                              String address,
                                                              int expectedStatusCode,
