@@ -348,7 +348,7 @@ public class OtherSteps {
      * <p>Написание автотеста в работе</p>
      */
     @И("^ручной тест$")
-    public void manuelTest() {
+    public void manualTest() {
         throw new cucumber.api.PendingException("написание автотеста в работе");
     }
 

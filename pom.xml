@@ -7,7 +7,7 @@
     <groupId>ru.bcs</groupId>
     <artifactId>at-library</artifactId>
     <packaging>pom</packaging>
-    <version>06.10.2019</version>
+    <version>08.10.2019</version>
 
     <modules>
         <module>at-library-core</module>
@@ -19,8 +19,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!--WEB ТЕСТИРОВАНИЕ-->
-        <selenide.version>5.2.3</selenide.version>
-        <webdrivermanager.version>3.6.0</webdrivermanager.version>
+        <selenide.version>5.3.1</selenide.version>
+<!--        <webdrivermanager.version>3.6.0</webdrivermanager.version>-->
         <!--API ТЕСТИРОВАНИЕ-->
         <rest-assured.version>3.3.0</rest-assured.version>
         <!--MOBILE ТЕСТИРОВАНИЕ-->
@@ -76,13 +76,13 @@
             <artifactId>selenide</artifactId>
             <version>${selenide.version}</version>
         </dependency>
-        <!--WebDriverManager-->
-        <dependency>
-            <groupId>io.github.bonigarcia</groupId>
-            <artifactId>webdrivermanager</artifactId>
-            <version>${webdrivermanager.version}</version>
-        </dependency>
-        <!--API ТЕСТИРОВАНИЕ-->
+<!--        WebDriverManager-->
+<!--        <dependency>-->
+<!--            <groupId>io.github.bonigarcia</groupId>-->
+<!--            <artifactId>webdrivermanager</artifactId>-->
+<!--            <version>${webdrivermanager.version}</version>-->
+<!--        </dependency>-->
+<!--        API ТЕСТИРОВАНИЕ-->
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>

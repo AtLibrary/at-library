@@ -42,13 +42,6 @@ import static ru.bcs.at.library.core.core.helpers.PropertyLoader.tryLoadProperty
 @Log4j2
 public class InitialSetupSteps {
 
-    /**
-     * <p>Включение слушателей Allure</p>
-     */
-    static {
-        LogReportListener.turnOn();
-    }
-
     @Delegate
     CoreScenario coreScenario = CoreScenario.getInstance();
 
@@ -77,6 +70,11 @@ public class InitialSetupSteps {
      */
     @Before
     public void beforeEachTest(Scenario scenario) throws MalformedURLException {
+        /**
+         * <p>Включение слушателей </p>
+         */
+        LogReportListener.turnOn();
+
         RestAssured.baseURI = System.getProperty("baseURI", tryLoadProperty("baseURI"));
         baseUrl = System.getProperty("baseURI", tryLoadProperty("baseURI"));
 
