@@ -55,7 +55,7 @@ public class ReportPortalRestAssuredFilter implements OrderedFilter {
     public Response filter(FilterableRequestSpecification requestSpec, FilterableResponseSpecification responseSpec, FilterContext filterContext) {
         final AttachmentProcessor<AttachmentData> processor = createAttachmentProcessor();
 
-        final String requestUrl = requestSpec.getURI().toString();
+        final String requestUrl = requestSpec.getURI();
         final HttpRequestAttachment.Builder requestAttachmentBuilder = HttpRequestAttachment.Builder
                 .create(makeRequestAttachmentName(requestSpec), requestUrl)
                 .setMethod(requestSpec.getMethod())

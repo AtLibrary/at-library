@@ -29,7 +29,7 @@ public class Log4jRestAssuredFilter implements OrderedFilter {
             }
         }
         Response response = filterContext.next(requestSpec, responseSpec);
-        log.debug("RESPONSE status='{}'", response.getStatusLine().toString());
+        log.debug("RESPONSE status='{}'", response.getStatusLine());
         if (log.isTraceEnabled()) {
             doLogHeaders(response.getHeaders());
             if (response.getBody() != null) {

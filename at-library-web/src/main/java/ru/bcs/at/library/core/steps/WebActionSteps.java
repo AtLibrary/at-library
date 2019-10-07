@@ -247,7 +247,6 @@ public class WebActionSteps {
         if (valueInput.is(Condition.not(Condition.empty))) {
             valueInput.sendKeys(Keys.chord(Keys.CONTROL + "a" + Keys.BACK_SPACE));
         }
-        valueInput.shouldHave(Condition.empty);
     }
 
     /**

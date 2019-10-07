@@ -2,6 +2,7 @@ package ru.bcs.at.library.core.core.helpers;
 
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.restassured.AllureRestAssured;
+import io.qameta.allure.selenide.AllureSelenide;
 import io.restassured.RestAssured;
 import io.restassured.filter.Filter;
 import lombok.extern.log4j.Log4j2;

@@ -24,6 +24,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
@@ -182,7 +183,7 @@ public class PropertyLoader {
         try {
             Path path = Paths.get(System.getProperty("user.dir") + valueToFind);
             pathAsString = path.toString();
-            String fileValue = new String(Files.readAllBytes(path), "UTF-8");
+            String fileValue = new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
             CoreScenario.getInstance().write("Значение из файла " + valueToFind + " = " + fileValue);
             return fileValue;
         } catch (IOException | InvalidPathException e) {
@@ -210,7 +211,7 @@ public class PropertyLoader {
         Properties instance = new Properties();
         try (
                 InputStream resourceStream = PropertyLoader.class.getResourceAsStream(PROPERTIES_FILE);
-                InputStreamReader inputStream = new InputStreamReader(resourceStream, Charset.forName("UTF-8"))
+                InputStreamReader inputStream = new InputStreamReader(resourceStream, StandardCharsets.UTF_8)
         ) {
             instance.load(inputStream);
         }
@@ -232,7 +233,7 @@ public class PropertyLoader {
             URL url = PropertyLoader.class.getClassLoader().getResource(path);
             try (
                     InputStream resourceStream = url.openStream();
-                    InputStreamReader inputStream = new InputStreamReader(resourceStream, Charset.forName("UTF-8"))
+                    InputStreamReader inputStream = new InputStreamReader(resourceStream, StandardCharsets.UTF_8)
             ) {
                 instance.load(inputStream);
             }

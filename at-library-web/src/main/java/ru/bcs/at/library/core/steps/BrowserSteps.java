@@ -147,10 +147,11 @@ public class BrowserSteps {
         for (int time = 0; time < Configuration.timeout; time += 100) {
             actualTitle = title();
             if (actualTitle.toLowerCase().equals(expectedTitle.toLowerCase())) {
-                break;
+                return;
             }
             sleep(sleepTime);
         }
+        takeScreenshot();
         assertThat(String.format("Заголовок страницы не совпадает с ожидаемым значением. Ожидаемый результат: %s, текущий результат: %s", expectedTitle, actualTitle),
                 expectedTitle, equalToIgnoringCase(actualTitle));
     }

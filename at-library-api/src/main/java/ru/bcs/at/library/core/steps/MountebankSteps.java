@@ -31,18 +31,16 @@ import static ru.bcs.at.library.core.core.helpers.PropertyLoader.tryLoadProperty
 @Log4j2
 public class MountebankSteps {
 
-    private CoreScenario coreScenario = CoreScenario.getInstance();
-
     private static final int DEFAULT_MB_PORT = 4545;
-
     private static final String MB_HOST = System.getProperty("mbHost", tryLoadProperty("mbHost"));
     private static final String MB_PORT = System.getProperty("mbPort", tryLoadProperty("mbPort"));
     private static Client client = new Client(MB_HOST, Integer.parseInt(MB_PORT));
+    private CoreScenario coreScenario = CoreScenario.getInstance();
 
     /**
      * <p>Создание mountebank-заглушки по-умолчанию на указанном порте</p>
      *
-     * @param deployPort   порт разворачивания заглушки по-умолчанию
+     * @param deployPort порт разворачивания заглушки по-умолчанию
      */
     @И("^разворачивается mb заглушка по-умолчанию(?: на порте (\\d+)|)$")
     public void deployImposter(Integer deployPort) {
@@ -57,7 +55,7 @@ public class MountebankSteps {
     /**
      * <p>Создание mountebank-заглушки по mountebank-json</p>
      *
-     * @param imposterJson   json с описанием необходимых заглушек
+     * @param imposterJson json с описанием необходимых заглушек
      */
     @И("^разворачивается mb заглушка с параметрами из файла '([^\']+)'$")
     public void deployImposter(String imposterJson) throws ParseException {
@@ -71,8 +69,8 @@ public class MountebankSteps {
     /**
      * <p>Создание mountebank-заглушки по mountebank-json на указанном порте</p>
      *
-     * @param imposterJson  json с описанием необходимых заглушек
-     * @param deployPort    порт разворачивания заглушки по-умолчанию
+     * @param imposterJson json с описанием необходимых заглушек
+     * @param deployPort   порт разворачивания заглушки по-умолчанию
      */
     @И("^разворачивается mb заглушка с параметрами из файла '([^\']+)' на порте (\\d+)$")
     public void deployImposter(String imposterJson, int deployPort) throws ParseException {
@@ -86,8 +84,8 @@ public class MountebankSteps {
     /**
      * <p>Создание mountebank-заглушки с указанным ответом на указанном порте</p>
      *
-     * @param response    ответ на любой запрос новой заглушки заглушки
-     * @param deployPort  порт разворачивания заглушки с указанным ответом
+     * @param response   ответ на любой запрос новой заглушки заглушки
+     * @param deployPort порт разворачивания заглушки с указанным ответом
      */
     @И("^разворачивается mb заглушка с ответом из файла '([^\']+)'(?: на порте (\\d+)|)$")
     public void deployImposterWithResponse(String response, Integer deployPort) {
