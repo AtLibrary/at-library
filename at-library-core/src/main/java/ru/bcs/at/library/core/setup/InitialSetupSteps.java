@@ -70,9 +70,6 @@ public class InitialSetupSteps {
      */
     @Before
     public void beforeEachTest(Scenario scenario) throws MalformedURLException {
-        /**
-         * <p>Включение слушателей </p>
-         */
         LogReportListener.turnOn();
 
         RestAssured.baseURI = System.getProperty("baseURI", tryLoadProperty("baseURI"));

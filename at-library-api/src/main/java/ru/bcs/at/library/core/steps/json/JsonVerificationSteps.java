@@ -17,6 +17,7 @@ import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 import java.util.List;
 
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault;
+import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadValueFromFileOrVariableOrDefault;
 import static ru.bcs.at.library.core.cucumber.ScopedVariables.isJSONValid;
 import static ru.bcs.at.library.core.cucumber.ScopedVariables.isXMLValid;
 
@@ -35,7 +36,7 @@ public class JsonVerificationSteps {
     @И("заполняю ([^\"]*)-шаблон \"([^\"]*)\" данными из таблицы и сохраняю в переменную \"([^\"]*)\"")
     public void iFillInTheJsonTypeDataFromTheTableSafeguardTheVariable(String type, String pathExpectedJson, String variableName, DataTable dataTable) {
         String jsonPath = loadValueFromFileOrPropertyOrVariableOrDefault(pathExpectedJson);
-        String fileExample = loadValueFromFileOrPropertyOrVariableOrDefault(jsonPath);
+        String fileExample = loadValueFromFileOrVariableOrDefault(jsonPath);
 
         if (dataTable != null) {
             for (List<String> requestParam : dataTable.asLists()) {

@@ -19,6 +19,8 @@ public class LogReportListener {
     private LogReportListener() {
     }
 
+    private static boolean turn = false;
+
     /**
      * Добавляет фильтры логирования.
      * <ul>
@@ -27,22 +29,23 @@ public class LogReportListener {
      * <li> отчет allure</li>
      * </ul>
      */
-
-    public static void turnOn() {
+    public synchronized static void turnOn() {
         turnListenerSelenide();
-        turnListenerRestAssured();
+        if (!turn) {
+            turnListenerRestAssured();
+            turn = true;
+        }
     }
 
-    private static void turnListenerSelenide(){
+    private synchronized static void turnListenerSelenide() {
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide().screenshots(true).savePageSource(true));
         log.debug("Включен слушатель Selenide в Allure");
 
-//        SelenideLogger.addListener("RPSelenide", new SelenideRPListener().screenshots(true).savePageSource(true));
         SelenideLogger.addListener("RPSelenide", new ReportPortalSelenide().screenshots(true).savePageSource(true));
         log.debug("Включен слушатель Selenide в Report Portal");
     }
 
-    private static void turnListenerRestAssured() {
+    private synchronized static void turnListenerRestAssured() {
         List<Filter> filters = new ArrayList<>();
         filters.add(new Log4jRestAssuredFilter());
         log.debug("Включен слушатель rest-assured в log4j");

@@ -23,7 +23,7 @@ import java.util.Map;
 /**
  * фильтр RestAssured для прикрепления запросов и ответов к отчету о прогоне в ReportPortal.
  * <p>
- * Инициализируется вызовом {@link LogReportListener#turnOn()} ()} где-нибудь в beforeClass
+ * Инициализируется вызовом {@link LogReportListener#turnOn()} ()} ()} ()} где-нибудь в beforeClass
  */
 @Log4j2
 public class ReportPortalRestAssuredFilter implements OrderedFilter {

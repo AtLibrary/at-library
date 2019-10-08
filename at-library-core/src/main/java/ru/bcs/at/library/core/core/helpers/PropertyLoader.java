@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
@@ -164,6 +163,34 @@ public class PropertyLoader {
             }
         }
         return value;
+    }
+
+    /**
+     * <p>
+     * Вспомогательный метод, возвращает значение свойства по имени.
+     * </p>
+     */
+    public static String loadValueFromFileOrVariableOrDefault(String valueToFind) {
+        String pathAsString = StringUtils.EMPTY;
+        try {
+            Path path = Paths.get(System.getProperty("user.dir") + valueToFind);
+            pathAsString = path.toString();
+            String fileValue = new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
+            CoreScenario.getInstance().write("Значение из файла " + valueToFind + " = " + fileValue);
+            return fileValue;
+        } catch (IOException | InvalidPathException e) {
+            CoreScenario.getInstance().write("Значение не найдено по пути " + pathAsString);
+        }
+        if (CoreScenario.getInstance().tryGetVar(valueToFind) != null) {
+            Object var = CoreScenario.getInstance().getVar(valueToFind);
+            //TODO нужно зарефакторить
+            if (var instanceof Response) {
+                return ((Response) var).getBody().asString();
+            }
+            return (String) var;
+        }
+        CoreScenario.getInstance().write("Значение не найдено в хранилище. Будет исользовано значение по умолчанию " + valueToFind);
+        return valueToFind;
     }
 
     /**
