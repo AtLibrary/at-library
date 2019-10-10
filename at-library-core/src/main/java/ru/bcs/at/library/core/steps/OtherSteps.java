@@ -4,11 +4,16 @@ import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.То;
 import io.cucumber.datatable.DataTable;
 import org.hamcrest.Matchers;
+import org.junit.Assert;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -326,11 +331,61 @@ public class OtherSteps {
     /**
      * <p>Валидация что текст является email-ом</p>
      */
-    @То("^значение переменной \"([^\"]*)\" является email-ом")
+    @И("^значение переменной \"([^\"]*)\" является email-ом$")
     public void checkEmail(String variableName) throws AddressException {
         String valueVariable = coreScenario.getVar(variableName).toString();
         new InternetAddress(valueVariable)
                 .validate();
+    }
+
+    /**
+     * Локальное перемещение файла</p>
+     */
+    @И("^перемещещие файла из \"([^\"]*)\" в \"([^\"]*)\"$")
+    public static void localMoveFiles(String pathFile, String pathMoveFile) throws IOException {
+        pathFile = loadValueFromFileOrPropertyOrVariableOrDefault(pathFile);
+        pathFile = loadValueFromFileOrVariableOrDefault(pathFile);
+
+        pathMoveFile = loadValueFromFileOrPropertyOrVariableOrDefault(pathMoveFile);
+        pathMoveFile = loadValueFromFileOrVariableOrDefault(pathMoveFile);
+
+        Path temp = Files.move(Paths.get(pathFile), Paths.get(pathMoveFile));
+
+        Assert.assertNotNull("Ошибка перемещения файла: " + pathFile, temp);
+    }
+
+    /**
+     * Перемещение файла в BizTalk</p>
+     */
+    @И("^перемещещие файла из \"([^\"]*)\" в BizTalk$")
+    public static void moveFilesToBizTalk(String fileToMove) throws IOException {
+        //TODO проверить и реализовать для работы с BizTalk
+
+        fileToMove = loadValueFromFileOrPropertyOrVariableOrDefault(fileToMove);
+        fileToMove = loadValueFromFileOrVariableOrDefault(fileToMove);
+
+        String movedFile = loadValueFromFileOrPropertyOrVariableOrDefault("BizTalk");
+
+        Path temp = Files.move(Paths.get(fileToMove), Paths.get(movedFile));
+
+        Assert.assertNotNull("Ошибка перемещения файла: " + fileToMove, temp);
+    }
+
+    /**
+     * Перемещение файла в BizTalk$</p>
+     */
+    @И("^перемещещие файла из BizTalk в \"([^\"]*)\"$")
+    public static void moveFilesFromBizTalk(String movedFile) throws IOException {
+        //TODO проверить и реализовать для работы с BizTalk$
+
+        String fileToMove = loadValueFromFileOrPropertyOrVariableOrDefault("BizTalk");
+
+        movedFile = loadValueFromFileOrPropertyOrVariableOrDefault(movedFile);
+        movedFile = loadValueFromFileOrVariableOrDefault(movedFile);
+
+        Path temp = Files.move(Paths.get(fileToMove), Paths.get(movedFile));
+
+        Assert.assertNotNull("Ошибка перемещения файла: " + fileToMove, temp);
     }
 
     /**
