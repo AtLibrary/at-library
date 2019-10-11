@@ -12,8 +12,15 @@ package ru.bcs.at.library.core.steps; /**
 
 import cucumber.api.java.ru.И;
 import io.restassured.RestAssured;
+import io.restassured.config.JsonConfig;
+import io.restassured.config.RestAssuredConfig;
+import io.restassured.http.Method;
+import io.restassured.path.json.config.JsonPathConfig;
+import io.restassured.response.Response;
 import io.restassured.specification.ProxySpecification;
+import io.restassured.specification.RequestSpecification;
 import lombok.extern.log4j.Log4j2;
+import org.hamcrest.Matchers;
 import ru.bcs.at.library.core.core.helpers.PropertyLoader;
 
 /**
@@ -57,4 +64,18 @@ public class ProxySteps {
         RestAssured.proxy = null;
     }
 
+    /**
+     * <p>Найти http-запрос через прокси</p>
+     */
+    @И("^через прокси отправлен запрос \"([^\"]*)\"$")
+    public void findRequestOnProxy(String url) {
+        url = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(url);
+        RestAssured.config =
+                RestAssuredConfig.newConfig().jsonConfig(JsonConfig.jsonConfig().numberReturnType(JsonPathConfig.NumberReturnType.BIG_DECIMAL));
+
+        RequestSpecification request = RestAssured.given();
+        Response response = request.request(Method.GET, url);
+
+        response.then().assertThat().body(Matchers.not(Matchers.equalTo("")));
+    }
 }
