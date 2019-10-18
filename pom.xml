@@ -7,7 +7,7 @@
     <groupId>ru.bcs</groupId>
     <artifactId>at-library</artifactId>
     <packaging>pom</packaging>
-    <version>11.10.2019</version>
+    <version>18.10.2019</version>
 
     <modules>
         <module>at-library-core</module>
@@ -31,6 +31,8 @@
         <allure.version>2.13.0</allure.version>
         <!--LOMBOK-->
         <lombok.version>1.16.20</lombok.version>
+        <!--HAMCREST-->
+        <hamcrest.version>2.1</hamcrest.version>
         <!--LOG-->
         <logging.version>2.11.2</logging.version>
         <!--ВСПОМОГАТЕЛЬНЫЕ БИБЛИОТЕКИ-->
@@ -161,6 +163,17 @@
             <groupId>com.jayway.jsonpath</groupId>
             <artifactId>json-path</artifactId>
             <version>${jsonpath.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
+            <version>0.1.55</version>
+        </dependency>
+        <!--HAMCREST-->
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest</artifactId>
+            <version>${hamcrest.version}</version>
         </dependency>
         <!--МОКИРОВАНИЕ-->
         <dependency>

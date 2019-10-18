@@ -127,36 +127,44 @@ public class MountebankSteps {
     /**
      * <p>Получение запросов mountebank-заглушки на порте</p>
      */
-    @И("^получены запросы mb заглушки(?: на порте (\\d+)|) и сохранен в переменную \"([^\"]+)\"$")
-    public void getRequestsOnPort(Integer gettingPort, String requestsNameVariable) throws ParseException, net.minidev.json.parser.ParseException {
+    @И("^получены запросы mb заглушки(?: на порте (\\d+)|)(?: и сохранены в переменную \"([^\"]+)\"|)$")
+    public void getRequestsOnPort(Integer gettingPort, String requestsNameVariable) throws ParseException {
         checkMB();
         if (gettingPort == null) {
             gettingPort = DEFAULT_MB_PORT;
         }
-        System.out.println(client.getImposter(gettingPort).getRequests().toString());
+        if (requestsNameVariable == null) {
+            requestsNameVariable = CoreScenario.CURRENT;
+        }
         coreScenario.setVar(requestsNameVariable, client.getImposter(gettingPort).getRequests().toString());
     }
 
     /**
      * <p>Получение запроса mountebank-заглушки на порте</p>
      */
-    @И("^получен (\\d+) запрос mb заглушки(?: на порте (\\d+)|) и сохранен в переменную \"([^\"]+)\"$")
-    public void getRequestOnPort(int reqNum, Integer gettingPort, String requestNameVariable) throws ParseException, net.minidev.json.parser.ParseException {
+    @И("^получен (\\d+) запрос mb заглушки(?: на порте (\\d+)|)(?: и сохранен в переменную \"([^\"]+)\"|)$")
+    public void getRequestOnPort(int reqNum, Integer gettingPort, String requestNameVariable) throws ParseException {
         checkMB();
         if (gettingPort == null) {
             gettingPort = DEFAULT_MB_PORT;
+        }
+        if (requestNameVariable == null) {
+            requestNameVariable = CoreScenario.CURRENT;
         }
         coreScenario.setVar(requestNameVariable, client.getImposter(gettingPort).getRequest(reqNum));
     }
 
     /**
-     * <p>Получение последнего запроса mountebank-заглушки на порте</p>
+     * <p>Получение последнего запроса mountebank-заглушки на порте</p>(?: и сохранен в переменную "([^"]+)")
      */
-    @И("^получен последний запрос mb заглушки(?: на порте (\\d+)|) и сохранен в переменную \"([^\"]+)\"$")
-    public void getLastRequestOnPort(Integer gettingPort, String requestNameVariable) throws ParseException, net.minidev.json.parser.ParseException {
+    @И("^получен последний запрос mb заглушки(?: на порте (\\d+)|)(?: и сохранен в переменную \"([^\"]+)\"|)$")
+    public void getLastRequestOnPort(Integer gettingPort, String requestNameVariable) throws ParseException {
         checkMB();
         if (gettingPort == null) {
             gettingPort = DEFAULT_MB_PORT;
+        }
+        if (requestNameVariable == null) {
+            requestNameVariable = CoreScenario.CURRENT;
         }
         coreScenario.setVar(requestNameVariable, client.getImposter(gettingPort).getLastRequest());
     }

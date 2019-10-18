@@ -12,14 +12,9 @@
 package ru.bcs.at.library.core.cucumber;
 
 import com.google.common.collect.Maps;
-import com.google.gson.JsonParser;
 import groovy.lang.GroovyShell;
-import groovy.util.XmlParser;
-import org.xml.sax.SAXException;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -27,6 +22,7 @@ import java.util.regex.Pattern;
 
 import static java.lang.String.format;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadProperty;
+import static ru.bcs.at.library.core.core.helpers.Utils.isJSONValid;
 
 /**
  * <h1>Реализация хранилища переменных, заданных пользователем, внутри тестовых сценариев</h1>
@@ -91,34 +87,6 @@ public class ScopedVariables {
             newString = inputJsonAsString;
         }
         return newString;
-    }
-
-    /**
-     * @param jsonInString - строка для валидации
-     * @return Проверяет, является ли переданная в качестве аргумента строка валидным JSON
-     */
-    public static boolean isJSONValid(String jsonInString) {
-        try {
-            JsonParser parser = new JsonParser();
-            parser.parse(jsonInString);
-        } catch (com.google.gson.JsonSyntaxException ex) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * @param xmlInString - строка для валидации
-     * @return Проверяет, является ли переданная в качестве аргумента строка валидным XML
-     */
-    public static boolean isXMLValid(String xmlInString) {
-        try {
-            XmlParser parser = new XmlParser();
-            parser.parse(xmlInString);
-        } catch (ParserConfigurationException | IOException | SAXException e) {
-            e.printStackTrace();
-        }
-        return true;
     }
 
     /**
