@@ -11,6 +11,7 @@
  */
 package ru.bcs.at.library.mobile;
 
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
 import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.То;
@@ -32,6 +33,7 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOf;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault;
 import static ru.bcs.at.library.core.steps.OtherSteps.*;
 import static ru.bcs.at.library.mobile.MobileTestConfig.*;
+import static ru.bcs.at.library.mobile.utils.CustomMethods.swipe;
 
 
 /**
@@ -277,12 +279,8 @@ public class MobileActionSteps {
         WebElement element = null;
 
         for (int i = 1; i <= DEFAULT_SWIPE_NUMBER; i++) {
-            try {
+            if (MobileTestConfig.isDisplayedSelenideElementInCurrentPage(elementName))
                 element = getWebElementInCurrentPage(elementName);
-            } catch (NoSuchElementException ex) {
-                coreScenario.write("Элемент: \"" + elementName + "\n не найден на экране. Будет сделан SWIPE №" + i);
-            }
-
             if (platform.equals("android")) {
                 if (element != null) {
                     break;
@@ -294,11 +292,10 @@ public class MobileActionSteps {
                     break;
                 }
             }
-            CustomMethods.swipe(direction);
+            swipe("UP", 60, 90, null);
+            Selenide.sleep(2000L);
         }
         driverWait().until(visibilityOf(element));
-
-        sleep(1000L);
     }
 
 }
