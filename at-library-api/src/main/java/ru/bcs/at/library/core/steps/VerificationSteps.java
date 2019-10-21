@@ -27,8 +27,31 @@ public class VerificationSteps {
     /**
      * <p>Проверка форматированного текста</p>
      */
-    @И("^значения в (?:нём|ней|них|(?:(JSON|XML|PARAMS) |)([\\S]+)) проверены(| без учета регистра) по таблице:$")
-    public void checkFormattedData(TextFormat checkingValueType, String checkingValuePath, String textRegister, DataTable dataTable) {
+    @И("^значения в ([^\\s]+) проверены ((?:|без учета регистра ))по таблице:$")
+    public void checkFormattedData(String checkingValuePath, String caseInsensitiveIndicator, DataTable dataTable) {
+        checkFormattedData(null, checkingValuePath, !caseInsensitiveIndicator.isEmpty(), dataTable);
+    }
+
+    /**
+     * <p>Проверка форматированного текста</p>
+     */
+    @И("^значения в ((?:XML|JSON|PARAMS)) ([^\\s]+) проверены ((?:|без учета регистра ))по таблице:$")
+    public void checkFormattedData(TextFormat checkingValueType, String checkingValuePath, String caseInsensitiveIndicator, DataTable dataTable) {
+        checkFormattedData(checkingValueType, checkingValuePath, !caseInsensitiveIndicator.isEmpty(), dataTable);
+    }
+
+    /**
+     * <p>Проверка форматированного текста</p>
+     */
+    @И("^значения в нём проверены ((?:|без учета регистра ))по таблице:$")
+    public void checkFormattedData(String caseInsensitiveIndicator, DataTable dataTable) {
+        checkFormattedData(null, null, !caseInsensitiveIndicator.isEmpty(), dataTable);
+    }
+
+    /**
+     * <p>Проверка форматированного текста</p>
+     */
+    private void checkFormattedData(TextFormat checkingValueType, String checkingValuePath, boolean caseInsensitive, DataTable dataTable) {
         if (checkingValuePath == null) {
             checkingValuePath = String.valueOf(coreScenario.getVar(CoreScenario.CURRENT));
         }
@@ -46,7 +69,7 @@ public class VerificationSteps {
             String expectedValue = cycleSubstitutionFromFileOrPropertyOrVariable(value);
             String actualValue = formattedData.readValue(path);
 
-            if (!textRegister.isEmpty()) {
+            if (caseInsensitive) {
                 expectedValue = expectedValue.toLowerCase();
                 actualValue = actualValue.toLowerCase();
             }
@@ -85,8 +108,24 @@ public class VerificationSteps {
         return matcher;
     }
 
+    /**
+     * <p>Сохранение значений форматированного текста</p>
+     */
+    @И("^значения из ([^\\s]+) сохранены в переменные по таблице:$")
+    public void saveValuesFromFormattedData(String processingValuePath, DataTable dataTable) {
+        saveValuesFromFormattedData(null, processingValuePath, dataTable);
+    }
 
     /**
+     * <p>Сохранение значений форматированного текста</p>
+     */
+    @И("^значения из него сохранены в переменные по таблице:$")
+    public void saveValuesFromFormattedData(DataTable dataTable) {
+        saveValuesFromFormattedData(null, null, dataTable);
+    }
+
+    /**
+     * <p>Сохранение значений форматированного текста</p>
      * <p>В json строке, сохраннённой в переменной, происходит поиск значений по jsonpath из первого столбца таблицы.
      * Полученные значения сохраняются в переменных. Название переменной указывается во втором столбце таблицы.
      * Шаг работает со всеми типами json элементов: объекты, массивы, строки, числа, литералы true, false и null.</p>
@@ -97,7 +136,7 @@ public class VerificationSteps {
      *                    и из хранилища переменных из CoreScenario.
      *                    Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
-    @И("^значения из (?:него|неё|них|(?:(JSON|XML|PARAMS) |)([\\S]+)) сохранены в переменные по таблице:$")
+    @И("^значения из ((?:XML|JSON|PARAMS)) ([^\\s]+) сохранены в переменные по таблице:$")
     public void saveValuesFromFormattedData(TextFormat processingValueType, String processingValuePath, DataTable dataTable) {
         if (processingValuePath == null) {
             processingValuePath = String.valueOf(coreScenario.getVar(CoreScenario.CURRENT));
