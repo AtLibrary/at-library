@@ -1,4 +1,4 @@
-package ru.bcs.at.library.core.steps; /**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -9,6 +9,7 @@ package ru.bcs.at.library.core.steps; /**
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package ru.bcs.at.library.core.steps;
 
 import cucumber.api.java.ru.И;
 import lombok.extern.log4j.Log4j2;
@@ -128,12 +129,11 @@ public class MountebankSteps {
      * <p>Получение запросов mountebank-заглушки на порте</p>
      */
     @И("^получены запросы mb заглушки(?: на порте (\\d+)|) и сохранен в переменную \"([^\"]+)\"$")
-    public void getRequestsOnPort(Integer gettingPort, String requestsNameVariable) throws ParseException, net.minidev.json.parser.ParseException {
+    public void getRequestsOnPort(Integer gettingPort, String requestsNameVariable) throws ParseException {
         checkMB();
         if (gettingPort == null) {
             gettingPort = DEFAULT_MB_PORT;
         }
-        System.out.println(client.getImposter(gettingPort).getRequests().toString());
         coreScenario.setVar(requestsNameVariable, client.getImposter(gettingPort).getRequests().toString());
     }
 
@@ -141,7 +141,7 @@ public class MountebankSteps {
      * <p>Получение запроса mountebank-заглушки на порте</p>
      */
     @И("^получен (\\d+) запрос mb заглушки(?: на порте (\\d+)|) и сохранен в переменную \"([^\"]+)\"$")
-    public void getRequestOnPort(int reqNum, Integer gettingPort, String requestNameVariable) throws ParseException, net.minidev.json.parser.ParseException {
+    public void getRequestOnPort(int reqNum, Integer gettingPort, String requestNameVariable) throws ParseException {
         checkMB();
         if (gettingPort == null) {
             gettingPort = DEFAULT_MB_PORT;
@@ -153,7 +153,7 @@ public class MountebankSteps {
      * <p>Получение последнего запроса mountebank-заглушки на порте</p>
      */
     @И("^получен последний запрос mb заглушки(?: на порте (\\d+)|) и сохранен в переменную \"([^\"]+)\"$")
-    public void getLastRequestOnPort(Integer gettingPort, String requestNameVariable) throws ParseException, net.minidev.json.parser.ParseException {
+    public void getLastRequestOnPort(Integer gettingPort, String requestNameVariable) throws ParseException {
         checkMB();
         if (gettingPort == null) {
             gettingPort = DEFAULT_MB_PORT;
