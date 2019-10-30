@@ -7,7 +7,7 @@
     <groupId>ru.bcs</groupId>
     <artifactId>at-library</artifactId>
     <packaging>pom</packaging>
-    <version>11.10.2019</version>
+    <version>30.10.2019-test3</version>
 
     <modules>
         <module>at-library-core</module>
@@ -19,7 +19,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!--WEB ТЕСТИРОВАНИЕ-->
-        <selenide.version>5.3.1</selenide.version>
+        <selenide.version>5.4.1</selenide.version>
         <!--API ТЕСТИРОВАНИЕ-->
         <rest-assured.version>3.3.0</rest-assured.version>
         <!--MOBILE ТЕСТИРОВАНИЕ-->
