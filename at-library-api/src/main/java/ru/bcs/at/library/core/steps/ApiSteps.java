@@ -24,7 +24,7 @@ import java.util.Base64;
 import java.util.List;
 
 /**
- * <h1>API шаги</h1>
+ * <h1>Шаги проверки парамеров body ответа</h1>
  */
 @Log4j2
 public class ApiSteps {
