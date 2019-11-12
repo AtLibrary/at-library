@@ -5,7 +5,7 @@
     <parent>
         <artifactId>at-library</artifactId>
         <groupId>ru.bcs</groupId>
-        <version>08.11.2019</version>
+        <version>12.11.2019-stable</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>at-library-mobile</artifactId>
@@ -14,7 +14,7 @@
         <dependency>
             <groupId>ru.bcs</groupId>
             <artifactId>at-library-core</artifactId>
-            <version>08.11.2019</version>
+            <version>12.11.2019-stable</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
