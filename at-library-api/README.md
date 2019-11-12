@@ -29,3 +29,44 @@ at-library-api
 В таблице переменных поддерживаются типы: header, parameter, body
 Для body-параметра сейчас поддерживается как работа с телом запроса, хранящимся в папке restBodies, так и с указанием текста body в самом шаге в соответствующей ячейке
 Значения параметров таблицы и частей url можно указывать в application.properties
+
+После подключения всех плагинов и зависимостей вы можете запускать проект автотестов командами:
+=========================
+
+
+- Запуск удаленно на Selenoid
+```mvn
+clean 
+test 
+allure:serve
+```
+- Запуск тестов с тегами (И)
+```mvn
+clean 
+test 
+-Dcucumber.options="--tags @api --tags @web --plugin io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm --plugin com.epam.reportportal.cucumber.ScenarioReporter"
+allure:serve 
+```
+
+- Запуск тестов с тегами (ИЛИ)
+```mvn
+clean
+test
+-Dcucumber.options="--tags @api,@web --plugin io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm --plugin com.epam.reportportal.cucumber.ScenarioReporter"
+allure:serve 
+```
+
+Пояснение к командам:
+=========================
+
+```mvn
+clean - очистка проекта
+```
+
+```mvn
+test - запуск тестов
+```
+
+```mvn
+allure:serve - запуск allure отчетов
+```
