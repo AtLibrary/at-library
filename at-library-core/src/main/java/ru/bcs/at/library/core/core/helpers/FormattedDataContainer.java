@@ -17,6 +17,9 @@ import static net.minidev.json.parser.JSONParser.DEFAULT_PERMISSIVE_MODE;
 import static ru.bcs.at.library.core.core.helpers.Utils.filterNodesByXPath;
 import static ru.bcs.at.library.core.core.helpers.Utils.readXml;
 
+/**
+ * <h1>Класс-композиция для универсализации работы с форматированным текстом (json/xml/params)</h1>
+ */
 public class FormattedDataContainer {
 
     private final TextFormat dataFormat;
@@ -24,6 +27,9 @@ public class FormattedDataContainer {
     private Document xmlDocument;
     private Map<String, String> paramsMap;
 
+    /**
+     * Инициализация
+     */
     public FormattedDataContainer(@NotNull TextFormat format, String formattingValue) {
         dataFormat = format;
 
@@ -44,6 +50,13 @@ public class FormattedDataContainer {
         }
     }
 
+    /**
+     * <p>Чтение содержимого форматированного текста по path</p>
+     *
+     * @param path путь к необходимому параметру
+     *
+     * @return значение по переданному пути
+     */
     public String readValue(String path) {
         switch (dataFormat) {
             case JSON:
