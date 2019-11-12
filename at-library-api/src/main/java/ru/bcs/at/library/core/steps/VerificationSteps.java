@@ -27,7 +27,7 @@ public class VerificationSteps {
     /**
      * <p>Проверка форматированного текста</p>
      */
-    @И("^значения в ([^\\s]+) проверены ((?:|без учета регистра ))по таблице:$")
+    @И("^значения в \"([^\"]+)\" проверены ((?:|без учета регистра ))по таблице:$")
     public void checkFormattedData(String checkingValuePath, String caseInsensitiveIndicator, DataTable dataTable) {
         checkFormattedData(null, checkingValuePath, !caseInsensitiveIndicator.isEmpty(), dataTable);
     }
@@ -35,7 +35,7 @@ public class VerificationSteps {
     /**
      * <p>Проверка форматированного текста</p>
      */
-    @И("^значения в ((?:XML|JSON|PARAMS)) ([^\\s]+) проверены ((?:|без учета регистра ))по таблице:$")
+    @И("^значения в ((?:XML|JSON|PARAMS)) \"([^\"]+)\" проверены ((?:|без учета регистра ))по таблице:$")
     public void checkFormattedData(TextFormat checkingValueType, String checkingValuePath, String caseInsensitiveIndicator, DataTable dataTable) {
         checkFormattedData(checkingValueType, checkingValuePath, !caseInsensitiveIndicator.isEmpty(), dataTable);
     }
@@ -111,7 +111,7 @@ public class VerificationSteps {
     /**
      * <p>Сохранение значений форматированного текста</p>
      */
-    @И("^значения из ([^\\s]+) сохранены в переменные по таблице:$")
+    @И("^значения из \"([^\"]+)\" сохранены в переменные по таблице:$")
     public void saveValuesFromFormattedData(String processingValuePath, DataTable dataTable) {
         saveValuesFromFormattedData(null, processingValuePath, dataTable);
     }
@@ -136,7 +136,7 @@ public class VerificationSteps {
      *                    и из хранилища переменных из CoreScenario.
      *                    Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
-    @И("^значения из ((?:XML|JSON|PARAMS)) ([^\\s]+) сохранены в переменные по таблице:$")
+    @И("^значения из ((?:XML|JSON|PARAMS)) \"([^\"]+)\" сохранены в переменные по таблице:$")
     public void saveValuesFromFormattedData(TextFormat processingValueType, String processingValuePath, DataTable dataTable) {
         if (processingValuePath == null) {
             processingValuePath = String.valueOf(coreScenario.getVar(CoreScenario.CURRENT));

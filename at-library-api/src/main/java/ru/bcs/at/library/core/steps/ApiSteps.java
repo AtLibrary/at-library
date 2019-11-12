@@ -37,7 +37,7 @@ public class ApiSteps {
      * @param responseNameVariable переменная в которой сохранен Response
      * @param expectedStatusCode   ожидаемый http статус код
      */
-    @И("^в ответе \"([^\"]*)\" statusCode: (\\d+)$")
+    @И("^в ответе \"([^\"]+)\" statusCode: (\\d+)$")
     public void checkResponseStatusCode(String responseNameVariable, int expectedStatusCode) {
         Response response = (Response) CoreScenario.getInstance().getVar(responseNameVariable);
         response.then().statusCode(expectedStatusCode);
@@ -49,7 +49,7 @@ public class ApiSteps {
      * @param responseNameVariable имя переменной, которая содержит Response
      * @param variableName         имя переменной хранилища переменных из CoreScenario, в которую необходимо сохранить значение.
      */
-    @И("^значение из body ответа \"([^\"]*)\" сохранено в переменную \"([^\"]*)\"$")
+    @И("^значение из body ответа \"([^\"]+)\" сохранено в переменную \"([^\"]+)\"$")
     public void getValuesFromBodyAsString(String responseNameVariable, String variableName) {
         Response response = (Response) CoreScenario.getInstance().getVar(responseNameVariable);
 
@@ -65,7 +65,7 @@ public class ApiSteps {
      *                             и из хранилища переменных из CoreScenario.
      *                             Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
-    @И("^значения из cookies ответа \"([^\"]*)\", сохранены в переменные из таблицы$")
+    @И("^значения из cookies ответа \"([^\"]+)\", сохранены в переменные из таблицы$")
     public void getValuesFromCookiesAsString(String responseNameVariable, DataTable dataTable) {
         Response response = (Response) CoreScenario.getInstance().getVar(responseNameVariable);
 
@@ -90,7 +90,7 @@ public class ApiSteps {
      * @param responseNameVariable переменная в которой сохранен Response
      * @param dataTable            массив с параметрами
      */
-    @И("^в ответе \"([^\"]*)\" содержатся header со значениями из таблицы$")
+    @И("^в ответе \"([^\"]+)\" содержатся header со значениями из таблицы$")
     public void checkResponseHeaderValues(String responseNameVariable, DataTable dataTable) {
         Response response = (Response) CoreScenario.getInstance().getVar(responseNameVariable);
 
@@ -107,7 +107,7 @@ public class ApiSteps {
         }
     }
 
-    @И("^переменная \"([^\"]*)\" содержир base64 кодирование, декодирована в pdf и сохранена по пути \"([^\"]*)\" с именем \"([^\"]*)\" в формате \"([^\"]*)\"$")
+    @И("^переменная \"([^\"]+)\" содержит base64 кодирование, декодирована в pdf и сохранена по пути \"([^\"]+)\" с именем \"([^\"]+)\" в формате \"([^\"]+)\"$")
     public void saveBase64ToPdf(String encodeBytes, String path, String fName, String fFormat) throws IOException {
         String base64Code = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(encodeBytes);
         String fileName = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(fName);
