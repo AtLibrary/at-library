@@ -10,6 +10,7 @@ import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
 import org.hamcrest.Matchers;
+import org.json.XML;
 import org.junit.Assert;
 import ru.bcs.at.library.core.cucumber.ScopedVariables;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
@@ -71,7 +72,7 @@ public class JsonVerificationSteps {
      *                        Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
     @Deprecated
-    @И("^в (json|xml) ответа \"([^\"]*)\" значения равны значениям из таблицы$")
+    @И("^в ((?:json|xml)) ответа \"([^\"]*)\" значения равны значениям из таблицы$")
     public void checkValuesBodyValueCaseSensitive(String typeContentBody, String valueToFind, DataTable dataTable) {
         this.checkValuesBody(typeContentBody, valueToFind, false, dataTable);
     }
@@ -86,7 +87,7 @@ public class JsonVerificationSteps {
      *                        Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
     @Deprecated
-    @И("^в (json|xml) ответа \"([^\"]*)\" значения равны, без учета регистра, значениям из таблицы$")
+    @И("^в ((?:json|xml)) ответа \"([^\"]*)\" значения равны, без учета регистра, значениям из таблицы$")
     public void checkValuesBodyValueCaseInsensitive(String typeContentBody, String valueToFind, DataTable dataTable) {
         this.checkValuesBody(typeContentBody, valueToFind, true, dataTable);
     }
@@ -133,7 +134,7 @@ public class JsonVerificationSteps {
      *                        и из хранилища переменных из CoreScenario.
      *                        Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
-    @И("^значения из (json|xml) ответа \"([^\"]*)\", найденные по jsonpath из таблицы, сохранены в переменные$")
+    @И("^значения из ((?:json|xml)) ответа \"([^\"]*)\", найденные по jsonpath из таблицы, сохранены в переменные$")
     public void getValuesFromBodyAsString(String typeContentBody, String valueToFind, DataTable dataTable) {
         Response response = (Response) CoreScenario.getInstance().getVar(valueToFind);
 
