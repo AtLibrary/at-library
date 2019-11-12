@@ -29,8 +29,7 @@ import java.net.MalformedURLException;
 import java.util.List;
 import java.util.logging.Level;
 
-import static com.codeborne.selenide.Browsers.CHROME;
-import static com.codeborne.selenide.Browsers.OPERA;
+import static com.codeborne.selenide.Browsers.*;
 import static com.codeborne.selenide.Configuration.baseUrl;
 import static com.codeborne.selenide.Configuration.browser;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
@@ -110,6 +109,9 @@ public class InitialSetupSteps {
             }
             Selenide.clearBrowserLocalStorage();
             Selenide.clearBrowserCookies();
+            if(browser.equals(SAFARI)){
+                getWebDriver().quit();
+            }
             getWebDriver().close();
         }
         if (scenario.getSourceTagNames().contains("@mobile")) {

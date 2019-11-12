@@ -64,9 +64,10 @@ public class InitialDriver {
         log.info("Тесты будут запущены на операционной системе: " + System.getProperty("os.name"));
         log.info("Тесты будут запущены локально в браузере: " + browser);
         boolean linuxOS = System.getProperty("os.name").equals("Linux");
+        boolean macOS = System.getProperty("os.name").contains("Mac");
 
 
-        if (linuxOS) {
+        if (linuxOS || macOS) {
             switch (browser) {
                 case CHROME: {
                     WebDriverManager.chromedriver().setup();
@@ -133,6 +134,7 @@ public class InitialDriver {
             capabilities.setCapability("screenResolution", "1920x1080");
             capabilities.setCapability("width", "1920");
             capabilities.setCapability("height", "1080");
+            capabilities.setCapability("sessionTimeout", "1m");
 
             setWebDriver(
                     new RemoteWebDriver(
