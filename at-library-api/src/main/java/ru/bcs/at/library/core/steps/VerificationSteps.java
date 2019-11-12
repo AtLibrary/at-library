@@ -25,7 +25,16 @@ public class VerificationSteps {
     private CoreScenario coreScenario = CoreScenario.getInstance();
 
     /**
-     * <p>Проверка форматированного текста</p>
+     * <p>Проверка значений форматированного текста</p>
+     * <p>В строке json/xml/params происходит проверка значений по jsonPath/xmlPath/paramName из первого столбца таблицы
+     * по операциям из второго столбца таблицы ('==' - равенство, '!=' - неравенство, '~' - соответствие регулярному выражению,
+     * '!~' - несоответствие регулярному выражению) и по значениям в третьем столбце таблицы.</p>
+     *
+     * @param checkingValuePath строка для обработки
+     * @param caseInsensitiveIndicator   независимость то регистра
+     * @param dataTable   И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
+     *                    и из хранилища переменных из CoreScenario.
+     *                    Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
     @И("^значения в \"([^\"]+)\" проверены ((?:|без учета регистра ))по таблице:$")
     public void checkFormattedData(String checkingValuePath, String caseInsensitiveIndicator, DataTable dataTable) {
@@ -33,7 +42,17 @@ public class VerificationSteps {
     }
 
     /**
-     * <p>Проверка форматированного текста</p>
+     * <p>Проверка значений форматированного текста</p>
+     * <p>В строке json/xml/params происходит проверка значений по jsonPath/xmlPath/paramName из первого столбца таблицы
+     * по операциям из второго столбца таблицы ('==' - равенство, '!=' - неравенство, '~' - соответствие регулярному выражению,
+     * '!~' - несоответствие регулярному выражению) и по значениям в третьем столбце таблицы.</p>
+     *
+     * @param checkingValueType формат переданной строки
+     * @param checkingValuePath строка для обработки
+     * @param caseInsensitiveIndicator   независимость то регистра
+     * @param dataTable   И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
+     *                    и из хранилища переменных из CoreScenario.
+     *                    Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
     @И("^значения в ((?:XML|JSON|PARAMS)) \"([^\"]+)\" проверены ((?:|без учета регистра ))по таблице:$")
     public void checkFormattedData(TextFormat checkingValueType, String checkingValuePath, String caseInsensitiveIndicator, DataTable dataTable) {
@@ -41,7 +60,15 @@ public class VerificationSteps {
     }
 
     /**
-     * <p>Проверка форматированного текста</p>
+     * <p>Проверка значений форматированного текста</p>
+     * <p>В строке json/xml/params происходит проверка значений по jsonPath/xmlPath/paramName из первого столбца таблицы
+     * по операциям из второго столбца таблицы ('==' - равенство, '!=' - неравенство, '~' - соответствие регулярному выражению,
+     * '!~' - несоответствие регулярному выражению) и по значениям в третьем столбце таблицы.</p>
+     *
+     * @param caseInsensitiveIndicator независимость то регистра
+     * @param dataTable   И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
+     *                    и из хранилища переменных из CoreScenario.
+     *                    Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
     @И("^значения в нём проверены ((?:|без учета регистра ))по таблице:$")
     public void checkFormattedData(String caseInsensitiveIndicator, DataTable dataTable) {
@@ -49,7 +76,17 @@ public class VerificationSteps {
     }
 
     /**
-     * <p>Проверка форматированного текста</p>
+     * <p>Проверка значений форматированного текста</p>
+     * <p>В строке json/xml/params происходит проверка значений по jsonPath/xmlPath/paramName из первого столбца таблицы
+     * по операциям из второго столбца таблицы ('==' - равенство, '!=' - неравенство, '~' - соответствие регулярному выражению,
+     * '!~' - несоответствие регулярному выражению) и по значениям в третьем столбце таблицы.</p>
+     *
+     * @param checkingValueType формат переданной строки
+     * @param checkingValuePath строка для обработки
+     * @param caseInsensitive   независимость то регистра
+     * @param dataTable   И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
+     *                    и из хранилища переменных из CoreScenario.
+     *                    Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
     private void checkFormattedData(TextFormat checkingValueType, String checkingValuePath, boolean caseInsensitive, DataTable dataTable) {
         if (checkingValuePath == null) {
@@ -86,6 +123,14 @@ public class VerificationSteps {
         }
     }
 
+    /**
+     * <p>Определение типа операции по проверке:
+     * '==' - равенство, '!=' - неравенство, '~' - соответствие регулярному выражению, '!~' - несоответствие регулярному выражению</p>
+     *
+     * @param operationString строка с операцией проверки
+     *
+     * @return матчер для проверки
+     */
     private static Function<String, Matcher> defineOperation(String operationString) {
         Function<String, Matcher> matcher = null;
         switch (operationString) {
@@ -110,6 +155,13 @@ public class VerificationSteps {
 
     /**
      * <p>Сохранение значений форматированного текста</p>
+     * <p>В строке json/xml/params происходит поиск значений по jsonPath/xmlPath/paramName из первого столбца таблицы.
+     * Полученные значения сохраняются в переменных. Название переменной указывается во втором столбце таблицы.</p>
+     *
+     * @param processingValuePath строка для обработки
+     * @param dataTable   И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
+     *                    и из хранилища переменных из CoreScenario.
+     *                    Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
     @И("^значения из \"([^\"]+)\" сохранены в переменные по таблице:$")
     public void saveValuesFromFormattedData(String processingValuePath, DataTable dataTable) {
@@ -118,6 +170,12 @@ public class VerificationSteps {
 
     /**
      * <p>Сохранение значений форматированного текста</p>
+     * <p>В строке json/xml/params, сохраннённой в переменной по-умолчанию, происходит поиск значений по jsonPath/xmlPath/paramName из первого столбца таблицы.
+     * Полученные значения сохраняются в переменных. Название переменной указывается во втором столбце таблицы.</p>
+     *
+     * @param dataTable   И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
+     *                    и из хранилища переменных из CoreScenario.
+     *                    Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
     @И("^значения из него сохранены в переменные по таблице:$")
     public void saveValuesFromFormattedData(DataTable dataTable) {
@@ -126,12 +184,11 @@ public class VerificationSteps {
 
     /**
      * <p>Сохранение значений форматированного текста</p>
-     * <p>В json строке, сохраннённой в переменной, происходит поиск значений по jsonpath из первого столбца таблицы.
-     * Полученные значения сохраняются в переменных. Название переменной указывается во втором столбце таблицы.
-     * Шаг работает со всеми типами json элементов: объекты, массивы, строки, числа, литералы true, false и null.</p>
+     * <p>В строке json/xml/params происходит поиск значений по jsonPath/xmlPath/paramName из первого столбца таблицы.
+     * Полученные значения сохраняются в переменных. Название переменной указывается во втором столбце таблицы.</p>
      *
      * @param processingValueType формат переданной строки
-     * @param processingValuePath имя переменной которая содержит строку для обработки
+     * @param processingValuePath строка для обработки
      * @param dataTable   И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
      *                    и из хранилища переменных из CoreScenario.
      *                    Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
