@@ -24,7 +24,7 @@ import org.hamcrest.Matchers;
 import ru.bcs.at.library.core.core.helpers.PropertyLoader;
 
 /**
- * <h1>API шаги</h1>
+ * <h1>Шаги по включению/отключению прокси</h1>
  */
 @Log4j2
 public class ProxySteps {
