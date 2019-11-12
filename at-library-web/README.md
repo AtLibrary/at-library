@@ -8,7 +8,7 @@ at-library-web
 <dependency>
       <groupId>ru.bcs</groupId>
       <artifactId>at-library-web</artifactId>
-      <version>30.10.2019</version>
+      <version>08.11.2019</version>
 </dependency>
 ```
 
@@ -170,6 +170,7 @@ clean test -Dselenide.browser="internet explorer" -Dwebdriver.ie.driver="C:\\Pro
 clean test -Dselenide.browser="chrome" -Dselenide.remote=http://test:test-password@selenoid.t-global.bcs:4444/wd/hub/ -Dproxy=172.18.62.68:8080 allure:serve
 clean test -Dselenide.browser="internet explorer" -Dselenide.remote=http://test:test-password@selenoid.t-global.bcs:4444/wd/hub/ -Dproxy=172.18.62.68:8080 allure:serve
 ```
+
 - Запуск тестов с тегами (И)
 ```mvn
 clean test allure:serve -Dcucumber.options="--tags @api --tags @web --plugin io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm --plugin com.epam.reportportal.cucumber.ScenarioReporter"

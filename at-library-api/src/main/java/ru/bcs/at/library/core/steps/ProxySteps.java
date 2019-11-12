@@ -67,6 +67,7 @@ public class ProxySteps {
     /**
      * <p>Найти http-запрос через прокси</p>
      */
+    @Deprecated
     @И("^через прокси отправлен запрос \"([^\"]*)\"$")
     public void findRequestOnProxy(String url) {
         url = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(url);

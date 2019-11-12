@@ -195,16 +195,27 @@ public class WebActionSteps {
     /**
      * <p>Набирается значение (в приоритете: из property, из переменной сценария, значение аргумента) в заданное поле.
      * Перед использованием поле нужно очистить</p>
+     *
+     * @return value значение
      */
     @То("^в поле \"([^\"]*)\" набирается значение$")
     @И("^в поле \"([^\"]*)\" набирается значение \"(.*)\"$")
-    public void sendKeys(String elementName, String value) {
+    public String fieldValueIsTyped(String elementName, String value) {
         value = getPropertyOrStringVariableOrValue(value);
         SelenideElement valueInput = coreScenario.getCurrentPage().getElement(elementName);
         cleanField(elementName);
-        valueInput.sendKeys(value);
+
+        for (char character : value.toCharArray()) {
+            sleep(100);
+            valueInput.sendKeys(String.valueOf(character));
+        }
+        sleep(100);
+
+        coreScenario.write(String.format("В поле [%s] введено значение [%s]", elementName, value));
+        return value;
     }
 
+    //TODO этот метод дубриуется в fieldValueIsTyped
     /**
      * <p>Набирается значение посимвольно (в приоритете: из property, из переменной сценария, значение аргумента) в заданное поле.
      * Перед использованием поле нужно очистить</p>
@@ -373,15 +384,14 @@ public class WebActionSteps {
 
     /**
      * <p>Ввод в поле случайной последовательности цифр задаваемой длины</p>
+     *
+     * @return сгенерированное число
      */
     @Deprecated
     @И("^в поле \"([^\"]*)\" введено случайное число из (\\d+) (?:цифр|цифры)$")
-    public void inputRandomNumSequence(String elementName, int seqLength) {
-        SelenideElement valueInput = coreScenario.getCurrentPage().getElement(elementName);
-        cleanField(elementName);
+    public String inputRandomNumSequence(String elementName, int seqLength) {
         String numSeq = RandomStringUtils.randomNumeric(seqLength);
-        valueInput.setValue(numSeq);
-        coreScenario.write(String.format("В поле [%s] введено значение [%s]", elementName, numSeq));
+        return fieldValueIsTyped(elementName, numSeq);
     }
 
     /**
@@ -390,13 +400,10 @@ public class WebActionSteps {
     @Deprecated
     @И("^в поле \"([^\"]*)\" введено случайное число из (\\d+) (?:цифр|цифры) и сохранено в переменную \"([^\"]*)\"$")
     public void inputAndSetRandomNumSequence(String elementName, int seqLength, String varName) {
-        SelenideElement valueInput = coreScenario.getCurrentPage().getElement(elementName);
-        cleanField(elementName);
-        String numSeq = RandomStringUtils.randomNumeric(seqLength);
-        valueInput.setValue(numSeq);
-        coreScenario.setVar(varName, numSeq);
+        String value = inputRandomNumSequence(elementName, seqLength);
+        coreScenario.setVar(varName, value);
         coreScenario.write(String.format("В поле [%s] введено значение [%s] и сохранено в переменную [%s]",
-                elementName, numSeq, varName));
+                elementName, value, varName));
     }
 
     /**
