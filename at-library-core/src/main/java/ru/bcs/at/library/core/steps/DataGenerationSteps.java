@@ -10,7 +10,9 @@ import java.util.Random;
 
 import static org.apache.commons.lang3.RandomUtils.nextBoolean;
 import static ru.bcs.at.library.core.steps.OtherSteps.getRandCharSequence;
-
+/**
+ * <h1>Шаги генерации тестовых данных</h1>
+ */
 public class DataGenerationSteps {
 
     private static CoreScenario coreScenario = CoreScenario.getInstance();
@@ -28,7 +30,7 @@ public class DataGenerationSteps {
     /**
      * <p>Генерация последовательности латинских или кириллических букв задаваемой длины</p>
      */
-    @И("^генерация (\\d+) случайных символов на (кириллице|латинице) и сохранено в переменную \"([^\"]*)\"$")
+    @И("^генерация (\\d+) случайных символов на ((?:кириллице|латинице) и сохранено в переменную \"([^\"]*)\"$")
     public void setRandomCharSequence(int seqLength, String lang, String varName) {
         if (lang.equals("кириллице")) {
             lang = "ru";
