@@ -1,4 +1,4 @@
-package ru.bcs.at.library.core.steps; /**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -9,6 +9,7 @@ package ru.bcs.at.library.core.steps; /**
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package ru.bcs.at.library.core.steps;
 
 import cucumber.api.java.ru.И;
 import lombok.extern.log4j.Log4j2;
@@ -42,7 +43,7 @@ public class MountebankSteps {
      */
     @И("^разворачивается mb заглушка по-умолчанию$")
     public void deployImposter() {
-        deployImposter(DEFAULT_MB_PORT);
+        deployImposter(null);
     }
 
     /**
@@ -53,6 +54,9 @@ public class MountebankSteps {
     @И("^разворачивается mb заглушка по-умолчанию на порте \"(\\d+)\"$")
     public void deployImposter(Integer deployPort) {
         checkMB();
+        if (deployPort == null) {
+            deployPort = DEFAULT_MB_PORT;
+        }
         client.deleteImposter(deployPort);
         client.createImposter(new Imposter().onPort(deployPort));
     }
@@ -93,7 +97,7 @@ public class MountebankSteps {
      */
     @И("^разворачивается mb заглушка с ответом из файла \"([^\"]+)\"$")
     public void deployImposterWithResponse(String response) {
-        deployImposterWithResponse(response, DEFAULT_MB_PORT);
+        deployImposterWithResponse(response, null);
     }
 
     /**
@@ -111,6 +115,9 @@ public class MountebankSteps {
         );
 
         checkMB();
+        if (deployPort == null) {
+            deployPort = DEFAULT_MB_PORT;
+        }
         client.deleteImposter(deployPort);
         client.createImposter(new Imposter().onPort(deployPort).addStub(stub));
     }

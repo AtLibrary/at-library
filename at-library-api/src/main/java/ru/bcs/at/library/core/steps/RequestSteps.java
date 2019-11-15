@@ -23,6 +23,7 @@ import java.net.URL;
 import java.util.List;
 
 import static java.lang.String.format;
+import static org.hamcrest.Matchers.is;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.*;
 
 /**
@@ -30,7 +31,7 @@ import static ru.bcs.at.library.core.core.helpers.PropertyLoader.*;
  */
 public class RequestSteps {
 
-    private static final String REQUEST_URL = "^выполнен ((?:GET|PUT|POST|DELETE|HEAD|TRACE|OPTIONS|PATCH)) запрос на URL \"([^\"]+)\"";
+    private static final String REQUEST_URL = "выполнен ((?:GET|PUT|POST|DELETE|HEAD|TRACE|OPTIONS|PATCH)) запрос на URL \"([^\"]+)\"";
     public static int requestRetries = Integer.parseInt(System.getProperty("request.retries", "1"));
     private CoreScenario coreScenario = CoreScenario.getInstance();
 
@@ -42,7 +43,7 @@ public class RequestSteps {
      * @param address              url запроса (можно задать как напрямую в шаге, так и указав в application.properties)
      * @param responseNameVariable имя переменной в которую сохраняется ответ
      */
-    @И(REQUEST_URL + ". Полученный ответ сохранен в переменную \"([^\"]+)\"$")
+    @И("^" + REQUEST_URL + ". Полученный ответ сохранен в переменную \"([^\"]+)\"$")
     public void sendHttpRequestWithoutParams(String method,
                                              String address,
                                              String responseNameVariable) {
@@ -61,7 +62,7 @@ public class RequestSteps {
      *                             и из хранилища переменных из CoreScenario.
      *                             Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
-    @И(REQUEST_URL + " с headers и parameters из таблицы. Полученный ответ сохранен в переменную \"([^\"]+)\"$")
+    @И("^" + REQUEST_URL + " с headers и parameters из таблицы. Полученный ответ сохранен в переменную \"([^\"]+)\"$")
     public void sendHttpRequestSaveResponse(String method,
                                             String address,
                                             String responseNameVariable,
@@ -81,7 +82,7 @@ public class RequestSteps {
      *                           и из хранилища переменных из CoreScenario.
      *                           Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
-    @И(REQUEST_URL + " с headers и parameters из таблицы. Ожидается код ответа: (\\d+)$")
+    @И("^" + REQUEST_URL + " с headers и parameters из таблицы. Ожидается код ответа: (\\d+)$")
     public void sendHttpRequestCheckResponseCode(String method,
                                                  String address,
                                                  int expectedStatusCode,
@@ -102,7 +103,7 @@ public class RequestSteps {
      *                             и из хранилища переменных из CoreScenario.
      *                             Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
-    @И(REQUEST_URL + " с headers и parameters из таблицы. Ожидается код ответа: (\\d+) Полученный ответ сохранен в переменную \"([^\"]+)\"$")
+    @И("^" + REQUEST_URL + " с headers и parameters из таблицы. Ожидается код ответа: (\\d+) Полученный ответ сохранен в переменную \"([^\"]+)\"$")
     public void sendHttpRequestSaveResponseCheckResponseCode(String method,
                                                              String address,
                                                              int expectedStatusCode,
@@ -122,13 +123,111 @@ public class RequestSteps {
      * @param expectedStatusCode   ожидаемый код ответа
      * @param responseNameVariable имя переменной в которую сохраняется ответ
      */
-    @И(REQUEST_URL + ". Ожидается код ответа: (\\d+) Полученный ответ сохранен в переменную \"([^\"]+)\"$")
+    @И("^" + REQUEST_URL + ". Ожидается код ответа: (\\d+) Полученный ответ сохранен в переменную \"([^\"]+)\"$")
     public void sendHttpRequestSaveResponseCheckResponseCode(String method,
                                                              String address,
                                                              int expectedStatusCode,
                                                              String responseNameVariable) {
         Response response = tryingSendRequestRetries(method, address, null, expectedStatusCode);
         response.then().statusCode(expectedStatusCode);
+        getBodyAndSaveToVariable(responseNameVariable, response);
+    }
+
+    /**
+     * <p>Отправка http запроса по заданному урлу с параметрами и/или BODY периодично в заданный интервал времени
+     * пока ответ не вернет ожидаемый statusCode или закончится время выполнения попыток.
+     * Результат сохраняется в заданную переменную</p>
+     *
+     * @param timeoutSec           время выполнения попыток запроса - таймаут попыток
+     * @param periodSec            период попыток запроса - ожидание между попытками
+     * @param method               методов HTTP запроса
+     * @param address              url запроса (можно задать как напрямую в шаге, так и указав в application.properties)
+     * @param expectedStatusCode   ожидаемый код ответа
+     * @param responseNameVariable имя переменной в которую сохраняется ответ
+     */
+    @И("^в течение (\\d+) секунд каждую (\\d+) " + REQUEST_URL + ". Ожидается код ответа: (\\d+). Полученный ответ сохранен в переменную \"([^\"]+)\"$")
+    public void sendHttpRequestPeriodicallySaveResponseCheckResponseCode(int timeoutSec,
+                                                                         int periodSec,
+                                                                         String method,
+                                                                         String address,
+                                                                         int expectedStatusCode,
+                                                                         String responseNameVariable) {
+        Response response = tryingPeriodicallySendRequestRetries(timeoutSec, periodSec, method, address, null,
+                null, expectedStatusCode);
+        response.then().statusCode(expectedStatusCode);
+        getBodyAndSaveToVariable(responseNameVariable, response);
+    }
+
+    /**
+     * <p>Отправка http запроса по заданному урлу с параметрами и/или BODY периодично в заданный интервал времени
+     * пока ответ не вернет ожидаемый statusCode или закончится время выполнения попыток.
+     * Результат сохраняется в заданную переменную</p>
+     *
+     * @param timeoutSec           время выполнения попыток запроса - таймаут попыток
+     * @param periodSec            период попыток запроса - ожидание между попытками
+     * @param method               методов HTTP запроса
+     * @param address              url запроса (можно задать как напрямую в шаге, так и указав в application.properties)
+     * @param expectedStatusCode   ожидаемый код ответа
+     * @param responseNameVariable имя переменной в которую сохраняется ответ
+     * @param dataTable            И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
+     *                             и из хранилища переменных из CoreScenario.
+     *                             Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
+     */
+    @И("^в течение (\\d+) секунд каждую (\\d+) " + REQUEST_URL + " с параметрами из таблицы. Ожидается код ответа: (\\d+). Полученный ответ сохранен в переменную \"([^\"]+)\"$")
+    public void sendHttpRequestPeriodicallySaveResponseCheckResponseCode(int timeoutSec,
+                                                                         int periodSec,
+                                                                         String method,
+                                                                         String address,
+                                                                         int expectedStatusCode,
+                                                                         String responseNameVariable,
+                                                                         DataTable dataTable) {
+        Response response = tryingPeriodicallySendRequestRetries(timeoutSec, periodSec, method, address, dataTable, null, expectedStatusCode);
+        response.then().statusCode(expectedStatusCode);
+        getBodyAndSaveToVariable(responseNameVariable, response);
+    }
+
+    /**
+     * <p>Отправка http запроса по заданному урлу с параметрами и/или BODY периодично в заданный интервал времени
+     * пока ответ не вернет ожидаемый statusCode или закончится время выполнения попыток.
+     *
+     *     Параметры запроса и требуемые параметры ответа в таблице отделяются строкой:
+     * \ RESPONSE \ \ \
+     *     Например:
+     * \ BODY     \                \ test_text      \   - параметр запроса
+     * \ HEADER   \ test_header    \ test_header    \   - параметр запроса
+     * \ RESPONSE \                \                \   - строка разделитель
+     * \ BODY     \                \ checked_body   \   - параметр ответа
+     * \ HEADER   \ checked_header \ checked_header \   - параметр ответа
+     * \ COOKIE   \ checked_cookie \ checked_cookie \   - параметр ответа
+     *
+     * Результат сохраняется в заданную переменную</p>
+     *
+     * @param timeoutSec           время выполнения попыток запроса - таймаут попыток
+     * @param periodSec            период попыток запроса - ожидание между попытками
+     * @param method               методов HTTP запроса
+     * @param address              url запроса (можно задать как напрямую в шаге, так и указав в application.properties)
+     * @param expectedStatusCode   ожидаемый код ответа
+     * @param responseNameVariable имя переменной в которую сохраняется ответ
+     * @param dataTable            И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
+     *                             и из хранилища переменных из CoreScenario.
+     *                             Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
+     */
+    @И("^в течение (\\d+) секунд каждую (\\d+) " + REQUEST_URL + " с параметрами из таблицы. Ожидается код ответа: (\\d+) с параметрами из таблицы. Полученный ответ сохранен в переменную \"([^\"]+)\"$")
+    public void sendHttpRequestPeriodicallySaveResponseCheckResponseParams(int timeoutSec,
+                                                                         int periodSec,
+                                                                         String method,
+                                                                         String address,
+                                                                         int expectedStatusCode,
+                                                                         String responseNameVariable,
+                                                                         DataTable dataTable) {
+        DataTable respDataTable = null;
+        if (dataTable.column(0).indexOf("RESPONSE") != -1) {
+            respDataTable = dataTable.subTable(dataTable.column(0).indexOf("RESPONSE") + 1, 0, dataTable.height(), dataTable.width());
+            dataTable = dataTable.subTable(0, 0, dataTable.column(0).indexOf("RESPONSE"), dataTable.width());
+        }
+        Response response = tryingPeriodicallySendRequestRetries(timeoutSec, periodSec, method, address, dataTable, respDataTable, expectedStatusCode);
+        response.then().statusCode(expectedStatusCode);
+        checkResponseByParams(response, respDataTable);
         getBodyAndSaveToVariable(responseNameVariable, response);
     }
 
@@ -231,6 +330,50 @@ public class RequestSteps {
     }
 
     /**
+     * <p>Проверка параметров ответа.</p>
+     *
+     * @param response  http-ответ
+     * @param dataTable массив с параметрами
+     */
+    private void checkResponseByParams(Response response, DataTable dataTable) {
+        if (dataTable != null) {
+            StringBuilder errorMessage = new StringBuilder();
+            for (List<String> responseParam : dataTable.asLists()) {
+                String type = responseParam.get(0);
+
+                String name = loadValueFromFileOrPropertyOrVariableOrDefault(responseParam.get(1));
+                String value = loadValueFromFileOrPropertyOrVariableOrDefault(responseParam.get(2));
+                value = loadValueFromFileOrVariableOrDefault(value);
+
+                try {
+                    switch (type.toUpperCase()) {
+                        case "HEADER": {
+                            response.then().header(name, value);
+                            break;
+                        }
+                        case "COOKIES": {
+                            response.then().cookie(name, value);
+                            break;
+                        }
+                        case "BODY": {
+                            response.then().body(is(value));
+                            break;
+                        }
+                        default: {
+                            throw new IllegalArgumentException(format("Некорректно задан тип %s для параметра ответа %s ", type, name));
+                        }
+                    }
+                } catch (AssertionError e) {
+                    errorMessage.append(e.getMessage());
+                }
+            }
+            if (!errorMessage.toString().isEmpty()) {
+                throw new AssertionError(errorMessage);
+            }
+        }
+    }
+
+    /**
      * <p>Получает тела запроса</p>
      * TODO разобраться с реализацией метода и его необходимость
      *
@@ -277,6 +420,51 @@ public class RequestSteps {
             response = sendRequest(method, address, dataTable);
             if (response.statusCode() == expectedStatusCode) {
                 break;
+            }
+        }
+        return response;
+    }
+
+    /**
+     * <p>Запрос отправляется периодично в заданный интервал времени пока ответ не вернет ожидаемый statusCode или закончится время выполнения попыток</p>
+     *
+     * @param timeoutSec         время выполнения попыток запроса - таймаут попыток
+     * @param periodSec          период попыток запроса - ожидание между попытками
+     * @param method             методов HTTP запроса
+     * @param address            url запроса (можно задать как напрямую в шаге, так и указав в application.properties)
+     * @param expectedStatusCode ожидаемый statusCode
+     * @param dataTable          И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
+     *                           и из хранилища переменных из CoreScenario.
+     *                           Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
+     */
+    private Response tryingPeriodicallySendRequestRetries(int timeoutSec,
+                                                          int periodSec,
+                                                          String method,
+                                                          String address,
+                                                          DataTable dataTable,
+                                                          DataTable respDataTable,
+                                                          int expectedStatusCode) {
+        Response response = null;
+
+        long startTime = System.currentTimeMillis();
+        long endTimeTime = startTime + timeoutSec * 1000;
+        while (System.currentTimeMillis() < endTimeTime) {
+            response = sendRequest(method, address, dataTable);
+            if (response.statusCode() == expectedStatusCode) {
+                try {
+                    checkResponseByParams(response, respDataTable);
+                    break;
+                } catch (AssertionError e) {
+                    // ignore because it's intermediate result
+                }
+            }
+            if (System.currentTimeMillis() + periodSec * 1000 > endTimeTime) {
+                break;
+            }
+            try {
+                Thread.sleep(periodSec * 1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
         return response;
