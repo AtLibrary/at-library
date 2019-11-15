@@ -7,6 +7,7 @@ import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
 import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
 
 import java.io.ByteArrayInputStream;
 import java.io.UnsupportedEncodingException;
@@ -62,10 +63,16 @@ public class FormattedDataContainer {
             case JSON:
                 return String.valueOf((Object) JsonPath.read(jsonObject, path));
             case XML:
-                return filterNodesByXPath(xmlDocument, path).item(0).getTextContent();
+                NodeList valueList = filterNodesByXPath(xmlDocument, path);
+                if (valueList != null && valueList.getLength() > 0) {
+                    return valueList.item(0).getTextContent();
+                }
             case PARAMS:
                 try {
-                    return URLDecoder.decode(paramsMap.get(path), "UTF-8");
+                    String value = paramsMap.get(path);
+                    if (value != null) {
+                        return URLDecoder.decode(value, "UTF-8");
+                    }
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
