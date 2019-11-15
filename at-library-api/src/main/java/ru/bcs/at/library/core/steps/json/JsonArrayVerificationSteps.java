@@ -6,6 +6,11 @@ import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault;
@@ -51,6 +56,65 @@ public class JsonArrayVerificationSteps {
                         "Найденный по jsonPath" + jsonPath +
                                 "\n список: " + list +
                                 "\n содержит значения которые не equals: " + value);
+            }
+        }
+    }
+
+    /**
+     * <p>Все объекты в коллекции имеют поле с определенным названием, содержащим конкретное значение</p>
+     *
+     * @param responseName переменная в которой сохранен Response
+     * @param jsonPath     jsonPath поиска массива
+     * @param value        ожидаемая часть значения
+     */
+    @И("^в ответе \"([^\"]*)\" по ключу: \"([^\"]*)\" весь массив частично соотвествует \"([^\"]*)\"$")
+    public void checkArrayContainsAllItem(String responseName, String jsonPath, String value) {
+        value = loadValueFromFileOrPropertyOrVariableOrDefault(value);
+        Response response = (Response) CoreScenario.getInstance().getVar(responseName);
+
+        List<String> list = response
+                .getBody().jsonPath().getList(jsonPath);
+
+        for (String actualValue : list) {
+            if (!actualValue.contains(value)) {
+                throw new AssertionError(
+                        "Найденный по jsonPath" + jsonPath +
+                                "\n список: " + list +
+                                "\n содержит значения которые не contains: " + value);
+            }
+        }
+    }
+
+    /**
+     * <p>Все объекты в коллекции имеют поле с определенным названием, содержащим конкретное значение</p>
+     *
+     * @param responseName переменная в которой сохранен Response
+     * @param jsonPath     jsonPath поиска массива
+     * @param valueStart   ожидаемое начало периода
+     * @param valueEnd     ожидаемый конец периода
+     */
+    @И("^в ответе \"([^\"]*)\" по ключу: \"([^\"]*)\" весь массив соответствуют периоду между \"([^\"]*)\" и \"([^\"]*)\" в формате \"([^\"]*)\"$")
+    public void checkArrayContainsDataBetweenDatesAllItem(String responseName, String jsonPath, String valueStart,
+                                                          String valueEnd, String format) {
+        valueStart = loadValueFromFileOrPropertyOrVariableOrDefault(valueStart);
+        valueEnd = loadValueFromFileOrPropertyOrVariableOrDefault(valueEnd);
+        format = loadValueFromFileOrPropertyOrVariableOrDefault(format);
+        Response response = (Response) CoreScenario.getInstance().getVar(responseName);
+
+        OffsetDateTime startDate = OffsetDateTime.parse(valueStart, DateTimeFormatter.ofPattern(format));
+        OffsetDateTime endDate = OffsetDateTime.parse(valueEnd, DateTimeFormatter.ofPattern(format));
+
+        List<String> list = response
+                .getBody().jsonPath().getList(jsonPath);
+
+        for (String actualValue : list) {
+            OffsetDateTime testDate = OffsetDateTime.parse(actualValue, DateTimeFormatter.ofPattern(format));
+            if (testDate.isBefore(startDate) || testDate.isAfter(endDate)) {
+                throw new AssertionError(
+                        "Найденный по jsonPath" + jsonPath +
+                                "\n список: " + list +
+                                "\n содержит значения которые не соответствуют периуду между : " + valueStart + " и "
+                                + valueEnd);
             }
         }
     }
