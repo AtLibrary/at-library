@@ -43,7 +43,7 @@ public class MountebankSteps {
      */
     @И("^разворачивается mb заглушка по-умолчанию$")
     public void deployImposter() {
-        deployImposter(null);
+        deployImposter((Integer) null);
     }
 
     /**
