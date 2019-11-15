@@ -7,7 +7,7 @@
     <groupId>ru.bcs</groupId>
     <artifactId>at-library</artifactId>
     <packaging>pom</packaging>
-    <version>12.11.2019-stable</version>
+    <version>15.11.2019</version>
 
     <modules>
         <module>at-library-core</module>
@@ -180,6 +180,12 @@
             <groupId>net.andreinc.mockneat</groupId>
             <artifactId>mockneat</artifactId>
             <version>0.1.7</version>
+        </dependency>
+        <!--ПРОКСИРОВАНИЕ-->
+        <dependency>
+            <groupId>io.appium</groupId>
+            <artifactId>mitmproxy-java</artifactId>
+            <version>2.0.1</version>
         </dependency>
     </dependencies>
 
