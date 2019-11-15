@@ -26,10 +26,13 @@ import static java.lang.String.format;
 import static org.hamcrest.Matchers.is;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.*;
 
+/**
+ * <h1>Шаги по формированию и отправки запроса</h1>
+ */
 public class RequestSteps {
 
-    private static final String REQUEST_URL = "выполнен (GET|PUT|POST|DELETE|HEAD|TRACE|OPTIONS|PATCH) запрос на URL \"([^\"]+)\"";
-    private static int requestRetries = Integer.parseInt(System.getProperty("request.retries", "1"));
+    private static final String REQUEST_URL = "выполнен ((?:GET|PUT|POST|DELETE|HEAD|TRACE|OPTIONS|PATCH)) запрос на URL \"([^\"]+)\"";
+    public static int requestRetries = Integer.parseInt(System.getProperty("request.retries", "1"));
     private CoreScenario coreScenario = CoreScenario.getInstance();
 
     /**

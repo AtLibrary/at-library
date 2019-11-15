@@ -7,7 +7,7 @@
     <groupId>ru.bcs</groupId>
     <artifactId>at-library</artifactId>
     <packaging>pom</packaging>
-    <version>24.10.2019</version>
+    <version>12.11.2019-stable</version>
 
     <modules>
         <module>at-library-core</module>
@@ -19,7 +19,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!--WEB ТЕСТИРОВАНИЕ-->
-        <selenide.version>5.3.1</selenide.version>
+        <selenide.version>5.4.1</selenide.version>
         <!--API ТЕСТИРОВАНИЕ-->
         <rest-assured.version>3.3.0</rest-assured.version>
         <!--MOBILE ТЕСТИРОВАНИЕ-->
@@ -31,6 +31,8 @@
         <allure.version>2.13.0</allure.version>
         <!--LOMBOK-->
         <lombok.version>1.16.20</lombok.version>
+        <!--HAMCREST-->
+        <hamcrest.version>2.1</hamcrest.version>
         <!--LOG-->
         <logging.version>2.11.2</logging.version>
         <!--ВСПОМОГАТЕЛЬНЫЕ БИБЛИОТЕКИ-->
@@ -161,6 +163,17 @@
             <groupId>com.jayway.jsonpath</groupId>
             <artifactId>json-path</artifactId>
             <version>${jsonpath.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
+            <version>0.1.55</version>
+        </dependency>
+        <!--HAMCREST-->
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest</artifactId>
+            <version>${hamcrest.version}</version>
         </dependency>
         <!--МОКИРОВАНИЕ-->
         <dependency>

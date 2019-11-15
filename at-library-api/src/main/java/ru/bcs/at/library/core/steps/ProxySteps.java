@@ -25,7 +25,7 @@ import org.hamcrest.Matchers;
 import ru.bcs.at.library.core.core.helpers.PropertyLoader;
 
 /**
- * <h1>API шаги</h1>
+ * <h1>Шаги по включению/отключению прокси</h1>
  */
 @Log4j2
 public class ProxySteps {
@@ -37,7 +37,7 @@ public class ProxySteps {
      * @param proxyPort порт proxy, например: 8080
      */
     @Deprecated
-    @И("^используется proxy: \"([^\"]*)\" port: \"([^\"]*)\"$")
+    @И("^используется proxy: \"([^\"]+)\" port: \"([^\"]+)\"$")
     public void turnOnProxy(String proxyHost, String proxyPort) {
         proxyHost = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(proxyHost);
         proxyPort = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(proxyPort);
@@ -68,7 +68,7 @@ public class ProxySteps {
     /**
      * <p>Найти http-запрос через прокси</p>
      */
-    @И("^через прокси отправлен запрос \"([^\"]*)\"$")
+    @И("^через прокси отправлен запрос \"([^\"]+)\"$")
     public void findRequestOnProxy(String url) {
         url = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(url);
         RestAssured.config =

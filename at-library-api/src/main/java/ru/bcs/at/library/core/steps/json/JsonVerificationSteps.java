@@ -10,6 +10,7 @@ import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
 import org.hamcrest.Matchers;
+import org.json.XML;
 import org.junit.Assert;
 import ru.bcs.at.library.core.cucumber.ScopedVariables;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
@@ -18,8 +19,8 @@ import java.util.List;
 
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadValueFromFileOrVariableOrDefault;
-import static ru.bcs.at.library.core.cucumber.ScopedVariables.isJSONValid;
-import static ru.bcs.at.library.core.cucumber.ScopedVariables.isXMLValid;
+import static ru.bcs.at.library.core.core.helpers.Utils.isJSONValid;
+import static ru.bcs.at.library.core.core.helpers.Utils.isXMLValid;
 
 public class JsonVerificationSteps {
 
@@ -70,7 +71,8 @@ public class JsonVerificationSteps {
      *                        и из хранилища переменных из CoreScenario.
      *                        Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
-    @И("^в (json|xml) ответа \"([^\"]*)\" значения равны значениям из таблицы$")
+    @Deprecated
+    @И("^в ((?:json|xml)) ответа \"([^\"]*)\" значения равны значениям из таблицы$")
     public void checkValuesBodyValueCaseSensitive(String typeContentBody, String valueToFind, DataTable dataTable) {
         this.checkValuesBody(typeContentBody, valueToFind, false, dataTable);
     }
@@ -84,7 +86,8 @@ public class JsonVerificationSteps {
      *                        и из хранилища переменных из CoreScenario.
      *                        Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
-    @И("^в (json|xml) ответа \"([^\"]*)\" значения равны, без учета регистра, значениям из таблицы$")
+    @Deprecated
+    @И("^в ((?:json|xml)) ответа \"([^\"]*)\" значения равны, без учета регистра, значениям из таблицы$")
     public void checkValuesBodyValueCaseInsensitive(String typeContentBody, String valueToFind, DataTable dataTable) {
         this.checkValuesBody(typeContentBody, valueToFind, true, dataTable);
     }
@@ -112,7 +115,7 @@ public class JsonVerificationSteps {
             }
 
             Assert.assertEquals(
-                    "Содержимое по " + typeContentBody + "path:" + path + " не равно" +
+                    "Содержимое по " + typeContentBody + "path: " + path + " не равно" +
                             "\nожидаемое: " + expectedValue +
                             "\nреальное: " + actualValue +
                             "\n",
@@ -131,7 +134,7 @@ public class JsonVerificationSteps {
      *                        и из хранилища переменных из CoreScenario.
      *                        Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
-    @И("^значения из (json|xml) ответа \"([^\"]*)\", найденные по jsonpath из таблицы, сохранены в переменные$")
+    @И("^значения из ((?:json|xml)) ответа \"([^\"]*)\", найденные по jsonpath из таблицы, сохранены в переменные$")
     public void getValuesFromBodyAsString(String typeContentBody, String valueToFind, DataTable dataTable) {
         Response response = (Response) CoreScenario.getInstance().getVar(valueToFind);
 
@@ -166,6 +169,7 @@ public class JsonVerificationSteps {
      *                    и из хранилища переменных из CoreScenario.
      *                    Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
+    @Deprecated
     @И("^значения из json \"([^\"]*)\", найденные по jsonpath из таблицы, сохранены в переменные$")
     public void getValuesFromJsonAsString(String valueToFind, DataTable dataTable) throws ParseException {
         String jsonString = loadValueFromFileOrPropertyOrVariableOrDefault(valueToFind);
@@ -186,6 +190,7 @@ public class JsonVerificationSteps {
     /**
      * <p>Проверка json</p>
      */
+    @Deprecated
     @И("^в json \"([^\"]*)\" значения равны(|, без учета регистра,) значениям из таблицы$")
     public void checkJson(String pathExpectedJson, String textRegister, DataTable dataTable) throws ParseException {
         String jsonString = loadValueFromFileOrPropertyOrVariableOrDefault(pathExpectedJson);
@@ -204,7 +209,7 @@ public class JsonVerificationSteps {
             }
 
             Assert.assertEquals(
-                    "Содержимое по  jsonpath:" + path + " не равно" +
+                    "Содержимое по jsonpath: " + path + " не равно" +
                             "\nожидаемое: " + expectedValue +
                             "\nреальное: " + actualValue +
                             "\n",
@@ -215,6 +220,7 @@ public class JsonVerificationSteps {
     /**
      * <p>Проверка json</p>
      */
+    @Deprecated
     @И("^в json \"([^\"]*)\" значения соответствуют шаблонам из таблицы$")
     public void checkJsonByRegex(String pathExpectedJson, DataTable dataTable) throws ParseException {
         String jsonString = loadValueFromFileOrPropertyOrVariableOrDefault(pathExpectedJson);
@@ -227,7 +233,7 @@ public class JsonVerificationSteps {
             String actualValue = String.valueOf(read);
 
             Assert.assertTrue(
-                    "Содержимое по  jsonpath:" + path + " не соответствует" +
+                    "Содержимое по jsonpath: " + path + " не соответствует" +
                             "\nожидаемое: " + regex +
                             "\nреальное: " + actualValue +
                             "\n",

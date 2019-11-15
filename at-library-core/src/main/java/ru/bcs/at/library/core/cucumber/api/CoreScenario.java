@@ -27,6 +27,7 @@ import java.util.function.Consumer;
 public final class CoreScenario {
 
     private static CoreScenario instance = new CoreScenario();
+    public static final String CURRENT = "CURRENT_VARIABLE";
 
     /**
      * Среда прогона тестов, хранит в себе: Cucumber.Scenario,

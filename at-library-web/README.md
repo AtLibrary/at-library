@@ -8,7 +8,7 @@ at-library-web
 <dependency>
       <groupId>ru.bcs</groupId>
       <artifactId>at-library-web</artifactId>
-      <version>24.10.2019</version>
+      <version>12.11.2019-stable</version>
 </dependency>
 ```
 
@@ -148,12 +148,20 @@ http://selenoid.t-global.bcs/#/
 =========================
 - Запуск локально на ubuntu
 ```mvn
-clean test -Dselenide.browser=chrome  -Djava.net.useSystemProxies=true allure:serve
+clean 
+test 
+-Dselenide.browser=chrome  
+-Djava.net.useSystemProxies=true 
+allure:serve
 ```
 
 - Запуск локально на windows
 ```mvn
-clean test -Dselenide.browser="internet explorer" -Dwebdriver.ie.driver="C:\\Program Files\\Selenium\\Drivers\\IEDriver\\IEDriverServer.exe" allure:serve
+clean 
+test 
+-Dselenide.browser="internet explorer" 
+-Dwebdriver.ie.driver="C:\\Program Files\\Selenium\\Drivers\\IEDriver\\IEDriverServer.exe" 
+allure:serve
 ```
 - Имена ключей для прописавание path к разным браузерам:
 ```
@@ -165,18 +173,37 @@ clean test -Dselenide.browser="internet explorer" -Dwebdriver.ie.driver="C:\\Pro
 "webdriver.gecko.driver"
 ``` 
 
-- Запуск удаленно на Selenoid
+- Запуск удаленно на Selenoid chrome
 ```mvn
-clean test -Dselenide.browser="chrome" -Dselenide.remote=http://test:test-password@selenoid.t-global.bcs:4444/wd/hub/ -Dproxy=172.18.62.68:8080 allure:serve
-clean test -Dselenide.browser="internet explorer" -Dselenide.remote=http://test:test-password@selenoid.t-global.bcs:4444/wd/hub/ -Dproxy=172.18.62.68:8080 allure:serve
+clean 
+test 
+-Dselenide.browser="chrome" 
+-Dselenide.remote=http://test:test-password@selenoid.t-global.bcs:4444/wd/hub/ 
+-Dproxy=172.18.62.68:8080 
+allure:serve
+```
+- Запуск удаленно на Selenoid "internet explorer"
+```mvn
+clean 
+test 
+-Dselenide.browser="internet explorer" 
+-Dselenide.remote=http://test:test-password@selenoid.t-global.bcs:4444/wd/hub/ 
+-Dproxy=172.18.62.68:8080 
+allure:serve
 ```
 - Запуск тестов с тегами (И)
 ```mvn
-clean test allure:serve -Dcucumber.options="--tags @api --tags @web --plugin io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm --plugin com.epam.reportportal.cucumber.ScenarioReporter"
+clean 
+test 
+-Dcucumber.options="--tags @api --tags @web --plugin io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm --plugin com.epam.reportportal.cucumber.ScenarioReporter"
+allure:serve 
 ```
 - Запуск тестов с тегами (ИЛИ)
 ```mvn
-clean test allure:serve -Dcucumber.options="--tags @api,@web --plugin io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm --plugin com.epam.reportportal.cucumber.ScenarioReporter"
+clean
+test
+-Dcucumber.options="--tags @api,@web --plugin io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm --plugin com.epam.reportportal.cucumber.ScenarioReporter"
+allure:serve 
 ```
 
 Пояснение к командам:

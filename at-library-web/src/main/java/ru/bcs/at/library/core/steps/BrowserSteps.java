@@ -115,6 +115,17 @@ public class BrowserSteps {
     }
 
     /**
+     * <p>Выполняется обновление страницы</p>
+     */
+    @И("^выполнено обновление текущей страницы каждые (\\d+) секунд в течении (\\d+) секунд$")
+    public void refreshPageParam(int second, int allTimeSecond) {
+        for (int i = 0; i < allTimeSecond; i += second) {
+            sleep(second * 1000);
+            refresh();
+        }
+    }
+
+    /**
      * <p>Производится закрытие текущей вкладки</p>
      */
     @И("выполнено закрытие текущей вкладки")
