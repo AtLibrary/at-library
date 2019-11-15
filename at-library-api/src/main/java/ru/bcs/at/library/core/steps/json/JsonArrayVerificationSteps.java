@@ -6,11 +6,8 @@ import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 
-import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault;
