@@ -79,6 +79,9 @@ public class Utils {
      * @return Проверяет, является ли переданная в качестве аргумента строка валидным JSON
      */
     public static boolean isJSONValid(String jsonInString) {
+        if (jsonInString.isEmpty()) {
+            return false;
+        }
         try {
             final ObjectMapper mapper = new ObjectMapper();
             mapper.readTree(jsonInString);

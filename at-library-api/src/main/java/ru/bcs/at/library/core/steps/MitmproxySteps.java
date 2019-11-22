@@ -16,22 +16,60 @@ public class MitmproxySteps {
     private RequestSteps requestSteps = new RequestSteps();
     private static final String MITM_CLIENT_HOST = System.getProperty("mitmClientHost", tryLoadProperty("mitmClientHost"));
     private static final String MITM_CLIENT_PORT = System.getProperty("mitmClientPort", tryLoadProperty("mitmClientPort"));
+    private static final String MITM_CLIENT_PATH = System.getProperty("mitmClientPath", tryLoadProperty("mitmClientPath"));
     private static final String TEMP_RESPONSE = "TEMP_RESPONSE";
 
-    @И("^получено последнее http-сообщение на url, содержащий \"([^\"]+)\"$")
-    public void getMessage(String key) {
-        getMessage(key, null);
+    @И("^получено последнее отправленное http-сообщение(?: с ожиданием до (\\d+) секунд|)$")
+    public void getMessage(Integer sec) {
+        getMessage(null, null, sec);
     }
 
-    @И("^получено последнее http-сообщение на url, содержащий \"([^\"]+)\" и сохранено в переменную \"([^\"]+)\"$")
-    public void getMessage(String key, String requestNameVariable) {
+    @И("^получено последнее отправленное http-сообщение на url, содержащий \"([^\"]+)\"(?:, с ожиданием до (\\d+) секунд|)$")
+    public void getMessage(String key, Integer sec) {
+        getMessage(key, null, sec);
+    }
+
+    @И("^получено последнее отправленное http-сообщение на url, содержащий \"([^\"]+)\", и сохранено в переменную \"([^\"]+)\"(?:, с ожиданием до (\\d+) секунд|)$")
+    public void getMessage(String key, String requestNameVariable, Integer sec) {
         if (requestNameVariable == null) {
             requestNameVariable = CoreScenario.CURRENT;
         }
-        requestSteps.sendHttpRequestWithoutParams("GET", format("%s:%s/last", MITM_CLIENT_HOST, MITM_CLIENT_PORT), TEMP_RESPONSE);
+        String requestAddress;
+        if (key != null && !key.isEmpty()) {
+            requestAddress = format("%s:%s%s/last?key=%s", MITM_CLIENT_HOST, MITM_CLIENT_PORT, MITM_CLIENT_PATH, key);
+        } else {
+            requestAddress = format("%s:%s%s/last", MITM_CLIENT_HOST, MITM_CLIENT_PORT, MITM_CLIENT_PATH);
+        }
+
+        if (sec != null) {
+            requestSteps.sendHttpRequestPeriodicallySaveResponseCheckResponseCode(
+                    sec,
+                    1,
+                    "GET",
+                    requestAddress,
+                    200,
+                    TEMP_RESPONSE
+            );
+        } else {
+            requestSteps.sendHttpRequestWithoutParams(
+                    "GET",
+                    requestAddress,
+                    TEMP_RESPONSE
+            );
+        }
 
         Response response = (Response) coreScenario.getVar(TEMP_RESPONSE);
+
         coreScenario.setVar(requestNameVariable, response.body().print());
+    }
+
+    @И("^очищен кэш http-сообщений$")
+    public void cleanMessageCache() {
+        requestSteps.sendHttpRequestWithoutParams(
+                "DELETE",
+                format("%s:%s%s/clean", MITM_CLIENT_HOST, MITM_CLIENT_PORT, MITM_CLIENT_PATH),
+                null
+        );
     }
 
 }

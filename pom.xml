@@ -31,6 +31,8 @@
         <allure.version>2.13.0</allure.version>
         <!--LOMBOK-->
         <lombok.version>1.16.20</lombok.version>
+        <!--JACKSON-->
+        <jackson.version>2.10.1</jackson.version>
         <!--HAMCREST-->
         <hamcrest.version>2.1</hamcrest.version>
         <!--LOG-->
@@ -168,6 +170,22 @@
             <groupId>com.jcraft</groupId>
             <artifactId>jsch</artifactId>
             <version>0.1.55</version>
+        </dependency>
+        <!--JACKSON-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson.version}</version>
         </dependency>
         <!--HAMCREST-->
         <dependency>
