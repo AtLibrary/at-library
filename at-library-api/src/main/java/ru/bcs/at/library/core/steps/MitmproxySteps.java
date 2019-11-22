@@ -48,13 +48,13 @@ public class MitmproxySteps {
                     "GET",
                     requestAddress,
                     200,
-                    TEMP_RESPONSE
+                    CoreScenario.TEMP_RESPONSE
             );
         } else {
             requestSteps.sendHttpRequestWithoutParams(
                     "GET",
                     requestAddress,
-                    TEMP_RESPONSE
+                    CoreScenario.TEMP_RESPONSE
             );
         }
         requestSteps.sendHttpRequestWithoutParams("GET", format("%s:%s/last", MITM_CLIENT_HOST, MITM_CLIENT_PORT), CoreScenario.TEMP_RESPONSE);
