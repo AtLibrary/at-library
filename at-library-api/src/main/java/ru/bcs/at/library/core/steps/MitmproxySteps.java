@@ -19,17 +19,17 @@ public class MitmproxySteps {
     private static final String MITM_CLIENT_PATH = System.getProperty("mitmClientPath", tryLoadProperty("mitmClientPath"));
     private static final String TEMP_RESPONSE = "TEMP_RESPONSE";
 
-    @И("^получено последнее отправленное http-сообщение(?: с ожиданием до (\\d+) секунд|)$")
+    @И("^из кэша mitmproxy получено последнее отправленное http-сообщение(?: с ожиданием до (\\d+) секунд|)$")
     public void getMessage(Integer sec) {
         getMessage(null, null, sec);
     }
 
-    @И("^получено последнее отправленное http-сообщение на url, содержащий \"([^\"]+)\"(?:, с ожиданием до (\\d+) секунд|)$")
+    @И("^из кэша mitmproxy получено последнее отправленное http-сообщение на url, содержащий \"([^\"]+)\"(?:, с ожиданием до (\\d+) секунд|)$")
     public void getMessage(String key, Integer sec) {
         getMessage(key, null, sec);
     }
 
-    @И("^получено последнее отправленное http-сообщение на url, содержащий \"([^\"]+)\", и сохранено в переменную \"([^\"]+)\"(?:, с ожиданием до (\\d+) секунд|)$")
+    @И("^из кэша mitmproxy получено последнее отправленное http-сообщение на url, содержащий \"([^\"]+)\", и сохранено в переменную \"([^\"]+)\"(?:, с ожиданием до (\\d+) секунд|)$")
     public void getMessage(String key, String requestNameVariable, Integer sec) {
         if (requestNameVariable == null) {
             requestNameVariable = CoreScenario.CURRENT;
@@ -63,7 +63,7 @@ public class MitmproxySteps {
         coreScenario.setVar(requestNameVariable, response.body().print());
     }
 
-    @И("^очищен кэш http-сообщений$")
+    @И("^очищен кэш mitmproxy http-сообщений$")
     public void cleanMessageCache() {
         requestSteps.sendHttpRequestWithoutParams(
                 "DELETE",
