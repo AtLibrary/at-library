@@ -13,11 +13,11 @@ import static ru.bcs.at.library.core.core.helpers.PropertyLoader.tryLoadProperty
 public class MitmproxySteps {
 
     private CoreScenario coreScenario = CoreScenario.getInstance();
-    private RequestSteps requestSteps = new RequestSteps();
+    private RequestSteps requestSteps = RequestSteps.getInstance();
+
     private static final String MITM_CLIENT_HOST = System.getProperty("mitmClientHost", tryLoadProperty("mitmClientHost"));
     private static final String MITM_CLIENT_PORT = System.getProperty("mitmClientPort", tryLoadProperty("mitmClientPort"));
     private static final String MITM_CLIENT_PATH = System.getProperty("mitmClientPath", tryLoadProperty("mitmClientPath"));
-    private static final String TEMP_RESPONSE = "TEMP_RESPONSE";
 
     @И("^из кэша mitmproxy получено последнее отправленное http-сообщение(?: с ожиданием до (\\d+) секунд|)$")
     public void getMessage(Integer sec) {
@@ -57,9 +57,9 @@ public class MitmproxySteps {
                     TEMP_RESPONSE
             );
         }
+        requestSteps.sendHttpRequestWithoutParams("GET", format("%s:%s/last", MITM_CLIENT_HOST, MITM_CLIENT_PORT), CoreScenario.TEMP_RESPONSE);
 
-        Response response = (Response) coreScenario.getVar(TEMP_RESPONSE);
-
+        Response response = (Response) coreScenario.getVar(CoreScenario.TEMP_RESPONSE);
         coreScenario.setVar(requestNameVariable, response.body().print());
     }
 
