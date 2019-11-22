@@ -28,6 +28,7 @@ public final class CoreScenario {
 
     private static CoreScenario instance = new CoreScenario();
     public static final String CURRENT = "CURRENT_VARIABLE";
+    public static final String TEMP_RESPONSE = "TEMP_RESPONSE";
 
     /**
      * Среда прогона тестов, хранит в себе: Cucumber.Scenario,

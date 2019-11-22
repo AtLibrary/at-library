@@ -13,6 +13,7 @@ import io.restassured.path.json.config.JsonPathConfig;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSender;
 import io.restassured.specification.RequestSpecification;
+import lombok.Getter;
 import ru.bcs.at.library.core.core.helpers.PropertyLoader;
 import ru.bcs.at.library.core.cucumber.ScopedVariables;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
@@ -30,6 +31,9 @@ import static ru.bcs.at.library.core.core.helpers.PropertyLoader.*;
  * <h1>Шаги по формированию и отправки запроса</h1>
  */
 public class RequestSteps {
+
+    @Getter
+    private static RequestSteps instance = new RequestSteps();
 
     private static final String REQUEST_URL = "выполнен ((?:GET|PUT|POST|DELETE|HEAD|TRACE|OPTIONS|PATCH)) запрос на URL \"([^\"]+)\"";
     public static int requestRetries = Integer.parseInt(System.getProperty("request.retries", "1"));
