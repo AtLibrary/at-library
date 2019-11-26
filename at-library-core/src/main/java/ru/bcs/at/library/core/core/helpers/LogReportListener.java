@@ -7,8 +7,8 @@ import io.restassured.RestAssured;
 import io.restassured.filter.Filter;
 import lombok.extern.log4j.Log4j2;
 import ru.bcs.at.library.core.core.log.Log4jRestAssuredFilter;
-import ru.bcs.at.library.core.core.reportportal.ReportPortalRestAssuredFilter;
-import ru.bcs.at.library.core.core.reportportal.ReportPortalSelenide;
+//import ru.bcs.at.library.core.core.reportportal.ReportPortalRestAssuredFilter;
+//import ru.bcs.at.library.core.core.reportportal.ReportPortalSelenide;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,8 +41,8 @@ public class LogReportListener {
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide().screenshots(true).savePageSource(true));
         log.debug("Включен слушатель Selenide в Allure");
 
-        SelenideLogger.addListener("RPSelenide", new ReportPortalSelenide().screenshots(true).savePageSource(true));
-        log.debug("Включен слушатель Selenide в Report Portal");
+//        SelenideLogger.addListener("RPSelenide", new ReportPortalSelenide().screenshots(true).savePageSource(true));
+//        log.debug("Включен слушатель Selenide в Report Portal");
     }
 
     private synchronized static void turnListenerRestAssured() {
@@ -53,8 +53,8 @@ public class LogReportListener {
         filters.add(new AllureRestAssured());
         log.debug("Включен слушатель rest-assured в Allure");
 
-        filters.add(new ReportPortalRestAssuredFilter());
-        log.debug("Включен слушатель rest-assured в ReportPortal");
+//        filters.add(new ReportPortalRestAssuredFilter());
+//        log.debug("Включен слушатель rest-assured в ReportPortal");
 
         RestAssured.filters(filters);
     }

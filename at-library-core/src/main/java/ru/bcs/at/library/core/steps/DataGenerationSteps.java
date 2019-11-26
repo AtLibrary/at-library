@@ -10,6 +10,7 @@ import java.util.Random;
 
 import static org.apache.commons.lang3.RandomUtils.nextBoolean;
 import static ru.bcs.at.library.core.steps.OtherSteps.getRandCharSequence;
+
 /**
  * <h1>Шаги генерации тестовых данных</h1>
  */

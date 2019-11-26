@@ -33,6 +33,7 @@ import static com.codeborne.selenide.Browsers.*;
 import static com.codeborne.selenide.Configuration.baseUrl;
 import static com.codeborne.selenide.Configuration.browser;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
+import static org.openqa.selenium.remote.BrowserType.SAFARI;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.tryLoadProperty;
 
 /**

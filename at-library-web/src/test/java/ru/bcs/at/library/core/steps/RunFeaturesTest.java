@@ -11,4 +11,5 @@ import org.junit.runner.RunWith;
         glue = {"ru.bcs"}
 )
 public class RunFeaturesTest {
+
 }
