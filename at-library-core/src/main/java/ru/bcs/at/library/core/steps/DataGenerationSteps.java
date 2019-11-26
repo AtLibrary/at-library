@@ -54,11 +54,13 @@ public class DataGenerationSteps {
     }
 
     /**
-     * <p>Создает случайную строку, длина которой находится между включающим минимумом и максимум </ p>
+     * <p>Создает случайную строку, которая находится между включающим минимумом и максимум </ p>
      */
     @И("^генерация случайного числа в диапазоне от (\\d+) до (\\d+) и сохранение в переменную \"([^\"]*)\"$")
     public void rRandomNumSequence(int min, int max, String varName) {
-        String numSeq = RandomStringUtils.randomNumeric(min, max);
+        max -= min;
+        long number = (long) (Math.random() * ++max) + min;
+        String numSeq = String.valueOf(number);;
         coreScenario.setVar(varName, numSeq);
         coreScenario.write("Случайное число равно :" + numSeq);
     }

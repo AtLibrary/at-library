@@ -24,8 +24,7 @@ import java.util.regex.Pattern;
 import static com.codeborne.selenide.Selenide.sleep;
 import static java.util.Objects.isNull;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.equalToIgnoringCase;
+import static org.hamcrest.Matchers.*;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.*;
 
 /**
@@ -216,6 +215,28 @@ public class OtherSteps {
         String valueVariable = coreScenario.getVar(variableName).toString();
         new InternetAddress(valueVariable)
                 .validate();
+    }
+
+    /**
+     * <p>Валидация что текст является email-ом</p>
+     */
+    @И("^длина строки переменной \"([^\"]*)\" ((?:больше|меньше|равна)) (\\d+)$")
+    public void checkEmail(String variableName, String condition, int expectedLength) throws AddressException {
+        int actualLength = coreScenario.getVar(variableName).toString().length();
+        switch (condition) {
+            case "больше":{
+                assertThat(actualLength, greaterThan(expectedLength));
+                break;
+            }
+            case "меньше":{
+                assertThat(actualLength, lessThan(expectedLength));
+                break;
+            }
+            case "равна":{
+                assertThat(actualLength, equalTo(expectedLength));
+                break;
+            }
+        }
     }
 
     /**

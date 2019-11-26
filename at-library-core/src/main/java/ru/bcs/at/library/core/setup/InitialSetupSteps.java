@@ -70,8 +70,6 @@ public class InitialSetupSteps {
      */
     @Before
     public void beforeEachTest(Scenario scenario) throws MalformedURLException {
-        LogReportListener.turnOn();
-
         RestAssured.baseURI = System.getProperty("baseURI", tryLoadProperty("baseURI"));
         baseUrl = System.getProperty("baseURI", tryLoadProperty("baseURI"));
 
@@ -81,9 +79,6 @@ public class InitialSetupSteps {
         boolean uiTest =
                 scenario.getSourceTagNames().contains("@web") ||
                         scenario.getSourceTagNames().contains("@mobile");
-        if (uiTest) {
-            new InitialDriver().startUITest(scenario);
-        }
 
         /**
          * Создает окружение(среду) для запуска сценария
@@ -92,6 +87,12 @@ public class InitialSetupSteps {
          * @throws Exception
          */
         coreScenario.setEnvironment(new CoreEnvironment(scenario, uiTest));
+
+        LogReportListener.turnOn();
+
+        if (uiTest) {
+            new InitialDriver().startUITest(scenario);
+        }
     }
 
     /**
