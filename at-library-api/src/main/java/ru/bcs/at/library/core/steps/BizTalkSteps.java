@@ -9,17 +9,17 @@ import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 import java.util.Arrays;
 import java.util.Collections;
 
-import static ru.bcs.at.library.core.core.helpers.PropertyLoader.*;
+import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault;
+import static ru.bcs.at.library.core.core.helpers.PropertyLoader.tryLoadProperty;
 
 /**
  * <h1>Шаги по работе с BizTalk</h1>
  */
 public class BizTalkSteps {
 
+    private static final String BIZTALK_SERVICE_ADDRESS = System.getProperty("bizTalkServiceAddress", tryLoadProperty("bizTalkServiceAddress"));
     private CoreScenario coreScenario = CoreScenario.getInstance();
     private RequestSteps requestSteps = RequestSteps.getInstance();
-
-    private static final String BIZTALK_SERVICE_ADDRESS = System.getProperty("bizTalkServiceAddress", tryLoadProperty("bizTalkServiceAddress"));
 
     /**
      * Отправка запроса в BizTalk</p>

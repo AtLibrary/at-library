@@ -25,7 +25,7 @@ public class DataGenerationSteps {
     public void concatenationString(String text1, String text2, String varName) {
         String text = text1 + text2;
         coreScenario.setVar(varName, text);
-        coreScenario.write("Строка равна :" + text);
+        coreScenario.write("Строка равна: " + text);
     }
 
     /**
@@ -40,7 +40,7 @@ public class DataGenerationSteps {
         }
         String charSeq = getRandCharSequence(seqLength, lang);
         coreScenario.setVar(varName, charSeq);
-        coreScenario.write("Строка случайных символов равна :" + charSeq);
+        coreScenario.write("Строка случайных символов равна: " + charSeq);
     }
 
     /**
@@ -50,7 +50,7 @@ public class DataGenerationSteps {
     public void randomNumSequence(int seqLength, String varName) {
         String numSeq = RandomStringUtils.randomNumeric(seqLength);
         coreScenario.setVar(varName, numSeq);
-        coreScenario.write("Случайное число равно :" + numSeq);
+        coreScenario.write("Случайное число равно: " + numSeq);
     }
 
     /**
@@ -60,9 +60,10 @@ public class DataGenerationSteps {
     public void rRandomNumSequence(int min, int max, String varName) {
         max -= min;
         long number = (long) (Math.random() * ++max) + min;
-        String numSeq = String.valueOf(number);;
+        String numSeq = String.valueOf(number);
+        ;
         coreScenario.setVar(varName, numSeq);
-        coreScenario.write("Случайное число равно :" + numSeq);
+        coreScenario.write("Случайное число равно: " + numSeq);
     }
 
     /**
@@ -72,7 +73,7 @@ public class DataGenerationSteps {
     public void randomBoolean(String varName) {
         String randomString = String.valueOf(nextBoolean());
         coreScenario.setVar(varName, randomString);
-        coreScenario.write("Случайное boolean равно :" + randomString);
+        coreScenario.write("Случайное boolean равно: " + randomString);
     }
 
     /**
@@ -83,7 +84,7 @@ public class DataGenerationSteps {
         int random = new Random().nextInt(list.size());
         String randomString = list.get(random);
         coreScenario.setVar(varName, randomString);
-        coreScenario.write("Строка равна :" + randomString);
+        coreScenario.write("Строка равна: " + randomString);
     }
 
     /**
@@ -93,6 +94,6 @@ public class DataGenerationSteps {
     public void randomEmail(String varName) {
         String randomEmail = MockNeat.secure().emails().val();
         coreScenario.setVar(varName, randomEmail);
-        coreScenario.write("Email равен :" + randomEmail);
+        coreScenario.write("Email равен: " + randomEmail);
     }
 }

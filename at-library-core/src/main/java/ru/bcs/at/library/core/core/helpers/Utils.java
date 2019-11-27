@@ -31,7 +31,7 @@ public class Utils {
      * если формат не передан, определяет формат</p>
      *
      * @param checkingValueString - строка для валидации
-     * @param expectedTextFormat - формат из множества
+     * @param expectedTextFormat  - формат из множества
      * @return Определенный формат
      */
     public static TextFormat defineOrCheckDataFormat(String checkingValueString, TextFormat expectedTextFormat) {
@@ -129,7 +129,7 @@ public class Utils {
     }
 
     /**
-     * @param doc - объектное представление xml
+     * @param doc       - объектное представление xml
      * @param xpathExpr - xpath для поиска
      * @return Производит поиск в xml по переданному xpath, возвращает найденный узел
      */
@@ -147,7 +147,7 @@ public class Utils {
 
     /**
      * @param inputString - строка для поиска соответствий регулярному выражению
-     * @param regex - регулярное выражение для поиска
+     * @param regex       - регулярное выражение для поиска
      * @return Возращает список соответствий по регулярному выражению
      */
     public static List<String> getMatchesByRegex(String inputString, String regex) {

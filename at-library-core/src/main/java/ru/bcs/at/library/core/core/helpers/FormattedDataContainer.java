@@ -55,7 +55,6 @@ public class FormattedDataContainer {
      * <p>Чтение содержимого форматированного текста по path</p>
      *
      * @param path путь к необходимому параметру
-     *
      * @return значение по переданному пути
      */
     public String readValue(String path) {

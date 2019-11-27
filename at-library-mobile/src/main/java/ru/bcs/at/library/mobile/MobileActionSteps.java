@@ -18,7 +18,6 @@ import cucumber.api.java.ru.То;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
@@ -33,7 +32,6 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOf;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault;
 import static ru.bcs.at.library.core.steps.OtherSteps.*;
 import static ru.bcs.at.library.mobile.MobileTestConfig.*;
-import static ru.bcs.at.library.mobile.utils.CustomMethods.swipe;
 
 
 /**

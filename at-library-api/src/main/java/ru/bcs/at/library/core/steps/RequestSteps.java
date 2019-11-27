@@ -25,18 +25,18 @@ import java.util.List;
 
 import static java.lang.String.format;
 import static org.hamcrest.Matchers.is;
-import static ru.bcs.at.library.core.core.helpers.PropertyLoader.*;
+import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault;
+import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadValueFromFileOrVariableOrDefault;
 
 /**
  * <h1>Шаги по формированию и отправки запроса</h1>
  */
 public class RequestSteps {
 
-    @Getter
-    private static RequestSteps instance = new RequestSteps();
-
     private static final String REQUEST_URL = "выполнен ((?:GET|PUT|POST|DELETE|HEAD|TRACE|OPTIONS|PATCH)) запрос на URL \"([^\"]+)\"";
     public static int requestRetries = Integer.parseInt(System.getProperty("request.retries", "1"));
+    @Getter
+    private static RequestSteps instance = new RequestSteps();
     private CoreScenario coreScenario = CoreScenario.getInstance();
 
     /**
@@ -193,17 +193,17 @@ public class RequestSteps {
     /**
      * <p>Отправка http запроса по заданному урлу с параметрами и/или BODY периодично в заданный интервал времени
      * пока ответ не вернет ожидаемый statusCode или закончится время выполнения попыток.
-     *
-     *     Параметры запроса и требуемые параметры ответа в таблице отделяются строкой:
+     * <p>
+     * Параметры запроса и требуемые параметры ответа в таблице отделяются строкой:
      * \ RESPONSE \ \ \
-     *     Например:
+     * Например:
      * \ BODY     \                \ test_text      \   - параметр запроса
      * \ HEADER   \ test_header    \ test_header    \   - параметр запроса
      * \ RESPONSE \                \                \   - строка разделитель
      * \ BODY     \                \ checked_body   \   - параметр ответа
      * \ HEADER   \ checked_header \ checked_header \   - параметр ответа
      * \ COOKIE   \ checked_cookie \ checked_cookie \   - параметр ответа
-     *
+     * <p>
      * Результат сохраняется в заданную переменную</p>
      *
      * @param timeoutSec           время выполнения попыток запроса - таймаут попыток
@@ -218,12 +218,12 @@ public class RequestSteps {
      */
     @И("^в течение (\\d+) секунд каждую (\\d+) " + REQUEST_URL + " с параметрами из таблицы. Ожидается код ответа: (\\d+) с параметрами из таблицы. Полученный ответ сохранен в переменную \"([^\"]+)\"$")
     public void sendHttpRequestPeriodicallySaveResponseCheckResponseParams(int timeoutSec,
-                                                                         int periodSec,
-                                                                         String method,
-                                                                         String address,
-                                                                         int expectedStatusCode,
-                                                                         String responseNameVariable,
-                                                                         DataTable dataTable) {
+                                                                           int periodSec,
+                                                                           String method,
+                                                                           String address,
+                                                                           int expectedStatusCode,
+                                                                           String responseNameVariable,
+                                                                           DataTable dataTable) {
         DataTable respDataTable = null;
         if (dataTable.column(0).indexOf("RESPONSE") != -1) {
             respDataTable = dataTable.subTable(dataTable.column(0).indexOf("RESPONSE") + 1, 0, dataTable.height(), dataTable.width());

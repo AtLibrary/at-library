@@ -29,7 +29,8 @@ import java.net.MalformedURLException;
 import java.util.List;
 import java.util.logging.Level;
 
-import static com.codeborne.selenide.Browsers.*;
+import static com.codeborne.selenide.Browsers.CHROME;
+import static com.codeborne.selenide.Browsers.OPERA;
 import static com.codeborne.selenide.Configuration.baseUrl;
 import static com.codeborne.selenide.Configuration.browser;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
@@ -80,6 +81,10 @@ public class InitialSetupSteps {
                 scenario.getSourceTagNames().contains("@web") ||
                         scenario.getSourceTagNames().contains("@mobile");
 
+        if (uiTest) {
+            new InitialDriver().startUITest(scenario);
+        }
+
         /**
          * Создает окружение(среду) для запуска сценария
          *
@@ -90,9 +95,7 @@ public class InitialSetupSteps {
 
         LogReportListener.turnOn();
 
-        if (uiTest) {
-            new InitialDriver().startUITest(scenario);
-        }
+
     }
 
     /**
@@ -111,7 +114,7 @@ public class InitialSetupSteps {
             }
             Selenide.clearBrowserLocalStorage();
             Selenide.clearBrowserCookies();
-            if(browser.equals(SAFARI)){
+            if (browser.equals(SAFARI)) {
                 getWebDriver().quit();
             }
             getWebDriver().close();

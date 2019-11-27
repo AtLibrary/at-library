@@ -12,6 +12,7 @@
 package ru.bcs.at.library.core.steps;
 
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
 import cucumber.api.java.ru.Если;
 import cucumber.api.java.ru.И;
@@ -63,11 +64,15 @@ public class BrowserSteps {
      *                при этом все ключи переменных в фигурных скобках
      *                меняются на их значения из хранилища coreScenario</p>
      */
+    @И("^совершен переход по ссылке \"([^\"]*)\" в новой вкладке$")
     public void openUrlNewTab(String address) {
         String url = resolveVars(getPropertyOrStringVariableOrValue(address));
 
         ((JavascriptExecutor) WebDriverRunner.getWebDriver())
                 .executeScript("window.open('" + url + "','_blank');");
+
+        int numberThisTab = WebDriverRunner.getWebDriver().getWindowHandles().size() - 1;
+        Selenide.switchTo().window(numberThisTab);
     }
 
     /**
@@ -126,11 +131,14 @@ public class BrowserSteps {
     }
 
     /**
-     * <p>Производится закрытие текущей вкладки</p>
+     * <p>Производится закрытие текущей вкладки и возвращает на первую</p>
      */
     @И("выполнено закрытие текущей вкладки")
     public void closeCurrentTab() {
         getWebDriver().close();
+        if (WebDriverRunner.getWebDriver().getWindowHandles().size() > 0) {
+            Selenide.switchTo().window(0);
+        }
     }
 
     /**

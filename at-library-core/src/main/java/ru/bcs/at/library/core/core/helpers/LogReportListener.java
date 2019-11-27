@@ -16,10 +16,10 @@ import java.util.List;
 
 public class LogReportListener {
 
+    private static boolean turn = false;
+
     private LogReportListener() {
     }
-
-    private static boolean turn = false;
 
     /**
      * Добавляет фильтры логирования.

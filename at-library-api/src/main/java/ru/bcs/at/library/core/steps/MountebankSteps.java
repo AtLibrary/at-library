@@ -93,7 +93,7 @@ public class MountebankSteps {
     /**
      * <p>Создание mountebank-заглушки с указанным ответом на стандартном порте</p>
      *
-     * @param response   ответ на любой запрос новой заглушки заглушки
+     * @param response ответ на любой запрос новой заглушки заглушки
      */
     @И("^разворачивается mb заглушка с ответом из файла \"([^\"]+)\"$")
     public void deployImposterWithResponse(String response) {
