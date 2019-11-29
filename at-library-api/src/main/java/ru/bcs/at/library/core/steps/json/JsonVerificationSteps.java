@@ -13,7 +13,7 @@ import org.hamcrest.Matchers;
 import org.junit.Assert;
 import ru.bcs.at.library.core.cucumber.ScopedVariables;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
-
+import org.json.XML;
 import java.util.List;
 
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault;
