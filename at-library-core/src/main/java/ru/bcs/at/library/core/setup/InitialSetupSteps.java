@@ -29,8 +29,6 @@ import java.net.MalformedURLException;
 import java.util.List;
 import java.util.logging.Level;
 
-import static com.codeborne.selenide.Browsers.CHROME;
-import static com.codeborne.selenide.Browsers.OPERA;
 import static com.codeborne.selenide.Configuration.baseUrl;
 import static com.codeborne.selenide.Configuration.browser;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
@@ -109,15 +107,14 @@ public class InitialSetupSteps {
         coreScenario.removeEnvironment();
 
         if (scenario.getSourceTagNames().contains("@web")) {
-            if (browser.equals(CHROME) || browser.equals(OPERA)) {
-                attachmentWebDriverLogs();
-            }
-            Selenide.clearBrowserLocalStorage();
-            Selenide.clearBrowserCookies();
-            if (browser.equals(SAFARI)) {
+//            if (browser.equals(CHROME) || browser.equals(OPERA)) {
+//                attachmentWebDriverLogs();
+//            }
+             if (browser.equals(SAFARI)) {
                 getWebDriver().quit();
             }
-            getWebDriver().close();
+            Selenide.close();
+//            getWebDriver().close();
         }
         if (scenario.getSourceTagNames().contains("@mobile")) {
             AppiumDriver appiumDriver = (AppiumDriver) getWebDriver();

@@ -273,7 +273,8 @@ public class OtherSteps {
      */
     @И("^шаблон \"([^\"]*)\" заполнен данными из таблицы и сохранён в переменную \"([^\"]*)\"$")
     public void fillTemplate(String templateName, String varName, DataTable table) {
-        String template = loadValueFromFileOrPropertyOrVariableOrDefault(templateName);
+        String template = tryLoadProperty(templateName);
+        template = loadValueFromFileOrVariableOrDefault(template);
         boolean error = false;
         for (List<String> list : table.asLists()) {
             String regexp = loadValueFromFileOrPropertyOrVariableOrDefault(list.get(0));
