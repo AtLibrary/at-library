@@ -7,7 +7,7 @@
     <groupId>ru.bcs</groupId>
     <artifactId>at-library</artifactId>
     <packaging>pom</packaging>
-    <version>22.11.2019</version>
+    <version>30.11.2019</version>
 
     <modules>
         <module>at-library-core</module>
@@ -26,7 +26,7 @@
         <io.appium.java-client.version>7.0.0</io.appium.java-client.version>
         <!--CUCUMBER-->
         <cucumber.version>4.3.0</cucumber.version>
-        <agent-java-cucumber4.version>4.0.2-BCS</agent-java-cucumber4.version>
+<!--        <agent-java-cucumber4.version>4.0.2-BCS</agent-java-cucumber4.version>-->
         <!--ОТЧЕТ ALLURE-->
         <allure.version>2.13.0</allure.version>
         <!--LOMBOK-->
@@ -57,14 +57,21 @@
 
     <repositories>
         <repository>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <id>bintray-epam-reportportal</id>
-            <name>bintray</name>
-            <url>http://dl.bintray.com/epam/reportportal</url>
+            <id>jcenter</id>
+            <url>https://jcenter.bintray.com/</url>
         </repository>
     </repositories>
+
+<!--    <repositories>-->
+<!--        <repository>-->
+<!--            <snapshots>-->
+<!--                <enabled>false</enabled>-->
+<!--            </snapshots>-->
+<!--            <id>bintray-epam-reportportal</id>-->
+<!--            <name>bintray</name>-->
+<!--            <url>http://dl.bintray.com/epam/reportportal</url>-->
+<!--        </repository>-->
+<!--    </repositories>-->
 
     <dependencies>
         <!--MOBILE ТЕСТИРОВАНИЕ-->
@@ -127,12 +134,12 @@
             <artifactId>allure-junit4</artifactId>
             <version>${allure.version}</version>
         </dependency>
-        <!--ОТЧЕТ REPORT PORTAL-->
-        <dependency>
-            <groupId>com.epam.reportportal</groupId>
-            <artifactId>agent-java-cucumber4</artifactId>
-            <version>${agent-java-cucumber4.version}</version>
-        </dependency>
+<!--        &lt;!&ndash;ОТЧЕТ REPORT PORTAL&ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.epam.reportportal</groupId>-->
+<!--            <artifactId>agent-java-cucumber4</artifactId>-->
+<!--            <version>${agent-java-cucumber4.version}</version>-->
+<!--        </dependency>-->
         <!--LOMBOK-->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -194,10 +201,11 @@
             <version>${hamcrest.version}</version>
         </dependency>
         <!--МОКИРОВАНИЕ-->
+        <!-- https://mvnrepository.com/artifact/net.andreinc.mockneat/mockneat -->
         <dependency>
             <groupId>net.andreinc.mockneat</groupId>
             <artifactId>mockneat</artifactId>
-            <version>0.1.7</version>
+            <version>0.3.7</version>
         </dependency>
         <!--ПРОКСИРОВАНИЕ-->
         <dependency>
