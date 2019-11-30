@@ -30,6 +30,7 @@ import static com.codeborne.selenide.WebDriverRunner.url;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
+import static org.junit.Assert.*;
 import static ru.bcs.at.library.core.cucumber.ScopedVariables.resolveVars;
 import static ru.bcs.at.library.core.steps.OtherSteps.getPropertyOrStringVariableOrValue;
 
@@ -148,6 +149,7 @@ public class BrowserSteps {
      */
     @И("^выполнено переключение на вкладку с заголовком \"([^\"]*)\"$")
     public void switchToTheTabWithTitle(String title) {
+        title = getPropertyOrStringVariableOrValue(title);
         switchTo().window(title);
         checkPageTitle(title);
     }
@@ -163,7 +165,7 @@ public class BrowserSteps {
         expectedTitle = getPropertyOrStringVariableOrValue(expectedTitle);
         String actualTitle = "";
         int sleepTime = 100;
-        for (int time = 0; time < Configuration.timeout; time += 100) {
+        for (int time = 0; time < Configuration.timeout; time += sleepTime) {
             actualTitle = title();
             if (actualTitle.toLowerCase().equals(expectedTitle.toLowerCase())) {
                 return;
@@ -231,21 +233,36 @@ public class BrowserSteps {
      */
     @И("^cookies приложения очищены$")
     public void deleteCookies() {
-        clearBrowserCookies();
+        int sleepTime = 100;
+        for (int time = 0; time < Configuration.timeout; time += sleepTime) {
+            sleep(sleepTime);
+            if (getWebDriver().manage().getCookies().size() != 0) {
+                clearBrowserCookies();
+            } else {
+                return;
+            }
+        }
     }
 
     /**
      * <p>Поиск cookie по имени.
      * Сохранение cookie в переменную для дальнейшего использования</p>
      *
-     * @param nameCookie   имя cookie
+     * @param cookieName   имя cookie
      * @param variableName имя переменной
      */
-    @И("^cookie с именем \"([^\"]*)\" сохранена в переменную \"([^\"]*)\"$")
-    public void saveCookieToVar(String nameCookie, String variableName) {
-        String cookieName = resolveVars(nameCookie);
-        Cookie var = getWebDriver().manage().getCookieNamed(cookieName);
-        coreScenario.setVar(variableName, var);
+    @И("^содержимое cookie с именем \"([^\"]*)\" сохранена в переменную \"([^\"]*)\"$")
+    public void saveCookieToVar(String cookieName, String variableName) {
+        int sleepTime = 100;
+        for (int time = 0; time < Configuration.timeout; time += sleepTime) {
+            Cookie cookie = getWebDriver().manage().getCookieNamed(cookieName);
+            if (cookie != null) {
+                coreScenario.setVar(variableName, cookie.getValue());
+                return;
+            }
+            sleep(sleepTime);
+        }
+        fail("Cookie c именем: " + cookieName + " не найдена");
     }
 
     /**
@@ -271,6 +288,24 @@ public class BrowserSteps {
         String nameCookie = resolveVars(cookieName);
         String valueCookie = resolveVars(cookieValue);
         getWebDriver().manage().addCookie(new Cookie(nameCookie, valueCookie));
+    }
+
+    /**
+     * <p>Проверка что cookie нет на странице</p>
+     *
+     * @param cookieName имя cookie
+     */
+    @И("^на странице нет cookie с именем \"([^\"]*)\"$")
+    public void notCookie(String cookieName) {
+        int sleepTime = 100;
+        Cookie cookie = null;
+        for (int time = 0; time < Configuration.timeout; time += sleepTime) {
+            cookie = getWebDriver().manage().getCookieNamed(cookieName);
+            if (cookie != null) {
+                sleep(sleepTime);
+            }
+        }
+        assertNull("Cookie: " + cookie + " найдена", cookie);
     }
 
     private String nextWindowHandle() {

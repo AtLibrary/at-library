@@ -5,7 +5,7 @@
     <parent>
         <artifactId>at-library</artifactId>
         <groupId>ru.bcs</groupId>
-        <version>22.11.2019</version>
+        <version>30.11.2019</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -15,7 +15,7 @@
         <dependency>
             <groupId>ru.bcs</groupId>
             <artifactId>at-library-core</artifactId>
-            <version>22.11.2019</version>
+            <version>30.11.2019</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
@@ -45,10 +45,10 @@
                     <argLine>
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/1.9.1/aspectjweaver-1.9.1.jar"
                         -Dselenide.browser="chrome"
-                        -Dselenide.remote=http://test:test-password@selenoid.t-global.bcs:4444/wd/hub/
-                        -Dproxy=172.18.62.68:8080
-                        -Dcucumber.options="
-                        --plugin io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm"
+<!--                        -Dselenide.remote=http://test:test-password@selenoid.t-global.bcs:4444/wd/hub/-->
+<!--                        -Dproxy=172.18.62.68:8080-->
+<!--                        -Dcucumber.options="-->
+<!--                        &#45;&#45;plugin io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm"-->
                     </argLine>
                 </configuration>
                 <dependencies>

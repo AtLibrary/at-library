@@ -67,6 +67,8 @@ public class WebActionSteps {
         coreScenario.write(" url = " + url);
         ((JavascriptExecutor) WebDriverRunner.getWebDriver())
                 .executeScript("window.open('" + url + "','_blank');");
+        int numberThisTab = WebDriverRunner.getWebDriver().getWindowHandles().size() - 1;
+        Selenide.switchTo().window(numberThisTab);
         loadPage(pageName);
     }
 
@@ -138,7 +140,7 @@ public class WebActionSteps {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
         try {
             element.click();
-        } catch (Exception e) {
+        } catch (Throwable e) {
             element.parent().click();
         }
     }
@@ -148,8 +150,8 @@ public class WebActionSteps {
      */
     @И("^выполнено нажатие на клавиатуре \"([^\"]*)\"$")
     public void pushButtonOnKeyboard(String buttonName) {
-        Keys key = Keys.valueOf(buttonName.toUpperCase());
-        switchTo().activeElement().sendKeys(key);
+        switchTo().activeElement()
+                .sendKeys(getKeyOrCharacter(buttonName));
     }
 
     /**
