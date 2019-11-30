@@ -7,8 +7,8 @@ import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 import ru.bcs.at.mobile.example.page.HomePage;
 
 import static ru.bcs.at.library.core.steps.OtherSteps.getPropertyOrStringVariableOrValue;
-import static ru.bcs.at.library.mobile.MobileTestConfig.driverWait;
-import static ru.bcs.at.library.mobile.MobileTestConfig.getWebElementInCurrentPage;
+import static ru.bcs.at.library.mobile.utils.MobileTestConfig.driverWait;
+import static ru.bcs.at.library.mobile.utils.MobileTestConfig.getWebElementInCurrentPage;
 
 public class HomePageSteps {
     private CoreScenario coreScenario = CoreScenario.getInstance();

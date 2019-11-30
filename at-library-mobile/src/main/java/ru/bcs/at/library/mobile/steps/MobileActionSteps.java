@@ -9,7 +9,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ru.bcs.at.library.mobile;
+package ru.bcs.at.library.mobile.steps;
 
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
@@ -23,6 +23,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 import ru.bcs.at.library.core.setup.AtCoreConfig;
 import ru.bcs.at.library.mobile.utils.CustomMethods;
+import ru.bcs.at.library.mobile.utils.MobileTestConfig;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -31,7 +32,7 @@ import static com.codeborne.selenide.Selenide.sleep;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOf;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault;
 import static ru.bcs.at.library.core.steps.OtherSteps.*;
-import static ru.bcs.at.library.mobile.MobileTestConfig.*;
+import static ru.bcs.at.library.mobile.utils.MobileTestConfig.*;
 
 
 /**

@@ -1,4 +1,4 @@
-package ru.bcs.at.library.mobile;
+package ru.bcs.at.library.mobile.utils;
 
 import org.junit.Assert;
 import org.openqa.selenium.OutputType;

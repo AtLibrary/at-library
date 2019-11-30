@@ -1,4 +1,4 @@
-package ru.bcs.at.library.mobile;
+package ru.bcs.at.library.mobile.utils;
 
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;

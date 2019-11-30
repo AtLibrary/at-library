@@ -9,20 +9,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ru.bcs.at.library.mobile;
+package ru.bcs.at.library.mobile.steps;
 
 import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.То;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
+import ru.bcs.at.library.mobile.utils.AssertMobile;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 import static ru.bcs.at.library.core.cucumber.api.CoreScenario.sleep;
 import static ru.bcs.at.library.core.steps.OtherSteps.getPropertyOrStringVariableOrValue;
-import static ru.bcs.at.library.mobile.MobileTestConfig.*;
+import static ru.bcs.at.library.mobile.utils.MobileTestConfig.*;
 
 /**
  * <h1>MOBILE шаги</h1>
