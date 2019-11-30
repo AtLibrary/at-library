@@ -1,9 +1,10 @@
 # language: ru
 @all
 @api
-Функционал: Создание портфеля
+@unit
+Функционал: RequestSteps
 
-  Сценарий: Получение token
+  Сценарий: выполнен ((?:GET|PUT|POST|DELETE|HEAD|TRACE|OPTIONS|PATCH)) запрос на URL "([^"]+)" . Полученный ответ сохранен в переменную "([^"]+)
     Когда выполнен GET запрос на URL "url.token" с headers и parameters из таблицы. Полученный ответ сохранен в переменную "token_response"
       | HEADER         | Content-Type  | application/x-www-form-urlencoded |
       | FORM_PARAMETER | grant_type    | grant_type                        |
