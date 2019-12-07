@@ -1,5 +1,5 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License$");
+ * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  * <p>http://www.apache.org/licenses/LICENSE-2.0
@@ -204,7 +204,7 @@ public class BrowserSteps {
     /**
      * <p>Разворачивает окно с браузером на весь экран</p>
      */
-    @Если("окно развернуто на весь экран")
+    @И("^окно развернуто на весь экран$")
     public void expandWindowToFullScreen() {
         getWebDriver().manage().window().maximize();
     }
@@ -262,7 +262,7 @@ public class BrowserSteps {
             }
             sleep(sleepTime);
         }
-        fail("Cookie c именем: " + cookieName + " не найдена$");
+        fail("Cookie c именем: " + cookieName + " не найдена");
     }
 
     /**
@@ -283,7 +283,7 @@ public class BrowserSteps {
      * @param cookieName  имя cookie
      * @param cookieValue значение cookie
      */
-    @И("^^добавлена cookie с именем \"([^\"]*)\" и значением \"([^\"]*)\"$")
+    @И("^добавлена cookie с именем \"([^\"]*)\" и значением \"([^\"]*)\"$")
     public void replaceCookie(String cookieName, String cookieValue) {
         String nameCookie = resolveVars(cookieName);
         String valueCookie = resolveVars(cookieValue);
