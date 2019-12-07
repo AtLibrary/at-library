@@ -11,8 +11,8 @@
  */
 package ru.bcs.at.library.mobile.steps;
 
-import cucumber.api.java.ru.И;
-import cucumber.api.java.ru.То;
+import io.cucumber.java.ru.И;
+import io.cucumber.java.ru.То;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;

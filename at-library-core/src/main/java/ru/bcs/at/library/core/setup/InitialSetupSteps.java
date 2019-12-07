@@ -110,7 +110,7 @@ public class InitialSetupSteps {
 //            if (browser.equals(CHROME) || browser.equals(OPERA)) {
 //                attachmentWebDriverLogs();
 //            }
-             if (browser.equals(SAFARI)) {
+            if (browser.equals(SAFARI)) {
                 getWebDriver().quit();
             }
             Selenide.close();

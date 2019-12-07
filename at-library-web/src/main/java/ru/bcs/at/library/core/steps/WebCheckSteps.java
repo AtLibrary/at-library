@@ -1,8 +1,8 @@
 package ru.bcs.at.library.core.steps;
 
 import com.codeborne.selenide.SelenideElement;
-import cucumber.api.java.ru.И;
-import cucumber.api.java.ru.То;
+import io.cucumber.java.ru.И;
+import io.cucumber.java.ru.То;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 
 import java.io.File;
@@ -38,7 +38,10 @@ public class WebCheckSteps {
     @И("^(?:кнопка|ссылка|поле|блок|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" отображается на странице$")
     public void elemIsPresentedOnPage(String elementName) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
-        element.shouldHave(appear);
+        element.shouldHave(
+                appear
+                        .because("Элемент: '" + "'не отображается на странице")
+        );
     }
 
     /**
@@ -66,7 +69,9 @@ public class WebCheckSteps {
     @И("^ожидается исчезновение (?:кнопки|ссылки|поля|блока|чекбокса|радиокнопи|текста|элемента) \"([^\"]*)\"")
     public void elemDisappered(String elementName) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
-        element.shouldHave(disappears);
+        element.shouldHave(disappears
+                .because("Элемент: '" + elementName + "' не должен отображатся на странице")
+        );
     }
 
     /**

@@ -12,7 +12,6 @@
     <artifactId>at-library-core</artifactId>
 
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/jcifs/jcifs -->
         <dependency>
             <groupId>jcifs</groupId>
             <artifactId>jcifs</artifactId>

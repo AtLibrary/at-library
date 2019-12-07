@@ -1,7 +1,7 @@
 package ru.bcs.at.library.core.steps;
 
-import cucumber.api.java.ru.И;
 import io.cucumber.datatable.DataTable;
+import io.cucumber.java.ru.И;
 import io.restassured.response.Response;
 import org.hamcrest.Matchers;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;

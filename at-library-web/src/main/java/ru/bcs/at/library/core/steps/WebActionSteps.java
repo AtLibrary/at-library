@@ -4,8 +4,8 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
-import cucumber.api.java.ru.И;
-import cucumber.api.java.ru.То;
+import io.cucumber.java.ru.И;
+import io.cucumber.java.ru.То;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -50,9 +50,9 @@ public class WebActionSteps {
      */
     @И("^совершен переход на страницу \"([^\"]*)\" по ссылке \"([^\"]*)\"$")
     public void goToSelectedPageByLink(String pageName, String urlOrName) {
-        String address = loadProperty(urlOrName, resolveVars(urlOrName));
-        coreScenario.write(" url = " + address);
-        open(address);
+        String url = resolveVars(getPropertyOrStringVariableOrValue(urlOrName));
+        coreScenario.write(" url = " + url);
+        open(url);
         loadPage(pageName);
     }
 

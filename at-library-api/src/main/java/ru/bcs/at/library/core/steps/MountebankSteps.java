@@ -11,7 +11,7 @@
  */
 package ru.bcs.at.library.core.steps;
 
-import cucumber.api.java.ru.И;
+import io.cucumber.java.ru.И;
 import lombok.extern.log4j.Log4j2;
 import org.json.simple.parser.ParseException;
 import org.junit.Assert;

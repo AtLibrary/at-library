@@ -1,5 +1,5 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License");
+ * Licensed under the Apache License, Version 2.0 (the "License$");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  * <p>http://www.apache.org/licenses/LICENSE-2.0
@@ -14,8 +14,8 @@ package ru.bcs.at.library.core.steps;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
-import cucumber.api.java.ru.Если;
-import cucumber.api.java.ru.И;
+import io.cucumber.java.ru.Если;
+import io.cucumber.java.ru.И;
 import lombok.extern.log4j.Log4j2;
 import org.hamcrest.Matchers;
 import org.openqa.selenium.*;
@@ -105,7 +105,7 @@ public class BrowserSteps {
     /**
      * <p>Переключение на следующую вкладку браузера</p>
      */
-    @И("выполнено переключение на следующую вкладку")
+    @И("^выполнено переключение на следующую вкладку$")
     public void switchToTheNextTab() {
         String nextWindowHandle = nextWindowHandle();
         getWebDriver().switchTo().window(nextWindowHandle);
@@ -134,7 +134,7 @@ public class BrowserSteps {
     /**
      * <p>Производится закрытие текущей вкладки и возвращает на первую</p>
      */
-    @И("выполнено закрытие текущей вкладки")
+    @И("^выполнено закрытие текущей вкладки$")
     public void closeCurrentTab() {
         getWebDriver().close();
         if (WebDriverRunner.getWebDriver().getWindowHandles().size() > 0) {
@@ -204,7 +204,7 @@ public class BrowserSteps {
     /**
      * <p>Разворачивает окно с браузером на весь экран</p>
      */
-    @Если("^окно развернуто на весь экран$")
+    @Если("окно развернуто на весь экран")
     public void expandWindowToFullScreen() {
         getWebDriver().manage().window().maximize();
     }
@@ -262,7 +262,7 @@ public class BrowserSteps {
             }
             sleep(sleepTime);
         }
-        fail("Cookie c именем: " + cookieName + " не найдена");
+        fail("Cookie c именем: " + cookieName + " не найдена$");
     }
 
     /**
@@ -283,7 +283,7 @@ public class BrowserSteps {
      * @param cookieName  имя cookie
      * @param cookieValue значение cookie
      */
-    @И("^добавлена cookie с именем \"([^\"]*)\" и значением \"([^\"]*)\"$")
+    @И("^^добавлена cookie с именем \"([^\"]*)\" и значением \"([^\"]*)\"$")
     public void replaceCookie(String cookieName, String cookieValue) {
         String nameCookie = resolveVars(cookieName);
         String valueCookie = resolveVars(cookieValue);

@@ -1,4 +1,4 @@
-package ru.bcs.at.library.core.steps.steps;
+package ru.bcs.at.library.core.steps.page;
 
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.support.FindBy;

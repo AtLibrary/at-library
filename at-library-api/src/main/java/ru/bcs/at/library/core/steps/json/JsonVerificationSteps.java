@@ -2,8 +2,8 @@ package ru.bcs.at.library.core.steps.json;
 
 import com.google.gson.JsonSyntaxException;
 import com.jayway.jsonpath.JsonPath;
-import cucumber.api.java.ru.И;
 import io.cucumber.datatable.DataTable;
+import io.cucumber.java.ru.И;
 import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.response.Response;
 import net.minidev.json.JSONObject;
