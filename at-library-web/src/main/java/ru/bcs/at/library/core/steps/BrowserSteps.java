@@ -14,7 +14,6 @@ package ru.bcs.at.library.core.steps;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
-import io.cucumber.java.ru.Если;
 import io.cucumber.java.ru.И;
 import lombok.extern.log4j.Log4j2;
 import org.hamcrest.Matchers;
@@ -30,7 +29,8 @@ import static com.codeborne.selenide.WebDriverRunner.url;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 import static ru.bcs.at.library.core.cucumber.ScopedVariables.resolveVars;
 import static ru.bcs.at.library.core.steps.OtherSteps.getPropertyOrStringVariableOrValue;
 
@@ -85,8 +85,9 @@ public class BrowserSteps {
     @И("^текущий URL равен \"([^\"]*)\"$")
     public void checkCurrentURL(String url) {
         String currentUrl = url();
+        String baseURL = Configuration.baseUrl;
         String expectedUrl = resolveVars(getPropertyOrStringVariableOrValue(url));
-        assertThat("Текущий URL не совпадает с ожидаемым", currentUrl, is(expectedUrl));
+        assertThat("Текущий URL не совпадает с ожидаемым", currentUrl, is(baseURL + expectedUrl));
     }
 
     /**
@@ -98,8 +99,9 @@ public class BrowserSteps {
     @И("^текущий URL не равен \"([^\"]*)\"$")
     public void checkCurrentURLIsNotEquals(String url) {
         String currentUrl = url();
+        String baseURL = Configuration.baseUrl;
         String expectedUrl = resolveVars(getPropertyOrStringVariableOrValue(url));
-        assertThat("Текущий URL совпадает с ожидаемым", currentUrl, Matchers.not(expectedUrl));
+        assertThat("Текущий URL совпадает с ожидаемым", currentUrl, Matchers.not(baseURL + expectedUrl));
     }
 
     /**
