@@ -13,8 +13,8 @@ package ru.bcs.at.library.mobile.steps;
 
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
-import io.cucumber.java.ru.И;
-import io.cucumber.java.ru.То;
+import cucumber.api.java.ru.И;
+import cucumber.api.java.ru.То;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;

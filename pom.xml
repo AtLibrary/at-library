@@ -7,7 +7,7 @@
     <groupId>ru.bcs</groupId>
     <artifactId>at-library</artifactId>
     <packaging>pom</packaging>
-    <version>30.11.2019</version>
+    <version>12.12.2019</version>
 
     <modules>
         <module>at-library-core</module>
@@ -25,7 +25,7 @@
         <!--MOBILE ТЕСТИРОВАНИЕ-->
         <io.appium.java-client.version>7.0.0</io.appium.java-client.version>
         <!--CUCUMBER-->
-        <cucumber.version>4.8.0</cucumber.version>
+        <cucumber.version>4.3.0</cucumber.version>
         <!--        <agent-java-cucumber4.version>4.0.2-BCS</agent-java-cucumber4.version>-->
         <!--ОТЧЕТ ALLURE-->
         <allure.version>2.13.0</allure.version>

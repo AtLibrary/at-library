@@ -1,6 +1,6 @@
 package ru.bcs.at.library.core.steps;
 
-import io.cucumber.java.ru.И;
+import cucumber.api.java.ru.И;
 import net.andreinc.mockneat.MockNeat;
 import org.apache.commons.lang3.RandomStringUtils;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;

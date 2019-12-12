@@ -3,7 +3,7 @@ package ru.bcs.at.library.core.steps;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import io.cucumber.datatable.DataTable;
-import io.cucumber.java.ru.И;
+import cucumber.api.java.ru.И;
 import io.restassured.RestAssured;
 import io.restassured.config.JsonConfig;
 import io.restassured.config.RestAssuredConfig;

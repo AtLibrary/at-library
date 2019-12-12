@@ -1,8 +1,8 @@
 package ru.bcs.at.library.core.steps;
 
 import io.cucumber.datatable.DataTable;
-import io.cucumber.java.ru.И;
-import io.cucumber.java.ru.То;
+import cucumber.api.java.ru.И;
+import cucumber.api.java.ru.То;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;

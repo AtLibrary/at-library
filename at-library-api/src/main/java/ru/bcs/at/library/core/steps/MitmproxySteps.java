@@ -1,6 +1,6 @@
 package ru.bcs.at.library.core.steps;
 
-import io.cucumber.java.ru.И;
+import cucumber.api.java.ru.И;
 import io.restassured.response.Response;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 

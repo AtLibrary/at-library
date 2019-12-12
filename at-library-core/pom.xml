@@ -5,7 +5,7 @@
     <parent>
         <artifactId>at-library</artifactId>
         <groupId>ru.bcs</groupId>
-        <version>30.11.2019</version>
+        <version>12.12.2019</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 

@@ -1,8 +1,8 @@
 package ru.bcs.at.library.core.steps;
 
 import com.codeborne.selenide.SelenideElement;
-import io.cucumber.java.ru.И;
-import io.cucumber.java.ru.То;
+import cucumber.api.java.ru.И;
+import cucumber.api.java.ru.То;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 
 import java.io.File;

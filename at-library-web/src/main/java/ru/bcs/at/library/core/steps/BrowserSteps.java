@@ -14,7 +14,7 @@ package ru.bcs.at.library.core.steps;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
-import io.cucumber.java.ru.И;
+import cucumber.api.java.ru.И;
 import lombok.extern.log4j.Log4j2;
 import org.hamcrest.Matchers;
 import org.openqa.selenium.*;
@@ -31,6 +31,8 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
+import static ru.bcs.at.library.core.core.helpers.PropertyLoader.getPropertyOrValue;
+import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadValueFromFileOrVariableOrDefault;
 import static ru.bcs.at.library.core.cucumber.ScopedVariables.resolveVars;
 import static ru.bcs.at.library.core.steps.OtherSteps.getPropertyOrStringVariableOrValue;
 
@@ -79,29 +81,57 @@ public class BrowserSteps {
     /**
      * <p>Проверка, что текущий URL совпадает с ожидаемым
      *
-     * @param url (берется из property / переменной, если такая переменная не найдена,
-     *            то берется переданное значение)</p>
+     * @param hardcodeUrl (берется из property / переменной, если такая переменная не найдена,
+     *                    то берется переданное значение)</p>
      */
     @И("^текущий URL равен \"([^\"]*)\"$")
-    public void checkCurrentURL(String url) {
+    public void checkCurrentURL(String hardcodeUrl) {
+//TODO перписать
+        String url;
+
         String currentUrl = url();
-        String baseURL = Configuration.baseUrl;
-        String expectedUrl = resolveVars(getPropertyOrStringVariableOrValue(url));
-        assertThat("Текущий URL не совпадает с ожидаемым", currentUrl, is(baseURL + expectedUrl));
+        hardcodeUrl = getPropertyOrValue(hardcodeUrl);
+        String propertyUrl = getPropertyOrValue(hardcodeUrl);
+        if (!propertyUrl.contains("http")) {
+            propertyUrl = Configuration.baseUrl + propertyUrl;
+        }
+        String variableUrl = loadValueFromFileOrVariableOrDefault(hardcodeUrl);
+
+        if (variableUrl.contains("http")) {
+            url = variableUrl;
+        } else {
+            url = propertyUrl;
+        }
+
+        assertThat("Текущий URL не совпадает с ожидаемым", currentUrl, is(url));
     }
 
     /**
      * <p>Проверка, что текущий URL не совпадает с ожидаемым
      *
-     * @param url (берется из property / переменной, если такая переменная не найдена,
-     *            то берется переданное значение)</p>
+     * @param hardcodeUrl (берется из property / переменной, если такая переменная не найдена,
+     *                    то берется переданное значение)</p>
      */
     @И("^текущий URL не равен \"([^\"]*)\"$")
-    public void checkCurrentURLIsNotEquals(String url) {
+    public void checkCurrentURLIsNotEquals(String hardcodeUrl) {
+//TODO перписать
+        String url;
+
         String currentUrl = url();
-        String baseURL = Configuration.baseUrl;
-        String expectedUrl = resolveVars(getPropertyOrStringVariableOrValue(url));
-        assertThat("Текущий URL совпадает с ожидаемым", currentUrl, Matchers.not(baseURL + expectedUrl));
+        hardcodeUrl = getPropertyOrValue(hardcodeUrl);
+        String propertyUrl = getPropertyOrValue(hardcodeUrl);
+        if (!propertyUrl.contains("http")) {
+            propertyUrl = Configuration.baseUrl + propertyUrl;
+        }
+        String variableUrl = loadValueFromFileOrVariableOrDefault(hardcodeUrl);
+
+        if (variableUrl.contains("http")) {
+            url = variableUrl;
+        } else {
+            url = propertyUrl;
+        }
+
+        assertThat("Текущий URL совпадает с ожидаемым", currentUrl, Matchers.not(url));
     }
 
     /**

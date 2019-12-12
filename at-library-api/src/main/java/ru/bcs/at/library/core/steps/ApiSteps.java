@@ -12,7 +12,7 @@
 package ru.bcs.at.library.core.steps;
 
 import io.cucumber.datatable.DataTable;
-import io.cucumber.java.ru.И;
+import cucumber.api.java.ru.И;
 import io.restassured.response.Response;
 import lombok.extern.log4j.Log4j2;
 import ru.bcs.at.library.core.core.helpers.PropertyLoader;
