@@ -147,6 +147,7 @@ public class InitialDriver {
             capabilities.setCapability("deviceName", AtCoreConfig.deviceName);
             capabilities.setCapability("platformVersion", AtCoreConfig.platformVersion);
             capabilities.setCapability("app", AtCoreConfig.app);
+            capabilities.setCapability("udid", AtCoreConfig.udid);
 
             setWebDriver(
                     new AppiumDriver(

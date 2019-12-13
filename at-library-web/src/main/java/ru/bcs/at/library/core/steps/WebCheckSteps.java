@@ -3,6 +3,8 @@ package ru.bcs.at.library.core.steps;
 import com.codeborne.selenide.SelenideElement;
 import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.То;
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.core.StringContains;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 
 import java.io.File;
@@ -148,9 +150,7 @@ public class WebCheckSteps {
     public void checkElemClassContainsExpectedValue(String elementName, String expectedClassValue) {
         SelenideElement currentElement = coreScenario.getCurrentPage().getElement(elementName);
         expectedClassValue = getPropertyOrStringVariableOrValue(expectedClassValue);
-
-        currentElement.shouldHave(
-                attribute("class", expectedClassValue));
+        assertThat(currentElement.getAttribute("class"), StringContains.containsString(expectedClassValue));
     }
 
     /**
@@ -159,11 +159,8 @@ public class WebCheckSteps {
     @И("^(?:кнопка|ссылка|поле|блок|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" не содержит класс со значением \"(.*)\"$")
     public void checkElemClassNotContainsExpectedValue(String elementName, String expectedClassValue) {
         SelenideElement currentElement = coreScenario.getCurrentPage().getElement(elementName);
-
         expectedClassValue = getPropertyOrStringVariableOrValue(expectedClassValue);
-
-        currentElement.shouldHave(
-                not(attribute("class", expectedClassValue)));
+        assertThat(currentElement.getAttribute("class"), CoreMatchers.not(StringContains.containsString(expectedClassValue)));
     }
 
     /**
