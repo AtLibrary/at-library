@@ -26,7 +26,6 @@
         <io.appium.java-client.version>7.0.0</io.appium.java-client.version>
         <!--CUCUMBER-->
         <cucumber.version>4.3.0</cucumber.version>
-        <!--        <agent-java-cucumber4.version>4.0.2-BCS</agent-java-cucumber4.version>-->
         <!--ОТЧЕТ ALLURE-->
         <allure.version>2.13.0</allure.version>
         <!--LOMBOK-->
@@ -61,17 +60,6 @@
             <url>https://jcenter.bintray.com/</url>
         </repository>
     </repositories>
-
-    <!--    <repositories>-->
-    <!--        <repository>-->
-    <!--            <snapshots>-->
-    <!--                <enabled>false</enabled>-->
-    <!--            </snapshots>-->
-    <!--            <id>bintray-epam-reportportal</id>-->
-    <!--            <name>bintray</name>-->
-    <!--            <url>http://dl.bintray.com/epam/reportportal</url>-->
-    <!--        </repository>-->
-    <!--    </repositories>-->
 
     <dependencies>
         <!--MOBILE ТЕСТИРОВАНИЕ-->
@@ -134,12 +122,6 @@
             <artifactId>allure-junit4</artifactId>
             <version>${allure.version}</version>
         </dependency>
-        <!--        &lt;!&ndash;ОТЧЕТ REPORT PORTAL&ndash;&gt;-->
-        <!--        <dependency>-->
-        <!--            <groupId>com.epam.reportportal</groupId>-->
-        <!--            <artifactId>agent-java-cucumber4</artifactId>-->
-        <!--            <version>${agent-java-cucumber4.version}</version>-->
-        <!--        </dependency>-->
         <!--LOMBOK-->
         <dependency>
             <groupId>org.projectlombok</groupId>
