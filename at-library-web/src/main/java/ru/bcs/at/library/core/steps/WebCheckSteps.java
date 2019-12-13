@@ -150,7 +150,7 @@ public class WebCheckSteps {
     public void checkElemClassContainsExpectedValue(String elementName, String expectedClassValue) {
         SelenideElement currentElement = coreScenario.getCurrentPage().getElement(elementName);
         expectedClassValue = getPropertyOrStringVariableOrValue(expectedClassValue);
-        assertThat(currentElement.getAttribute("class"), StringContains.containsString(expectedClassValue));
+        currentElement.shouldHave(cssClass(expectedClassValue));
     }
 
     /**
@@ -160,7 +160,7 @@ public class WebCheckSteps {
     public void checkElemClassNotContainsExpectedValue(String elementName, String expectedClassValue) {
         SelenideElement currentElement = coreScenario.getCurrentPage().getElement(elementName);
         expectedClassValue = getPropertyOrStringVariableOrValue(expectedClassValue);
-        assertThat(currentElement.getAttribute("class"), CoreMatchers.not(StringContains.containsString(expectedClassValue)));
+        currentElement.shouldHave(not(cssClass(expectedClassValue)));
     }
 
     /**
