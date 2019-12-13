@@ -23,12 +23,14 @@
             <artifactId>javabank-core</artifactId>
             <version>0.4.13</version>
             <scope>compile</scope>
+            <systemPath>${pom.basedir}/lib/javabank-core-0.4.13.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>org.mbtest.javabank</groupId>
             <artifactId>javabank-client</artifactId>
             <version>0.4.13</version>
             <scope>compile</scope>
+            <systemPath>${pom.basedir}/lib/javabank-core-0.4.13.jar</systemPath>
         </dependency>
     </dependencies>
 
