@@ -89,7 +89,8 @@ public class InitialSetupSteps {
          * @param scenario сценарий
          * @throws Exception
          */
-        coreScenario.setEnvironment(new CoreEnvironment(scenario, uiTest));
+//        coreScenario.setEnvironment(new CoreEnvironment(scenario, uiTest));
+        coreScenario.setEnvironment(new CoreEnvironment(scenario));
 
         LogReportListener.turnOn();
 
@@ -104,7 +105,7 @@ public class InitialSetupSteps {
         /**
          * Очищает окружение(среду) по окончанию сценария
          */
-        coreScenario.removeEnvironment();
+//        coreScenario.removeEnvironment();
 
         if (scenario.getSourceTagNames().contains("@web")) {
 //            if (browser.equals(CHROME) || browser.equals(OPERA)) {
@@ -113,7 +114,7 @@ public class InitialSetupSteps {
             if (browser.equals(SAFARI)) {
                 getWebDriver().quit();
             }
-            Selenide.close();
+            Selenide.closeWebDriver();
 //            getWebDriver().close();
         }
         if (scenario.getSourceTagNames().contains("@mobile")) {

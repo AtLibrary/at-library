@@ -1,9 +1,9 @@
-/*
- * Licensed under the Apache License, Version 2.0 (the "License");
+/**
+* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>http://www.apache.org/licenses/LICENSE-2.0
- * <p>Unless required by applicable law or agreed to in writing, software
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
@@ -13,27 +13,25 @@ package ru.bcs.at.library.core.cucumber.api;
 
 import com.codeborne.selenide.Selenide;
 import cucumber.api.Scenario;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import ru.bcs.at.library.core.cucumber.ScopedVariables;
-import ru.bcs.at.library.core.setup.AtCoreConfig;
 
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 /**
- * <h1>Главный класс, отвечающий за сопровождение тестовых шагов</h1>
+ * Главный класс, отвечающий за сопровождение тестовых шагов
  */
-@Log4j2
+@Slf4j
 public final class CoreScenario {
 
-    public static final String CURRENT = "CURRENT_VARIABLE";
-    public static final String TEMP_RESPONSE = "TEMP_RESPONSE";
     private static CoreScenario instance = new CoreScenario();
+
     /**
      * Среда прогона тестов, хранит в себе: Cucumber.Scenario,
      * переменные, объявленные пользователем в сценарии и страницы, тестирование которых будет производиться
      */
-    private static ThreadLocal<CoreEnvironment> environment = new ThreadLocal<>();
+    private static CoreEnvironment environment;
 
     private CoreScenario() {
     }
@@ -42,8 +40,34 @@ public final class CoreScenario {
         return instance;
     }
 
+    public CoreEnvironment getEnvironment() {
+        return environment;
+    }
+
+    public void setEnvironment(CoreEnvironment coreEnvironment) {
+        environment = coreEnvironment;
+    }
+
     public static void sleep(int seconds) {
         Selenide.sleep(TimeUnit.MILLISECONDS.convert(seconds, TimeUnit.SECONDS));
+    }
+
+    /**
+     * Получение страницы, тестирование которой производится в данный момент
+     */
+    public CorePage getCurrentPage() {
+        return environment.getPages().getCurrentPage();
+    }
+
+    /**
+     * Задание страницы, тестирование которой производится в данный момент
+     */
+    public void setCurrentPage(CorePage page) {
+        if (page == null) {
+            throw new IllegalArgumentException("Происходит переход на несуществующую страницу. " +
+                    "Проверь аннотации @Name у используемых страниц");
+        }
+        environment.getPages().setCurrentPage(page);
     }
 
     /**
@@ -69,41 +93,11 @@ public final class CoreScenario {
         Pages.withPage(clazz, checkIfElementsAppeared, consumer);
     }
 
-    public CoreEnvironment getEnvironment() {
-        return environment.get();
-    }
-
-    public void setEnvironment(CoreEnvironment coreEnvironment) {
-        environment.set(coreEnvironment);
-    }
-
-    public void removeEnvironment() {
-        environment.remove();
-    }
-
-    /**
-     * Получение страницы, тестирование которой производится в данный момент
-     */
-    public CorePage getCurrentPage() {
-        return environment.get().getPages().getCurrentPage();
-    }
-
-    /**
-     * Задание страницы, тестирование которой производится в данный момент
-     */
-    public void setCurrentPage(CorePage page) {
-        if (page == null) {
-            throw new IllegalArgumentException("Происходит переход на несуществующую страницу. " +
-                    "Проверь аннотации @Name у используемых страниц");
-        }
-        environment.get().getPages().setCurrentPage(page);
-    }
-
     /**
      * Возвращает текущий сценарий (Cucumber.api)
      */
     public Scenario getScenario() {
-        return getEnvironment().getScenario();
+        return this.getEnvironment().getScenario();
     }
 
     /**
@@ -121,9 +115,7 @@ public final class CoreScenario {
      * Выводит дополнительный информационный текст в отчет (уровень логирования INFO)
      */
     public void write(Object object) {
-        if (AtCoreConfig.debugCore) {
-            this.getEnvironment().write(object);
-        }
+        this.getEnvironment().write(object);
     }
 
     /**
@@ -152,8 +144,8 @@ public final class CoreScenario {
      * @param clazz                   - класс страницы, которую необходимо получить
      * @param checkIfElementsAppeared - флаг, определяющий проверку отображения элементов на странице
      */
-    public <T extends CorePage> T getPage(Class<T> clazz, boolean checkIfElementsAppeared) {
-        return Pages.getPage(clazz, checkIfElementsAppeared);
+    public <T extends CorePage> CorePage getPage(Class<T> clazz, boolean checkIfElementsAppeared) {
+        return Pages.getPage(clazz, checkIfElementsAppeared).initialize();
     }
 
     /**

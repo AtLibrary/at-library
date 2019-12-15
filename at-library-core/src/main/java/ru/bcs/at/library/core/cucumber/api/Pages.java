@@ -1,9 +1,9 @@
-/*
- * Licensed under the Apache License, Version 2.0 (the "License");
+/**
+* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>http://www.apache.org/licenses/LICENSE-2.0
- * <p>Unless required by applicable law or agreed to in writing, software
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
@@ -13,12 +13,14 @@ package ru.bcs.at.library.core.cucumber.api;
 
 import com.codeborne.selenide.Selenide;
 import com.google.common.collect.Maps;
+import lombok.SneakyThrows;
 
+import java.lang.reflect.Constructor;
 import java.util.Map;
 import java.util.function.Consumer;
 
 /**
- * <h1>Предназначен для хранения страниц, используемых при прогоне тестов</h1>
+ * Предназначен для хранения страниц, используемых при прогоне тестов
  */
 public final class Pages {
 
@@ -36,33 +38,13 @@ public final class Pages {
         pages = Maps.newHashMap();
     }
 
-    /**
-     * @param clazz                   класс страницы
-     * @param checkIfElementsAppeared проверка всех не помеченных "@Optional" элементов<h1 style="color: green; font-size: 2.2em">
-     *                                Реализация анонимных методов со страницей в качестве аргумента
-     */
-    public static <T extends CorePage> void withPage(Class<T> clazz, boolean checkIfElementsAppeared, Consumer<T> consumer) {
-        T page = getPage(clazz, checkIfElementsAppeared);
-        consumer.accept(page);
-    }
-
-    /**
-     * Получение страницы по классу с возможностью выполнить проверку элементов страницы
-     */
-    public static <T extends CorePage> T getPage(Class<T> clazz, boolean checkIfElementsAppeared) {
-        T page = Selenide.page(clazz);
-        if (checkIfElementsAppeared) {
-            page.isAppeared();
-        }
-        return page;
-    }
 
     /**
      * Возвращает текущую страницу, на которой в текущий момент производится тестирование
      */
     public CorePage getCurrentPage() {
         if (currentPage == null) throw new IllegalStateException("Текущая страница не задана");
-        return currentPage;
+        return currentPage.initialize();
     }
 
     /**
@@ -73,10 +55,21 @@ public final class Pages {
     }
 
     /**
-     * Получение страницы из "ru.bcs.at.library.core.pages" по имени
+     * Реализация анонимных методов со страницей в качестве аргумента
+     *
+     * @param clazz                   класс страницы
+     * @param checkIfElementsAppeared проверка всех не помеченных "@Optional" элементов
+     */
+    public static <T extends CorePage> void withPage(Class<T> clazz, boolean checkIfElementsAppeared, Consumer<T> consumer) {
+        T page = getPage(clazz, checkIfElementsAppeared);
+        consumer.accept(page);
+    }
+
+    /**
+     * Получение страницы из "pages" по имени
      */
     public CorePage get(String pageName) {
-        return getPageMapInstanceInternal().get(pageName);
+        return Selenide.page(getPageFromPagesByName(pageName)).initialize();
     }
 
     /**
@@ -84,19 +77,27 @@ public final class Pages {
      */
     @SuppressWarnings("unchecked")
     public <T extends CorePage> T get(Class<T> clazz, String name) {
-        CorePage page = getPageMapInstanceInternal().get(name);
+        CorePage page = Selenide.page(getPageFromPagesByName(name)).initialize();
+
         if (!clazz.isInstance(page)) {
             throw new IllegalStateException(name + " page is not a instance of " + clazz + ". Named page is a " + page);
         }
         return (T) page;
     }
 
-    private Map<String, ? extends CorePage> getPageMapInstanceInternal() {
+    private Map<String, CorePage> getPageMapInstanceInternal() {
         return pages;
     }
 
+    private CorePage getPageFromPagesByName(String pageName) throws IllegalArgumentException {
+        CorePage page = getPageMapInstanceInternal().get(pageName);
+        if (page == null)
+            throw new IllegalArgumentException(pageName + " page is not declared in a list of available pages");
+        return page;
+    }
+
     /**
-     * Добавление инстанциированной страницы в "ru.bcs.at.library.core.pages" с проверкой на NULL
+     * Добавление инстанциированной страницы в "pages" с проверкой на NULL
      */
     public <T extends CorePage> void put(String pageName, T page) throws IllegalArgumentException {
         if (page == null)
@@ -105,9 +106,26 @@ public final class Pages {
     }
 
     /**
-     * Добавление страницы в "ru.bcs.at.library.core.pages" по классу
+     * Получение страницы по классу с возможностью выполнить проверку элементов страницы
      */
-    public void put(String pageName, Class<? extends CorePage> clazz) {
-        pages.put(pageName, Selenide.page(clazz).initialize());
+    public static <T extends CorePage> T getPage(Class<T> clazz, boolean checkIfElementsAppeared) {
+        T page = Selenide.page(clazz);
+        if (checkIfElementsAppeared) {
+            page.initialize().isAppeared();
+        }
+        return page;
+    }
+
+    /**
+     * Добавление страницы в "pages" по классу
+     */
+    @SneakyThrows
+    public void put(String pageName, Class<? extends CorePage> page) {
+        if (page == null)
+            throw new IllegalArgumentException("Была передана пустая страница");
+        Constructor<? extends CorePage> constructor = page.getDeclaredConstructor();
+        constructor.setAccessible(true);
+        CorePage p = page.newInstance();
+        pages.put(pageName, p);
     }
 }

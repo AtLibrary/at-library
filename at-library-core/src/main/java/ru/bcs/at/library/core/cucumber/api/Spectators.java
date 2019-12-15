@@ -1,9 +1,9 @@
-/*
- * Licensed under the Apache License, Version 2.0 (the "License");
+/**
+* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>http://www.apache.org/licenses/LICENSE-2.0
- * <p>Unless required by applicable law or agreed to in writing, software
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
@@ -11,7 +11,9 @@
  */
 package ru.bcs.at.library.core.cucumber.api;
 
+import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 
 import java.util.Arrays;
@@ -24,10 +26,11 @@ public final class Spectators {
     }
 
     /**
+     * Обертка над Selenide waitUntil для произвольного числа элементов
+     *
      * @param selenideCondition Selenide.Condition
      * @param timeout           максимальное время ожидания в миллисекундах для перехода элементов в заданное состояние
-     * @param selenideElements  произвольное количество selenide-элементов<h1 style="color: green; font-size: 2.2em">
-     *                          Обертка над Selenide waitUntil для произвольного числа элементов
+     * @param selenideElements  произвольное количество selenide-элементов
      * @see SelenideElement#waitUntil(Condition, long)
      */
     public static void waitElementsUntil(Condition selenideCondition, int timeout, SelenideElement... selenideElements) {
@@ -35,14 +38,33 @@ public final class Spectators {
     }
 
     /**
+     * Перегрузка метода для работы с ElementsCollection и использования стандартных методов обработки списков
+     *
      * @param selenideCondition Selenide.Condition
      * @param timeout           максимальное время ожидания в миллисекундах для перехода элементов в заданное состояние
-     * @param selenideElements  коллекция selenide-элементов<h1 style="color: green; font-size: 2.2em">
-     *                          Обертка над Selenide waitUntil для работы с колекцией элементов
+     * @param selenideElements  ElementsCollection
+     */
+    public static void waitElementsUntil(Condition selenideCondition, int timeout, ElementsCollection selenideElements) {
+        selenideElements.shouldBe(conditionToConditionCollection(selenideCondition), timeout);
+    }
+
+    /**
+     * Обертка над Selenide waitUntil для работы с колекцией элементов
+     *
+     * @param selenideCondition Selenide.Condition
+     * @param timeout           максимальное время ожидания в миллисекундах для перехода элементов в заданное состояние
+     * @param selenideElements  коллекция selenide-элементов
      * @see SelenideElement#waitUntil(Condition, long)
      */
     public static void waitElementsUntil(Condition selenideCondition, int timeout, Collection<SelenideElement> selenideElements) {
         selenideElements.forEach(e -> e.waitUntil(selenideCondition, timeout));
+    }
+
+    private static CollectionCondition conditionToConditionCollection(Condition selenideCondition) {
+        if (selenideCondition.equals(Condition.visible)) {
+            return CollectionCondition.sizeGreaterThan(0);
+        }
+        return null;
     }
 
 }

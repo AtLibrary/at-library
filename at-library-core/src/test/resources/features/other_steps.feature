@@ -1,5 +1,5 @@
 # language: ru
-@all
+@unit
 Функция: Проверка шагов OtherSteps
 
   Сценарий: Установлено значение переменной "однострочная" из application.properties

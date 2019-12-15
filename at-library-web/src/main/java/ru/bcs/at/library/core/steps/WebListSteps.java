@@ -2,6 +2,7 @@ package ru.bcs.at.library.core.steps;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import cucumber.api.java.ru.И;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
@@ -50,10 +51,9 @@ public class WebListSteps {
      */
     @И("^список \"([^\"]*)\" отображается на странице$")
     public void listIsPresentedOnPage(String elementName) {
-        List<SelenideElement> elementsList = coreScenario.getCurrentPage().getElementsList(elementName);
+        ElementsCollection elements = coreScenario.getCurrentPage().getElementsList(elementName);
         coreScenario.getCurrentPage().waitElementsUntil(
-                Condition.appear, (int) Configuration.timeout, elementsList
-        );
+                Condition.appear, (int) Configuration.timeout, elements);
     }
 
     /**

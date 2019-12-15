@@ -1,5 +1,5 @@
 # language: ru
-@all
+@unit
 Функция: Проверка шагов DataGenerationSteps
 
   Сценарий: Шаг конкатенации строк
