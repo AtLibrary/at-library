@@ -1,8 +1,8 @@
 package ru.bcs.at.library.core.steps;
 
-import io.cucumber.datatable.DataTable;
 import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.То;
+import io.cucumber.datatable.DataTable;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
@@ -28,14 +28,14 @@ import static org.hamcrest.Matchers.*;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.*;
 
 /**
- * <h1>Набор общих шагов под api/web/mob</>
+ * Набор общих шагов под api/web/mob</>
  */
 public class OtherSteps {
 
     private static CoreScenario coreScenario = CoreScenario.getInstance();
 
     /**
-     * Локальное перемещение файла</p>
+     * Локальное перемещение файла
      */
     @И("^перемещещие файла из \"([^\"]*)\" в \"([^\"]*)\"$")
     public static void localMoveFiles(String pathFile, String pathMoveFile) throws IOException {
@@ -53,7 +53,7 @@ public class OtherSteps {
     /**
      * <p style="color: green; font-size: 1.5em">
      *
-     * @return Возвращает каталог "Downloads" в домашней директории</p>
+     * @return Возвращает каталог "Downloads" в домашней директории
      */
     public static File getDownloadsDir() {
         String homeDir = System.getProperty("user.home");
@@ -65,7 +65,6 @@ public class OtherSteps {
      *
      * @param filesToDelete массив файлов
      *                      Удаляет файлы, переданные в метод
-     *                      </p>
      */
     public static void deleteFiles(File[] filesToDelete) {
         for (File file : filesToDelete) {
@@ -78,19 +77,18 @@ public class OtherSteps {
      *
      * @param maxValueInRange максимальная граница диапазона генерации случайных чисел
      *                        Возвращает случайное число от нуля до maxValueInRange
-     *                        </p>
      */
     public static int getRandom(int maxValueInRange) {
         return (int) (Math.random() * maxValueInRange);
     }
 
     /**
-     * <p>Возвращает последовательность случайных символов переданных алфавита и длины
+     * Возвращает последовательность случайных символов переданных алфавита и длины
      * Принимает на вход варианты языков 'ru' и 'en'
      * Для других входных параметров возвращает латинские символы (en)
      *
      * @param length длина последовательности
-     * @param lang   варианты языков 'ru' или 'en'</p>
+     * @param lang   варианты языков 'ru' или 'en'
      */
     public static String getRandCharSequence(int length, String lang) {
 
@@ -103,9 +101,9 @@ public class OtherSteps {
     }
 
     /**
-     * <p>Возвращает случайный символ переданного алфавита
+     * Возвращает случайный символ переданного алфавита
      *
-     * @param lang варианты языков 'ru' или 'en'</p>
+     * @param lang варианты языков 'ru' или 'en'
      */
     public static char charGenerator(String lang) {
         Random random = new Random();
@@ -117,10 +115,10 @@ public class OtherSteps {
     }
 
     /**
-     * <p>Проверка на соответствие строки паттерну
+     * Проверка на соответствие строки паттерну
      *
      * @param pattern шаблон для проверки
-     * @param str     строка для проверки</p>
+     * @param str     строка для проверки
      */
     public static boolean isTextMatches(String str, String pattern) {
         Pattern r = Pattern.compile(pattern);
@@ -129,9 +127,9 @@ public class OtherSteps {
     }
 
     /**
-     * <p>Возвращает локатор для поиска по нормализованному (без учета регистра) тексту
+     * Возвращает локатор для поиска по нормализованному (без учета регистра) тексту
      *
-     * @param expectedText </p>
+     * @param expectedText
      */
     public static String getTranslateNormalizeSpaceText(String expectedText) {
         StringBuilder text = new StringBuilder();
@@ -147,7 +145,7 @@ public class OtherSteps {
      * <p style="color: green; font-size: 1.5em">
      *
      * @return Возвращает значение из property файла, если отсутствует, то из пользовательских переменных,
-     * если и оно отсутствует, то возвращает значение переданной на вход переменной</p>
+     * если и оно отсутствует, то возвращает значение переданной на вход переменной
      */
     public static String getPropertyOrStringVariableOrValue(String propertyNameOrVariableNameOrValue) {
         String propertyValue = tryLoadProperty(propertyNameOrVariableNameOrValue);
@@ -170,12 +168,11 @@ public class OtherSteps {
     }
 
     /**
-     * <p>Устанавливается значение переменной в хранилище переменных.
+     * Устанавливается значение переменной в хранилище переменных.
      * Один из кейсов: установка login пользователя
      *
      * @param variableName имя переменной
      * @param value        значение переменной
-     *                     </p>
      */
     @То("^установлено значение переменной \"([^\"]*)\" равным$")
     @И("^установлено значение переменной \"([^\"]*)\" равным \"(.*)\"$")
@@ -185,11 +182,10 @@ public class OtherSteps {
     }
 
     /**
-     * <p>Проверка равенства двух переменных из хранилища
+     * Проверка равенства двух переменных из хранилища
      *
      * @param firstVariableName  первая переменная
      * @param secondVariableName вторая переменная
-     *                           </p>
      */
     @И("^значения в переменных \"([^\"]*)\" и \"([^\"]*)\" совпадают$")
     public void compareTwoVariables(String firstVariableName, String secondVariableName) {
@@ -200,11 +196,10 @@ public class OtherSteps {
     }
 
     /**
-     * <p>Проверка неравенства двух переменных из хранилища
+     * Проверка неравенства двух переменных из хранилища
      *
      * @param firstVariableName  первая переменная
      * @param secondVariableName вторая переменная
-     *                           </p>
      */
     @И("^значения в переменных \"([^\"]*)\" и \"([^\"]*)\" не совпадают$")
     public void checkingTwoVariablesAreNotEquals(String firstVariableName, String secondVariableName) {
@@ -215,11 +210,10 @@ public class OtherSteps {
     }
 
     /**
-     * <p>Проверка равенства переменной
+     * Проверка равенства переменной
      *
      * @param variableName          переменная
      * @param expectedValueVariable ожидаемое содержимое
-     *                              </p>
      */
     @То("^значение переменной \"([^\"]*)\" равно$")
     @И("^значение переменной \"([^\"]*)\" равно \"([^\"]*)\"$")
@@ -231,13 +225,12 @@ public class OtherSteps {
     }
 
     /**
-     * <p>Проверка выражения на истинность
+     * Проверка выражения на истинность
      *
      * @param expression выражение из property, из переменной сценария или значение аргумента
      *                   Например, string1.equals(string2)
      *                   OR string.equals("string")
      *                   Любое Java-выражение, возвращающие boolean
-     *                   </p>
      */
     @И("^верно, что \"([^\"]*)\"$")
     public void expressionExpression(String expression) {
@@ -245,12 +238,12 @@ public class OtherSteps {
     }
 
     /**
-     * <p>Сохранено значение из property файла в переменную
+     * Сохранено значение из property файла в переменную
      *
      * @param propertyVariableName ключ в файле application.properties
      * @param variableName         имя переменной
      *                             Значение заданной переменной из application.properties сохраняется в переменную в coreScenario
-     *                             для дальнейшего использования</p>
+     *                             для дальнейшего использования
      */
     @И("^сохранено значение \"([^\"]*)\" из property файла в переменную \"([^\"]*)\"$")
     public void saveValueToVar(String propertyVariableName, String variableName) {
@@ -260,7 +253,7 @@ public class OtherSteps {
     }
 
     /**
-     * Проверка совпадения значения из переменной и значения из property</p>
+     * Проверка совпадения значения из переменной и значения из property
      */
     @И("^значения из переменной \"([^\"]*)\" и из property файла \"([^\"]*)\" совпадают$")
     public void checkIfValueFromVariableEqualPropertyVariable(String envVarible, String propertyVariable) {
@@ -269,7 +262,7 @@ public class OtherSteps {
     }
 
     /**
-     * Выполняется чтение файла с шаблоном и заполнение его значениями из таблицы</p>
+     * Выполняется чтение файла с шаблоном и заполнение его значениями из таблицы
      */
     @И("^шаблон \"([^\"]*)\" заполнен данными из таблицы и сохранён в переменную \"([^\"]*)\"$")
     public void fillTemplate(String templateName, String varName, DataTable table) {
@@ -292,7 +285,7 @@ public class OtherSteps {
     }
 
     /**
-     * <p>Валидация что текст является email-ом</p>
+     * Валидация что текст является email-ом
      */
     @И("^значение переменной \"([^\"]*)\" является email-ом$")
     public void checkEmail(String variableName) throws AddressException {
@@ -302,7 +295,7 @@ public class OtherSteps {
     }
 
     /**
-     * <p>Валидация что текст является email-ом</p>
+     * Валидация что текст является email-ом
      */
     @И("^длина строки переменной \"([^\"]*)\" ((?:больше|меньше|равна)) (\\d+)$")
     public void checkEmail(String variableName, String condition, int expectedLength) throws AddressException {
@@ -324,11 +317,10 @@ public class OtherSteps {
     }
 
     /**
-     * <p>Устанавливается значение текущей даты в хранилище переменных.
+     * Устанавливается значение текущей даты в хранилище переменных.
      *
      * @param variableName имя переменной
      * @param dateFormat   формат даты
-     *                     </p>
      */
     @И("^установлено значение переменной \"([^\"]*)\" с текущей датой в формате \"([^\"]*)\"$")
     public void setCurrentDate(String variableName, String dateFormat) {
@@ -337,11 +329,10 @@ public class OtherSteps {
     }
 
     /**
-     * <p>Устанавливается значение текущей даты в хранилище переменных.
+     * Устанавливается значение текущей даты в хранилище переменных.
      *
      * @param variableName имя переменной
      * @param dateFormat   формат даты
-     *                     </p>
      */
     @И("^установлено значение переменной \"([^\"]*)\" с текущей датой минус (\\d+) (?:час|часов) в формате \"([^\"]*)\"$")
     public void setMinusDate(String variableName, int hour, String dateFormat) {
@@ -350,11 +341,10 @@ public class OtherSteps {
     }
 
     /**
-     * <p>Устанавливается значение текущей даты + часы в хранилище переменных.
+     * Устанавливается значение текущей даты + часы в хранилище переменных.
      *
      * @param variableName имя переменной
      * @param dateFormat   формат даты
-     *                     </p>
      */
     @И("^установлено значение переменной \"([^\"]*)\" с текущей датой плюс (\\d+) (?:час|часов) в формате \"([^\"]*)\"$")
     public void setPlusDate(String variableName, int hour, String dateFormat) {
@@ -375,10 +365,9 @@ public class OtherSteps {
     }
 
     /**
-     * <p>Ожидание в течение заданного количества секунд
+     * Ожидание в течение заданного количества секунд
      *
      * @param seconds секунд
-     *                </p>
      */
     @И("^выполнено ожидание в течение (\\d+) (?:секунд|секунды)")
     public void waitForSeconds(long seconds) {
@@ -386,7 +375,7 @@ public class OtherSteps {
     }
 
     /**
-     * <p>Написание автотеста в работе</p>
+     * Написание автотеста в работе
      */
     @И("^ручной тест$")
     public void manualTest() {
@@ -394,7 +383,7 @@ public class OtherSteps {
     }
 
     /**
-     * <p>Написание автотеста в работе</p>
+     * Написание автотеста в работе
      */
     @И("^написание автотеста в работе$")
     public void pendingException() {
@@ -402,7 +391,7 @@ public class OtherSteps {
     }
 
     /**
-     * <p>Написание автотеста в работе</p>
+     * Написание автотеста в работе
      */
     @И("^написание автотеста в работе. Планируемая дата: \"([^\"]*)\"$")
     public void pendingException(String date) {
@@ -410,7 +399,7 @@ public class OtherSteps {
     }
 
     /**
-     * <p>Автотест реализован на старом фреймворке</p>
+     * Автотест реализован на старом фреймворке
      */
     @И("^автотест реализован на старом фреймворке$")
     public void oldFramework() {

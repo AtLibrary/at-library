@@ -2,8 +2,8 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>http://www.apache.org/licenses/LICENSE-2.0
- * <p>Unless required by applicable law or agreed to in writing, software
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
@@ -36,7 +36,7 @@ import static org.openqa.selenium.remote.BrowserType.SAFARI;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.tryLoadProperty;
 
 /**
- * <h1>Начальная настройка</h1>
+ * Начальная настройка
  */
 @Log4j2
 public class InitialSetupSteps {
@@ -62,10 +62,10 @@ public class InitialSetupSteps {
     }
 
     /**
-     * <p>Действия выполняемые перед каждым сценарием</p>
-     * <p>Включение слушателей Allure</p>
-     * <p>Если сценарий содержит тег @web" то будет создан WebDriver</p>
-     * <p>Создает окружение(среду) для запуска сценария</p>
+     * Действия выполняемые перед каждым сценарием
+     * Включение слушателей Allure
+     * Если сценарий содержит тег @web" то будет создан WebDriver
+     * Создает окружение(среду) для запуска сценария
      */
     @Before
     public void beforeEachTest(Scenario scenario) throws MalformedURLException {
@@ -89,23 +89,16 @@ public class InitialSetupSteps {
          * @param scenario сценарий
          * @throws Exception
          */
-//        coreScenario.setEnvironment(new CoreEnvironment(scenario, uiTest));
         coreScenario.setEnvironment(new CoreEnvironment(scenario));
 
         LogReportListener.turnOn();
-
-
     }
 
     /**
-     * <p>Если сценарий содержит тег @web" то по завершению теста удаляет все куки и закрывает веб-браузер</p>
+     * Если сценарий содержит тег @web" то по завершению теста удаляет все куки и закрывает веб-браузер
      */
     @After
     public void afterEachTest(Scenario scenario) {
-        /**
-         * Очищает окружение(среду) по окончанию сценария
-         */
-//        coreScenario.removeEnvironment();
 
         if (scenario.getSourceTagNames().contains("@web")) {
 //            if (browser.equals(CHROME) || browser.equals(OPERA)) {
@@ -115,7 +108,6 @@ public class InitialSetupSteps {
                 getWebDriver().quit();
             }
             Selenide.closeWebDriver();
-//            getWebDriver().close();
         }
         if (scenario.getSourceTagNames().contains("@mobile")) {
             AppiumDriver appiumDriver = (AppiumDriver) getWebDriver();

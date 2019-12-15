@@ -8,7 +8,7 @@ import static java.lang.String.format;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.tryLoadProperty;
 
 /**
- * <p>Проверка http/https-запросов/ответов через прозрачный прокси сервер Mitmproxy</p>
+ * Проверка http/https-запросов/ответов через прозрачный прокси сервер Mitmproxy
  */
 public class MitmproxySteps {
 

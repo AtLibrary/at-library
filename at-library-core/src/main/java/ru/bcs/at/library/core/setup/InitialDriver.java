@@ -24,7 +24,7 @@ import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
 @Log4j2
 public class InitialDriver {
     /**
-     * <p>Создание WebDriver</p>
+     * Создание WebDriver
      */
 
     private String testDevice;

@@ -1,7 +1,7 @@
 package ru.bcs.at.library.core.steps;
 
-import io.cucumber.datatable.DataTable;
 import cucumber.api.java.ru.И;
+import io.cucumber.datatable.DataTable;
 import io.restassured.response.Response;
 import org.hamcrest.Matchers;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
@@ -13,7 +13,7 @@ import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadValueFromFi
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.tryLoadProperty;
 
 /**
- * <h1>Шаги по работе с BizTalk</h1>
+ * Шаги по работе с BizTalk
  */
 public class BizTalkSteps {
 
@@ -22,7 +22,7 @@ public class BizTalkSteps {
     private RequestSteps requestSteps = RequestSteps.getInstance();
 
     /**
-     * Отправка запроса в BizTalk</p>
+     * Отправка запроса в BizTalk
      */
     @И("^отправлен запрос \"([^\"]*)\" в BizTalk$")
     public void sendRequestToBizTalk(String dataToRequest) {

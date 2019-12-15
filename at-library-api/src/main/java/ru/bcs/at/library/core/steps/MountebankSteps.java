@@ -2,8 +2,8 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>http://www.apache.org/licenses/LICENSE-2.0
- * <p>Unless required by applicable law or agreed to in writing, software
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
@@ -27,7 +27,7 @@ import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadValueFromFi
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.tryLoadProperty;
 
 /**
- * <h1>Mountebank шаги</h1>
+ * Mountebank шаги
  */
 @Log4j2
 public class MountebankSteps {
@@ -39,7 +39,7 @@ public class MountebankSteps {
     private CoreScenario coreScenario = CoreScenario.getInstance();
 
     /**
-     * <p>Создание mountebank-заглушки по-умолчанию на стандартном порте</p>
+     * Создание mountebank-заглушки по-умолчанию на стандартном порте
      */
     @И("^разворачивается mb заглушка по-умолчанию$")
     public void deployImposter() {
@@ -47,7 +47,7 @@ public class MountebankSteps {
     }
 
     /**
-     * <p>Создание mountebank-заглушки по-умолчанию на указанном порте</p>
+     * Создание mountebank-заглушки по-умолчанию на указанном порте
      *
      * @param deployPort порт разворачивания заглушки по-умолчанию
      */
@@ -62,7 +62,7 @@ public class MountebankSteps {
     }
 
     /**
-     * <p>Создание mountebank-заглушки по mountebank-json</p>
+     * Создание mountebank-заглушки по mountebank-json
      *
      * @param imposterJson json с описанием необходимых заглушек
      */
@@ -76,7 +76,7 @@ public class MountebankSteps {
     }
 
     /**
-     * <p>Создание mountebank-заглушки по mountebank-json на указанном порте</p>
+     * Создание mountebank-заглушки по mountebank-json на указанном порте
      *
      * @param imposterJson json с описанием необходимых заглушек
      * @param deployPort   порт разворачивания заглушки по-умолчанию
@@ -91,7 +91,7 @@ public class MountebankSteps {
     }
 
     /**
-     * <p>Создание mountebank-заглушки с указанным ответом на стандартном порте</p>
+     * Создание mountebank-заглушки с указанным ответом на стандартном порте
      *
      * @param response ответ на любой запрос новой заглушки заглушки
      */
@@ -101,7 +101,7 @@ public class MountebankSteps {
     }
 
     /**
-     * <p>Создание mountebank-заглушки с указанным ответом на указанном порте</p>
+     * Создание mountebank-заглушки с указанным ответом на указанном порте
      *
      * @param response   ответ на любой запрос новой заглушки заглушки
      * @param deployPort порт разворачивания заглушки с указанным ответом
@@ -123,7 +123,7 @@ public class MountebankSteps {
     }
 
     /**
-     * <p>Удаление mountebank-заглушки на стандартном порте</p>
+     * Удаление mountebank-заглушки на стандартном порте
      */
     @И("^удаляется mb заглушка$")
     public void deleteImposter() {
@@ -131,7 +131,7 @@ public class MountebankSteps {
     }
 
     /**
-     * <p>Удаление mountebank-заглушки на указанном порте</p>
+     * Удаление mountebank-заглушки на указанном порте
      */
     @И("^удаляется mb заглушка на порте \"(\\d+)\"$")
     public void deleteImposter(Integer destroyPort) {
@@ -143,7 +143,7 @@ public class MountebankSteps {
     }
 
     /**
-     * <p>Удаление всех mountebank-заглушек</p>
+     * Удаление всех mountebank-заглушек
      */
     @И("^удаляются все mb заглушки$")
     public void deleteAllImposters() {
@@ -152,7 +152,7 @@ public class MountebankSteps {
     }
 
     /**
-     * <p>Получение запросов mountebank-заглушки на порте</p>
+     * Получение запросов mountebank-заглушки на порте
      */
     @И("^получены запросы mb заглушки$")
     public void getRequestsOnPort() throws ParseException {
@@ -160,7 +160,7 @@ public class MountebankSteps {
     }
 
     /**
-     * <p>Получение запросов mountebank-заглушки на порте</p>
+     * Получение запросов mountebank-заглушки на порте
      */
     @И("^получены запросы mb заглушки на порте \"(\\d+)\"$")
     public void getRequestsOnPort(Integer gettingPort) throws ParseException {
@@ -168,7 +168,7 @@ public class MountebankSteps {
     }
 
     /**
-     * <p>Получение запросов mountebank-заглушки на порте</p>
+     * Получение запросов mountebank-заглушки на порте
      */
     @И("^получены запросы mb заглушки и сохранены в переменную \"([^\"]+)\"$")
     public void getRequestsOnPort(String requestsNameVariable) throws ParseException {
@@ -176,7 +176,7 @@ public class MountebankSteps {
     }
 
     /**
-     * <p>Получение запросов mountebank-заглушки на порте</p>
+     * Получение запросов mountebank-заглушки на порте
      */
     @И("^получены запросы mb заглушки на порте \"(\\d+)\" и сохранены в переменную \"([^\"]+)\"$")
     public void getRequestsOnPort(Integer gettingPort, String requestsNameVariable) throws ParseException {
@@ -191,7 +191,7 @@ public class MountebankSteps {
     }
 
     /**
-     * <p>Получение запроса mountebank-заглушки на порте</p>
+     * Получение запроса mountebank-заглушки на порте
      */
     @И("^получен \"(\\d+)\" запрос mb заглушки$")
     public void getRequestOnPort(int reqNum) throws ParseException {
@@ -199,7 +199,7 @@ public class MountebankSteps {
     }
 
     /**
-     * <p>Получение запроса mountebank-заглушки на порте</p>
+     * Получение запроса mountebank-заглушки на порте
      */
     @И("^получен \"(\\d+)\" запрос mb заглушки на порте \"(\\d+)\"$")
     public void getRequestOnPort(int reqNum, Integer gettingPort) throws ParseException {
@@ -207,7 +207,7 @@ public class MountebankSteps {
     }
 
     /**
-     * <p>Получение запроса mountebank-заглушки на порте</p>
+     * Получение запроса mountebank-заглушки на порте
      */
     @И("^получен \"(\\d+)\" запрос mb заглушки и сохранен в переменную \"([^\"]+)\"$")
     public void getRequestOnPort(int reqNum, String requestNameVariable) throws ParseException {
@@ -215,7 +215,7 @@ public class MountebankSteps {
     }
 
     /**
-     * <p>Получение запроса mountebank-заглушки на порте</p>
+     * Получение запроса mountebank-заглушки на порте
      */
     @И("^получен \"(\\d+)\" запрос mb заглушки на порте \"(\\d+)\" и сохранен в переменную \"([^\"]+)\"$")
     public void getRequestOnPort(int reqNum, Integer gettingPort, String requestNameVariable) throws ParseException {
@@ -230,7 +230,7 @@ public class MountebankSteps {
     }
 
     /**
-     * <p>Получение последнего запроса mountebank-заглушки на порте</p>(?: и сохранен в переменную "([^"]+)")
+     * Получение последнего запроса mountebank-заглушки на порте(?: и сохранен в переменную "([^"]+)")
      */
     @И("^получен последний запрос mb заглушки$")
     public void getLastRequestOnPort() throws ParseException {
@@ -238,7 +238,7 @@ public class MountebankSteps {
     }
 
     /**
-     * <p>Получение последнего запроса mountebank-заглушки на порте</p>(?: и сохранен в переменную "([^"]+)")
+     * Получение последнего запроса mountebank-заглушки на порте(?: и сохранен в переменную "([^"]+)")
      */
     @И("^получен последний запрос mb заглушки на порте \"(\\d+)\"$")
     public void getLastRequestOnPort(Integer gettingPort) throws ParseException {
@@ -246,7 +246,7 @@ public class MountebankSteps {
     }
 
     /**
-     * <p>Получение последнего запроса mountebank-заглушки на порте</p>(?: и сохранен в переменную "([^"]+)")
+     * Получение последнего запроса mountebank-заглушки на порте(?: и сохранен в переменную "([^"]+)")
      */
     @И("^получен последний запрос mb заглушки и сохранен в переменную \"([^\"]+)\"$")
     public void getLastRequestOnPort(String requestNameVariable) throws ParseException {
@@ -254,7 +254,7 @@ public class MountebankSteps {
     }
 
     /**
-     * <p>Получение последнего запроса mountebank-заглушки на порте</p>(?: и сохранен в переменную "([^"]+)")
+     * Получение последнего запроса mountebank-заглушки на порте(?: и сохранен в переменную "([^"]+)")
      */
     @И("^получен последний запрос mb заглушки на порте \"(\\d+)\" и сохранен в переменную \"([^\"]+)\"$")
     public void getLastRequestOnPort(Integer gettingPort, String requestNameVariable) throws ParseException {

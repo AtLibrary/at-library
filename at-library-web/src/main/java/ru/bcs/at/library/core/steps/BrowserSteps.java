@@ -2,8 +2,8 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>http://www.apache.org/licenses/LICENSE-2.0
- * <p>Unless required by applicable law or agreed to in writing, software
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
@@ -37,7 +37,7 @@ import static ru.bcs.at.library.core.cucumber.ScopedVariables.resolveVars;
 import static ru.bcs.at.library.core.steps.OtherSteps.getPropertyOrStringVariableOrValue;
 
 /**
- * <h1>Браузер шаги</h1>
+ * Браузер шаги
  */
 @Log4j2
 public class BrowserSteps {
@@ -45,12 +45,12 @@ public class BrowserSteps {
     private CoreScenario coreScenario = CoreScenario.getInstance();
 
     /**
-     * <p>Выполняется переход по заданной ссылке,
+     * Выполняется переход по заданной ссылке,
      *
      * @param address Ссылка берется из property / переменной по ключу, если такая переменная не найдена,
      *                то берется переданное значение
      *                при этом все ключи переменных в фигурных скобках
-     *                меняются на их значения из хранилища coreScenario</p>
+     *                меняются на их значения из хранилища coreScenario
      */
     @И("^совершен переход по ссылке \"([^\"]*)\"$")
     public void goToUrl(String address) {
@@ -60,12 +60,12 @@ public class BrowserSteps {
     }
 
     /**
-     * <p>Выполняется переход по заданной ссылке в новом окне,
+     * Выполняется переход по заданной ссылке в новом окне,
      *
      * @param address Ссылка берется из property / переменной по ключу, если такая переменная не найдена,
      *                то берется переданное значение
      *                при этом все ключи переменных в фигурных скобках
-     *                меняются на их значения из хранилища coreScenario</p>
+     *                меняются на их значения из хранилища coreScenario
      */
     @И("^совершен переход по ссылке \"([^\"]*)\" в новой вкладке$")
     public void openUrlNewTab(String address) {
@@ -79,10 +79,10 @@ public class BrowserSteps {
     }
 
     /**
-     * <p>Проверка, что текущий URL совпадает с ожидаемым
+     * Проверка, что текущий URL совпадает с ожидаемым
      *
      * @param hardcodeUrl (берется из property / переменной, если такая переменная не найдена,
-     *                    то берется переданное значение)</p>
+     *                    то берется переданное значение)
      */
     @И("^текущий URL равен \"([^\"]*)\"$")
     public void checkCurrentURL(String hardcodeUrl) {
@@ -107,10 +107,10 @@ public class BrowserSteps {
     }
 
     /**
-     * <p>Проверка, что текущий URL не совпадает с ожидаемым
+     * Проверка, что текущий URL не совпадает с ожидаемым
      *
      * @param hardcodeUrl (берется из property / переменной, если такая переменная не найдена,
-     *                    то берется переданное значение)</p>
+     *                    то берется переданное значение)
      */
     @И("^текущий URL не равен \"([^\"]*)\"$")
     public void checkCurrentURLIsNotEquals(String hardcodeUrl) {
@@ -135,7 +135,7 @@ public class BrowserSteps {
     }
 
     /**
-     * <p>Переключение на следующую вкладку браузера</p>
+     * Переключение на следующую вкладку браузера
      */
     @И("^выполнено переключение на следующую вкладку$")
     public void switchToTheNextTab() {
@@ -145,7 +145,7 @@ public class BrowserSteps {
     }
 
     /**
-     * <p>Выполняется обновление страницы</p>
+     * Выполняется обновление страницы
      */
     @И("^выполнено обновление текущей страницы$")
     public void refreshPage() {
@@ -153,7 +153,7 @@ public class BrowserSteps {
     }
 
     /**
-     * <p>Выполняется обновление страницы</p>
+     * Выполняется обновление страницы
      */
     @И("^выполнено обновление текущей страницы каждые (\\d+) секунд в течении (\\d+) секунд$")
     public void refreshPageParam(int second, int allTimeSecond) {
@@ -164,7 +164,7 @@ public class BrowserSteps {
     }
 
     /**
-     * <p>Производится закрытие текущей вкладки и возвращает на первую</p>
+     * Производится закрытие текущей вкладки и возвращает на первую
      */
     @И("^выполнено закрытие текущей вкладки$")
     public void closeCurrentTab() {
@@ -175,7 +175,7 @@ public class BrowserSteps {
     }
 
     /**
-     * <p>Переключение на вкладку браузера с заголовком</p>
+     * Переключение на вкладку браузера с заголовком
      *
      * @param title заголовок вкладки
      */
@@ -187,8 +187,8 @@ public class BrowserSteps {
     }
 
     /**
-     * <p>Производится сравнение заголовка страницы со значением, указанным в шаге
-     * (в приоритете: из property, из переменной сценария, значение аргумента)</p>
+     * Производится сравнение заголовка страницы со значением, указанным в шаге
+     * (в приоритете: из property, из переменной сценария, значение аргумента)
      *
      * @param expectedTitle ожидаемый заголовок текущей вкладки
      */
@@ -210,7 +210,7 @@ public class BrowserSteps {
     }
 
     /**
-     * <p>Производится сохранение заголовка страницы в переменную</p>
+     * Производится сохранение заголовка страницы в переменную
      *
      * @param variableName имя переменной
      */
@@ -222,7 +222,7 @@ public class BrowserSteps {
     }
 
     /**
-     * <p>Устанавливает размеры окна браузера</p>
+     * Устанавливает размеры окна браузера
      *
      * @param width  ширина
      * @param height высота
@@ -234,7 +234,7 @@ public class BrowserSteps {
     }
 
     /**
-     * <p>Разворачивает окно с браузером на весь экран</p>
+     * Разворачивает окно с браузером на весь экран
      */
     @И("^окно развернуто на весь экран$")
     public void expandWindowToFullScreen() {
@@ -242,7 +242,7 @@ public class BrowserSteps {
     }
 
     /**
-     * <p>Выполняется переход в конец страницы</p>
+     * Выполняется переход в конец страницы
      */
     @И("^совершен переход в конец страницы$")
     public void scrollDown() {
@@ -252,7 +252,7 @@ public class BrowserSteps {
     }
 
     /**
-     * <p>Метод осуществляет снятие скриншота и прикрепление его к cucumber отчету.</p>
+     * Метод осуществляет снятие скриншота и прикрепление его к cucumber отчету.
      */
     @И("^снят скриншот текущей страницы$")
     public void takeScreenshot() {
@@ -261,7 +261,7 @@ public class BrowserSteps {
     }
 
     /**
-     * <p>Удалить все cookies</p>
+     * Удалить все cookies
      */
     @И("^cookies приложения очищены$")
     public void deleteCookies() {
@@ -277,8 +277,8 @@ public class BrowserSteps {
     }
 
     /**
-     * <p>Поиск cookie по имени.
-     * Сохранение cookie в переменную для дальнейшего использования</p>
+     * Поиск cookie по имени.
+     * Сохранение cookie в переменную для дальнейшего использования
      *
      * @param cookieName   имя cookie
      * @param variableName имя переменной
@@ -298,7 +298,7 @@ public class BrowserSteps {
     }
 
     /**
-     * <p>Сохраняем все cookies в переменную для дальнейшего использования</p>
+     * Сохраняем все cookies в переменную для дальнейшего использования
      *
      * @param variableName имя переменной
      */
@@ -309,8 +309,8 @@ public class BrowserSteps {
     }
 
     /**
-     * <p>Находим cookie по имени и подменяем ее значение.
-     * Имя cookie и домен не меняются</p>
+     * Находим cookie по имени и подменяем ее значение.
+     * Имя cookie и домен не меняются
      *
      * @param cookieName  имя cookie
      * @param cookieValue значение cookie
@@ -323,7 +323,7 @@ public class BrowserSteps {
     }
 
     /**
-     * <p>Проверка что cookie нет на странице</p>
+     * Проверка что cookie нет на странице
      *
      * @param cookieName имя cookie
      */
