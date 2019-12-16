@@ -2,6 +2,7 @@ package ru.bcs.at.library.core.steps;
 
 import com.codeborne.selenide.SelenideElement;
 import cucumber.api.java.ru.*;
+import ru.bcs.at.library.core.cucumber.api.CorePage;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 
 import java.io.File;
@@ -328,7 +329,8 @@ public class WebCheckSteps {
      */
     @И("^значение (?:элемента|поля) \"([^\"]*)\" в блоке \"([^\"]*)\" сохранено в переменную \"([^\"]*)\"$")
     public void saveTextElementInBlock(String elementName, String blockName, String variableName) {
-        String elementText = coreScenario.getCurrentPage().getBlock(blockName).getAnyElementText(elementName);
+        CorePage block = coreScenario.getCurrentPage().getBlock(blockName);
+        String elementText = block.getAnyElementText(elementName);
         coreScenario.setVar(variableName, elementText);
         coreScenario.write("Значение [" + elementText + "] сохранено в переменную [" + variableName + "]");
     }

@@ -50,9 +50,9 @@ public class WebListSteps {
      */
     @И("^список \"([^\"]*)\" отображается на странице$")
     public void listIsPresentedOnPage(String elementName) {
-        ElementsCollection elements = coreScenario.getCurrentPage().getElementsList(elementName);
-        coreScenario.getCurrentPage().waitElementsUntil(
-                Condition.appear, (int) Configuration.timeout, elements);
+//        ElementsCollection elements = coreScenario.getCurrentPage().getElementsList(elementName);
+//        coreScenario.getCurrentPage().waitElementsUntil(
+//                Condition.appear, (int) Configuration.timeout, elements);
     }
 
     /**
