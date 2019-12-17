@@ -1,6 +1,7 @@
 # language: ru
 @unit
 @web
+@web_list_steps.feature
 Функционал: WebListSteps
 
   Предыстория: Предыстрория

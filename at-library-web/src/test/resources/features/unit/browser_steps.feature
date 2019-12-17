@@ -1,6 +1,8 @@
 # language: ru
 @unit
+@unit123
 @web
+@browser_steps.feature
 Функционал: BrowserSteps
 
 ####################################################################################
