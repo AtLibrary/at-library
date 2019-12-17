@@ -1,8 +1,9 @@
-package ru.bcs.at.library.core.steps;
+package ru.bcs.at.library.core.steps.mitmproxy;
 
 import cucumber.api.java.ru.И;
 import io.restassured.response.Response;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
+import ru.bcs.at.library.core.steps.RequestSteps;
 
 import static java.lang.String.format;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.tryLoadProperty;

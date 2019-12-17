@@ -1,10 +1,11 @@
-package ru.bcs.at.library.core.steps;
+package ru.bcs.at.library.core.steps.biztalk;
 
 import cucumber.api.java.ru.И;
 import io.cucumber.datatable.DataTable;
 import io.restassured.response.Response;
 import org.hamcrest.Matchers;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
+import ru.bcs.at.library.core.steps.RequestSteps;
 
 import java.util.Arrays;
 import java.util.Collections;

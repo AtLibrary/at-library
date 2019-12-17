@@ -5,7 +5,7 @@ import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.support.FindBy;
 import ru.bcs.at.library.core.cucumber.annotations.Name;
 import ru.bcs.at.library.core.cucumber.api.CorePage;
-import ru.bcs.at.library.core.steps.block.Navigation;
+import ru.bcs.at.library.core.steps.block.NavigationBlock;
 
 @Name("BCS demo аккаунт")
 public class BrokerDemoPage extends CorePage {
@@ -14,7 +14,7 @@ public class BrokerDemoPage extends CorePage {
 
     @Name("Навигация")
     @FindBy(xpath = ".//nav")
-    private Navigation navigation;
+    private NavigationBlock navigationBlock;
 
     @Name("ФИО")
     @FindBy(css = demoAccountForm + "[name=\"name\"]")

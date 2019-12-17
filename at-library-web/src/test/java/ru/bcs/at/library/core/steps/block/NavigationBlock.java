@@ -7,7 +7,7 @@ import ru.bcs.at.library.core.cucumber.annotations.Optional;
 import ru.bcs.at.library.core.cucumber.api.CorePage;
 
 @Name("Навигация")
-public class Navigation extends CorePage {
+public class NavigationBlock extends CorePage {
 
     @Name("БКС брокер")
     @FindBy(css = "[role=\"banner\"]")
@@ -40,7 +40,7 @@ public class Navigation extends CorePage {
 
     @Optional
     @Name("Для бизнеса")
-    @FindBy(xpath=".//div/a[text()='Для бизнеса']")
+    @FindBy(xpath=".//*[@href=\"/professionals\"]//../../../div/a[text()='Для бизнеса']")
     private SelenideElement forBusiness;
 
     @Optional
