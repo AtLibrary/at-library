@@ -36,7 +36,7 @@ public final class CoreScenario {
      * Среда прогона тестов, хранит в себе: Cucumber.Scenario,
      * переменные, объявленные пользователем в сценарии и страницы, тестирование которых будет производиться
      */
-    private static CoreEnvironment environment;
+    private static ThreadLocal<CoreEnvironment> environment = new ThreadLocal<>();
 
     private CoreScenario() {
     }
@@ -46,11 +46,11 @@ public final class CoreScenario {
     }
 
     public CoreEnvironment getEnvironment() {
-        return environment;
+        return environment.get();
     }
 
     public void setEnvironment(CoreEnvironment coreEnvironment) {
-        environment = coreEnvironment;
+        environment.set(coreEnvironment);
     }
 
     public static void sleep(int seconds) {
@@ -61,7 +61,7 @@ public final class CoreScenario {
      * Получение страницы, тестирование которой производится в данный момент
      */
     public CorePage getCurrentPage() {
-        return environment.getPages().getCurrentPage();
+        return environment.get().getPages().getCurrentPage();
     }
 
     /**
@@ -72,7 +72,7 @@ public final class CoreScenario {
             throw new IllegalArgumentException("Происходит переход на несуществующую страницу. " +
                     "Проверь аннотации @Name у используемых страниц");
         }
-        environment.getPages().setCurrentPage(page);
+        environment.get().getPages().setCurrentPage(page);
     }
 
     /**

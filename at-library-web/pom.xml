@@ -44,7 +44,7 @@
                     <testFailureIgnore>true</testFailureIgnore>
                     <argLine>
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/1.9.1/aspectjweaver-1.9.1.jar"
-                        -Dselenide.browser="chrome"
+<!--                        -Dselenide.browser="chrome"-->
 <!--                        -Dselenide.remote=http://test:test-password@selenoid.t-global.bcs:4444/wd/hub/-->
 <!--                        -Dproxy=172.18.62.68:8080-->
                         -Dcucumber.options="

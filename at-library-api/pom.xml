@@ -21,12 +21,12 @@
         <dependency>
             <groupId>org.mbtest.javabank</groupId>
             <artifactId>javabank-core</artifactId>
-            <version>0.4.13</version>
+            <version>0.4.10</version>
         </dependency>
         <dependency>
             <groupId>org.mbtest.javabank</groupId>
             <artifactId>javabank-client</artifactId>
-            <version>0.4.13</version>
+            <version>0.4.10</version>
         </dependency>
 
     </dependencies>
