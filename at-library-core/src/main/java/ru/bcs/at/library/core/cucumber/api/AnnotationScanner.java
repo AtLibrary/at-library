@@ -12,6 +12,8 @@
 package ru.bcs.at.library.core.cucumber.api;
 
 import org.reflections.Reflections;
+import org.reflections.util.ClasspathHelper;
+import org.reflections.util.ConfigurationBuilder;
 
 import java.lang.annotation.Annotation;
 import java.util.Set;
@@ -21,7 +23,17 @@ import java.util.Set;
  */
 public class AnnotationScanner {
 
-    private static Reflections reflection = new Reflections();
+    private static Reflections reflection;
+
+    /**
+     * Необходимо для работы в Maven
+     * смотрит на package ru.bcs и берет классы зависимые CorePage
+     */
+    static {
+        ConfigurationBuilder builder = new ConfigurationBuilder();
+        builder.addUrls(ClasspathHelper.forPackage(""));
+        reflection = new Reflections(builder);
+    }
 
     public Set<Class<?>> getClassesAnnotatedWith(Class<? extends Annotation> annotation) {
         return reflection.getTypesAnnotatedWith(annotation);
