@@ -266,7 +266,7 @@ public class OtherSteps {
      */
     @И("^шаблон \"([^\"]*)\" заполнен данными из таблицы и сохранён в переменную \"([^\"]*)\"$")
     public void fillTemplate(String templateName, String varName, DataTable table) {
-        String template = tryLoadProperty(templateName);
+        String template = getPropertyOrValue(templateName);
         template = loadValueFromFileOrVariableOrDefault(template);
         boolean error = false;
         for (List<String> list : table.asLists()) {

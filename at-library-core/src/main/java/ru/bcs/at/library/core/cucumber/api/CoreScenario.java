@@ -19,6 +19,8 @@ import ru.bcs.at.library.core.cucumber.ScopedVariables;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
+import static ru.bcs.at.library.core.setup.AtCoreConfig.debugCore;
+
 /**
  * Главный класс, отвечающий за сопровождение тестовых шагов
  */
@@ -118,7 +120,9 @@ public final class CoreScenario {
      * Выводит дополнительный информационный текст в отчет (уровень логирования INFO)
      */
     public void write(Object object) {
-        this.getEnvironment().write(object);
+        if(debugCore){
+            this.getEnvironment().write(object);
+        }
     }
 
     /**

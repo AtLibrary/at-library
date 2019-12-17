@@ -33,6 +33,7 @@ import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadProperty;
+import static ru.bcs.at.library.core.setup.AtCoreConfig.isAppeared;
 
 /**
  * Класс для реализации паттерна PageObject
@@ -182,7 +183,9 @@ public abstract class CorePage extends ElementsContainer {
      * Ex: CorePage.appeared().doSomething();
      */
     public final CorePage appeared() {
-        isAppeared();
+        if(isAppeared){
+            isAppeared();
+        }
         return this;
     }
 
@@ -234,7 +237,9 @@ public abstract class CorePage extends ElementsContainer {
      * Используется при работе с IE
      */
     public final CorePage ieAppeared() {
-        isAppearedInIe();
+        if(isAppeared){
+            isAppearedInIe();
+        }
         return this;
     }
 
