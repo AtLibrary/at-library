@@ -1,0 +1,18 @@
+{
+  "id": 17122019,
+  "category": {
+    "id": 17122019,
+    "name": "cat"
+  },
+  "name": "tomas dangerous",
+  "photoUrls": [
+    "string"
+  ],
+  "tags": [
+    {
+      "id": 17122019,
+      "name": "wild cat"
+    }
+  ],
+  "status": "available"
+}

@@ -25,6 +25,9 @@ import java.util.function.Consumer;
 @Slf4j
 public final class CoreScenario {
 
+    public static final String CURRENT = "CURRENT_VARIABLE";
+    public static final String TEMP_RESPONSE = "TEMP_RESPONSE";
+
     private static CoreScenario instance = new CoreScenario();
 
     /**
