@@ -7,6 +7,7 @@ import io.cucumber.datatable.DataTable;
 import io.restassured.RestAssured;
 import io.restassured.config.JsonConfig;
 import io.restassured.config.RestAssuredConfig;
+import io.restassured.config.SSLConfig;
 import io.restassured.http.Cookie;
 import io.restassured.http.Method;
 import io.restassured.path.json.config.JsonPathConfig;
@@ -246,7 +247,14 @@ public class RequestSteps {
     private Response sendRequest(String method, String address, DataTable dataTable) {
         address = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(address);
         RestAssured.config =
-                RestAssuredConfig.newConfig().jsonConfig(JsonConfig.jsonConfig().numberReturnType(JsonPathConfig.NumberReturnType.BIG_DECIMAL));
+                RestAssuredConfig.newConfig()
+                        .jsonConfig(JsonConfig.jsonConfig().numberReturnType(JsonPathConfig.NumberReturnType.BIG_DECIMAL));
+
+        // todo удалить, когда будет переделан механизм работы с biztalk
+        if (address.contains("biz-srv")) {
+            RestAssured.config = RestAssured.config
+                    .sslConfig(new SSLConfig().trustStore("truststore_biztalk.jks", "biztalk"));
+        }
 
         RequestSender request = createRequest(dataTable);
         return request.request(Method.valueOf(method), address);
@@ -261,7 +269,6 @@ public class RequestSteps {
      */
     private RequestSender createRequest(DataTable dataTable) {
         String body = null;
-        RestAssured.useRelaxedHTTPSValidation();
         RequestSpecification request = RestAssured.given();
 
         if (dataTable != null) {
