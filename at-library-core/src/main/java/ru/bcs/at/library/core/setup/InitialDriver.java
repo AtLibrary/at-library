@@ -5,9 +5,9 @@ import com.codeborne.selenide.WebDriverRunner;
 import com.google.common.base.Strings;
 import cucumber.api.Scenario;
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.android.AndroidDriver;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import lombok.extern.log4j.Log4j2;
-import org.junit.Assert;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -117,7 +117,6 @@ public class InitialDriver {
 
     private void initRemoteStart(Proxy proxy, Scenario scenario) throws MalformedURLException {
         log.info("Тесты запущены на удаленной машине: " + Configuration.remote);
-        log.info("Тесты будут запущены в браузере: " + browser);
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("enableVNC", true);
@@ -130,6 +129,8 @@ public class InitialDriver {
         }
 
         if (testDevice.equals("web")) {
+            log.info("Тесты будут запущены в браузере: " + browser);
+
             capabilities.setBrowserName(Configuration.browser);
             capabilities.setCapability("screenResolution", "1920x1080");
             capabilities.setCapability("width", "1920");
@@ -143,14 +144,33 @@ public class InitialDriver {
         }
 
         if (testDevice.equals("mobile")) {
-            capabilities.setCapability(PLATFORM_NAME, AtCoreConfig.platformName);
+            log.info("Тесты будут запущены на мобильном устройстве: " + AtCoreConfig.deviceName);
+
             capabilities.setCapability("deviceName", AtCoreConfig.deviceName);
+            capabilities.setCapability("udid", AtCoreConfig.udid);
+            capabilities.setCapability(PLATFORM_NAME, AtCoreConfig.platformName);
             capabilities.setCapability("platformVersion", AtCoreConfig.platformVersion);
             capabilities.setCapability("app", AtCoreConfig.app);
-            capabilities.setCapability("udid", AtCoreConfig.udid);
 
             setWebDriver(
                     new AppiumDriver(
+                            URI.create(Configuration.remote).toURL(),
+                            capabilities));
+        }
+
+        if (testDevice.equals("mobile web")) {
+            log.info("Тесты будут запущены на мобильном устройстве: " + AtCoreConfig.deviceName);
+            log.info("Тесты будут запущены в браузере: " + browser);
+
+            capabilities.setCapability("deviceName", AtCoreConfig.deviceName);
+            capabilities.setCapability("udid", AtCoreConfig.udid);
+            capabilities.setCapability(PLATFORM_NAME, AtCoreConfig.platformName);
+            capabilities.setCapability("platformVersion", AtCoreConfig.platformVersion);
+            capabilities.setBrowserName(Configuration.browser);
+            capabilities.setCapability("version", AtCoreConfig.version);
+
+            setWebDriver(
+                    new AndroidDriver<>(
                             URI.create(Configuration.remote).toURL(),
                             capabilities));
         }
@@ -176,7 +196,7 @@ public class InitialDriver {
         boolean web = scenario.getSourceTagNames().contains("@web");
         boolean mobile = scenario.getSourceTagNames().contains("@mobile");
         if (web && mobile) {
-            Assert.fail("Сценарий подписан тегом @web и @mobile . Подпишите одним из них");
+            return "mobile web";
         }
         if (web) {
             return "web";

@@ -7,7 +7,7 @@
     <groupId>ru.bcs</groupId>
     <artifactId>at-library</artifactId>
     <packaging>pom</packaging>
-    <version>13.12.2019</version>
+    <version>18.12.2019</version>
 
     <modules>
         <module>at-library-core</module>
@@ -23,7 +23,7 @@
         <!--API ТЕСТИРОВАНИЕ-->
         <rest-assured.version>3.3.0</rest-assured.version>
         <!--MOBILE ТЕСТИРОВАНИЕ-->
-        <io.appium.java-client.version>7.0.0</io.appium.java-client.version>
+        <io.appium.java-client.version>7.3.0</io.appium.java-client.version>
         <!--CUCUMBER-->
         <cucumber.version>4.3.0</cucumber.version>
         <agent-java-cucumber4.version>4.0.2-BCS</agent-java-cucumber4.version>
@@ -204,6 +204,12 @@
             <groupId>io.appium</groupId>
             <artifactId>mitmproxy-java</artifactId>
             <version>2.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.selendroid</groupId>
+            <artifactId>selendroid-client</artifactId>
+            <version>0.17.0</version>
         </dependency>
     </dependencies>
 

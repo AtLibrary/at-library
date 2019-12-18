@@ -261,6 +261,7 @@ public class RequestSteps {
      */
     private RequestSender createRequest(DataTable dataTable) {
         String body = null;
+        RestAssured.useRelaxedHTTPSValidation();
         RequestSpecification request = RestAssured.given();
 
         if (dataTable != null) {

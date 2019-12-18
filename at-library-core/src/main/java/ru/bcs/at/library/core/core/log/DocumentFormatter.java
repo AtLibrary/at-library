@@ -2,14 +2,15 @@ package ru.bcs.at.library.core.core.log;
 
 import com.google.gson.*;
 import lombok.extern.log4j.Log4j2;
-import org.w3c.dom.Node;
-import org.w3c.dom.bootstrap.DOMImplementationRegistry;
-import org.w3c.dom.ls.DOMImplementationLS;
-import org.w3c.dom.ls.LSSerializer;
-import org.xml.sax.InputSource;
 
-import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 import java.io.StringReader;
+import java.io.StringWriter;
 
 
 /**
@@ -47,29 +48,20 @@ public class DocumentFormatter {
      * преобразование xml к "красивому" виду
      */
     private static String createPrettyPrintXml(String input) {
-        if (input.isEmpty()) {
-            return ""; //**QUIT**
-        }
-        InputSource src = new InputSource(new StringReader(input));
+        input = input.replaceAll("\uFEFF", ""); // todo временно для biztalk, потом удалить
+        Source xmlInput = new StreamSource(new StringReader(input));
+        StringWriter stringWriter = new StringWriter();
         try {
-            Node document = DocumentBuilderFactory.newInstance().newDocumentBuilder()
-                    .parse(String.valueOf(src)).getDocumentElement();
-            Boolean keepDeclaration = input.startsWith("<?xml");
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC, "yes");
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+            transformer.transform(xmlInput, new StreamResult(stringWriter));
 
-            System.setProperty(DOMImplementationRegistry.PROPERTY,
-                    "com.sun.org.apache.xerces.internal.dom.DOMImplementationSourceImpl");
-
-            DOMImplementationRegistry registry = DOMImplementationRegistry
-                    .newInstance();
-            DOMImplementationLS impl = (DOMImplementationLS) registry
-                    .getDOMImplementation("LS");
-            LSSerializer writer = impl.createLSSerializer();
-
-            writer.getDomConfig().setParameter("format-pretty-print", Boolean.TRUE);
-            writer.getDomConfig().setParameter("xml-declaration", keepDeclaration);
-            return writer.writeToString(document);
-        } catch (Exception e) {
-            return "Error pretty printing xml:\n" + e.getMessage(); //todo подкрасить?
+            return stringWriter.toString().trim();
+        } catch (Exception ex) {
+            return "Error pretty printing xml:\n" + ex.getMessage(); //todo подкрасить?
         }
     }
 

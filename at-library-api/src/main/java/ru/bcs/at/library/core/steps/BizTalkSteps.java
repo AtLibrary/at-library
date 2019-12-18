@@ -9,7 +9,8 @@ import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 import java.util.Arrays;
 import java.util.Collections;
 
-import static ru.bcs.at.library.core.core.helpers.PropertyLoader.*;
+import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault;
+import static ru.bcs.at.library.core.core.helpers.PropertyLoader.tryLoadProperty;
 
 /**
  * <h1>Шаги по работе с BizTalk</h1>
