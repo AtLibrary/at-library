@@ -8,7 +8,7 @@ at-library-mobile
 <dependency>
       <groupId>ru.bcs</groupId>
       <artifactId>at-library-mobile</artifactId>
-      <version>17.12.2019-allure6</version>
+      <version>17.12.2019-allure10</version>
 </dependency>
 ```
 
