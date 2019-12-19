@@ -18,7 +18,7 @@ public class JsonArrayVerificationSteps {
     private CoreScenario coreScenario = CoreScenario.getInstance();
 
     /**
-     * <p>Проверка что массив найденный по jsonPath в ответе responseName содержит value</p>
+     * Проверка что массив найденный по jsonPath в ответе responseName содержит value
      *
      * @param responseName переменная в которой сохранен Response
      * @param key          jsonPath поиска массива
@@ -34,7 +34,7 @@ public class JsonArrayVerificationSteps {
     }
 
     /**
-     * <p>Все объекты в коллекции имеют поле с определенным названием, содержащим конкретное значение</p>
+     * Все объекты в коллекции имеют поле с определенным названием, содержащим конкретное значение
      *
      * @param responseName переменная в которой сохранен Response
      * @param jsonPath     jsonPath поиска массива
@@ -158,7 +158,7 @@ public class JsonArrayVerificationSteps {
     }
 
     /**
-     * <p>Проверка что массив найденный по  jsonPath размером = value</p>
+     * Проверка что массив найденный по  jsonPath размером = value
      *
      * @param responseName переменная в которой сохранен Response
      * @param jsonPath     jsonPath поиска массива

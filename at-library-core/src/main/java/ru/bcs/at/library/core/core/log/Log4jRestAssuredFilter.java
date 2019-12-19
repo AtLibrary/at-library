@@ -9,10 +9,11 @@ import io.restassured.specification.FilterableResponseSpecification;
 import lombok.extern.log4j.Log4j2;
 
 /**
- * <h1>Класс утилит, для чтения RestAssured в Log4j2</h1>
+ * Класс утилит, для чтения RestAssured в Log4j2
  */
 @Log4j2
 public class Log4jRestAssuredFilter implements OrderedFilter {
+
     @Override
     public int getOrder() {
         return 10000;

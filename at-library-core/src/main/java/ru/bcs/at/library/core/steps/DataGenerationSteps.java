@@ -10,25 +10,26 @@ import java.util.Random;
 
 import static org.apache.commons.lang3.RandomUtils.nextBoolean;
 import static ru.bcs.at.library.core.steps.OtherSteps.getRandCharSequence;
+
 /**
- * <h1>Шаги генерации тестовых данных</h1>
+ * Шаги генерации тестовых данных
  */
 public class DataGenerationSteps {
 
     private static CoreScenario coreScenario = CoreScenario.getInstance();
 
     /**
-     * <p>Конкатенация строк</p>
+     * Конкатенация строк
      */
     @И("конкатенация строк \"([^\"]*)\" и \"([^\"]*)\" и сохранено в переменную \"([^\"]*)\"$")
     public void concatenationString(String text1, String text2, String varName) {
         String text = text1 + text2;
         coreScenario.setVar(varName, text);
-        coreScenario.write("Строка равна :" + text);
+        coreScenario.write("Строка равна: " + text);
     }
 
     /**
-     * <p>Генерация последовательности латинских или кириллических букв задаваемой длины</p>
+     * Генерация последовательности латинских или кириллических букв задаваемой длины
      */
     @И("^генерация (\\d+) случайных символов на ((?:кириллице|латинице)) и сохранено в переменную \"([^\"]*)\"$")
     public void setRandomCharSequence(int seqLength, String lang, String varName) {
@@ -39,57 +40,60 @@ public class DataGenerationSteps {
         }
         String charSeq = getRandCharSequence(seqLength, lang);
         coreScenario.setVar(varName, charSeq);
-        coreScenario.write("Строка случайных символов равна :" + charSeq);
+        coreScenario.write("Строка случайных символов равна: " + charSeq);
     }
 
     /**
-     * <p>Генерация последовательности цифр задаваемой длины и сохранение этого значения в переменную</p>
+     * Генерация последовательности цифр задаваемой длины и сохранение этого значения в переменную
      */
     @И("^генерация случайного числа из (\\d+) (?:цифр|цифры) и сохранение в переменную \"([^\"]*)\"$")
     public void randomNumSequence(int seqLength, String varName) {
         String numSeq = RandomStringUtils.randomNumeric(seqLength);
         coreScenario.setVar(varName, numSeq);
-        coreScenario.write("Случайное число равно :" + numSeq);
+        coreScenario.write("Случайное число равно: " + numSeq);
     }
 
     /**
-     * <p>Создает случайную строку, длина которой находится между включающим минимумом и максимум </ p>
+     * Создает случайную строку, которая находится между включающим минимумом и максимум </ p>
      */
     @И("^генерация случайного числа в диапазоне от (\\d+) до (\\d+) и сохранение в переменную \"([^\"]*)\"$")
     public void rRandomNumSequence(int min, int max, String varName) {
-        String numSeq = RandomStringUtils.randomNumeric(min, max);
+        max -= min;
+        long number = (long) (Math.random() * ++max) + min;
+        String numSeq = String.valueOf(number);
+        ;
         coreScenario.setVar(varName, numSeq);
-        coreScenario.write("Случайное число равно :" + numSeq);
+        coreScenario.write("Случайное число равно: " + numSeq);
     }
 
     /**
-     * <p>Генерация случайного boolean и сохранение в переменную</p>
+     * Генерация случайного boolean и сохранение в переменную
      */
     @И("^генерация случайного boolean и сохранение в переменную \"([^\"]*)\"$")
     public void randomBoolean(String varName) {
         String randomString = String.valueOf(nextBoolean());
         coreScenario.setVar(varName, randomString);
-        coreScenario.write("Случайное boolean равно :" + randomString);
+        coreScenario.write("Случайное boolean равно: " + randomString);
     }
 
     /**
-     * <p>Выбрано случайное знание из списка и сохранено в переменную</p>
+     * Выбрано случайное знание из списка и сохранено в переменную
      */
     @И("^сохранено в переменную \"([^\"]*)\" случайное значение из списка:$")
     public void randomStingInList(String varName, List<String> list) {
         int random = new Random().nextInt(list.size());
         String randomString = list.get(random);
         coreScenario.setVar(varName, randomString);
-        coreScenario.write("Строка равна :" + randomString);
+        coreScenario.write("Строка равна: " + randomString);
     }
 
     /**
-     * <p>Сгенерирован случайный email и сохранен в переменную</p>
+     * Сгенерирован случайный email и сохранен в переменную
      */
     @И("^генерация случайного email и сохранение в переменную \"([^\"]*)\"$")
     public void randomEmail(String varName) {
         String randomEmail = MockNeat.secure().emails().val();
         coreScenario.setVar(varName, randomEmail);
-        coreScenario.write("Email равен :" + randomEmail);
+        coreScenario.write("Email равен: " + randomEmail);
     }
 }

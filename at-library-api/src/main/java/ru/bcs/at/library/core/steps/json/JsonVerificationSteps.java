@@ -25,7 +25,7 @@ public class JsonVerificationSteps {
     private CoreScenario coreScenario = CoreScenario.getInstance();
 
     /**
-     * <p>Создание json на основе json-шаблона</p>
+     * Создание json на основе json-шаблона
      *
      * @param dataTable    таблица с ключ знанчение для замены текста в json
      *                     обчная замена текста
@@ -61,7 +61,7 @@ public class JsonVerificationSteps {
     }
 
     /**
-     * <p>Проверка Response</p>
+     * Проверка Response
      *
      * @param typeContentBody тип контента
      * @param valueToFind     имя переменной которая содержит Response
@@ -76,7 +76,7 @@ public class JsonVerificationSteps {
     }
 
     /**
-     * <p>Проверка Response</p>
+     * Проверка Response
      *
      * @param typeContentBody тип контента
      * @param valueToFind     имя переменной которая содержит Response
@@ -122,9 +122,9 @@ public class JsonVerificationSteps {
     }
 
     /**
-     * <p>В json строке, сохраннённой в переменной, происходит поиск значений по jsonpath из первого столбца таблицы.
+     * В json строке, сохраннённой в переменной, происходит поиск значений по jsonpath из первого столбца таблицы.
      * Полученные значения сохраняются в переменных. Название переменной указывается во втором столбце таблицы.
-     * Шаг работает со всеми типами json элементов: объекты, массивы, строки, числа, литералы true, false и null.</p>
+     * Шаг работает со всеми типами json элементов: объекты, массивы, строки, числа, литералы true, false и null.
      *
      * @param typeContentBody тип контента
      * @param valueToFind     имя переменной которая содержит Response
@@ -158,9 +158,9 @@ public class JsonVerificationSteps {
     }
 
     /**
-     * <p>В json строке, сохраннённой в переменной, происходит поиск значений по jsonpath из первого столбца таблицы.
+     * В json строке, сохраннённой в переменной, происходит поиск значений по jsonpath из первого столбца таблицы.
      * Полученные значения сохраняются в переменных. Название переменной указывается во втором столбце таблицы.
-     * Шаг работает со всеми типами json элементов: объекты, массивы, строки, числа, литералы true, false и null.</p>
+     * Шаг работает со всеми типами json элементов: объекты, массивы, строки, числа, литералы true, false и null.
      *
      * @param valueToFind имя переменной которая содержит Response
      * @param dataTable   И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
@@ -186,7 +186,7 @@ public class JsonVerificationSteps {
     }
 
     /**
-     * <p>Проверка json</p>
+     * Проверка json
      */
     @Deprecated
     @И("^в json \"([^\"]*)\" значения равны(|, без учета регистра,) значениям из таблицы$")
@@ -216,7 +216,7 @@ public class JsonVerificationSteps {
     }
 
     /**
-     * <p>Проверка json</p>
+     * Проверка json
      */
     @Deprecated
     @И("^в json \"([^\"]*)\" значения соответствуют шаблонам из таблицы$")
@@ -240,7 +240,7 @@ public class JsonVerificationSteps {
     }
 
     /**
-     * <p>значения найденные по jsonPath из json ответа "ПЕРВЫЙ" равны значениям из json ответа "ВТОРОЙ"</p>
+     * значения найденные по jsonPath из json ответа "ПЕРВЫЙ" равны значениям из json ответа "ВТОРОЙ"
      *
      * @param nameResponseOne имя первого ответа
      * @param nameResponseTwo имя второго ответа ответа
@@ -279,7 +279,7 @@ public class JsonVerificationSteps {
     }
 
     /**
-     * <p>Сравнение body json ответа с ожидаемым</p>
+     * Сравнение body json ответа с ожидаемым
      *
      * @param variableName     переменная в которой сохранен Response
      * @param pathExpectedJson путь к json файлу
@@ -296,7 +296,7 @@ public class JsonVerificationSteps {
     }
 
     /**
-     * <p>Проверка что тело ответа соответсвует json схеме</p>
+     * Проверка что тело ответа соответсвует json схеме
      *
      * @param variableName       переменная в которой сохранен Response
      * @param expectedJsonSchema путь до .json файла со схемой

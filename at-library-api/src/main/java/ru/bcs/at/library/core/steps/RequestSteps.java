@@ -26,23 +26,23 @@ import java.util.List;
 
 import static java.lang.String.format;
 import static org.hamcrest.Matchers.is;
-import static ru.bcs.at.library.core.core.helpers.PropertyLoader.*;
+import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault;
+import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadValueFromFileOrVariableOrDefault;
 
 /**
- * <h1>Шаги по формированию и отправки запроса</h1>
+ * Шаги по формированию и отправки запроса
  */
 public class RequestSteps {
 
-    @Getter
-    private static RequestSteps instance = new RequestSteps();
-
     private static final String REQUEST_URL = "выполнен ((?:GET|PUT|POST|DELETE|HEAD|TRACE|OPTIONS|PATCH)) запрос на URL \"([^\"]+)\"";
     public static int requestRetries = Integer.parseInt(System.getProperty("request.retries", "1"));
+    @Getter
+    private static RequestSteps instance = new RequestSteps();
     private CoreScenario coreScenario = CoreScenario.getInstance();
 
     /**
-     * <p>Отправка http запроса по заданному урлу без параметров и BODY.
-     * Результат сохраняется в заданную переменную</p>
+     * Отправка http запроса по заданному урлу без параметров и BODY.
+     * Результат сохраняется в заданную переменную
      *
      * @param method               методов HTTP запроса
      * @param address              url запроса (можно задать как напрямую в шаге, так и указав в application.properties)
@@ -57,8 +57,8 @@ public class RequestSteps {
     }
 
     /**
-     * <p>Отправка http запроса по заданному урлу с параметрами и/или BODY.
-     * Результат сохраняется в заданную переменную</p>
+     * Отправка http запроса по заданному урлу с параметрами и/или BODY.
+     * Результат сохраняется в заданную переменную
      *
      * @param method               методов HTTP запроса
      * @param address              url запроса (можно задать как напрямую в шаге, так и указав в application.properties)
@@ -77,8 +77,8 @@ public class RequestSteps {
     }
 
     /**
-     * <p>Отправка http запроса по заданному урлу с параметрами и/или BODY.
-     * Результат сохраняется в заданную переменную</p>
+     * Отправка http запроса по заданному урлу с параметрами и/или BODY.
+     * Результат сохраняется в заданную переменную
      *
      * @param method             методов HTTP запроса
      * @param address            url запроса (можно задать как напрямую в шаге, так и указав в application.properties)
@@ -97,8 +97,8 @@ public class RequestSteps {
     }
 
     /**
-     * <p>Отправка http запроса по заданному урлу с параметрами и/или BODY.
-     * Результат сохраняется в заданную переменную</p>
+     * Отправка http запроса по заданному урлу с параметрами и/или BODY.
+     * Результат сохраняется в заданную переменную
      *
      * @param method               методов HTTP запроса
      * @param address              url запроса (можно задать как напрямую в шаге, так и указав в application.properties)
@@ -120,8 +120,8 @@ public class RequestSteps {
     }
 
     /**
-     * <p>Отправка http запроса по заданному урлу с параметрами и/или BODY.
-     * Результат сохраняется в заданную переменную</p>
+     * Отправка http запроса по заданному урлу с параметрами и/или BODY.
+     * Результат сохраняется в заданную переменную
      *
      * @param method               методов HTTP запроса
      * @param address              url запроса (можно задать как напрямую в шаге, так и указав в application.properties)
@@ -139,9 +139,9 @@ public class RequestSteps {
     }
 
     /**
-     * <p>Отправка http запроса по заданному урлу с параметрами и/или BODY периодично в заданный интервал времени
+     * Отправка http запроса по заданному урлу с параметрами и/или BODY периодично в заданный интервал времени
      * пока ответ не вернет ожидаемый statusCode или закончится время выполнения попыток.
-     * Результат сохраняется в заданную переменную</p>
+     * Результат сохраняется в заданную переменную
      *
      * @param timeoutSec           время выполнения попыток запроса - таймаут попыток
      * @param periodSec            период попыток запроса - ожидание между попытками
@@ -164,9 +164,9 @@ public class RequestSteps {
     }
 
     /**
-     * <p>Отправка http запроса по заданному урлу с параметрами и/или BODY периодично в заданный интервал времени
+     * Отправка http запроса по заданному урлу с параметрами и/или BODY периодично в заданный интервал времени
      * пока ответ не вернет ожидаемый statusCode или закончится время выполнения попыток.
-     * Результат сохраняется в заданную переменную</p>
+     * Результат сохраняется в заданную переменную
      *
      * @param timeoutSec           время выполнения попыток запроса - таймаут попыток
      * @param periodSec            период попыток запроса - ожидание между попытками
@@ -192,12 +192,12 @@ public class RequestSteps {
     }
 
     /**
-     * <p>Отправка http запроса по заданному урлу с параметрами и/или BODY периодично в заданный интервал времени
+     * Отправка http запроса по заданному урлу с параметрами и/или BODY периодично в заданный интервал времени
      * пока ответ не вернет ожидаемый statusCode или закончится время выполнения попыток.
      *
-     *     Параметры запроса и требуемые параметры ответа в таблице отделяются строкой:
+     * Параметры запроса и требуемые параметры ответа в таблице отделяются строкой:
      * \ RESPONSE \ \ \
-     *     Например:
+     * Например:
      * \ BODY     \                \ test_text      \   - параметр запроса
      * \ HEADER   \ test_header    \ test_header    \   - параметр запроса
      * \ RESPONSE \                \                \   - строка разделитель
@@ -205,7 +205,7 @@ public class RequestSteps {
      * \ HEADER   \ checked_header \ checked_header \   - параметр ответа
      * \ COOKIE   \ checked_cookie \ checked_cookie \   - параметр ответа
      *
-     * Результат сохраняется в заданную переменную</p>
+     * Результат сохраняется в заданную переменную
      *
      * @param timeoutSec           время выполнения попыток запроса - таймаут попыток
      * @param periodSec            период попыток запроса - ожидание между попытками
@@ -219,12 +219,12 @@ public class RequestSteps {
      */
     @И("^в течение (\\d+) секунд каждую (\\d+) " + REQUEST_URL + " с параметрами из таблицы. Ожидается код ответа: (\\d+) с параметрами из таблицы. Полученный ответ сохранен в переменную \"([^\"]+)\"$")
     public void sendHttpRequestPeriodicallySaveResponseCheckResponseParams(int timeoutSec,
-                                                                         int periodSec,
-                                                                         String method,
-                                                                         String address,
-                                                                         int expectedStatusCode,
-                                                                         String responseNameVariable,
-                                                                         DataTable dataTable) {
+                                                                           int periodSec,
+                                                                           String method,
+                                                                           String address,
+                                                                           int expectedStatusCode,
+                                                                           String responseNameVariable,
+                                                                           DataTable dataTable) {
         DataTable respDataTable = null;
         if (dataTable.column(0).indexOf("RESPONSE") != -1) {
             respDataTable = dataTable.subTable(dataTable.column(0).indexOf("RESPONSE") + 1, 0, dataTable.height(), dataTable.width());
@@ -237,7 +237,7 @@ public class RequestSteps {
     }
 
     /**
-     * <p>Отправка http запроса</p>
+     * Отправка http запроса
      *
      * @param method    тип http запроса
      * @param address   url, на который будет направлен запроc
@@ -261,8 +261,8 @@ public class RequestSteps {
     }
 
     /**
-     * <p>Создание запроса
-     * Content-Type при необходимости должен быть указан в качестве header.</p>
+     * Создание запроса
+     * Content-Type при необходимости должен быть указан в качестве header.
      *
      * @param dataTable массив с параметрами
      * @return сформированный запрос
@@ -342,7 +342,7 @@ public class RequestSteps {
     }
 
     /**
-     * <p>Проверка параметров ответа.</p>
+     * Проверка параметров ответа.
      *
      * @param response  http-ответ
      * @param dataTable массив с параметрами
@@ -386,7 +386,7 @@ public class RequestSteps {
     }
 
     /**
-     * <p>Получает тела запроса</p>
+     * Получает тела запроса
      * TODO разобраться с реализацией метода и его необходимость
      *
      * @param value
@@ -404,7 +404,7 @@ public class RequestSteps {
     }
 
     /**
-     * <p>Получает ответ и сохраняет в переменную</p>
+     * Получает ответ и сохраняет в переменную
      *
      * @param variableName имя переменной, в которую будет сохранен ответ
      * @param response     ответ от http запроса
@@ -414,7 +414,7 @@ public class RequestSteps {
     }
 
     /**
-     * <p>Запрос отправляется заданное количество попыток requestRetries пока не ответ не вернет ожидаемый statusCode или закончистя количество попыток</p>
+     * Запрос отправляется заданное количество попыток requestRetries пока не ответ не вернет ожидаемый statusCode или закончистя количество попыток
      *
      * @param method             методов HTTP запроса
      * @param address            url запроса (можно задать как напрямую в шаге, так и указав в application.properties)
@@ -438,7 +438,7 @@ public class RequestSteps {
     }
 
     /**
-     * <p>Запрос отправляется периодично в заданный интервал времени пока ответ не вернет ожидаемый statusCode или закончится время выполнения попыток</p>
+     * Запрос отправляется периодично в заданный интервал времени пока ответ не вернет ожидаемый statusCode или закончится время выполнения попыток
      *
      * @param timeoutSec         время выполнения попыток запроса - таймаут попыток
      * @param periodSec          период попыток запроса - ожидание между попытками

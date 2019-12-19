@@ -19,7 +19,7 @@ import static ru.bcs.at.library.core.core.helpers.Utils.filterNodesByXPath;
 import static ru.bcs.at.library.core.core.helpers.Utils.readXml;
 
 /**
- * <h1>Класс-композиция для универсализации работы с форматированным текстом (json/xml/params)</h1>
+ * Класс-композиция для универсализации работы с форматированным текстом (json/xml/params)
  */
 public class FormattedDataContainer {
 
@@ -52,10 +52,9 @@ public class FormattedDataContainer {
     }
 
     /**
-     * <p>Чтение содержимого форматированного текста по path</p>
+     * Чтение содержимого форматированного текста по path
      *
      * @param path путь к необходимому параметру
-     *
      * @return значение по переданному пути
      */
     public String readValue(String path) {

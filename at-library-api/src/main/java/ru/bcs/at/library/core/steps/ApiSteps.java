@@ -2,8 +2,8 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>http://www.apache.org/licenses/LICENSE-2.0
- * <p>Unless required by applicable law or agreed to in writing, software
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
@@ -25,7 +25,7 @@ import java.util.Base64;
 import java.util.List;
 
 /**
- * <h1>Шаги проверки парамеров body ответа</h1>
+ * Шаги проверки парамеров body ответа
  */
 @Log4j2
 public class ApiSteps {
@@ -33,7 +33,7 @@ public class ApiSteps {
     private CoreScenario coreScenario = CoreScenario.getInstance();
 
     /**
-     * <p>Сравнение кода http ответа с ожидаемым</p>
+     * Сравнение кода http ответа с ожидаемым
      *
      * @param responseNameVariable переменная в которой сохранен Response
      * @param expectedStatusCode   ожидаемый http статус код
@@ -45,7 +45,7 @@ public class ApiSteps {
     }
 
     /**
-     * <p>Ответ, сохраннённый в переменной сохраняется в переменной.
+     * Ответ, сохраннённый в переменной сохраняется в переменной.
      *
      * @param responseNameVariable имя переменной, которая содержит Response
      * @param variableName         имя переменной хранилища переменных из CoreScenario, в которую необходимо сохранить значение.
@@ -59,7 +59,7 @@ public class ApiSteps {
     }
 
     /**
-     * <p>Получение Cookies из ответа</p>
+     * Получение Cookies из ответа
      *
      * @param responseNameVariable имя переменной которая содержит Response
      * @param dataTable            И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
@@ -86,7 +86,7 @@ public class ApiSteps {
     }
 
     /**
-     * <p>Сравнение в http ответе реальных header с ожидаемыми</p>
+     * Сравнение в http ответе реальных header с ожидаемыми
      *
      * @param responseNameVariable переменная в которой сохранен Response
      * @param dataTable            массив с параметрами

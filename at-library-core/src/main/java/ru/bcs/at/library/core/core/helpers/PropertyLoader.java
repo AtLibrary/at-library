@@ -2,8 +2,8 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>http://www.apache.org/licenses/LICENSE-2.0
- * <p>Unless required by applicable law or agreed to in writing, software
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
@@ -31,10 +31,11 @@ import java.util.List;
 import java.util.Properties;
 
 /**
- * <h1>Класс для получения свойств</h1>
+ * Класс для получения свойств
  */
 @Log4j2
 public class PropertyLoader {
+
     private static final String PROPERTIES_FILE = "/application.properties";
     private static final Properties PROPERTIES = getPropertiesInstance();
     private static final Properties PROFILE_PROPERTIES = getProfilePropertiesInstance();
@@ -43,9 +44,9 @@ public class PropertyLoader {
     }
 
     /**
-     * <p>Возвращает значение системного свойства
+     * Возвращает значение системного свойства
      * (из доступных для данной JVM) по его названию,
-     * в случае, если оно не найдено, вернется значение по умолчанию</p>
+     * в случае, если оно не найдено, вернется значение по умолчанию
      *
      * @param propertyName название свойства
      * @param defaultValue значение по умолчанию
@@ -57,9 +58,9 @@ public class PropertyLoader {
     }
 
     /**
-     * <p>Возвращает Integer значение системного свойства
+     * Возвращает Integer значение системного свойства
      * (из доступных для данной JVM) по его названию,
-     * в случае, если оно не найдено, вернется значение по умолчанию</p>
+     * в случае, если оно не найдено, вернется значение по умолчанию
      *
      * @param propertyName название свойства
      * @param defaultValue Integer значение по умолчанию
@@ -75,9 +76,9 @@ public class PropertyLoader {
     }
 
     /**
-     * <p>Возвращает Boolean значение системного свойства
+     * Возвращает Boolean значение системного свойства
      * (из доступных для данной JVM) по его названию,
-     * в случае, если оно не найдено, вернется значение по умолчанию</p>
+     * в случае, если оно не найдено, вернется значение по умолчанию
      *
      * @param propertyName название свойства
      * @param defaultValue Boolean значение по умолчанию
@@ -90,7 +91,7 @@ public class PropertyLoader {
     }
 
     /**
-     * <p>Возвращает свойство по его названию из property-файла</p>
+     * Возвращает свойство по его названию из property-файла
      *
      * @param propertyName название свойства
      * @return значение свойства, в случае, если значение не найдено,
@@ -105,8 +106,8 @@ public class PropertyLoader {
     }
 
     /**
-     * <p>Возвращает значение свойства из property-файла по его названию,
-     * если значение не найдено, возвращает это же значение в качестве значения по умолчанию</p>
+     * Возвращает значение свойства из property-файла по его названию,
+     * если значение не найдено, возвращает это же значение в качестве значения по умолчанию
      *
      * @param propertyNameOrValue название свойства/значение по умолчанию
      * @return значение по ключу value, если значение не найдено,
@@ -117,8 +118,8 @@ public class PropertyLoader {
     }
 
     /**
-     * <p>Возвращает значение свойства из property-файла по его названию,
-     * Если ничего не найдено, возвращает значение по умолчанию</p>
+     * Возвращает значение свойства из property-файла по его названию,
+     * Если ничего не найдено, возвращает значение по умолчанию
      *
      * @param propertyName название свойства
      * @param defaultValue значение по умолчанию
@@ -130,8 +131,8 @@ public class PropertyLoader {
     }
 
     /**
-     * <p>Возвращает значение свойства типа Integer из property-файла по названию,
-     * если ничего не найдено, возвращает значение по умолчанию</p>
+     * Возвращает значение свойства типа Integer из property-файла по названию,
+     * если ничего не найдено, возвращает значение по умолчанию
      *
      * @param propertyName название свойства
      * @param defaultValue значение по умолчанию
@@ -143,10 +144,10 @@ public class PropertyLoader {
     }
 
     /**
-     * <p>Вспомогательный метод, возвращает значение свойства по имени.
+     * Вспомогательный метод, возвращает значение свойства по имени.
      * Сначала поиск в System переменным,
      * затем в property-файле, если указано системное свойство "profile"
-     * Если ничего не найдено, поиск в /application.properties</p>
+     * Если ничего не найдено, поиск в /application.properties
      *
      * @param propertyName название свойства
      * @return значение свойства
@@ -165,10 +166,9 @@ public class PropertyLoader {
         return value;
     }
 
+
     /**
-     * <p>
      * Вспомогательный метод, возвращает значение свойства по имени.
-     * </p>
      */
     public static String loadValueFromFileOrVariableOrDefault(String valueToFind) {
         String pathAsString = StringUtils.EMPTY;
@@ -194,8 +194,8 @@ public class PropertyLoader {
     }
 
     /**
-     * <p>Получает значение из application.properties, файла по переданному пути, значение из хранилища переменных или как String аргумент
-     * Используется для получение body.json api шагах, либо для получения script.js в ui шагах</p>
+     * Получает значение из application.properties, файла по переданному пути, значение из хранилища переменных или как String аргумент
+     * Используется для получение body.json api шагах, либо для получения script.js в ui шагах
      *
      * @param valueToFind - ключ к значению в application.properties, путь к файлу c нужным значением, значение как String
      * @return значение как String
@@ -229,8 +229,8 @@ public class PropertyLoader {
     }
 
     /**
-     * <p>Циклически подставляет параметры из application.properties, содержимое файла по переданному пути,
-     * значение из хранилища переменных или как String аргумент</p>
+     * Циклически подставляет параметры из application.properties, содержимое файла по переданному пути,
+     * значение из хранилища переменных или как String аргумент
      *
      * @param processingValue - строка, содержащая в фигурных скобках ключи к значению в application.properties, переменные сценариев,
      *                        названия путей к файлам c нужным значением, значения как строки. Пример:
@@ -258,7 +258,7 @@ public class PropertyLoader {
     }
 
     /**
-     * <p>Вспомогательный метод, возвращает свойства из файла /application.properties</p>
+     * Вспомогательный метод, возвращает свойства из файла /application.properties
      *
      * @return свойства из файла /application.properties
      */
@@ -275,8 +275,8 @@ public class PropertyLoader {
     }
 
     /**
-     * <p>Вспомогательный метод, возвращает свойства из кастомного application.properties по пути
-     * из системного свойства "profile"</p>
+     * Вспомогательный метод, возвращает свойства из кастомного application.properties по пути
+     * из системного свойства "profile"
      *
      * @return прочитанные свойства из кастомного файла application.properties, если свойство "profile" указано, иначе пустой объект
      */

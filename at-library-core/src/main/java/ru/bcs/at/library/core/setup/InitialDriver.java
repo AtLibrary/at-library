@@ -6,23 +6,18 @@ import com.google.common.base.Strings;
 import cucumber.api.Scenario;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.opera.OperaDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.net.MalformedURLException;
 import java.net.URI;
 
-import static com.codeborne.selenide.Browsers.*;
+import static com.codeborne.selenide.Browsers.CHROME;
 import static com.codeborne.selenide.Configuration.browser;
 import static com.codeborne.selenide.WebDriverRunner.setWebDriver;
 import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
@@ -30,7 +25,7 @@ import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
 @Log4j2
 public class InitialDriver {
     /**
-     * <p>Создание WebDriver</p>
+     * Создание WebDriver
      */
 
     private String testDevice;
@@ -51,68 +46,25 @@ public class InitialDriver {
         } else {
             initRemoteStart(proxy, scenario);
         }
-
-        /**
-         * Устанавливает разрешения экрана
-         */
-        if (testDevice.equals("web")) {
-            WebDriverRunner.getWebDriver().manage().window().setSize(new Dimension(1920, 1080));
-        }
     }
 
     private void initLocalStart(Proxy proxy) {
         log.info("Тесты будут запущены на операционной системе: " + System.getProperty("os.name"));
         log.info("Тесты будут запущены локально в браузере: " + browser);
-        boolean linuxOS = System.getProperty("os.name").equals("Linux");
-        boolean macOS = System.getProperty("os.name").contains("Mac");
+        boolean windows = System.getProperty("os.name").toLowerCase().contains("windows");
 
+        if (windows && browser.equals(CHROME)) {
+            ChromeOptions options = new ChromeOptions();
+            options.setExperimentalOption("useAutomationExtension", false);
 
-        if (linuxOS || macOS) {
-            switch (browser) {
-                case CHROME: {
-                    WebDriverManager.chromedriver().setup();
-                    WebDriverRunner.setWebDriver(new ChromeDriver());
-                    break;
-                }
-                case FIREFOX: {
-                    WebDriverManager.firefoxdriver().setup();
-                    WebDriverRunner.setWebDriver(new FirefoxDriver());
-                    break;
-                }
-                case OPERA: {
-                    WebDriverManager.operadriver().setup();
-                    WebDriverRunner.setWebDriver(new OperaDriver());
-                    break;
-                }
-            }
-        } else {
-            switch (browser) {
-                case INTERNET_EXPLORER: {
-                    WebDriverRunner.setWebDriver(new InternetExplorerDriver());
-                    break;
-                }
-                case CHROME: {
-                    ChromeOptions options = new ChromeOptions();
-                    options.setExperimentalOption("useAutomationExtension", false);
-                    WebDriverRunner.setWebDriver(new ChromeDriver(options));
-                    break;
-                }
-                case FIREFOX: {
-                    WebDriverRunner.setWebDriver(new FirefoxDriver());
-                    break;
-                }
-                case OPERA: {
-                    WebDriverRunner.setWebDriver(new OperaDriver());
-                    break;
-                }
-            }
-
-            if (proxy != null) {
-                WebDriverRunner.setProxy(proxy);
-                log.info("Проставлена прокси: " + proxy);
-            }
-
+            WebDriverRunner.setWebDriver(new ChromeDriver(options));
         }
+
+        if (proxy != null) {
+            WebDriverRunner.setProxy(proxy);
+            log.info("Проставлена прокси: " + proxy);
+        }
+
     }
 
     private void initRemoteStart(Proxy proxy, Scenario scenario) throws MalformedURLException {
@@ -129,18 +81,13 @@ public class InitialDriver {
         }
 
         if (testDevice.equals("web")) {
+            Configuration.browserSize = "1920x1080";
             log.info("Тесты будут запущены в браузере: " + browser);
 
             capabilities.setBrowserName(Configuration.browser);
-            capabilities.setCapability("screenResolution", "1920x1080");
-            capabilities.setCapability("width", "1920");
-            capabilities.setCapability("height", "1080");
-            capabilities.setCapability("sessionTimeout", "1m");
+            capabilities.setCapability("sessionTimeout", "5m");
 
-            setWebDriver(
-                    new RemoteWebDriver(
-                            URI.create(Configuration.remote).toURL(),
-                            capabilities));
+            Configuration.browserCapabilities = capabilities;
         }
 
         if (testDevice.equals("mobile")) {

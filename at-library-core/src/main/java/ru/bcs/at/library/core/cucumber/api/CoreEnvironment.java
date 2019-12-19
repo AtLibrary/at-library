@@ -1,9 +1,9 @@
-/*
+/**
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>http://www.apache.org/licenses/LICENSE-2.0
- * <p>Unless required by applicable law or agreed to in writing, software
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
@@ -12,16 +12,17 @@
 package ru.bcs.at.library.core.cucumber.api;
 
 import cucumber.api.Scenario;
-import lombok.extern.log4j.Log4j2;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import ru.bcs.at.library.core.cucumber.ScopedVariables;
 import ru.bcs.at.library.core.cucumber.annotations.Name;
 
 import java.util.Arrays;
 
 /**
- * <h1>Класс, связанный с CoreScenario, используется для хранения страниц и переменных внутри сценария</h1>
+ * Класс, связанный с CoreScenario, используется для хранения страниц и переменных внутри сценария
  */
-@Log4j2
+@Slf4j
 public class CoreEnvironment {
 
     /**
@@ -38,11 +39,9 @@ public class CoreEnvironment {
      */
     private Pages pages = new Pages();
 
-    public CoreEnvironment(Scenario scenario, boolean webTest) {
+    public CoreEnvironment(Scenario scenario) {
         this.scenario = scenario;
-        if (webTest) {
-            initPages();
-        }
+        initPages();
     }
 
     public CoreEnvironment() {
@@ -51,9 +50,10 @@ public class CoreEnvironment {
 
     /**
      * Метод ищет классы, аннотированные "CorePage.Name",
-     * добавляя ссылки на эти классы в поле "ru.bcs.at.library.core.pages"
+     * добавляя ссылки на эти классы в поле "pages"
      */
     @SuppressWarnings("unchecked")
+    @SneakyThrows
     private void initPages() {
         new AnnotationScanner().getClassesAnnotatedWith(Name.class)
                 .stream()
@@ -68,9 +68,10 @@ public class CoreEnvironment {
     }
 
     /**
-     * @param c класс, который должен быть аннотирован "CorePage.Name"
-     * @return значение аннотации "CorePage.Name" для класса<h1 style="color: green; font-size: 2.2em">
      * Вспомогательный метод, получает значение аннотации "CorePage.Name" для класса
+     *
+     * @param c класс, который должен быть аннотирован "CorePage.Name"
+     * @return значение аннотации "CorePage.Name" для класса
      */
     private String getClassAnnotationValue(Class<?> c) {
         return Arrays.stream(c.getAnnotationsByType(Name.class))
@@ -83,7 +84,6 @@ public class CoreEnvironment {
      * Выводит дополнительный информационный текст в отчет (уровень логирования INFO)
      */
     public void write(Object object) {
-        log.info(String.valueOf(object));
         scenario.write(String.valueOf(object));
     }
 

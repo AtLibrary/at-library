@@ -14,7 +14,7 @@ import java.io.StringWriter;
 
 
 /**
- * <h1>Преобразователь документов для просмотра</h1>
+ * Преобразователь документов для просмотра
  */
 @Log4j2
 public class DocumentFormatter {
@@ -70,7 +70,7 @@ public class DocumentFormatter {
      * @param contType тип ответа
      * @return выровненный для просмотра документ или текст ошибки
      * преобразования
-     * <p>преобразование документа к "красивому" виду
+     * преобразование документа к "красивому" виду
      */
     public static String createPrettyPrint(String input, String contType) {
         if (contType == null) {

@@ -19,7 +19,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!--WEB ТЕСТИРОВАНИЕ-->
-        <selenide.version>5.4.1</selenide.version>
+        <selenide.version>5.5.1</selenide.version>
         <!--API ТЕСТИРОВАНИЕ-->
         <rest-assured.version>3.3.0</rest-assured.version>
         <!--MOBILE ТЕСТИРОВАНИЕ-->
@@ -30,7 +30,7 @@
         <!--ОТЧЕТ ALLURE-->
         <allure.version>2.13.0</allure.version>
         <!--LOMBOK-->
-        <lombok.version>1.16.20</lombok.version>
+        <lombok.version>1.18.10</lombok.version>
         <!--JACKSON-->
         <jackson.version>2.10.1</jackson.version>
         <!--HAMCREST-->
@@ -63,6 +63,10 @@
             <id>bintray-epam-reportportal</id>
             <name>bintray</name>
             <url>http://dl.bintray.com/epam/reportportal</url>
+        </repository>
+        <repository>
+            <id>jcenter</id>
+            <url>https://jcenter.bintray.com/</url>
         </repository>
     </repositories>
 
@@ -202,7 +206,7 @@
         <dependency>
             <groupId>net.andreinc.mockneat</groupId>
             <artifactId>mockneat</artifactId>
-            <version>0.1.7</version>
+            <version>0.3.7</version>
         </dependency>
         <!--ПРОКСИРОВАНИЕ-->
         <dependency>
