@@ -107,7 +107,7 @@ public class InitialSetupSteps {
             getWebDriver().close();
         }
         if (scenario.getSourceTagNames().contains("@mobile")
-            && !scenario.getSourceTagNames().contains("@web")) {
+                && !scenario.getSourceTagNames().contains("@web")) {
             AppiumDriver appiumDriver = (AppiumDriver) getWebDriver();
             appiumDriver.closeApp();
             appiumDriver.removeApp(AtCoreConfig.appPackageName);

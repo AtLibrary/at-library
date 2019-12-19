@@ -21,9 +21,9 @@
             </Policies>
         </RollingRandomAccessFile>
 
-        <!--        <ReportPortalLog4j2Appender name="ReportPortalAppender">-->
-        <!--            <PatternLayout pattern="${logPatternRP}"/>-->
-        <!--        </ReportPortalLog4j2Appender>-->
+        <ReportPortalLog4j2Appender name="ReportPortalAppender">
+            <PatternLayout pattern="${logPatternRP}"/>
+        </ReportPortalLog4j2Appender>
     </Appenders>
 
     <Loggers>

@@ -44,9 +44,49 @@ public abstract class CorePage extends ElementsContainer {
      * Стандартный таймаут ожидания элементов в миллисекундах
      */
     private static final String WAITING_APPEAR_TIMEOUT_IN_MILLISECONDS = "8000";
+    /**
+     * Список всех элементов страницы
+     */
+    private Map<String, Object> namedElements;
+    /**
+     * Список элементов страницы, не помеченных аннотацией "Optional" или "Hidden"
+     */
+    private List<SelenideElement> primaryElements;
+    /**
+     * Список элементов страницы, помеченных аннотацией "Hidden"
+     */
+    private List<SelenideElement> hiddenElements;
 
     public CorePage() {
         super();
+    }
+
+    /**
+     * Поиск элемента по имени внутри списка элементов
+     */
+    public static SelenideElement getButtonFromListByName(List<SelenideElement> listButtons, String nameOfButton) {
+        List<String> names = new ArrayList<>();
+        for (SelenideElement button : listButtons) {
+            names.add(button.getText());
+        }
+        return listButtons.get(names.indexOf(nameOfButton));
+    }
+
+    /**
+     * Приведение объекта к типу SelenideElement
+     */
+    private static SelenideElement castToSelenideElement(Object object) {
+        if (object instanceof SelenideElement) {
+            return (SelenideElement) object;
+        }
+        return null;
+    }
+
+    private static CorePage castToCorePage(Object object) {
+        if (object instanceof CorePage) {
+            return (CorePage) object;
+        }
+        return null;
     }
 
     /**
@@ -183,7 +223,7 @@ public abstract class CorePage extends ElementsContainer {
      * Ex: CorePage.appeared().doSomething();
      */
     public final CorePage appeared() {
-        if(isAppeared){
+        if (isAppeared) {
             isAppeared();
         }
         return this;
@@ -237,7 +277,7 @@ public abstract class CorePage extends ElementsContainer {
      * Используется при работе с IE
      */
     public final CorePage ieAppeared() {
-        if(isAppeared){
+        if (isAppeared) {
             isAppearedInIe();
         }
         return this;
@@ -277,7 +317,6 @@ public abstract class CorePage extends ElementsContainer {
                 elem.waitWhile(Condition.exist, Integer.valueOf(timeout)));
     }
 
-
     /**
      * Обертка над Selenide.waitUntil для произвольного количества элементов
      *
@@ -313,48 +352,6 @@ public abstract class CorePage extends ElementsContainer {
                 .collect(toList());
         Spectators.waitElementsUntil(condition, timeout, elements);
     }
-
-    /**
-     * Поиск элемента по имени внутри списка элементов
-     */
-    public static SelenideElement getButtonFromListByName(List<SelenideElement> listButtons, String nameOfButton) {
-        List<String> names = new ArrayList<>();
-        for (SelenideElement button : listButtons) {
-            names.add(button.getText());
-        }
-        return listButtons.get(names.indexOf(nameOfButton));
-    }
-
-    /**
-     * Приведение объекта к типу SelenideElement
-     */
-    private static SelenideElement castToSelenideElement(Object object) {
-        if (object instanceof SelenideElement) {
-            return (SelenideElement) object;
-        }
-        return null;
-    }
-
-    private static CorePage castToCorePage(Object object) {
-        if (object instanceof CorePage) {
-            return (CorePage) object;
-        }
-        return null;
-    }
-
-    /**
-     * Список всех элементов страницы
-     */
-    private Map<String, Object> namedElements;
-    /**
-     * Список элементов страницы, не помеченных аннотацией "Optional" или "Hidden"
-     */
-    private List<SelenideElement> primaryElements;
-
-    /**
-     * Список элементов страницы, помеченных аннотацией "Hidden"
-     */
-    private List<SelenideElement> hiddenElements;
 
     @Override
     public void setSelf(SelenideElement self) {

@@ -59,7 +59,7 @@ public class JsonArrayVerificationSteps {
     }
 
     /**
-     * <p>Все объекты в коллекции имеют поле с определенным названием, содержащим конкретное значение</p>
+     * Все объекты в коллекции имеют поле с определенным названием, содержащим конкретное значение
      *
      * @param responseName переменная в которой сохранен Response
      * @param jsonPath     jsonPath поиска массива
@@ -84,7 +84,7 @@ public class JsonArrayVerificationSteps {
     }
 
     /**
-     * <p>Все объекты в коллекции имеют поле с определенным названием, содержащим конкретное значение</p>
+     * Все объекты в коллекции имеют поле с определенным названием, содержащим конкретное значение
      *
      * @param responseName переменная в которой сохранен Response
      * @param jsonPath     jsonPath поиска массива
@@ -118,7 +118,7 @@ public class JsonArrayVerificationSteps {
     }
 
     /**
-     * <p>Проверка что массив найденный по jsonPath отсортирован по возрастанию</p>
+     * Проверка что массив найденный по jsonPath отсортирован по возрастанию
      *
      * @param responseName переменная в которой сохранен Response
      * @param jsonPath     jsonPath поиска массива
@@ -138,7 +138,7 @@ public class JsonArrayVerificationSteps {
     }
 
     /**
-     * <p>Проверка что массив найденный по jsonPath отсортирован по убыванию</p>
+     * Проверка что массив найденный по jsonPath отсортирован по убыванию
      *
      * @param responseName переменная в которой сохранен Response
      * @param jsonPath     jsonPath поиска массива
