@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -28,6 +28,7 @@ public final class CoreScenario {
 
     private static CoreScenario instance = new CoreScenario();
     public static final String CURRENT = "CURRENT_VARIABLE";
+    public static final String TEMP_RESPONSE = "TEMP_RESPONSE";
 
     /**
      * Среда прогона тестов, хранит в себе: Cucumber.Scenario,

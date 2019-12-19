@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -109,12 +109,13 @@ public class InitialSetupSteps {
             }
             Selenide.clearBrowserLocalStorage();
             Selenide.clearBrowserCookies();
-            if(browser.equals(SAFARI)){
+            if (browser.equals(SAFARI)) {
                 getWebDriver().quit();
             }
             getWebDriver().close();
         }
-        if (scenario.getSourceTagNames().contains("@mobile")) {
+        if (scenario.getSourceTagNames().contains("@mobile")
+            && !scenario.getSourceTagNames().contains("@web")) {
             AppiumDriver appiumDriver = (AppiumDriver) getWebDriver();
             appiumDriver.closeApp();
             appiumDriver.removeApp(AtCoreConfig.appPackageName);

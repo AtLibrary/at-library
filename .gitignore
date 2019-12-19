@@ -1,11 +1,7 @@
 target
 .idea
-at-library.iml
+*.iml
 .allure
 .DS_Store
-at-library-api.iml
-at-library-core.iml
-at-library-mobile.iml
-at-library-web.iml
 logs
 build/

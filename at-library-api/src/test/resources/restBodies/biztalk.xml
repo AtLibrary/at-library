@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<set_pin_request xmlns="http://www.mygemini.com/schemas/mygemini/">
+    <system_block>
+        <originator>IBSO_DISTR</originator>
+        <mean_for>IS.Clipboard</mean_for>
+        <document_id>8624781942</document_id>
+        <event>New</event>
+        <event_time>2015-04-09T09:20:55</event_time>
+    </system_block>
+    <body>
+        <card_mask>8298</card_mask>
+        <phone>79000000000</phone>
+        <pin_delivery_method>SMS</pin_delivery_method>
+    </body>
+</set_pin_request>

@@ -1,5 +1,6 @@
 package ru.bcs.at.library.core.steps.json;
 
+import com.google.common.collect.Ordering;
 import cucumber.api.java.ru.И;
 import io.restassured.response.Response;
 import org.hamcrest.MatcherAssert;
@@ -114,6 +115,46 @@ public class JsonArrayVerificationSteps {
                                 + valueEnd);
             }
         }
+    }
+
+    /**
+     * <p>Проверка что массив найденный по jsonPath отсортирован по возрастанию</p>
+     *
+     * @param responseName переменная в которой сохранен Response
+     * @param jsonPath     jsonPath поиска массива
+     */
+    @И("^в ответе \"([^\"]*)\" по ключу: \"([^\"]*)\" элементы отсортированы по возрастанию")
+    public void checkSortElementOrder(String responseName, String jsonPath) {
+        Response response = (Response) CoreScenario.getInstance().getVar(responseName);
+
+        List<String> list = response
+                .getBody().jsonPath().getList(jsonPath);
+
+        if (!Ordering.natural().nullsLast().isOrdered(list))
+            throw new AssertionError(
+                    "Найденный по jsonPath" + jsonPath +
+                            "\n список: " + list +
+                            "\n содержит значения которые не отсортированы по возрастанию");
+    }
+
+    /**
+     * <p>Проверка что массив найденный по jsonPath отсортирован по убыванию</p>
+     *
+     * @param responseName переменная в которой сохранен Response
+     * @param jsonPath     jsonPath поиска массива
+     */
+    @И("^в ответе \"([^\"]*)\" по ключу: \"([^\"]*)\" элементы отсортированы по убыванию")
+    public void checkSortDescElementOrder(String responseName, String jsonPath) {
+        Response response = (Response) CoreScenario.getInstance().getVar(responseName);
+
+        List<String> list = response
+                .getBody().jsonPath().getList(jsonPath);
+
+        if (!Ordering.natural().nullsLast().reverse().isOrdered(list))
+            throw new AssertionError(
+                    "Найденный по jsonPath" + jsonPath +
+                            "\n список: " + list +
+                            "\n содержит значения которые не отсортированы по убыванию");
     }
 
     /**

@@ -7,7 +7,7 @@
     <groupId>ru.bcs</groupId>
     <artifactId>at-library</artifactId>
     <packaging>pom</packaging>
-    <version>12.11.2019-stable</version>
+    <version>18.12.2019</version>
 
     <modules>
         <module>at-library-core</module>
@@ -23,7 +23,7 @@
         <!--API ТЕСТИРОВАНИЕ-->
         <rest-assured.version>3.3.0</rest-assured.version>
         <!--MOBILE ТЕСТИРОВАНИЕ-->
-        <io.appium.java-client.version>7.0.0</io.appium.java-client.version>
+        <io.appium.java-client.version>7.3.0</io.appium.java-client.version>
         <!--CUCUMBER-->
         <cucumber.version>4.3.0</cucumber.version>
         <agent-java-cucumber4.version>4.0.2-BCS</agent-java-cucumber4.version>
@@ -31,6 +31,8 @@
         <allure.version>2.13.0</allure.version>
         <!--LOMBOK-->
         <lombok.version>1.16.20</lombok.version>
+        <!--JACKSON-->
+        <jackson.version>2.10.1</jackson.version>
         <!--HAMCREST-->
         <hamcrest.version>2.1</hamcrest.version>
         <!--LOG-->
@@ -169,6 +171,22 @@
             <artifactId>jsch</artifactId>
             <version>0.1.55</version>
         </dependency>
+        <!--JACKSON-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
         <!--HAMCREST-->
         <dependency>
             <groupId>org.hamcrest</groupId>
@@ -180,6 +198,12 @@
             <groupId>net.andreinc.mockneat</groupId>
             <artifactId>mockneat</artifactId>
             <version>0.1.7</version>
+        </dependency>
+        <!--ПРОКСИРОВАНИЕ-->
+        <dependency>
+            <groupId>io.appium</groupId>
+            <artifactId>mitmproxy-java</artifactId>
+            <version>2.0.1</version>
         </dependency>
     </dependencies>
 

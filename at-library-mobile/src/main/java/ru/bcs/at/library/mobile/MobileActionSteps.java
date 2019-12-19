@@ -11,6 +11,7 @@
  */
 package ru.bcs.at.library.mobile;
 
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
 import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.То;
@@ -32,6 +33,7 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOf;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault;
 import static ru.bcs.at.library.core.steps.OtherSteps.*;
 import static ru.bcs.at.library.mobile.MobileTestConfig.*;
+import static ru.bcs.at.library.mobile.utils.CustomMethods.swipe;
 
 
 /**
@@ -105,7 +107,7 @@ public class MobileActionSteps {
      * Селектор кнопки должны быть строго на input элемента
      * Можно указать путь до файла. Например, src/test/resources/example.pdf</p>
      */
-    @И("^выполнено нажатие на кнопку \"([^\"]*)\" и загружен файл \"([^\"]*)\"$")
+    @И("^выполнено нажатие на кнопку \"([^\"]+)\" и загружен файл \"([^\"]+)\"$")
     public void clickOnButtonAndUploadFile(String buttonName, String fileName) {
         String file = loadValueFromFileOrPropertyOrVariableOrDefault(fileName);
         File attachmentFile = new File(file);
@@ -120,7 +122,7 @@ public class MobileActionSteps {
      *
      *                    </p>
      */
-    @И("^выполнено нажатие на (?:кнопку|ссылку|поле|блок|чекбокс|радокнопку|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\"$")
+    @И("^выполнено нажатие на (?:кнопку|ссылку|поле|блок|чекбокс|радокнопку|текст|элемент) \"([^\"]+)\" в блоке \"([^\"]+)\"$")
     public void clickOnElementInBlock(String elementName, String blockName) {
         WebElement element = getWebElementInBlockCurrentPage(blockName, elementName);
         driverWait().until(ExpectedConditions.elementToBeClickable(element));
@@ -131,8 +133,8 @@ public class MobileActionSteps {
      * <p>Устанавливается значение (в приоритете: из property, из переменной сценария, значение аргумента) в заданное поле.
      * Перед использованием поле нужно очистить</p>
      */
-    @То("^в поле \"([^\"]*)\" введено значение$")
-    @И("^в поле \"([^\"]*)\" введено значение \"(.*)\"$")
+    @То("^в поле \"([^\"]+)\" введено значение$")
+    @И("^в поле \"([^\"]+)\" введено значение \"(.*)\"$")
     public void setFieldValue(String elementName, String value) {
         value = getPropertyOrStringVariableOrValue(value);
         WebElement element = getWebElementInCurrentPage(elementName);
@@ -145,8 +147,8 @@ public class MobileActionSteps {
     /**
      * <p>Добавление строки (в приоритете: из property, из переменной сценария, значение аргумента) в поле к уже заполненой строке</p>
      */
-    @То("^в поле \"([^\"]*)\" дописывается значение$")
-    @И("^в поле \"([^\"]*)\" дописывается значение \"(.*)\"$")
+    @То("^в поле \"([^\"]+)\" дописывается значение$")
+    @И("^в поле \"([^\"]+)\" дописывается значение \"(.*)\"$")
     public void addValue(String elementName, String value) {
         value = getPropertyOrStringVariableOrValue(value);
         WebElement element = getWebElementInCurrentPage(elementName);
@@ -157,7 +159,7 @@ public class MobileActionSteps {
      * <p>Ввод в поле текущей даты в заданном формате
      * При неверном формате, используется dd.MM.yyyy</p>
      */
-    @И("^поле \"([^\"]*)\" заполняется текущей датой в формате \"([^\"]*)\"$")
+    @И("^поле \"([^\"]+)\" заполняется текущей датой в формате \"([^\"]+)\"$")
     public void currentDate(String elementName, String dateFormat) {
         long date = System.currentTimeMillis();
         String currentStringDate;
@@ -178,7 +180,7 @@ public class MobileActionSteps {
     /**
      * <p>Ввод в поле случайной последовательности латинских или кириллических букв задаваемой длины</p>
      */
-    @И("^в поле \"([^\"]*)\" введено (\\d+) случайных символов на (кириллице|латинице)$")
+    @И("^в поле \"([^\"]+)\" введено (\\d+) случайных символов на (кириллице|латинице)$")
     public void setRandomCharSequence(String elementName, int seqLength, String lang) {
         WebElement element = getWebElementInCurrentPage(elementName);
         cleanField(elementName);
@@ -193,7 +195,7 @@ public class MobileActionSteps {
     /**
      * <p>Ввод в поле случайной последовательности латинских или кириллических букв задаваемой длины и сохранение этого значения в переменную</p>
      */
-    @И("^в поле \"([^\"]*)\" введено (\\d+) случайных символов на (кириллице|латинице) и сохранено в переменную \"([^\"]*)\"$")
+    @И("^в поле \"([^\"]+)\" введено (\\d+) случайных символов на (кириллице|латинице) и сохранено в переменную \"([^\"]+)\"$")
     public void setRandomCharSequenceAndSaveToVar(String elementName, int seqLength, String lang, String varName) {
         WebElement element = getWebElementInCurrentPage(elementName);
         cleanField(elementName);
@@ -209,7 +211,7 @@ public class MobileActionSteps {
     /**
      * <p>Ввод в поле случайной последовательности цифр задаваемой длины</p>
      */
-    @И("^в поле \"([^\"]*)\" введено случайное число из (\\d+) (?:цифр|цифры)$")
+    @И("^в поле \"([^\"]+)\" введено случайное число из (\\d+) (?:цифр|цифры)$")
     public void inputRandomNumSequence(String elementName, int seqLength) {
         WebElement element = getWebElementInCurrentPage(elementName);
         cleanField(elementName);
@@ -221,7 +223,7 @@ public class MobileActionSteps {
     /**
      * <p>Ввод в поле случайной последовательности цифр задаваемой длины и сохранение этого значения в переменную</p>
      */
-    @И("^в поле \"([^\"]*)\" введено случайное число из (\\d+) (?:цифр|цифры) и сохранено в переменную \"([^\"]*)\"$")
+    @И("^в поле \"([^\"]+)\" введено случайное число из (\\d+) (?:цифр|цифры) и сохранено в переменную \"([^\"]+)\"$")
     public void inputAndSetRandomNumSequence(String elementName, int seqLength, String varName) {
         WebElement element = getWebElementInCurrentPage(elementName);
         cleanField(elementName);
@@ -236,7 +238,7 @@ public class MobileActionSteps {
     /**
      * <p>Очищается заданное поле</p>
      */
-    @И("^очищено поле \"([^\"]*)\"$")
+    @И("^очищено поле \"([^\"]+)\"$")
     public void cleanField(String elementName) {
         WebElement element = getWebElementInCurrentPage(elementName);
         driverWait().until(ExpectedConditions.elementToBeClickable(element));
@@ -271,18 +273,14 @@ public class MobileActionSteps {
     /**
      * <p>Скроллит экран до нужного элемента, имеющегося на экране, но видимого только в нижней/верхней части экрана.</p>
      */
-    @И("^экран свайпается \"(UP|DOWN|LEFT|RIGHT)\" до элемента \"([^\"]*)\"")
+    @И("^экран свайпается \"(UP|DOWN|LEFT|RIGHT)\" до элемента \"([^\"]+)\"")
     public void scrollPageToElement(String direction, String elementName) {
         String platform = AtCoreConfig.platformName.toLowerCase();
         WebElement element = null;
 
         for (int i = 1; i <= DEFAULT_SWIPE_NUMBER; i++) {
-            try {
+            if (MobileTestConfig.isDisplayedSelenideElementInCurrentPage(elementName))
                 element = getWebElementInCurrentPage(elementName);
-            } catch (NoSuchElementException ex) {
-                coreScenario.write("Элемент: \"" + elementName + "\n не найден на экране. Будет сделан SWIPE №" + i);
-            }
-
             if (platform.equals("android")) {
                 if (element != null) {
                     break;
@@ -294,11 +292,10 @@ public class MobileActionSteps {
                     break;
                 }
             }
-            CustomMethods.swipe(direction);
+            swipe(direction, 50, 80, null);
+            Selenide.sleep(2000L);
         }
         driverWait().until(visibilityOf(element));
-
-        sleep(1000L);
     }
 
 }
