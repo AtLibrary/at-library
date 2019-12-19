@@ -80,7 +80,9 @@ public class WebCheckSteps {
     public void compareFieldAndVariable(String elementName, String variableName) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
         String expectedValue = coreScenario.getVar(variableName).toString();
-        element.shouldHave(exactText(expectedValue));
+        element.shouldHave(or("значение элемента равено",
+                exactText(expectedValue),
+                exactValue(expectedValue)));
     }
 
     /**
