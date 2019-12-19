@@ -1,7 +1,7 @@
 # language: ru
-@all
+@unit
 @api
-Функционал: Тесты biztalk
+Функционал: BizTalkSteps
 
-  Сценарий: проверки методов
+  Сценарий: отправлен запрос "([^"]*)" в BizTalk
     И отправлен запрос "/at-library-api/src/test/resources/restBodies/biztalk.xml" в BizTalk
