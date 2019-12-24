@@ -19,6 +19,7 @@ import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 import ru.bcs.at.library.core.setup.AtCoreConfig;
@@ -29,6 +30,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 
 import static com.codeborne.selenide.Selenide.sleep;
+import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOf;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault;
 import static ru.bcs.at.library.core.steps.OtherSteps.*;
@@ -56,7 +58,7 @@ public class MobileActionSteps {
      *
      * @param elementName название кнопки|поля|блока
      */
-    @И("^выполнено нажатие на (?:кнопку|ссылку|поле|блок|чекбокс|радокнопку|текст|элемент) \"([^\"]+)\" если отображается$")
+    @И("^выполнено нажатие на (?:кнопку|ссылку|поле|блок|чекбокс|радиокнопку|текст|элемент) \"([^\"]+)\" если отображается$")
     public void clickOnElementIfDisplayed(String elementName) {
         if (isDisplayedSelenideElementInCurrentPage(elementName)) {
             clickOnElement(elementName);
@@ -68,7 +70,7 @@ public class MobileActionSteps {
      *
      * @param elementName название кнопки|поля|блока
      */
-    @И("^выполнено нажатие на (?:кнопку|ссылку|поле|блок|чекбокс|радокнопку|текст|элемент) \"([^\"]+)\"$")
+    @И("^выполнено нажатие на (?:кнопку|ссылку|поле|блок|чекбокс|радиокнопку|текст|элемент) \"([^\"]+)\"$")
     public void clickOnElement(String elementName) {
         WebElement element = getWebElementInCurrentPage(elementName);
         driverWait().until(ExpectedConditions.elementToBeClickable(element));
@@ -76,10 +78,26 @@ public class MobileActionSteps {
     }
 
     /**
+     * На экране происходит click по заданному элементу с указанием %% по высоте и ширине элемента
+     *
+     * @param elementName название кнопки|поля|блока
+     */
+    @И("^выполнено нажатие на (?:кнопку|ссылку|поле|блок|чекбокс|радиокнопку|текст|элемент) \"([^\"]+)\" (\\d+)% по высоте, (\\d+)% по ширине$")
+    public void clickOnElementByPercents(String elementName, Integer heightPercent, Integer widthPercent) {
+        WebElement element = getWebElementInCurrentPage(elementName);
+        driverWait().until(ExpectedConditions.elementToBeClickable(element));
+
+        int width = element.getSize().getWidth();
+        int height = element.getSize().getHeight();
+        Actions actions = new Actions(getWebDriver());
+        actions.moveToElement(element).moveByOffset(-width / 2 + (int) (width * widthPercent * 0.01), -height / 2 + (int) (height * heightPercent * 0.01)).click().perform();
+    }
+
+    /**
      * Нажатие на элемент по его тексту (в приоритете: из property, из переменной сценария, значение аргумента),
      * проверяя наличие кнопки|поля|блока на текущей странице
      */
-    @И("^выполнено нажатие на (?:кнопку|ссылку|поле|блок|чекбокс|радокнопку|текст|элемент) с текстом \"([^\"]+)\" если отображается$")
+    @И("^выполнено нажатие на (?:кнопку|ссылку|поле|блок|чекбокс|радиокнопку|текст|элемент) с текстом \"([^\"]+)\" если отображается$")
     public void findElementIfDisplayed(String text) {
         if (isDisplayedSelenideElementInCurrentPage(text)) {
             findElement(text);
@@ -89,7 +107,7 @@ public class MobileActionSteps {
     /**
      * Нажатие на элемент по его тексту (в приоритете: из property, из переменной сценария, значение аргумента)
      */
-    @И("^выполнено нажатие на (?:кнопку|ссылку|поле|блок|чекбокс|радокнопку|текст|элемент) с текстом \"([^\"]+)\"$")
+    @И("^выполнено нажатие на (?:кнопку|ссылку|поле|блок|чекбокс|радиокнопку|текст|элемент) с текстом \"([^\"]+)\"$")
     public void findElement(String text) {
         By xpath = By.xpath(getTranslateNormalizeSpaceText(getPropertyOrStringVariableOrValue(text)));
         WebElement element = WebDriverRunner.getWebDriver().findElement(xpath);
@@ -116,7 +134,7 @@ public class MobileActionSteps {
      * @param elementName имя элемента
      * @param blockName   имя блока
      */
-    @И("^выполнено нажатие на (?:кнопку|ссылку|поле|блок|чекбокс|радокнопку|текст|элемент) \"([^\"]+)\" в блоке \"([^\"]+)\"$")
+    @И("^выполнено нажатие на (?:кнопку|ссылку|поле|блок|чекбокс|радиокнопку|текст|элемент) \"([^\"]+)\" в блоке \"([^\"]+)\"$")
     public void clickOnElementInBlock(String elementName, String blockName) {
         WebElement element = getWebElementInBlockCurrentPage(blockName, elementName);
         driverWait().until(ExpectedConditions.elementToBeClickable(element));
@@ -286,7 +304,11 @@ public class MobileActionSteps {
                     break;
                 }
             }
-            swipe(direction, 50, 80, null);
+            if (direction.equals("DOWN") || direction.equals("RIGHT")) {
+                swipe(direction, 50, 80, null);
+            } else {
+                swipe(direction, 80, 50, null);
+            }
             Selenide.sleep(2000L);
         }
         driverWait().until(visibilityOf(element));
