@@ -5,7 +5,7 @@ Quick start
 =========================
 Подробное описание как писать Автотесты. От установки java до создания отчета с результатом прогона АТ выложено на confluence:
 
-https://jira.bcs.ru:4464/confluence/display/QA/Quick+start
+https://jira.bcs.ru:4464/confluence/pages/viewpage.action?pageId=142470113
 
 Если нет доступа, то необходимо завести СЗ на доступ к space: 
 - Quality Assurance
