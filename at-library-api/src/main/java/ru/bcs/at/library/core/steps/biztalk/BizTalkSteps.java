@@ -33,7 +33,10 @@ public class BizTalkSteps {
                 "POST",
                 BIZTALK_SERVICE_ADDRESS,
                 CoreScenario.TEMP_RESPONSE,
-                DataTable.create(Collections.singletonList(Arrays.asList("BODY", "", dataToRequest)))
+                DataTable.create(Arrays.asList(
+                        Arrays.asList("BODY", "", dataToRequest),
+                        Arrays.asList("HEADER", "Content-Type", "application/xml; charset=UTF-8")
+                ))
         );
 
         Response response = (Response) coreScenario.getVar(CoreScenario.TEMP_RESPONSE);

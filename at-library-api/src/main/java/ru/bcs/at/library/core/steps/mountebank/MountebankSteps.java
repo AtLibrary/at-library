@@ -14,11 +14,11 @@ import cucumber.api.java.ru.И;
 import lombok.extern.log4j.Log4j2;
 import org.json.simple.parser.ParseException;
 import org.junit.Assert;
-import org.mbtest.javabank.Client;
-import org.mbtest.javabank.ImposterParser;
-import org.mbtest.javabank.http.core.Stub;
-import org.mbtest.javabank.http.imposters.Imposter;
-import org.mbtest.javabank.http.responses.Is;
+import ru.bcs.at.library.core.core.javabank.Client;
+import ru.bcs.at.library.core.core.javabank.ImposterParser;
+import ru.bcs.at.library.core.core.javabank.http.core.Stub;
+import ru.bcs.at.library.core.core.javabank.http.imposters.Imposter;
+import ru.bcs.at.library.core.core.javabank.http.responses.Is;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 
 import static java.lang.String.format;
