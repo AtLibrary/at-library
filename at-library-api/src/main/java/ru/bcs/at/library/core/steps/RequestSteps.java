@@ -15,6 +15,7 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSender;
 import io.restassured.specification.RequestSpecification;
 import lombok.Getter;
+import lombok.extern.log4j.Log4j2;
 import ru.bcs.at.library.core.core.helpers.PropertyLoader;
 import ru.bcs.at.library.core.cucumber.ScopedVariables;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
@@ -26,12 +27,12 @@ import java.util.List;
 
 import static java.lang.String.format;
 import static org.hamcrest.Matchers.is;
-import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault;
-import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadValueFromFileOrVariableOrDefault;
+import static ru.bcs.at.library.core.core.helpers.PropertyLoader.*;
 
 /**
  * Шаги по формированию и отправки запроса
  */
+@Log4j2
 public class RequestSteps {
 
     private static final String REQUEST_URL = "выполнен ((?:GET|PUT|POST|DELETE|HEAD|TRACE|OPTIONS|PATCH)) запрос на URL \"([^\"]+)\"";

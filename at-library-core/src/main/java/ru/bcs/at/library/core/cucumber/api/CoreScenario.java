@@ -27,8 +27,7 @@ import static ru.bcs.at.library.core.setup.AtCoreConfig.debugCore;
 @Slf4j
 public final class CoreScenario {
 
-    public static final String CURRENT = "CURRENT_VARIABLE";
-    public static final String TEMP_RESPONSE = "TEMP_RESPONSE";
+    public static final String CURRENT = "CURRENT";
 
     private static CoreScenario instance = new CoreScenario();
 

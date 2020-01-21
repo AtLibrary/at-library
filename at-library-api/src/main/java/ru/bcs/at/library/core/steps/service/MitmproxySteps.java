@@ -1,4 +1,4 @@
-package ru.bcs.at.library.core.steps.mitmproxy;
+package ru.bcs.at.library.core.steps.service;
 
 import cucumber.api.java.ru.И;
 import io.restassured.response.Response;
@@ -16,6 +16,7 @@ public class MitmproxySteps {
     private static final String MITM_CLIENT_HOST = System.getProperty("mitmClientHost", tryLoadProperty("mitmClientHost"));
     private static final String MITM_CLIENT_PORT = System.getProperty("mitmClientPort", tryLoadProperty("mitmClientPort"));
     private static final String MITM_CLIENT_PATH = System.getProperty("mitmClientPath", tryLoadProperty("mitmClientPath"));
+
     private CoreScenario coreScenario = CoreScenario.getInstance();
     private RequestSteps requestSteps = RequestSteps.getInstance();
 
@@ -48,18 +49,18 @@ public class MitmproxySteps {
                     "GET",
                     requestAddress,
                     200,
-                    CoreScenario.TEMP_RESPONSE
+                    CoreScenario.CURRENT
             );
         } else {
             requestSteps.sendHttpRequestWithoutParams(
                     "GET",
                     requestAddress,
-                    CoreScenario.TEMP_RESPONSE
+                    CoreScenario.CURRENT
             );
         }
-        requestSteps.sendHttpRequestWithoutParams("GET", format("%s:%s/last", MITM_CLIENT_HOST, MITM_CLIENT_PORT), CoreScenario.TEMP_RESPONSE);
+        requestSteps.sendHttpRequestWithoutParams("GET", format("%s:%s/last", MITM_CLIENT_HOST, MITM_CLIENT_PORT), CoreScenario.CURRENT);
 
-        Response response = (Response) coreScenario.getVar(CoreScenario.TEMP_RESPONSE);
+        Response response = (Response) coreScenario.getVar(CoreScenario.CURRENT);
         coreScenario.setVar(requestNameVariable, response.body().print());
     }
 
