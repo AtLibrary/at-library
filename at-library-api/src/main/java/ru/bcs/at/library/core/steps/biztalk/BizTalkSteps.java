@@ -19,6 +19,7 @@ import static ru.bcs.at.library.core.core.helpers.PropertyLoader.tryLoadProperty
 public class BizTalkSteps {
 
     private static final String BIZTALK_SERVICE_ADDRESS = System.getProperty("bizTalkServiceAddress", tryLoadProperty("bizTalkServiceAddress"));
+
     private CoreScenario coreScenario = CoreScenario.getInstance();
     private RequestSteps requestSteps = RequestSteps.getInstance();
 
