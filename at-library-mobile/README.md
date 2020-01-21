@@ -8,7 +8,7 @@ at-library-mobile
 <dependency>
       <groupId>ru.bcs</groupId>
       <artifactId>at-library-mobile</artifactId>
-      <version>3.0.4-SNAPSHOT</version>
+      <version>3.0.5-SNAPSHOT</version>
 </dependency>
 ```
 
