@@ -19,15 +19,16 @@ import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import ru.bcs.at.library.core.core.helpers.PropertyLoader;
+import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.security.SecureRandom;
 import java.util.List;
 
+import static ru.bcs.at.library.core.core.helpers.PropertyLoader.cycleSubstitutionFromFileOrPropertyOrVariable;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.tryLoadProperty;
+import static ru.bcs.at.library.core.core.helpers.Utils.urlEncodeUTF8;
 
 /**
  * Шаги для работы с ElasticSearch
@@ -41,7 +42,12 @@ public class ElasticSearchSteps {
     private static final String ELASTIC_USER = System.getProperty("elastic.user", tryLoadProperty("elastic.user"));
     private static final String ELASTIC_PASS = System.getProperty("elastic.pass", tryLoadProperty("elastic.pass"));
 
+    private static final String TRUSTSTORE_PATH = System.getProperty("https.truststore.path", tryLoadProperty("https.truststore.path"));
+    private static final String TRUSTSTORE_PASSWORD = System.getProperty("https.truststore.password", tryLoadProperty("https.truststore.password"));
+
     private static RestHighLevelClient client;
+
+    private CoreScenario coreScenario = CoreScenario.getInstance();
 
     /**
      * Отправка запроса на поиск в базе ElasticSearch
@@ -62,14 +68,15 @@ public class ElasticSearchSteps {
     @И("^выполнен поиск по запросу \"([^\"]*)\" в индексе \"([^\"]*)\" ElasticSearch$")
     public void simpleSearchRequest(String requestString, String index) {
         checkClient();
+        String requestStringFinally = cycleSubstitutionFromFileOrPropertyOrVariable(requestString);
 
         try {
             RestClient restClient = client.getLowLevelClient();
             StringBuilder endpoint = new StringBuilder();
             if (index != null && !index.isEmpty()) {
-                endpoint.append("/").append(urlEncodeUTF8(index)).append("/");
+                endpoint.append(urlEncodeUTF8(index)).append("/");
             }
-            endpoint.append("_search?q=").append(urlEncodeUTF8(requestString));
+            endpoint.append("_search?q=").append(urlEncodeUTF8(requestStringFinally));
 
             Request request = new Request("GET", endpoint.toString());
             log.debug("REQUEST method='{}' endpoint='{}'", request.getMethod(),
@@ -78,24 +85,27 @@ public class ElasticSearchSteps {
                 log.debug("request_body='{}'", EntityUtils.toString(request.getEntity()));
             }
             Response response = restClient.performRequest(request);
+            String responseBody = EntityUtils.toString(response.getEntity());
             log.debug("RESPONSE status_line='{}' request_line='{}' response_body='{}'", response.getStatusLine(),
-                    response.getRequestLine(), EntityUtils.toString(response.getEntity()));
+                    response.getRequestLine(), responseBody);
 
             if (response.getStatusLine().getStatusCode() != 200) {
                 throw new RuntimeException("Код ответа от ElasticSearch: " + response.getStatusLine().getStatusCode());
             }
+
+            coreScenario.setVar(CoreScenario.CURRENT, responseBody);
         } catch (Exception e) {
-            throw new RuntimeException("Error while request. Request : " + requestString, e);
+            throw new RuntimeException("Error while request. Request : " + requestStringFinally, e);
         }
     }
 
     /**
      * Отправка запроса на поиск в базе ElasticSearch
      *
-     * @param dataTable таблица с параметрами поиска вида | ключ | значение |
+     * @param dataTable таблица с параметрами поиска вида: | ключ | значение |
      */
     @И("^выполнен поиск в ElasticSearch по таблице:$")
-    public static void searchRequest(DataTable dataTable) throws IOException {
+    public void searchRequest(DataTable dataTable) throws IOException {
         searchRequest(null, dataTable);
     }
 
@@ -103,10 +113,10 @@ public class ElasticSearchSteps {
      * Отправка запроса на поиск в базе ElasticSearch
      *
      * @param index     индекс для поиска
-     * @param dataTable таблица с параметрами поиска вида | ключ | значение |
+     * @param dataTable таблица с параметрами поиска вида: | ключ | значение |
      */
     @И("^выполнен поиск в индексе \"([^\"]*)\" ElasticSearch по таблице:$")
-    public static void searchRequest(String index, DataTable dataTable) throws IOException {
+    public void searchRequest(String index, DataTable dataTable) throws IOException {
         checkClient();
 
         SearchRequest searchRequest = new SearchRequest();
@@ -114,7 +124,10 @@ public class ElasticSearchSteps {
         BoolQueryBuilder qb = QueryBuilders.boolQuery();
 
         for (List<String> queryParam : dataTable.asLists()) {
-            qb.must(QueryBuilders.matchQuery(queryParam.get(0), queryParam.get(1)));
+            qb.must(QueryBuilders.matchQuery(
+                    PropertyLoader.cycleSubstitutionFromFileOrPropertyOrVariable(queryParam.get(0)),
+                    PropertyLoader.cycleSubstitutionFromFileOrPropertyOrVariable(queryParam.get(1))
+            ));
         }
         if (index != null && !index.isEmpty()) {
             qb.must(QueryBuilders.matchQuery("_index", index));
@@ -126,6 +139,8 @@ public class ElasticSearchSteps {
         log.debug("REQUEST request='{}'", searchRequest.toString());
         SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
         log.debug("RESPONCE response='{}'", searchResponse.toString());
+
+        coreScenario.setVar(CoreScenario.CURRENT, searchResponse.toString());
     }
 
     /**
@@ -146,32 +161,23 @@ public class ElasticSearchSteps {
                                     httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider);
                                 }
 
-                                URL url = PropertyLoader.class.getClassLoader().getResource("truststore.jks");
+                                if (ELASTIC_SCHEME.equals("https")) {
+                                    URL url = PropertyLoader.class.getClassLoader().getResource(TRUSTSTORE_PATH);
 
-                                try {
-                                    SSLContextBuilder sslBuilder = SSLContexts.custom().loadTrustMaterial(url, "biztalk".toCharArray()).setSecureRandom(new SecureRandom());
+                                    try {
+                                        SSLContextBuilder sslBuilder = SSLContexts.custom().loadTrustMaterial(url, TRUSTSTORE_PASSWORD.toCharArray()).setSecureRandom(new SecureRandom());
 
-                                    httpClientBuilder.disableAuthCaching();
-                                    httpClientBuilder.setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE);
-                                    httpClientBuilder.setSSLContext(sslBuilder.build());
-                                } catch (Exception e) {
-                                    throw new RuntimeException(e);
+                                        httpClientBuilder.disableAuthCaching();
+                                        httpClientBuilder.setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE);
+                                        httpClientBuilder.setSSLContext(sslBuilder.build());
+                                    } catch (Exception e) {
+                                        throw new RuntimeException(e);
+                                    }
                                 }
 
                                 return httpClientBuilder;
                             })
             );
-        }
-    }
-
-    /**
-     * Кодирование UTF-8 строки в URL
-     */
-    static String urlEncodeUTF8(String s) {
-        try {
-            return URLEncoder.encode(s, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            throw new UnsupportedOperationException(e);
         }
     }
 

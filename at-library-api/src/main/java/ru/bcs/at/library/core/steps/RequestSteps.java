@@ -27,8 +27,7 @@ import java.util.List;
 
 import static java.lang.String.format;
 import static org.hamcrest.Matchers.is;
-import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault;
-import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadValueFromFileOrVariableOrDefault;
+import static ru.bcs.at.library.core.core.helpers.PropertyLoader.*;
 
 /**
  * Шаги по формированию и отправки запроса

@@ -1,4 +1,4 @@
-package ru.bcs.at.library.core.steps.biztalk;
+package ru.bcs.at.library.core.steps.service;
 
 import cucumber.api.java.ru.И;
 import io.cucumber.datatable.DataTable;
@@ -8,7 +8,6 @@ import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 import ru.bcs.at.library.core.steps.RequestSteps;
 
 import java.util.Arrays;
-import java.util.Collections;
 
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.tryLoadProperty;
@@ -33,14 +32,14 @@ public class BizTalkSteps {
         requestSteps.sendHttpRequestSaveResponse(
                 "POST",
                 BIZTALK_SERVICE_ADDRESS,
-                CoreScenario.TEMP_RESPONSE,
+                CoreScenario.CURRENT,
                 DataTable.create(Arrays.asList(
                         Arrays.asList("BODY", "", dataToRequest),
                         Arrays.asList("HEADER", "Content-Type", "application/xml; charset=UTF-8")
                 ))
         );
 
-        Response response = (Response) coreScenario.getVar(CoreScenario.TEMP_RESPONSE);
+        Response response = (Response) coreScenario.getVar(CoreScenario.CURRENT);
 
         response.then().assertThat().body(Matchers.not(Matchers.contains("<state>Rejected</state>")));
     }
