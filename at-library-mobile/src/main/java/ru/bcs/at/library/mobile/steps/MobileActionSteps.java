@@ -12,6 +12,7 @@
 package ru.bcs.at.library.mobile.steps;
 
 import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
 import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.То;
@@ -21,6 +22,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import ru.bcs.at.library.core.cucumber.api.CorePage;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 import ru.bcs.at.library.core.setup.AtCoreConfig;
 import ru.bcs.at.library.mobile.utils.CustomMethods;
@@ -312,6 +314,15 @@ public class MobileActionSteps {
             Selenide.sleep(2000L);
         }
         driverWait().until(visibilityOf(element));
+    }
+
+    @И("^выполнено нажатие c ховером на (?:кнопку|ссылку|поле|блок|чекбокс|радиокнопу|текст|элемент) \"([^\"]*)\"$")
+    public void clickOnElementWithHover(String elementName) {
+        CorePage currentPage = coreScenario.getCurrentPage();
+        SelenideElement element = currentPage.getElement(elementName);
+        element
+                .hover()
+                .click();
     }
 
 }
