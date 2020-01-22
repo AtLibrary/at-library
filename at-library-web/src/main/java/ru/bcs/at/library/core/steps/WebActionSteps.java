@@ -11,6 +11,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import ru.bcs.at.library.core.cucumber.api.CorePage;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 
 import java.awt.*;
@@ -497,6 +498,15 @@ public class WebActionSteps {
         cleanField("Пароль");
         coreScenario.getCurrentPage().getElement("Пароль").sendKeys(password);
         coreScenario.getCurrentPage().getElement("Войти").click();
+    }
+
+    @И("^выполнено нажатие c ховером на (?:кнопку|ссылку|поле|блок|чекбокс|радиокнопу|текст|элемент) \"([^\"]*)\"$")
+    public void clickOnElementWithHover(String elementName) {
+        CorePage currentPage = coreScenario.getCurrentPage();
+        SelenideElement element = currentPage.getElement(elementName);
+        element
+                .hover()
+                .click();
     }
 
 }
