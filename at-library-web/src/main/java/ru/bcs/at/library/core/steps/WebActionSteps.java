@@ -7,12 +7,10 @@ import com.codeborne.selenide.WebDriverRunner;
 import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.То;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import ru.bcs.at.library.core.cucumber.api.CorePage;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
+import ru.bcs.at.library.core.setup.AtCoreConfig;
 
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
@@ -23,7 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.codeborne.selenide.Condition.enabled;
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverRunner.isIE;
 import static com.codeborne.selenide.WebDriverRunner.url;
@@ -51,6 +49,7 @@ public class WebActionSteps {
      */
     @И("^совершен переход на страницу \"([^\"]*)\" по ссылке \"([^\"]*)\"$")
     public void goToSelectedPageByLink(String pageName, String urlOrName) {
+        System.out.println("AtCoreConfig.deviceName = " + AtCoreConfig.deviceName);
         String url = resolveVars(getPropertyOrStringVariableOrValue(urlOrName));
         coreScenario.write(" url = " + url);
         open(url);
@@ -424,15 +423,19 @@ public class WebActionSteps {
     @И("^страница прокручена до появления элемента \"([^\"]*)\"$")
     public void scrollWhileElemNotFoundOnPage(String elementName) {
         SelenideElement el = null;
+//        WebDriver webDriver = WebDriverRunner.getWebDriver();
+//        JavascriptExecutor jse = (JavascriptExecutor) webDriver;
         do {
+//            jse.executeScript("return window.scrollTo(1000, 1250);");
             el = coreScenario.getCurrentPage().getElement(elementName);
-            if (el.exists()) {
-                break;
-            }
+//            if (el.exists() && el.is(visible)) {
+//                break;
+//            }
+            el.scrollTo();
             executeJavaScript("return window.scrollBy(0, 250);");
             sleep(1000);
         } while (!atBottom());
-        el.shouldHave(enabled);
+//        el.shouldHave(enabled);
     }
 
     /**
@@ -442,15 +445,23 @@ public class WebActionSteps {
     @И("^страница прокручена до появления элемента с текстом \"([^\"]*)\"$")
     public void scrollWhileElemWithTextNotFoundOnPage(String expectedValue) {
         SelenideElement el = null;
-        do {
+//        do {
+//            el = $(By.xpath(getTranslateNormalizeSpaceText(getPropertyOrStringVariableOrValue(expectedValue))));
+//            if (el.exists()) {
+//                break;
+//            }
+//            executeJavaScript("return window.scrollBy(0, 250);");
+//            sleep(1000);
+//        } while (!atBottom());
+//        el.shouldHave(enabled);
+
+
+        WebDriver webDriver = WebDriverRunner.getWebDriver();
+
             el = $(By.xpath(getTranslateNormalizeSpaceText(getPropertyOrStringVariableOrValue(expectedValue))));
-            if (el.exists()) {
-                break;
-            }
-            executeJavaScript("return window.scrollBy(0, 250);");
-            sleep(1000);
-        } while (!atBottom());
-        el.shouldHave(enabled);
+//        WebElement getElement = webDriver.findElement(By.xpath("//div[contains (@class, 'dropdown__item')]/span/span[text()='"+ expectedValue +"']"));
+        ((JavascriptExecutor) webDriver).executeScript("arguments[0].scrollIntoView();", el);
+        el.click();
     }
 
     /**

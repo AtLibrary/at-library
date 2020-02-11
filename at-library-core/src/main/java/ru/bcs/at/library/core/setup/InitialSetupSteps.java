@@ -69,6 +69,13 @@ public class InitialSetupSteps {
      */
     @Before
     public void beforeEachTest(Scenario scenario) throws MalformedURLException {
+
+//        try {
+//            Thread.sleep(15000L);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//        System.out.println("beforeEachTest start: " + scenario.getName());
         RestAssured.baseURI = System.getProperty("baseURI", tryLoadProperty("baseURI"));
         baseUrl = System.getProperty("baseURI", tryLoadProperty("baseURI"));
 
@@ -92,6 +99,7 @@ public class InitialSetupSteps {
         coreScenario.setEnvironment(new CoreEnvironment(scenario));
 
         LogReportListener.turnOn();
+//        System.out.println("beforeEachTest end: " + scenario.getName());
     }
 
     /**
@@ -100,6 +108,7 @@ public class InitialSetupSteps {
     @After
     public void afterEachTest(Scenario scenario) {
 
+//        System.out.println("afterEachTest start: " + scenario.getName());
         if (scenario.getSourceTagNames().contains("@web")) {
             if (browser.equals(SAFARI)) {
                 getWebDriver().quit();
@@ -113,5 +122,14 @@ public class InitialSetupSteps {
             appiumDriver.removeApp(AtCoreConfig.appPackageName);
             appiumDriver.quit();
         }
+
+        for (int i = 0; i < 5; i++) {
+            if (scenario.getId().equals(CoreScenario.deviceCases[i])) {
+                CoreScenario.deviceAvailability[i] = true;
+                CoreScenario.deviceCases[i] = null;
+            }
+        }
+
+//        System.out.println("afterEachTest end: " + scenario.getName());
     }
 }

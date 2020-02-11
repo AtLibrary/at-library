@@ -13,6 +13,12 @@ public class AtCoreConfig {
     public static String appPackageName = tryLoadProperty("appPackageName");
     public static boolean debugCore = Boolean.parseBoolean(tryLoadProperty("debug.core"));
     public static boolean isAppeared = Boolean.parseBoolean(tryLoadProperty("isAppeared"));
+    public static String wdaLocalPort = tryLoadProperty("wdaLocalPort");
+    public static boolean showLogCode = Boolean.parseBoolean(tryLoadProperty("showLogCode"));
+    public static boolean clearSystemFiles = Boolean.parseBoolean(tryLoadProperty("clearSystemFiles"));
+    public static String automationName = tryLoadProperty("automationName");
+    public static String webDriverAgentUrl = tryLoadProperty("webDriverAgentUrl");
+    public static String deviceList = tryLoadProperty("deviceList");
 }
 
 
