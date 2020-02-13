@@ -27,7 +27,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 
+import static java.lang.Boolean.parseBoolean;
 import static java.lang.String.format;
+import static java.lang.System.getProperty;
 import static org.hamcrest.Matchers.is;
 import static ru.bcs.at.library.core.core.helpers.PropertyLoader.*;
 
@@ -39,7 +41,7 @@ public class RequestSteps {
 
     private static final int DEFAULT_TIMEOUT = loadPropertyInt("http.timeout", 10);
     private static final String REQUEST_URL = "выполнен ((?:GET|PUT|POST|DELETE|HEAD|TRACE|OPTIONS|PATCH)) запрос на URL \"([^\"]+)\"";
-    public static int requestRetries = Integer.parseInt(System.getProperty("request.retries", "1"));
+    public static int requestRetries = Integer.parseInt(getProperty("request.retries", "1"));
     @Getter
     private static RequestSteps instance = new RequestSteps();
     private CoreScenario coreScenario = CoreScenario.getInstance();
@@ -250,15 +252,16 @@ public class RequestSteps {
      */
     private Response sendRequest(String method, String address, DataTable dataTable) {
         address = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(address);
-
-        RestAssured.config =
-                RestAssuredConfig.newConfig()
-                        .sslConfig(new SSLConfig().allowAllHostnames())
-                        .jsonConfig(JsonConfig.jsonConfig().numberReturnType(JsonPathConfig.NumberReturnType.BIG_DECIMAL))
-                        .httpClient(HttpClientConfig.httpClientConfig()
-                                .setParam(CoreConnectionPNames.CONNECTION_TIMEOUT, DEFAULT_TIMEOUT *1000)
-                                .setParam(CoreConnectionPNames.SO_TIMEOUT, DEFAULT_TIMEOUT * 1000)
-                        );
+        if (parseBoolean(getProperty("relaxedHTTPSValidation", "false"))) {
+            RestAssured.config =
+                    RestAssuredConfig.newConfig()
+                            .sslConfig(new SSLConfig().allowAllHostnames())
+                            .jsonConfig(JsonConfig.jsonConfig().numberReturnType(JsonPathConfig.NumberReturnType.BIG_DECIMAL))
+                            .httpClient(HttpClientConfig.httpClientConfig()
+                                    .setParam(CoreConnectionPNames.CONNECTION_TIMEOUT, DEFAULT_TIMEOUT * 1000)
+                                    .setParam(CoreConnectionPNames.SO_TIMEOUT, DEFAULT_TIMEOUT * 1000)
+                            );
+        }
 
         // todo удалить, когда будет переделан механизм работы с biztalk
         if (address.contains("biz-srv")) {
