@@ -250,8 +250,10 @@ public class RequestSteps {
      */
     private Response sendRequest(String method, String address, DataTable dataTable) {
         address = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(address);
+
         RestAssured.config =
                 RestAssuredConfig.newConfig()
+                        .sslConfig(new SSLConfig().allowAllHostnames())
                         .jsonConfig(JsonConfig.jsonConfig().numberReturnType(JsonPathConfig.NumberReturnType.BIG_DECIMAL))
                         .httpClient(HttpClientConfig.httpClientConfig()
                                 .setParam(CoreConnectionPNames.CONNECTION_TIMEOUT, DEFAULT_TIMEOUT *1000)
