@@ -28,6 +28,8 @@ import static ru.bcs.at.library.core.setup.AtCoreConfig.debugCore;
 public final class CoreScenario {
 
     public static final String CURRENT = "CURRENT";
+    public static Boolean[] deviceAvailability = {true, true, true, true, true, true, true, true, true};
+    public static String[] deviceCases = {null, null, null, null, null, null, null, null, null};
 
     private static CoreScenario instance = new CoreScenario();
 

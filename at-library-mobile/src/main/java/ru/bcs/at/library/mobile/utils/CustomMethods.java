@@ -3,8 +3,13 @@ package ru.bcs.at.library.mobile.utils;
 import com.codeborne.selenide.WebDriverRunner;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.TouchAction;
+import io.appium.java_client.touch.WaitOptions;
+import io.appium.java_client.touch.offset.PointOption;
 import org.openqa.selenium.Dimension;
 
+import java.time.Duration;
+
+import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static io.appium.java_client.touch.WaitOptions.waitOptions;
 import static io.appium.java_client.touch.offset.PointOption.point;
 import static java.time.Duration.ofMillis;
@@ -98,6 +103,40 @@ public class CustomMethods {
                 .waitAction(waitOptions(ofMillis(1000)))
                 .moveTo(point(endx, endy))
                 .release().perform();
+    }
+
+    /** посмотреть системные уведомления */
+    public static void showNotifications() {
+        manageNotifications(true);
+    }
+
+    /** скрыть системное уведомление с экрана */
+    public static void hideNotifications() {
+        manageNotifications(false);
+    }
+
+    /** управление системными уведомлениями */
+    public static void manageNotifications(Boolean show) {
+        int yMargin = 5;
+        Dimension screenSize = WebDriverRunner.getWebDriver().manage()
+                .window().getSize();
+        int xMid = screenSize.width / 2;
+        PointOption top = PointOption.point(xMid, yMargin);
+        PointOption bottom = PointOption.point(xMid, screenSize.height - yMargin);
+
+        TouchAction action = new TouchAction((AppiumDriver) getWebDriver());
+        if (show) {
+            action.press(top);
+        } else {
+            action.press(bottom);
+        }
+//        action.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(1)));
+//        if (show) {
+//            action.moveTo(bottom);
+//        } else {
+//            action.moveTo(top);
+//        }
+//        action.perform();
     }
 
 }
