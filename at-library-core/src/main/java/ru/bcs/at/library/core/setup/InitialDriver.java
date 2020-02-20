@@ -7,7 +7,6 @@ import cucumber.api.Scenario;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import lombok.extern.log4j.Log4j2;
-import org.apache.logging.log4j.core.Core;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -260,7 +259,13 @@ public class InitialDriver {
 
     private Proxy createProxy() {
         Proxy proxy = null;
-        String stringProxy = System.getProperty("proxy");
+        //TODO переработать использование прокси при запуске тестов на селенойд или гитлаб
+        String stringProxy = System.getProperty("selenoid.proxy");
+
+        if (Strings.isNullOrEmpty(stringProxy)) {
+            stringProxy = System.getProperty("proxy");
+        }
+
         if (!Strings.isNullOrEmpty(stringProxy)) {
             proxy = new Proxy()
                     .setProxyType(Proxy.ProxyType.MANUAL)
