@@ -251,6 +251,7 @@ public class RequestSteps {
      * @return Response
      */
     private Response sendRequest(String method, String address, DataTable dataTable) {
+        RestAssured.urlEncodingEnabled=false;
         address = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(address);
         if (parseBoolean(getProperty("relaxedHTTPSValidation", "false"))) {
             RestAssured.config =

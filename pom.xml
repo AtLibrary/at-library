@@ -7,7 +7,7 @@
     <groupId>ru.bcs</groupId>
     <artifactId>at-library</artifactId>
     <packaging>pom</packaging>
-    <version>3.0.6-fix</version>
+    <version>3.0.6-fix2</version>
 
     <modules>
         <module>at-library-core</module>
