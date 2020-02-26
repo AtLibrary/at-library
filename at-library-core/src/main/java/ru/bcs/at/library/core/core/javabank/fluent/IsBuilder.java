@@ -10,11 +10,11 @@ import java.util.HashMap;
 import static com.google.common.collect.Maps.newHashMap;
 
 public class IsBuilder extends ResponseTypeBuilder {
+    private final HashMap<String, String> headers = newHashMap();
     private int statusCode = 200;
     private String body = "";
     private String mode;
     private File bodyFile;
-    private final HashMap<String, String> headers = newHashMap();
 
     public IsBuilder(ResponseBuilder responseBuilder) {
         super(responseBuilder);
@@ -40,7 +40,7 @@ public class IsBuilder extends ResponseTypeBuilder {
         return this;
     }
 
-    public IsBuilder mode(String mode){
+    public IsBuilder mode(String mode) {
         this.mode = mode;
         return this;
     }

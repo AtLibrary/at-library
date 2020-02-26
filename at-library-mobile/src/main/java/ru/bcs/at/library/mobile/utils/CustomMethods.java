@@ -3,11 +3,8 @@ package ru.bcs.at.library.mobile.utils;
 import com.codeborne.selenide.WebDriverRunner;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.TouchAction;
-import io.appium.java_client.touch.WaitOptions;
 import io.appium.java_client.touch.offset.PointOption;
 import org.openqa.selenium.Dimension;
-
-import java.time.Duration;
 
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static io.appium.java_client.touch.WaitOptions.waitOptions;
@@ -105,17 +102,23 @@ public class CustomMethods {
                 .release().perform();
     }
 
-    /** посмотреть системные уведомления */
+    /**
+     * посмотреть системные уведомления
+     */
     public static void showNotifications() {
         manageNotifications(true);
     }
 
-    /** скрыть системное уведомление с экрана */
+    /**
+     * скрыть системное уведомление с экрана
+     */
     public static void hideNotifications() {
         manageNotifications(false);
     }
 
-    /** управление системными уведомлениями */
+    /**
+     * управление системными уведомлениями
+     */
     public static void manageNotifications(Boolean show) {
         int yMargin = 5;
         Dimension screenSize = WebDriverRunner.getWebDriver().manage()

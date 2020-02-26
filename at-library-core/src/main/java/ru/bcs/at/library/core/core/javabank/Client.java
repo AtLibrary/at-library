@@ -40,16 +40,12 @@ public class Client {
         Unirest.setHttpClient(makeClient());
     }
 
-    public String getBaseUrl() {
-        return baseUrl;
-    }
-
-    public static HttpClient makeClient(){
+    public static HttpClient makeClient() {
         SSLContextBuilder builder = new SSLContextBuilder();
         CloseableHttpClient httpclient = null;
         try {
             // builder.loadTrustMaterial(null, new TrustSelfSignedStrategy());
-            builder.loadTrustMaterial(null, new TrustStrategy(){
+            builder.loadTrustMaterial(null, new TrustStrategy() {
                 public boolean isTrusted(X509Certificate[] chain, String authType)
                         throws CertificateException {
                     return true;
@@ -71,6 +67,10 @@ public class Client {
         }
 
         return httpclient;
+    }
+
+    public String getBaseUrl() {
+        return baseUrl;
     }
 
     public boolean isMountebankRunning() {

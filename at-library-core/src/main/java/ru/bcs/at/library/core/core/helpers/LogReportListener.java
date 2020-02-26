@@ -19,10 +19,10 @@ import java.util.logging.Level;
 @Log4j2
 public class LogReportListener {
 
+    private static boolean turn = false;
+
     private LogReportListener() {
     }
-
-    private static boolean turn = false;
 
     /**
      * Добавляет фильтры логирования.

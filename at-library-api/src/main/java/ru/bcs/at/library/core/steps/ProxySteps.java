@@ -11,7 +11,6 @@
  */
 package ru.bcs.at.library.core.steps;
 
-import com.google.common.base.Strings;
 import cucumber.api.java.ru.И;
 import io.restassured.RestAssured;
 import io.restassured.config.JsonConfig;
@@ -32,6 +31,8 @@ import ru.bcs.at.library.core.core.helpers.PropertyLoader;
 @Log4j2
 public class ProxySteps {
 
+    private static boolean useProxySteps = Boolean.parseBoolean(System.getProperty("useProxySteps", "true"));
+
     /**
      * Используется прокси
      * Не работает для запуска на selenoid
@@ -39,10 +40,9 @@ public class ProxySteps {
      * @param proxyHost адрес proxy, например: s-nsk-proxy-01.global.bcs
      * @param proxyPort порт proxy, например: 8080
      */
-    @Deprecated
     @И("^используется proxy: \"([^\"]+)\" port: \"([^\"]+)\"$")
     public void turnOnProxy(String proxyHost, String proxyPort) {
-        if (Strings.isNullOrEmpty(System.getProperty("selenide.remote"))) {
+        if (useProxySteps) {
             proxyHost = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(proxyHost);
             proxyPort = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(proxyPort);
 
@@ -59,10 +59,9 @@ public class ProxySteps {
      * Выключить использование прокси
      * Не работает для запуска на selenoid
      */
-    @Deprecated
     @И("^выключено использование proxy$")
     public void turnOffProxy() {
-        if (Strings.isNullOrEmpty(System.getProperty("selenide.remote"))) {
+        if (useProxySteps) {
             System.clearProperty("http.proxyHost");
             System.clearProperty("http.proxyPort");
             System.clearProperty("https.proxyHost");

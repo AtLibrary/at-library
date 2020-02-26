@@ -7,7 +7,10 @@ import com.codeborne.selenide.WebDriverRunner;
 import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.То;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
 import ru.bcs.at.library.core.cucumber.api.CorePage;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
 import ru.bcs.at.library.core.setup.AtCoreConfig;
@@ -21,7 +24,6 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverRunner.isIE;
 import static com.codeborne.selenide.WebDriverRunner.url;
@@ -458,7 +460,7 @@ public class WebActionSteps {
 
         WebDriver webDriver = WebDriverRunner.getWebDriver();
 
-            el = $(By.xpath(getTranslateNormalizeSpaceText(getPropertyOrStringVariableOrValue(expectedValue))));
+        el = $(By.xpath(getTranslateNormalizeSpaceText(getPropertyOrStringVariableOrValue(expectedValue))));
 //        WebElement getElement = webDriver.findElement(By.xpath("//div[contains (@class, 'dropdown__item')]/span/span[text()='"+ expectedValue +"']"));
         ((JavascriptExecutor) webDriver).executeScript("arguments[0].scrollIntoView();", el);
         el.click();
