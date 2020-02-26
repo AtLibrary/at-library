@@ -56,8 +56,9 @@ public class MobileCheckSteps {
         coreScenario.getCurrentPage().appeared();
         //TODO нужно чтоб успел загрузится экран
         sleep(1);
-        if (AtCoreConfig.platformName.equals("iOS")) {
-            CustomMethods.hideNotifications();
+
+        if (AtCoreConfig.platformName.equals("iOS") && nameOfPage.equals("Серверы")) {
+            CustomMethods.hideNotification();
         }
     }
 

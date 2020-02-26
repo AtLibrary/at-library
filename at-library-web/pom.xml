@@ -5,7 +5,7 @@
     <parent>
         <artifactId>at-library</artifactId>
         <groupId>ru.bcs</groupId>
-        <version>3.0.6-fix2</version>
+        <version>3.0.6.4-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -19,7 +19,7 @@
         <dependency>
             <groupId>ru.bcs</groupId>
             <artifactId>at-library-core</artifactId>
-            <version>3.0.6-fix2</version>
+            <version>3.0.6.4-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
