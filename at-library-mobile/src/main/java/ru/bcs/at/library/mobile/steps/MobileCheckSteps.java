@@ -11,14 +11,8 @@
  */
 package ru.bcs.at.library.mobile.steps;
 
-import com.codeborne.selenide.WebDriverRunner;
 import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.То;
-import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.TouchAction;
-import io.appium.java_client.touch.WaitOptions;
-import io.appium.java_client.touch.offset.PointOption;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import ru.bcs.at.library.core.cucumber.api.CoreScenario;
@@ -26,9 +20,6 @@ import ru.bcs.at.library.core.setup.AtCoreConfig;
 import ru.bcs.at.library.mobile.utils.AssertMobile;
 import ru.bcs.at.library.mobile.utils.CustomMethods;
 
-import java.time.Duration;
-
-import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.openqa.selenium.support.ui.ExpectedConditions.*;
@@ -65,8 +56,9 @@ public class MobileCheckSteps {
         coreScenario.getCurrentPage().appeared();
         //TODO нужно чтоб успел загрузится экран
         sleep(1);
-        if (AtCoreConfig.platformName.equals("iOS")) {
-            CustomMethods.hideNotifications();
+
+        if (AtCoreConfig.platformName.equals("iOS") && nameOfPage.equals("Серверы")) {
+            CustomMethods.hideNotification();
         }
     }
 

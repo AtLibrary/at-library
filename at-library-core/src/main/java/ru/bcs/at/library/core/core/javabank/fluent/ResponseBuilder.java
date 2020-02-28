@@ -26,7 +26,7 @@ public class ResponseBuilder implements FluentBuilder {
     }
 
     protected Response build() {
-        if(builder != null) return builder.build();
+        if (builder != null) return builder.build();
 
         return new IsBuilder(this).build();
     }

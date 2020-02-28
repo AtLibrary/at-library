@@ -27,42 +27,48 @@ import ru.bcs.at.library.core.core.helpers.PropertyLoader;
 /**
  * Шаги по включению/отключению прокси
  */
+//TODO вынести эти шаги в CORE
 @Log4j2
 public class ProxySteps {
 
+    private static boolean useProxySteps = Boolean.parseBoolean(System.getProperty("useProxySteps", "true"));
+
     /**
      * Используется прокси
+     * Не работает для запуска на selenoid
      *
      * @param proxyHost адрес proxy, например: s-nsk-proxy-01.global.bcs
      * @param proxyPort порт proxy, например: 8080
      */
-    @Deprecated
     @И("^используется proxy: \"([^\"]+)\" port: \"([^\"]+)\"$")
     public void turnOnProxy(String proxyHost, String proxyPort) {
-        proxyHost = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(proxyHost);
-        proxyPort = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(proxyPort);
+        if (useProxySteps) {
+            proxyHost = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(proxyHost);
+            proxyPort = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(proxyPort);
 
-        System.setProperty("http.proxyHost", proxyHost);
-        System.setProperty("http.proxyPort", proxyPort);
-        System.setProperty("https.proxyHost", proxyHost);
-        System.setProperty("https.proxyPort", proxyPort);
+            System.setProperty("http.proxyHost", proxyHost);
+            System.setProperty("http.proxyPort", proxyPort);
+            System.setProperty("https.proxyHost", proxyHost);
+            System.setProperty("https.proxyPort", proxyPort);
 
-        RestAssured.proxy = ProxySpecification.host(proxyHost).withPort(Integer.parseInt(proxyPort));
-
+            RestAssured.proxy = ProxySpecification.host(proxyHost).withPort(Integer.parseInt(proxyPort));
+        }
     }
 
     /**
      * Выключить использование прокси
+     * Не работает для запуска на selenoid
      */
-    @Deprecated
     @И("^выключено использование proxy$")
     public void turnOffProxy() {
-        System.clearProperty("http.proxyHost");
-        System.clearProperty("http.proxyPort");
-        System.clearProperty("https.proxyHost");
-        System.clearProperty("https.proxyPort");
+        if (useProxySteps) {
+            System.clearProperty("http.proxyHost");
+            System.clearProperty("http.proxyPort");
+            System.clearProperty("https.proxyHost");
+            System.clearProperty("https.proxyPort");
 
-        RestAssured.proxy = null;
+            RestAssured.proxy = null;
+        }
     }
 
     /**

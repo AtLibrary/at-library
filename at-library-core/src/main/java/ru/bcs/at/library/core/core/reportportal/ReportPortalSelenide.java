@@ -23,32 +23,9 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 public class ReportPortalSelenide implements LogEventListener {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ReportPortalSelenide.class);
-
+    private final Map<LogType, Level> logTypesToSave = new HashMap<>();
     private boolean saveScreenshots = true;
     private boolean savePageHtml = true;
-    private final Map<LogType, Level> logTypesToSave = new HashMap<>();
-
-    public ReportPortalSelenide screenshots(final boolean saveScreenshots) {
-        this.saveScreenshots = saveScreenshots;
-        return this;
-    }
-
-    public ReportPortalSelenide savePageSource(final boolean savePageHtml) {
-        this.savePageHtml = savePageHtml;
-        return this;
-    }
-
-    public ReportPortalSelenide enableLogs(final LogType logType, final Level logLevel) {
-        logTypesToSave.put(logType, logLevel);
-
-        return this;
-    }
-
-    public ReportPortalSelenide disableLogs(final LogType logType) {
-        logTypesToSave.remove(logType);
-
-        return this;
-    }
 
     private static Optional<byte[]> getScreenshotBytes() {
         try {
@@ -74,6 +51,28 @@ public class ReportPortalSelenide implements LogEventListener {
 
     private static String getBrowserLogs(final LogType logType, final Level level) {
         return String.join("\n\n", Selenide.getWebDriverLogs(logType.toString(), level));
+    }
+
+    public ReportPortalSelenide screenshots(final boolean saveScreenshots) {
+        this.saveScreenshots = saveScreenshots;
+        return this;
+    }
+
+    public ReportPortalSelenide savePageSource(final boolean savePageHtml) {
+        this.savePageHtml = savePageHtml;
+        return this;
+    }
+
+    public ReportPortalSelenide enableLogs(final LogType logType, final Level logLevel) {
+        logTypesToSave.put(logType, logLevel);
+
+        return this;
+    }
+
+    public ReportPortalSelenide disableLogs(final LogType logType) {
+        logTypesToSave.remove(logType);
+
+        return this;
     }
 
     @Override

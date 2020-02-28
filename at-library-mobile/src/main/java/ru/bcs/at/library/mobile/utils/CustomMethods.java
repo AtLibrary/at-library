@@ -105,38 +105,15 @@ public class CustomMethods {
                 .release().perform();
     }
 
-    /** посмотреть системные уведомления */
-    public static void showNotifications() {
-        manageNotifications(true);
-    }
-
     /** скрыть системное уведомление с экрана */
-    public static void hideNotifications() {
-        manageNotifications(false);
-    }
-
-    /** управление системными уведомлениями */
-    public static void manageNotifications(Boolean show) {
-        int yMargin = 5;
-        Dimension screenSize = WebDriverRunner.getWebDriver().manage()
-                .window().getSize();
-        int xMid = screenSize.width / 2;
-        PointOption top = PointOption.point(xMid, yMargin);
-        PointOption bottom = PointOption.point(xMid, screenSize.height - yMargin);
+    public static void hideNotification() {
+        Dimension screenSize = WebDriverRunner.getWebDriver().manage().window().getSize();
+        int xMid = Math.toIntExact(Math.round(0.6 * screenSize.width));
+        int yMid = Math.toIntExact(Math.round(0.6 * screenSize.height));
+        PointOption allowNotificationButton = PointOption.point(xMid, yMid);
 
         TouchAction action = new TouchAction((AppiumDriver) getWebDriver());
-        if (show) {
-            action.press(top);
-        } else {
-            action.press(bottom);
-        }
-//        action.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(1)));
-//        if (show) {
-//            action.moveTo(bottom);
-//        } else {
-//            action.moveTo(top);
-//        }
-//        action.perform();
+        action.tap(allowNotificationButton).perform();
     }
 
 }

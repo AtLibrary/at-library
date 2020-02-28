@@ -35,7 +35,7 @@ public class Predicate extends HashMap {
     }
 
     private Predicate addMapEntry(String key, String name, String value) {
-        if(!data.containsKey(key)) {
+        if (!data.containsKey(key)) {
             data.put(key, newHashMap());
         }
 

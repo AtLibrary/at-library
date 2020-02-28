@@ -34,10 +34,10 @@ public class StubBuilder implements FluentBuilder {
 
     protected Stub build() {
         Stub stub = new Stub();
-        for(ResponseBuilder childResponse : childResponses) {
+        for (ResponseBuilder childResponse : childResponses) {
             stub.addResponse(childResponse.build());
         }
-        for(PredicateTypeBuilder childPredicate : childPredicates) {
+        for (PredicateTypeBuilder childPredicate : childPredicates) {
             stub.addPredicates(childPredicate.build());
         }
 

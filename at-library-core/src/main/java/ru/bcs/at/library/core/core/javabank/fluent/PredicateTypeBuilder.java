@@ -56,7 +56,7 @@ public class PredicateTypeBuilder implements FluentBuilder {
 
     protected List<Predicate> build() {
         List<Predicate> predicates = newArrayList();
-        for(PredicateValueBuilder predicateValueBuilder : childPredicateValueBuilders) {
+        for (PredicateValueBuilder predicateValueBuilder : childPredicateValueBuilders) {
             predicates.add(predicateValueBuilder.build());
         }
         return predicates;

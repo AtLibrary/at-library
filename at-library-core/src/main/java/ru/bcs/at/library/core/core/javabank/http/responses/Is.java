@@ -53,8 +53,8 @@ public class Is extends Response {
         return this;
     }
 
-    public Is withMode(String mode){
-        if(!Objects.isNull(mode)) {
+    public Is withMode(String mode) {
+        if (!Objects.isNull(mode)) {
             this.data.put(MODE, mode);
         }
         return this;
