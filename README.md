@@ -5,7 +5,7 @@ Quick start
 =========================
 Подробное описание как писать Автотесты. От установки java до создания отчета с результатом прогона АТ выложено на confluence:
 
-https://jira.bcs.ru:4464/confluence/pages/viewpage.action?pageId=142470113
+https://jira.appavlov.ru:4464/confluence/pages/viewpage.action?pageId=142470113
 
 Если нет доступа, то необходимо завести СЗ на доступ к space: 
 - Quality Assurance
@@ -17,7 +17,6 @@ BDD библиотека шагов для тестирования на осн�
 - cucumber
 - selenide
 - rest-assured
-- webdrivermanager
 - appium
 - allure
 
@@ -39,23 +38,23 @@ BDD библиотека шагов для тестирования на осн�
 
 Подключение репозиториев:
 ====================
-- Подключение репозириев БКС для скачивания проекта из bcs artifactory
+- Подключение репозириев БКС для скачивания проекта из appavlov artifactory
 ```xml
 <distributionManagement>
     <snapshotRepository>
         <id>snapshots</id>
-        <name>s-cicd-artif-01.global.bcs-snapshots</name>
-        <url>https://artifactory.gitlab.bcs.ru/artifactory/bcs-main-snapshots</url>
+        <name>s-cicd-artif-01.global.appavlov-snapshots</name>
+        <url>https://artifactory.gitlab.appavlov.ru/artifactory/appavlov-main-snapshots</url>
     </snapshotRepository>
     <repository>
-        <id>bcs-main-releases</id>
-        <url>https://artifactory.gitlab.bcs.ru/artifactory/bcs-main-releases</url>
+        <id>appavlov-main-releases</id>
+        <url>https://artifactory.gitlab.appavlov.ru/artifactory/appavlov-main-releases</url>
     </repository>
 </distributionManagement>
 <repositories>
     <repository>
-        <id>bcs-main-releases</id>
-        <url>https://artifactory.gitlab.bcs.ru/artifactory/bcs-main-releases</url>
+        <id>appavlov-main-releases</id>
+        <url>https://artifactory.gitlab.appavlov.ru/artifactory/appavlov-main-releases</url>
         <releases>
             <enabled>true</enabled>
         </releases>
@@ -65,8 +64,8 @@ BDD библиотека шагов для тестирования на осн�
     </repository>
     <repository>
         <id>snapshots</id>
-        <name>s-cicd-artif-01.global.bcs-snapshots</name>
-        <url>https://artifactory.gitlab.bcs.ru/artifactory/bcs-main-snapshots</url>
+        <name>s-cicd-artif-01.global.appavlov-snapshots</name>
+        <url>https://artifactory.gitlab.appavlov.ru/artifactory/appavlov-main-snapshots</url>
         <releases>
             <enabled>false</enabled>
         </releases>
@@ -135,5 +134,5 @@ BDD библиотека шагов для тестирования на осн�
 Просмотр отчета о выполнении в ReportPortal:
 =========================
 ```url
-https://reportportal.t-global.bcs/
+https://reportportal.t-global.appavlov/
 ```

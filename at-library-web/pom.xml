@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>at-library</artifactId>
-        <groupId>ru.bcs</groupId>
-        <version>3.0.6.4-SNAPSHOT</version>
+        <groupId>ru.appavlov</groupId>
+        <version>0.0.0.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -17,9 +17,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>ru.bcs</groupId>
+            <groupId>ru.appavlov</groupId>
             <artifactId>at-library-core</artifactId>
-            <version>3.0.6.4-SNAPSHOT</version>
+            <version>0.0.0.1</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
@@ -48,9 +48,6 @@
                     <testFailureIgnore>true</testFailureIgnore>
                     <argLine>
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/1.9.1/aspectjweaver-1.9.1.jar"
-                        -Dselenide.browser="chrome"
-                        -Dselenide.remote=http://test:test-password@selenoid.t-global.bcs:4444/wd/hub/
-                        -Dproxy=172.18.62.68:8080
                         -Dcucumber.options="
                         --plugin io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm"
                     </argLine>

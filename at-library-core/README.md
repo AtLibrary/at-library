@@ -20,22 +20,22 @@ at-library-core
 =================================
 - Используется для хранения страниц и переменных внутри сценария. Scenario - Сценарий из Cucumber.api, с которым связана среда
 ```java
-ru.bcs.at.library.core.cucumber.api.CoreEnvironment
+CoreEnvironment
 ```
 
 - Класс для реализации паттерна PageObject. Тут описаны основные методы взаимодействия с элементами страницы
 ```java
-ru.bcs.at.library.core.cucumber.api.CorePage
+CorePage
 ```
 
 - Позволяет заполнить хранилище переменных, существующее в рамках одного сценария, значениями и читать эти значения при необходимости.
 ```java
-ru.bcs.at.library.core.cucumber.api.CoreScenario
+CoreScenario
 ```
 
 - Хуки предустановок, где происходит создание страниц, закрытие браузера, получение скриншотов
 ```java
-ru.bcs.at.library.core.setup.InitialSetupSteps
+InitialSetupSteps
 ```
 
 application.properties

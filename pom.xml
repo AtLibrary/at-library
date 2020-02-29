@@ -4,10 +4,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>ru.bcs</groupId>
+    <groupId>ru.appavlov</groupId>
     <artifactId>at-library</artifactId>
     <packaging>pom</packaging>
-    <version>3.0.6.4-SNAPSHOT</version>
+    <version>0.0.0.1</version>
 
     <modules>
         <module>at-library-core</module>
@@ -26,7 +26,6 @@
         <io.appium.java-client.version>7.3.0</io.appium.java-client.version>
         <!--CUCUMBER-->
         <cucumber.version>4.3.0</cucumber.version>
-        <agent-java-cucumber4.version>4.0.2-BCS</agent-java-cucumber4.version>
         <!--ОТЧЕТ ALLURE-->
         <allure.version>2.13.0</allure.version>
         <!--LOMBOK-->
@@ -47,12 +46,12 @@
     <distributionManagement>
         <snapshotRepository>
             <id>snapshots</id>
-            <name>s-cicd-artif-01.global.bcs-snapshots</name>
-            <url>https://artifactory.gitlab.bcs.ru/artifactory/bcs-main-snapshots</url>
+            <name>s-cicd-artif-01.global.appavlov-snapshots</name>
+            <url>https://artifactory.gitlab.appavlov.ru/artifactory/appavlov-main-snapshots</url>
         </snapshotRepository>
         <repository>
-            <id>bcs-main-releases</id>
-            <url>https://artifactory.gitlab.bcs.ru/artifactory/bcs-main-releases</url>
+            <id>appavlov-main-releases</id>
+            <url>https://artifactory.gitlab.appavlov.ru/artifactory/appavlov-main-releases</url>
         </repository>
     </distributionManagement>
 
@@ -131,12 +130,6 @@
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-junit4</artifactId>
             <version>${allure.version}</version>
-        </dependency>
-        <!--ОТЧЕТ REPORT PORTAL-->
-        <dependency>
-            <groupId>com.epam.reportportal</groupId>
-            <artifactId>agent-java-cucumber4</artifactId>
-            <version>${agent-java-cucumber4.version}</version>
         </dependency>
         <!--LOMBOK-->
         <dependency>

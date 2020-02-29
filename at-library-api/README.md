@@ -6,9 +6,9 @@ at-library-api
 Подключите зависимость
 ```xml
 <dependency>
-      <groupId>ru.bcs</groupId>
+      <groupId>ru.appavlov</groupId>
       <artifactId>at-library-api</artifactId>
-      <version>3.0.6.4-SNAPSHOT</version>
+      <version>0.0.0.1</version>
 </dependency>
 ```
 

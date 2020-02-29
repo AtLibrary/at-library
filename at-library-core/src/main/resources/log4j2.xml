@@ -20,10 +20,6 @@
                 <OnStartupTriggeringPolicy/>
             </Policies>
         </RollingRandomAccessFile>
-
-        <ReportPortalLog4j2Appender name="ReportPortalAppender">
-            <PatternLayout pattern="${logPatternRP}"/>
-        </ReportPortalLog4j2Appender>
     </Appenders>
 
     <Loggers>
@@ -31,11 +27,11 @@
             <AppenderRef ref="Console"/>
             <AppenderRef ref="File"/>
         </Root>
-        <Logger name="ru.bcs.at.library.core.core.log.Log4jRestAssuredFilter" level="trace" additivity="false">
+        <Logger name="ru.appavlov.at.library.core.core.log.Log4jRestAssuredFilter" level="trace" additivity="false">
             <AppenderRef ref="Console"/>
             <AppenderRef ref="File"/>
         </Logger>
-        <Logger name="ru.bcs" level="trace" additivity="false">
+        <Logger name="ru.appavlov" level="trace" additivity="false">
             <AppenderRef ref="Console"/>
             <AppenderRef ref="File"/>
         </Logger>
