@@ -25,9 +25,10 @@
         <!--MOBILE ТЕСТИРОВАНИЕ-->
         <io.appium.java-client.version>7.3.0</io.appium.java-client.version>
         <!--CUCUMBER-->
+<!--        <cucumber.version>5.4.1</cucumber.version>-->
         <cucumber.version>4.3.0</cucumber.version>
         <!--ОТЧЕТ ALLURE-->
-        <allure.version>2.13.0</allure.version>
+        <allure.version>2.13.2</allure.version>
         <!--LOMBOK-->
         <lombok.version>1.18.10</lombok.version>
         <!--JACKSON-->

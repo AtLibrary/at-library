@@ -224,6 +224,7 @@ public class WebActionSteps {
      */
     @То("^в поле \"([^\"]*)\" посимвольно набирается значение$")
     @И("^в поле \"([^\"]*)\" посимвольно набирается значение \"([^\"]*)\"$")
+//    @Step("в поле {elementName} посимвольно набирается значение {value}")
     public void sendKeysCharacterByCharacter(String elementName, String value) {
         value = getPropertyOrStringVariableOrValue(value);
         SelenideElement valueInput = coreScenario.getCurrentPage().getElement(elementName);
