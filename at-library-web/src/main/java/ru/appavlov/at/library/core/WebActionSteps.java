@@ -185,7 +185,7 @@ public class WebActionSteps {
      * Перед использованием поле нужно очистить
      */
     @То("^в поле \"([^\"]*)\" введено значение$")
-    @И("^в поле \"([^\"]*)\" введено значение \"(.*)\"$")
+    @И("^в поле \"([^\"]*)\" введено значение \"([^\"]*)\"$")
     public void setFieldValue(String elementName, String value) {
         value = getPropertyOrStringVariableOrValue(value);
         SelenideElement valueInput = coreScenario.getCurrentPage().getElement(elementName);
@@ -200,7 +200,7 @@ public class WebActionSteps {
      * @return value значение
      */
     @То("^в поле \"([^\"]*)\" набирается значение$")
-    @И("^в поле \"([^\"]*)\" набирается значение \"(.*)\"$")
+    @И("^в поле \"([^\"]*)\" набирается значение \"([^\"]*)\"$")
     public String fieldValueIsTyped(String elementName, String value) {
         value = getPropertyOrStringVariableOrValue(value);
         SelenideElement valueInput = coreScenario.getCurrentPage().getElement(elementName);
@@ -224,7 +224,6 @@ public class WebActionSteps {
      */
     @То("^в поле \"([^\"]*)\" посимвольно набирается значение$")
     @И("^в поле \"([^\"]*)\" посимвольно набирается значение \"([^\"]*)\"$")
-//    @Step("в поле {elementName} посимвольно набирается значение {value}")
     public void sendKeysCharacterByCharacter(String elementName, String value) {
         value = getPropertyOrStringVariableOrValue(value);
         SelenideElement valueInput = coreScenario.getCurrentPage().getElement(elementName);
@@ -276,7 +275,7 @@ public class WebActionSteps {
      * Добавление строки (в приоритете: из property, из переменной сценария, значение аргумента) в поле к уже заполненой строке
      */
     @То("^в (?:поле|элемент) \"([^\"]*)\" дописывается значение$")
-    @И("^в (?:поле|элемент) \"([^\"]*)\" дописывается значение \"(.*)\"$")
+    @И("^в (?:поле|элемент) \"([^\"]*)\" дописывается значение \"([^\"]*)\"$")
     public void addValue(String elementName, String value) {
         value = getPropertyOrStringVariableOrValue(value);
         SelenideElement field = coreScenario.getCurrentPage().getElement(elementName);
@@ -291,7 +290,7 @@ public class WebActionSteps {
     /**
      * Нажатие на элемент по его тексту (в приоритете: из property, из переменной сценария, значение аргумента)
      */
-    @И("^выполнено нажатие на элемент с текстом \"(.*)\"$")
+    @И("^выполнено нажатие на элемент с текстом \"([^\"]*)\"$")
     public void findElement(String text) {
         $(By.xpath(getTranslateNormalizeSpaceText(getPropertyOrStringVariableOrValue(text)))).click();
     }
@@ -336,7 +335,7 @@ public class WebActionSteps {
      * Поиск осуществляется по содержанию ожидаемого текста в названии файла. Можно передавать регулярное выражение.
      * После выполнения проверки файл удаляется
      */
-    @И("^файл по пути \"(.*)\" выгрузился в поле \"(.*)\"$")
+    @И("^файл по пути \"([^\"]*)\" выгрузился в поле \"([^\"]*)\"$")
     public void uploadFile(String path, String fieldName) {
         coreScenario.getCurrentPage()
                 .getElement(fieldName)
@@ -356,8 +355,9 @@ public class WebActionSteps {
      * Ввод в поле случайной последовательности латинских или кириллических букв задаваемой длины
      */
     @Deprecated
-    @И("^в поле \"([^\"]*)\" введено (\\d+) случайных символов на (кириллице|латинице)$")
-    public void setRandomCharSequence(String elementName, int seqLength, String lang) {
+    @И("^в поле \"([^\"]*)\" введено \"([^\"]*)\" случайных символов на (кириллице|латинице)$")
+    public void setRandomCharSequence(String elementName, String seqLengthString, String lang) {
+        int seqLength = Integer.parseInt(seqLengthString);
         SelenideElement valueInput = coreScenario.getCurrentPage().getElement(elementName);
         cleanField(elementName);
 
@@ -372,8 +372,9 @@ public class WebActionSteps {
      * Ввод в поле случайной последовательности латинских или кириллических букв задаваемой длины и сохранение этого значения в переменную
      */
     @Deprecated
-    @И("^в поле \"([^\"]*)\" введено (\\d+) случайных символов на (кириллице|латинице) и сохранено в переменную \"([^\"]*)\"$")
-    public void setRandomCharSequenceAndSaveToVar(String elementName, int seqLength, String lang, String varName) {
+    @И("^в поле \"([^\"]*)\" введено \"([^\"]*)\" случайных символов на (кириллице|латинице) и сохранено в переменную \"([^\"]*)\"$")
+    public void setRandomCharSequenceAndSaveToVar(String elementName, String seqLengthString, String lang, String varName) {
+        int seqLength = Integer.parseInt(seqLengthString);
         SelenideElement valueInput = coreScenario.getCurrentPage().getElement(elementName);
         cleanField(elementName);
 
@@ -391,8 +392,9 @@ public class WebActionSteps {
      * @return сгенерированное число
      */
     @Deprecated
-    @И("^в поле \"([^\"]*)\" введено случайное число из (\\d+) (?:цифр|цифры)$")
-    public String inputRandomNumSequence(String elementName, int seqLength) {
+    @И("^в поле \"([^\"]*)\" введено случайное число из \"([^\"]*)\" (?:цифр|цифры)$")
+    public String inputRandomNumSequence(String elementName, String seqLengthString) {
+        int seqLength = Integer.parseInt(seqLengthString);
         String numSeq = RandomStringUtils.randomNumeric(seqLength);
         return fieldValueIsTyped(elementName, numSeq);
     }
@@ -402,8 +404,8 @@ public class WebActionSteps {
      */
     @Deprecated
     @И("^в поле \"([^\"]*)\" введено случайное число из (\\d+) (?:цифр|цифры) и сохранено в переменную \"([^\"]*)\"$")
-    public void inputAndSetRandomNumSequence(String elementName, int seqLength, String varName) {
-        String value = inputRandomNumSequence(elementName, seqLength);
+    public void inputAndSetRandomNumSequence(String elementName, String seqLengthString, String varName) {
+        String value = inputRandomNumSequence(elementName, seqLengthString);
         coreScenario.setVar(varName, value);
         coreScenario.write(String.format("В поле [%s] введено значение [%s] и сохранено в переменную [%s]",
                 elementName, value, varName));
@@ -425,20 +427,12 @@ public class WebActionSteps {
      */
     @И("^страница прокручена до появления элемента \"([^\"]*)\"$")
     public void scrollWhileElemNotFoundOnPage(String elementName) {
-        SelenideElement el = null;
-//        WebDriver webDriver = WebDriverRunner.getWebDriver();
-//        JavascriptExecutor jse = (JavascriptExecutor) webDriver;
         do {
-//            jse.executeScript("return window.scrollTo(1000, 1250);");
-            el = coreScenario.getCurrentPage().getElement(elementName);
-//            if (el.exists() && el.is(visible)) {
-//                break;
-//            }
+            SelenideElement el = coreScenario.getCurrentPage().getElement(elementName);
             el.scrollTo();
             executeJavaScript("return window.scrollBy(0, 250);");
             sleep(1000);
         } while (!atBottom());
-//        el.shouldHave(enabled);
     }
 
     /**
@@ -447,23 +441,8 @@ public class WebActionSteps {
      */
     @И("^страница прокручена до появления элемента с текстом \"([^\"]*)\"$")
     public void scrollWhileElemWithTextNotFoundOnPage(String expectedValue) {
-        SelenideElement el = null;
-//        do {
-//            el = $(By.xpath(getTranslateNormalizeSpaceText(getPropertyOrStringVariableOrValue(expectedValue))));
-//            if (el.exists()) {
-//                break;
-//            }
-//            executeJavaScript("return window.scrollBy(0, 250);");
-//            sleep(1000);
-//        } while (!atBottom());
-//        el.shouldHave(enabled);
-
-
-        WebDriver webDriver = WebDriverRunner.getWebDriver();
-
-        el = $(By.xpath(getTranslateNormalizeSpaceText(getPropertyOrStringVariableOrValue(expectedValue))));
-//        WebElement getElement = webDriver.findElement(By.xpath("//div[contains (@class, 'dropdown__item')]/span/span[text()='"+ expectedValue +"']"));
-        ((JavascriptExecutor) webDriver).executeScript("arguments[0].scrollIntoView();", el);
+        SelenideElement el = $(By.xpath(getTranslateNormalizeSpaceText(getPropertyOrStringVariableOrValue(expectedValue))));
+        ((JavascriptExecutor) WebDriverRunner.getWebDriver()).executeScript("arguments[0].scrollIntoView();", el);
         el.click();
     }
 

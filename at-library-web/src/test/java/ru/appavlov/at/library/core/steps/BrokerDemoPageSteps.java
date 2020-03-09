@@ -10,9 +10,9 @@ public class BrokerDemoPageSteps {
         WebActionSteps webActionSteps = new WebActionSteps();
         webActionSteps.loadPage("BCS demo аккаунт");
 
-        webActionSteps.sendKeysCharacterByCharacter("ФИО", fio);
-        webActionSteps.sendKeysCharacterByCharacter("Номер телефона", password);
-        webActionSteps.sendKeysCharacterByCharacter("Email", email);
+        webActionSteps.setFieldValue("ФИО", fio);
+        webActionSteps.setFieldValue("Номер телефона", password);
+        webActionSteps.setFieldValue("Email", email);
         webActionSteps.clickOnElement("Открыть счет");
     }
 

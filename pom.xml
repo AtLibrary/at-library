@@ -17,6 +17,9 @@
     </modules>
 
     <properties>
+        <aspectj.version>1.9.4</aspectj.version>
+
+
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!--WEB ТЕСТИРОВАНИЕ-->
         <selenide.version>5.7.0</selenide.version>
@@ -72,6 +75,12 @@
     </repositories>
 
     <dependencies>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>${aspectj.version}</version>
+        </dependency>
+
         <!--MOBILE ТЕСТИРОВАНИЕ-->
         <dependency>
             <groupId>io.appium</groupId>

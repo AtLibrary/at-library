@@ -1,0 +1,5 @@
+<aspectj>
+    <aspects>
+        <aspect name="ru.appavlov.at.library.core.allure.StepsAspects"/>
+    </aspects>
+</aspectj>

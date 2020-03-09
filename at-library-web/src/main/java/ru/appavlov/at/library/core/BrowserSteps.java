@@ -155,8 +155,10 @@ public class BrowserSteps {
     /**
      * Выполняется обновление страницы
      */
-    @И("^выполнено обновление текущей страницы каждые (\\d+) секунд в течении (\\d+) секунд$")
-    public void refreshPageParam(int second, int allTimeSecond) {
+    @И("^выполнено обновление текущей страницы каждые \"([^\"]*)\" секунд в течении \"([^\"]*)\" секунд$")
+    public void refreshPageParam(String secondString, String allTimeSecondString) {
+        int second = Integer.parseInt(secondString);
+        int allTimeSecond = Integer.parseInt(allTimeSecondString);
         for (int i = 0; i < allTimeSecond; i += second) {
             sleep(second * 1000);
             refresh();
@@ -224,11 +226,13 @@ public class BrowserSteps {
     /**
      * Устанавливает размеры окна браузера
      *
-     * @param width  ширина
-     * @param height высота
+     * @param widthString  ширина
+     * @param heightString высота
      */
-    @И("^установлено разрешение экрана (\\d+) х (\\d+)$")
-    public void setBrowserWindowSize(int width, int height) {
+    @И("^установлено разрешение экрана \"([^\"]*)\" х \"([^\"]*)\"$")
+    public void setBrowserWindowSize(String widthString, String heightString) {
+        int width = Integer.parseInt(widthString);
+        int height = Integer.parseInt(heightString);
         getWebDriver().manage().window().setSize(new Dimension(width, height));
         coreScenario.write("Установлены размеры окна браузера: ширина " + width + " высота" + height);
     }
