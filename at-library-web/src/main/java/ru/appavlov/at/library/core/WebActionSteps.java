@@ -13,7 +13,6 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import ru.appavlov.at.library.core.cucumber.api.CorePage;
 import ru.appavlov.at.library.core.cucumber.api.CoreScenario;
-import ru.appavlov.at.library.core.setup.AtCoreConfig;
 
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
@@ -51,7 +50,6 @@ public class WebActionSteps {
      */
     @И("^совершен переход на страницу \"([^\"]*)\" по ссылке \"([^\"]*)\"$")
     public void goToSelectedPageByLink(String pageName, String urlOrName) {
-        System.out.println("AtCoreConfig.deviceName = " + AtCoreConfig.deviceName);
         String url = resolveVars(getPropertyOrStringVariableOrValue(urlOrName));
         coreScenario.write(" url = " + url);
         open(url);
@@ -183,44 +181,21 @@ public class WebActionSteps {
     /**
      * Устанавливается значение (в приоритете: из property, из переменной сценария, значение аргумента) в заданное поле.
      * Перед использованием поле нужно очистить
+     * @return
      */
     @То("^в поле \"([^\"]*)\" введено значение$")
     @И("^в поле \"([^\"]*)\" введено значение \"([^\"]*)\"$")
-    public void setFieldValue(String elementName, String value) {
+    public String setFieldValue(String elementName, String value) {
         value = getPropertyOrStringVariableOrValue(value);
         SelenideElement valueInput = coreScenario.getCurrentPage().getElement(elementName);
         cleanField(elementName);
         valueInput.setValue(value);
-    }
-
-    /**
-     * Набирается значение (в приоритете: из property, из переменной сценария, значение аргумента) в заданное поле.
-     * Перед использованием поле нужно очистить
-     *
-     * @return value значение
-     */
-    @То("^в поле \"([^\"]*)\" набирается значение$")
-    @И("^в поле \"([^\"]*)\" набирается значение \"([^\"]*)\"$")
-    public String fieldValueIsTyped(String elementName, String value) {
-        value = getPropertyOrStringVariableOrValue(value);
-        SelenideElement valueInput = coreScenario.getCurrentPage().getElement(elementName);
-        cleanField(elementName);
-
-        for (char character : value.toCharArray()) {
-            sleep(100);
-            valueInput.sendKeys(String.valueOf(character));
-        }
-        sleep(100);
-
-        coreScenario.write(String.format("В поле [%s] введено значение [%s]", elementName, value));
         return value;
     }
 
-    //TODO этот метод дубриуется в fieldValueIsTyped
-
     /**
      * Набирается значение посимвольно (в приоритете: из property, из переменной сценария, значение аргумента) в заданное поле.
-     * Перед использованием поле нужно очистить
+     * Перед использованием поле очищается
      */
     @То("^в поле \"([^\"]*)\" посимвольно набирается значение$")
     @И("^в поле \"([^\"]*)\" посимвольно набирается значение \"([^\"]*)\"$")
@@ -396,7 +371,7 @@ public class WebActionSteps {
     public String inputRandomNumSequence(String elementName, String seqLengthString) {
         int seqLength = Integer.parseInt(seqLengthString);
         String numSeq = RandomStringUtils.randomNumeric(seqLength);
-        return fieldValueIsTyped(elementName, numSeq);
+        return setFieldValue(elementName, numSeq);
     }
 
     /**

@@ -11,9 +11,9 @@ public class AddToCardPage extends CorePage {
 
     @Name("money")
     @FindAll({
-            //TODO iOS
+            //iOS
             @FindBy(xpath = "//XCUIElementTypeStaticText[@name=\"money\"]"),
-            //TODO Android
+            // Android
             @FindBy(xpath = "//XCUIElementTypeStaticText[@name=\"money\"]")
     })
     private SelenideElement money;

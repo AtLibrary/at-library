@@ -18,6 +18,7 @@ import static io.qameta.allure.util.AspectUtils.getName;
 import static io.qameta.allure.util.AspectUtils.getParameters;
 import static io.qameta.allure.util.ResultsUtils.getStatus;
 import static io.qameta.allure.util.ResultsUtils.getStatusDetails;
+import static ru.appavlov.at.library.core.steps.OtherSteps.getPropertyOrStringVariableOrValue;
 
 @Aspect
 public class StepsAspects {
@@ -47,18 +48,42 @@ public class StepsAspects {
 
         final String uuid = UUID.randomUUID().toString();
         String name = getName(step.value(), joinPoint);
-        final List<Parameter> parameters = getParameters(methodSignature, joinPoint.getArgs());
+        List<Parameter> parameters = getParameters(methodSignature, joinPoint.getArgs());
         name = updateName(name, parameters);
-
-        final StepResult result = new StepResult()
-                .setName(name)
-                .setParameters(parameters);
+        parameters = updateParameters(parameters);
 
         boolean stepInfoDuplicate = getLifecycle().getCurrentTestCaseOrStep().get().contains(name);
 
         if (!stepInfoDuplicate) {
+            final StepResult result = new StepResult()
+                    .setName(name)
+                    .setParameters(parameters);
             getLifecycle().startStep(uuid, result);
+        } else {
+            if (!parameters.isEmpty()) {
+                final StepResult result = new StepResult()
+                        .setParameters(parameters);
+                getLifecycle().startStep(uuid, result);
+            }
         }
+    }
+
+//    private List<Parameter> updateParameters(List<Parameter> parameters) {
+//        List<Parameter> updateParameter = new ArrayList<>();
+//        for (Parameter parameter : parameters) {
+//            updateParameter.add(
+//                    new Parameter()
+//                            .setName(parameter.getName())
+//                            .setValue(getPropertyOrStringVariableOrValue(parameter.getValue()))
+//            );
+//        }
+//        return updateParameter;
+//    }
+    private List<Parameter> updateParameters(List<Parameter> parameters) {
+        for (Parameter parameter : parameters) {
+            parameter.setValue(getPropertyOrStringVariableOrValue(parameter.getValue()));
+        }
+        return parameters;
     }
 
     private String updateName(String name, List<Parameter> parameters) {

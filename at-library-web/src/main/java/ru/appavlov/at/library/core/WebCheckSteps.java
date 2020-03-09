@@ -121,7 +121,7 @@ public class WebCheckSteps {
     /**
      * Проверка, что элемент на странице кликабелен
      */
-    @И("^(?:кнопка|ссылка|поле|блок|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" кликабельнов течение (\\d+) (?:секунд|секунды)$")
+    @И("^(?:кнопка|ссылка|поле|блок|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" кликабельно в течение (\\d+) (?:секунд|секунды)$")
     public void clickableField(String elementName, int second) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
         element.waitUntil(enabled, second * 1000);

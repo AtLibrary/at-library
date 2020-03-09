@@ -22,7 +22,6 @@ import java.util.Collection;
 public final class Spectators {
 
     private Spectators() {
-
     }
 
     /**

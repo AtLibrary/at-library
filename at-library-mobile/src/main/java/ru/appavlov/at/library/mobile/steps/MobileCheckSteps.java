@@ -16,15 +16,13 @@ import cucumber.api.java.ru.То;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import ru.appavlov.at.library.core.cucumber.api.CoreScenario;
-import ru.appavlov.at.library.core.setup.AtCoreConfig;
 import ru.appavlov.at.library.mobile.utils.AssertMobile;
-import ru.appavlov.at.library.mobile.utils.CustomMethods;
 import ru.appavlov.at.library.mobile.utils.MobileTestConfig;
 
+import static com.codeborne.selenide.Selenide.sleep;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.openqa.selenium.support.ui.ExpectedConditions.*;
-import static ru.appavlov.at.library.core.cucumber.api.CoreScenario.sleep;
 import static ru.appavlov.at.library.core.steps.OtherSteps.getPropertyOrStringVariableOrValue;
 
 /**
@@ -54,12 +52,8 @@ public class MobileCheckSteps {
     public void loadPage(String nameOfPage) {
         coreScenario.setCurrentPage(coreScenario.getPage(nameOfPage));
         coreScenario.getCurrentPage().appeared();
-        //TODO нужно чтоб успел загрузится экран
-        sleep(1);
-
-        if (AtCoreConfig.platformName.equals("iOS") && nameOfPage.equals("Серверы")) {
-            CustomMethods.hideNotification();
-        }
+        //чтоб успел загрузится экран
+        sleep(1000);
     }
 
     /**

@@ -405,15 +405,4 @@ public class OtherSteps {
     public void oldFramework() {
         throw new cucumber.api.PendingException("автотест реализован на старом фреймворке");
     }
-
-    /**
-     * Сохранение результата предыдущей команды в переменную
-     *
-     * @param variableName имя переменной
-     */
-    @И("^результат сохранен в переменную \"([^\"]+)\"$")
-    public void saveCurrentToVariable(String variableName) {
-        coreScenario.setVar(variableName, coreScenario.getVar(CoreScenario.CURRENT));
-    }
-
 }

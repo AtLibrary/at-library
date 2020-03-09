@@ -27,6 +27,7 @@ import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static com.codeborne.selenide.WebDriverRunner.url;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
 import static org.junit.Assert.assertNull;
@@ -104,6 +105,34 @@ public class BrowserSteps {
         }
 
         assertThat("Текущий URL не совпадает с ожидаемым", currentUrl, is(url));
+    }
+
+    /**
+     * Проверка, что текущий URL содержит с ожидаемым
+     *
+     * @param hardcodeUrl (берется из property / переменной, если такая переменная не найдена,
+     *                    то берется переданное значение)
+     */
+    @И("^текущий URL содержит \"([^\"]*)\"$")
+    public void checkСontainsStringURL(String hardcodeUrl) {
+//TODO перписать
+        String url;
+
+        String currentUrl = url();
+        hardcodeUrl = getPropertyOrValue(hardcodeUrl);
+        String propertyUrl = getPropertyOrValue(hardcodeUrl);
+        if (!propertyUrl.contains("http")) {
+            propertyUrl = Configuration.baseUrl + propertyUrl;
+        }
+        String variableUrl = loadValueFromFileOrVariableOrDefault(hardcodeUrl);
+
+        if (variableUrl.contains("http")) {
+            url = variableUrl;
+        } else {
+            url = propertyUrl;
+        }
+
+        assertThat("Текущий URL не содержит ожидаемым", currentUrl, containsString(url));
     }
 
     /**

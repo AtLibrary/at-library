@@ -37,7 +37,7 @@ public class DocumentFormatter {
             JsonElement obj = new JsonParser().parse(input);
             return gson.toJson(obj); //**QUIT**
         } catch (JsonParseException ex) {
-            return "Error pretty printing json:\n" + ex.getMessage(); //todo подкрасить?
+            return "Error pretty printing json:\n" + ex.getMessage();
         }
     }
 
@@ -48,7 +48,6 @@ public class DocumentFormatter {
      * преобразование xml к "красивому" виду
      */
     private static String createPrettyPrintXml(String input) {
-        input = input.replaceAll("\uFEFF", ""); // todo временно для biztalk, потом удалить
         Source xmlInput = new StreamSource(new StringReader(input));
         StringWriter stringWriter = new StringWriter();
         try {
@@ -61,7 +60,7 @@ public class DocumentFormatter {
 
             return stringWriter.toString().trim();
         } catch (Exception ex) {
-            return "Error pretty printing xml:\n" + ex.getMessage(); //todo подкрасить?
+            return "Error pretty printing xml:\n" + ex.getMessage();
         }
     }
 

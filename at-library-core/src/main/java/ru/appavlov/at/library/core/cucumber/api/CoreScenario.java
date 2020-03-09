@@ -11,12 +11,10 @@
  */
 package ru.appavlov.at.library.core.cucumber.api;
 
-import com.codeborne.selenide.Selenide;
 import cucumber.api.Scenario;
 import lombok.extern.slf4j.Slf4j;
 import ru.appavlov.at.library.core.cucumber.ScopedVariables;
 
-import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 import static ru.appavlov.at.library.core.setup.AtCoreConfig.debugCore;
@@ -27,9 +25,7 @@ import static ru.appavlov.at.library.core.setup.AtCoreConfig.debugCore;
 @Slf4j
 public final class CoreScenario {
 
-    public static final String CURRENT = "CURRENT";
-    public static Boolean[] deviceAvailability = {true, true, true, true, true, true, true, true, true};
-    public static String[] deviceCases = {null, null, null, null, null, null, null, null, null};
+//    public static final String CURRENT = "CURRENT";
 
     private static CoreScenario instance = new CoreScenario();
 
@@ -46,9 +42,9 @@ public final class CoreScenario {
         return instance;
     }
 
-    public static void sleep(int seconds) {
-        Selenide.sleep(TimeUnit.MILLISECONDS.convert(seconds, TimeUnit.SECONDS));
-    }
+//    public static void sleep(int seconds) {
+//        Selenide.sleep(TimeUnit.MILLISECONDS.convert(seconds, TimeUnit.SECONDS));
+//    }
 
     /**
      * Позволяет получить доступ к полям и методам конкретной страницы, которая передается в метод в качестве аргумента.

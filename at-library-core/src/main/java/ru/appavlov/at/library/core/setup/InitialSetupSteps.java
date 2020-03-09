@@ -15,7 +15,6 @@ import com.codeborne.selenide.Selenide;
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
-import io.appium.java_client.AppiumDriver;
 import io.qameta.allure.Attachment;
 import io.restassured.RestAssured;
 import lombok.experimental.Delegate;
@@ -30,9 +29,7 @@ import java.util.List;
 import java.util.logging.Level;
 
 import static com.codeborne.selenide.Configuration.baseUrl;
-import static com.codeborne.selenide.Configuration.browser;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
-import static org.openqa.selenium.remote.BrowserType.SAFARI;
 import static ru.appavlov.at.library.core.core.helpers.PropertyLoader.tryLoadProperty;
 
 /**
@@ -99,26 +96,7 @@ public class InitialSetupSteps {
      */
     @After
     public void afterEachTest(Scenario scenario) {
-        if (scenario.getSourceTagNames().contains("@web")) {
-            if (browser.equals(SAFARI)) {
-                getWebDriver().quit();
-            }
-            getWebDriver().close();
-        }
-        if (scenario.getSourceTagNames().contains("@mobile")
-                && !scenario.getSourceTagNames().contains("@web")) {
-            AppiumDriver appiumDriver = (AppiumDriver) getWebDriver();
-            appiumDriver.closeApp();
-            appiumDriver.removeApp(AtCoreConfig.appPackageName);
-            appiumDriver.quit();
-        }
-
-        for (int i = 0; i < 9; i++) {
-            if (scenario.getId().equals(CoreScenario.deviceCases[i])) {
-                CoreScenario.deviceAvailability[i] = true;
-                CoreScenario.deviceCases[i] = null;
-            }
-        }
+        getWebDriver().quit();
     }
 
 }

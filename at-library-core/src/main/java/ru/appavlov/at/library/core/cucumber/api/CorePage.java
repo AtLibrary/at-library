@@ -27,11 +27,11 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
+import static com.codeborne.selenide.Configuration.timeout;
 import static com.codeborne.selenide.Selenide.$$;
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
-import static ru.appavlov.at.library.core.core.helpers.PropertyLoader.loadProperty;
 import static ru.appavlov.at.library.core.setup.AtCoreConfig.isAppeared;
 
 /**
@@ -39,10 +39,7 @@ import static ru.appavlov.at.library.core.setup.AtCoreConfig.isAppeared;
  */
 @Slf4j
 public abstract class CorePage extends ElementsContainer {
-    /**
-     * Стандартный таймаут ожидания элементов в миллисекундах
-     */
-    private static final String WAITING_APPEAR_TIMEOUT_IN_MILLISECONDS = "8000";
+
     /**
      * Список всех элементов страницы
      */
@@ -242,11 +239,10 @@ public abstract class CorePage extends ElementsContainer {
      * а элементы, помеченные аннотацией "Hidden", скрыты.
      */
     protected void isAppeared() {
-        String timeout = loadProperty("waitingAppearTimeout", WAITING_APPEAR_TIMEOUT_IN_MILLISECONDS);
         getPrimaryElements().parallelStream().forEach(elem ->
-                elem.waitUntil(Condition.appear, Integer.valueOf(timeout)));
+                elem.waitUntil(Condition.appear, timeout));
         getHiddenElements().parallelStream().forEach(elem ->
-                elem.waitUntil(Condition.hidden, Integer.valueOf(timeout)));
+                elem.waitUntil(Condition.hidden, timeout));
         eachForm(CorePage::isAppeared);
     }
 
@@ -265,9 +261,8 @@ public abstract class CorePage extends ElementsContainer {
      * Проверка, что все элементы страницы, не помеченные аннотацией "Optional" или "Hidden", исчезли
      */
     protected void isDisappeared() {
-        String timeout = loadProperty("waitingAppearTimeout", WAITING_APPEAR_TIMEOUT_IN_MILLISECONDS);
         getPrimaryElements().parallelStream().forEach(elem ->
-                elem.waitWhile(Condition.exist, Integer.valueOf(timeout)));
+                elem.waitWhile(Condition.exist, timeout));
     }
 
     /**
@@ -298,11 +293,10 @@ public abstract class CorePage extends ElementsContainer {
      * Вместо parallelStream используется stream из-за медленной работы IE
      */
     protected void isAppearedInIe() {
-        String timeout = loadProperty("waitingAppearTimeout", WAITING_APPEAR_TIMEOUT_IN_MILLISECONDS);
         getPrimaryElements().stream().forEach(elem ->
-                elem.waitUntil(Condition.appear, Integer.valueOf(timeout)));
+                elem.waitUntil(Condition.appear, timeout));
         getHiddenElements().stream().forEach(elem ->
-                elem.waitUntil(Condition.hidden, Integer.valueOf(timeout)));
+                elem.waitUntil(Condition.hidden, timeout));
         eachForm(CorePage::isAppearedInIe);
     }
 
@@ -311,9 +305,8 @@ public abstract class CorePage extends ElementsContainer {
      * Вместо parallelStream используется stream из-за медленной работы IE
      */
     protected void isDisappearedInIe() {
-        String timeout = loadProperty("waitingAppearTimeout", WAITING_APPEAR_TIMEOUT_IN_MILLISECONDS);
         getPrimaryElements().stream().forEach(elem ->
-                elem.waitWhile(Condition.exist, Integer.valueOf(timeout)));
+                elem.waitWhile(Condition.exist, timeout));
     }
 
     /**

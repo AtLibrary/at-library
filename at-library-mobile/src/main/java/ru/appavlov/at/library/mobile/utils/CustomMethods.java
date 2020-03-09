@@ -102,7 +102,9 @@ public class CustomMethods {
                 .release().perform();
     }
 
-    /** скрыть системное уведомление с экрана */
+    /**
+     * скрыть системное уведомление с экрана
+     */
     public static void hideNotification() {
         Dimension screenSize = WebDriverRunner.getWebDriver().manage().window().getSize();
         int xMid = Math.toIntExact(Math.round(0.6 * screenSize.width));

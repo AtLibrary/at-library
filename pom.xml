@@ -17,9 +17,6 @@
     </modules>
 
     <properties>
-        <aspectj.version>1.9.4</aspectj.version>
-
-
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!--WEB ТЕСТИРОВАНИЕ-->
         <selenide.version>5.7.0</selenide.version>
@@ -28,7 +25,7 @@
         <!--MOBILE ТЕСТИРОВАНИЕ-->
         <io.appium.java-client.version>7.3.0</io.appium.java-client.version>
         <!--CUCUMBER-->
-<!--        <cucumber.version>5.4.1</cucumber.version>-->
+        <!--        <cucumber.version>5.4.1</cucumber.version>-->
         <cucumber.version>4.3.0</cucumber.version>
         <!--ОТЧЕТ ALLURE-->
         <allure.version>2.13.2</allure.version>
@@ -44,30 +41,10 @@
         <reflections.version>0.9.10</reflections.version>
         <guava.version>23.0</guava.version>
         <jsonpath.version>2.4.0</jsonpath.version>
-        <elasticsearch.version>7.5.1</elasticsearch.version>
+        <aspectj.version>1.9.4</aspectj.version>
     </properties>
 
-    <distributionManagement>
-        <snapshotRepository>
-            <id>snapshots</id>
-            <name>s-cicd-artif-01.global.appavlov-snapshots</name>
-            <url>https://artifactory.gitlab.appavlov.ru/artifactory/appavlov-main-snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>appavlov-main-releases</id>
-            <url>https://artifactory.gitlab.appavlov.ru/artifactory/appavlov-main-releases</url>
-        </repository>
-    </distributionManagement>
-
     <repositories>
-        <repository>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <id>bintray-epam-reportportal</id>
-            <name>bintray</name>
-            <url>http://dl.bintray.com/epam/reportportal</url>
-        </repository>
         <repository>
             <id>jcenter</id>
             <url>https://jcenter.bintray.com/</url>
@@ -80,7 +57,6 @@
             <artifactId>aspectjrt</artifactId>
             <version>${aspectj.version}</version>
         </dependency>
-
         <!--MOBILE ТЕСТИРОВАНИЕ-->
         <dependency>
             <groupId>io.appium</groupId>
@@ -189,16 +165,6 @@
             <artifactId>unirest-java</artifactId>
             <version>1.4.9</version>
         </dependency>
-        <dependency>
-            <groupId>org.elasticsearch.client</groupId>
-            <artifactId>elasticsearch-rest-high-level-client</artifactId>
-            <version>${elasticsearch.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.elasticsearch</groupId>
-            <artifactId>elasticsearch-x-content</artifactId>
-            <version>${elasticsearch.version}</version>
-        </dependency>
         <!--JACKSON-->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -227,7 +193,7 @@
             <artifactId>mockneat</artifactId>
             <version>0.3.7</version>
         </dependency>
-        <!--ПРОКСИРОВАНИЕ-->
+<!--        ПРОКСИРОВАНИЕ-->
         <dependency>
             <groupId>io.appium</groupId>
             <artifactId>mitmproxy-java</artifactId>

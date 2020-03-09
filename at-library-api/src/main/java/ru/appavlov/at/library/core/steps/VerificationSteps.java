@@ -118,9 +118,6 @@ public class VerificationSteps {
      *                          Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
     private void checkFormattedData(TextFormat checkingValueType, String checkingValuePath, boolean caseInsensitive, DataTable dataTable) {
-        if (checkingValuePath == null) {
-            checkingValuePath = String.valueOf(coreScenario.getVar(CoreScenario.CURRENT));
-        }
         String checkingValueString = cycleSubstitutionFromFileOrPropertyOrVariable(checkingValuePath);
         checkingValueType = defineOrCheckDataFormat(checkingValueString, checkingValueType);
         StringBuilder errorMessage = new StringBuilder();
@@ -194,9 +191,9 @@ public class VerificationSteps {
      */
     @И("^значения из ((?:XML|JSON|PARAMS)) \"([^\"]+)\" сохранены в переменные по таблице:$")
     public void saveValuesFromFormattedData(TextFormat processingValueType, String processingValuePath, DataTable dataTable) {
-        if (processingValuePath == null) {
-            processingValuePath = String.valueOf(coreScenario.getVar(CoreScenario.CURRENT));
-        }
+//        if (processingValuePath == null) {
+//            processingValuePath = String.valueOf(coreScenario.getVar(CoreScenario.CURRENT));
+//        }
         String processingValueString = cycleSubstitutionFromFileOrPropertyOrVariable(processingValuePath);
         processingValueType = defineOrCheckDataFormat(processingValueString, processingValueType);
         StringBuilder errorMessage = new StringBuilder();
