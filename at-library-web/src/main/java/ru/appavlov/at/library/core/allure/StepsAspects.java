@@ -68,17 +68,6 @@ public class StepsAspects {
         }
     }
 
-//    private List<Parameter> updateParameters(List<Parameter> parameters) {
-//        List<Parameter> updateParameter = new ArrayList<>();
-//        for (Parameter parameter : parameters) {
-//            updateParameter.add(
-//                    new Parameter()
-//                            .setName(parameter.getName())
-//                            .setValue(getPropertyOrStringVariableOrValue(parameter.getValue()))
-//            );
-//        }
-//        return updateParameter;
-//    }
     private List<Parameter> updateParameters(List<Parameter> parameters) {
         for (Parameter parameter : parameters) {
             parameter.setValue(getPropertyOrStringVariableOrValue(parameter.getValue()));
@@ -100,8 +89,11 @@ public class StepsAspects {
 
         updateName = new StringBuilder(updateName.toString()
                 .replace("^", "")
-                .replace("$", ""));
-
+                .replace("$", "")
+                .replace("(?:кнопку|ссылку|поле|блок|чекбокс|радиокнопу|текст|элемент)", "элемент")
+                .replace("(?:поля|элемента|текста)", "элемента")
+                .replace("(?:загрузилась|загрузился)", "загрузилась")
+                .replace("(?:страница|блок|форма|вкладка)", "страница"));
         return updateName.toString();
     }
 
