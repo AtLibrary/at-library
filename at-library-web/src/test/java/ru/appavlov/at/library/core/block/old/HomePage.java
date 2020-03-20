@@ -1,4 +1,4 @@
-package ru.appavlov.at.library.core.page;
+package ru.appavlov.at.library.core.block.old;
 
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.support.FindBy;

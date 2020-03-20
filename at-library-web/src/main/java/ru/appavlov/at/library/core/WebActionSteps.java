@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverRunner.isIE;
 import static com.codeborne.selenide.WebDriverRunner.url;
+import static ru.appavlov.at.library.core.ConfigStep.*;
 import static ru.appavlov.at.library.core.core.helpers.PropertyLoader.loadProperty;
 import static ru.appavlov.at.library.core.core.helpers.PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault;
 import static ru.appavlov.at.library.core.cucumber.ScopedVariables.resolveVars;
@@ -75,7 +76,7 @@ public class WebActionSteps {
     /**
      * Переход на страницу по клику и проверка, что страница загружена
      */
-    @И("^выполнен переход на страницу \"([^\"]*)\" после нажатия на (?:ссылку|кнопку) \"([^\"]*)\"$")
+    @И("^выполнен переход на страницу \"([^\"]*)\" после нажатия на " + NAME_ELEMENT_AKKUSATIV + " \"([^\"]*)\"$")
     public void urlClickAndCheckRedirection(String pageName, String elementName) {
         coreScenario.getCurrentPage().getElement(elementName).click();
         loadPage(pageName);
@@ -90,7 +91,7 @@ public class WebActionSteps {
      *
      * @param nameOfPage название страница|блок|форма|вкладка
      */
-    @И("^(?:страница|блок|форма|вкладка) \"([^\"]*)\" (?:загрузилась|загрузился)$")
+    @И("^" + NAME_Область + " \"([^\"]*)\" " + Загрузилась + "$")
     public void loadPage(String nameOfPage) {
         coreScenario.setCurrentPage(coreScenario.getPage(nameOfPage));
         if (isIE()) {
@@ -106,7 +107,7 @@ public class WebActionSteps {
      *
      * @param nameOfPage название страница|блок|форма|вкладка
      */
-    @И("^(?:страница|блок|форма|вкладка) \"([^\"]*)\" не (?:загрузилась|загрузился)$")
+    @И("^" + NAME_Область + " \"([^\"]*)\" не " + Загрузилась + "$")
     public void loadPageFailed(String nameOfPage) {
         coreScenario.setCurrentPage(coreScenario.getPage(nameOfPage));
         if (isIE()) {
@@ -121,7 +122,7 @@ public class WebActionSteps {
      *
      * @param elementName название кнопки|поля|блока
      */
-    @И("^выполнено нажатие на (?:кнопку|ссылку|поле|блок|чекбокс|радиокнопу|текст|элемент) \"([^\"]*)\"$")
+    @И("^выполнено нажатие на " + NAME_ELEMENT_AKKUSATIV + " \"([^\"]*)\"$")
     public void clickOnElement(String elementName) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
         element.click();
@@ -133,7 +134,7 @@ public class WebActionSteps {
      *
      * @param elementName название кнопки|поля|блока
      */
-    @И("^выполнено умное нажатие на (?:кнопку|ссылку|поле|блок|чекбокс|радиокнопу|текст|элемент) \"([^\"]*)\"$")
+    @И("^выполнено умное нажатие на " + NAME_ELEMENT_AKKUSATIV + " \"([^\"]*)\"$")
     public void clickElementOrParent(String elementName) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
         try {
@@ -181,6 +182,7 @@ public class WebActionSteps {
     /**
      * Устанавливается значение (в приоритете: из property, из переменной сценария, значение аргумента) в заданное поле.
      * Перед использованием поле нужно очистить
+     *
      * @return
      */
     @То("^в поле \"([^\"]*)\" введено значение$")
@@ -240,7 +242,7 @@ public class WebActionSteps {
     /**
      * Выполняется наведение курсора на элемент
      */
-    @И("^выполнен ховер на (?:кнопку|ссылку|поле|блок|чекбокс|радиокнопу|текст|элемент) \"([^\"]*)\"$")
+    @И("^выполнен ховер на " + NAME_ELEMENT_AKKUSATIV + " \"([^\"]*)\"$")
     public void elementHover(String elementName) {
         SelenideElement field = coreScenario.getCurrentPage().getElement(elementName);
         field.hover();
@@ -439,7 +441,7 @@ public class WebActionSteps {
      * @param elementName имя элемента
      * @param blockName   имя блока
      */
-    @И("^выполнено нажатие на (?:кнопку|ссылку|поле|блок|чекбокс|радиокнопу|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\"$")
+    @И("^выполнено нажатие на " + NAME_ELEMENT_AKKUSATIV + " \"([^\"]*)\" в блоке \"([^\"]*)\"$")
     public void clickOnElementInBlock(String elementName, String blockName) {
         coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName).click();
     }
@@ -468,7 +470,7 @@ public class WebActionSteps {
         coreScenario.getCurrentPage().getElement("Войти").click();
     }
 
-    @И("^выполнено нажатие c ховером на (?:кнопку|ссылку|поле|блок|чекбокс|радиокнопу|текст|элемент) \"([^\"]*)\"$")
+    @И("^выполнено нажатие c ховером на " + NAME_ELEMENT_AKKUSATIV + " \"([^\"]*)\"$")
     public void clickOnElementWithHover(String elementName) {
         CorePage currentPage = coreScenario.getCurrentPage();
         SelenideElement element = currentPage.getElement(elementName);
