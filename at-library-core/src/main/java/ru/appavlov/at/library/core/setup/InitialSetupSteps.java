@@ -96,7 +96,10 @@ public class InitialSetupSteps {
      */
     @After
     public void afterEachTest(Scenario scenario) {
-        getWebDriver().quit();
+        try {
+            getWebDriver().quit();
+        } catch (IllegalStateException ex) {
+            log.info("Использовался метод getWebDriver().quit(), но браузер небыл запущен");
+        }
     }
-
 }

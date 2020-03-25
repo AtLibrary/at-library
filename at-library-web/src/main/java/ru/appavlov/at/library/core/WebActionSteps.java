@@ -27,7 +27,6 @@ import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverRunner.isIE;
 import static com.codeborne.selenide.WebDriverRunner.url;
 import static ru.appavlov.at.library.core.ConfigStep.*;
-import static ru.appavlov.at.library.core.core.helpers.PropertyLoader.loadProperty;
 import static ru.appavlov.at.library.core.core.helpers.PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault;
 import static ru.appavlov.at.library.core.cucumber.ScopedVariables.resolveVars;
 import static ru.appavlov.at.library.core.steps.OtherSteps.*;
@@ -446,29 +445,6 @@ public class WebActionSteps {
         coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName).click();
     }
 
-    /**
-     * Шаг авторизации.
-     * Для того, чтобы шаг работал, на текущей странице должны быть указаны элементы
-     * со значениями аннотации @Name:
-     * "Логин" - для поля ввода логина,
-     * "Пароль" - для поля ввода пароля и
-     * "Войти" - для кнопки входа.
-     * Также должны быть указаны логин и пароль в файле application.properties.
-     * Например для шага: "Пусть пользователь user ввел логин и пароль"
-     * логин и пароль должны быть указаны со следующими ключами:
-     * user.login - для логина и
-     * user.password - для пароля
-     */
-    @И("^пользователь \"([^\"]*)\" ввел логин и пароль$")
-    public void loginByUserData(String userCode) {
-        String login = loadProperty(userCode + ".login");
-        String password = loadProperty(userCode + ".password");
-        cleanField("Логин");
-        coreScenario.getCurrentPage().getElement("Логин").sendKeys(login);
-        cleanField("Пароль");
-        coreScenario.getCurrentPage().getElement("Пароль").sendKeys(password);
-        coreScenario.getCurrentPage().getElement("Войти").click();
-    }
 
     @И("^выполнено нажатие c ховером на " + NAME_ELEMENT_AKKUSATIV + " \"([^\"]*)\"$")
     public void clickOnElementWithHover(String elementName) {

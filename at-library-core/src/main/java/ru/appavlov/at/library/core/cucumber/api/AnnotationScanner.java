@@ -31,7 +31,7 @@ public class AnnotationScanner {
      */
     static {
         ConfigurationBuilder builder = new ConfigurationBuilder();
-        builder.addUrls(ClasspathHelper.forPackage("ru.appavlov"));
+        builder.addUrls(ClasspathHelper.forPackage(""));
         reflection = new Reflections(builder);
     }
 

@@ -6,8 +6,8 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebElement;
 import ru.appavlov.at.library.core.cucumber.api.CoreScenario;
 
+import static com.codeborne.selenide.Selenide.sleep;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
-import static ru.appavlov.at.library.core.cucumber.api.CoreScenario.sleep;
 
 public class AssertMobile {
 
@@ -18,7 +18,7 @@ public class AssertMobile {
             if (actualText.equals(expectedText)) {
                 return;
             }
-            sleep(1);
+            sleep(1000);
         }
         screenshot();
         Assert.assertEquals(expectedText, actualText);
@@ -31,7 +31,7 @@ public class AssertMobile {
             if (actualText.contains(containText)) {
                 return;
             }
-            sleep(1);
+            sleep(1000);
         }
         screenshot();
         Assert.fail("Текс: " + actualText + " не содержит: " + containText);
@@ -44,7 +44,7 @@ public class AssertMobile {
             if (actualDisplayed == expectedDisplayed) {
                 return;
             }
-            sleep(1);
+            sleep(1000);
         }
         screenshot();
         Assert.fail("Displayed элемента должен быть:" + expectedDisplayed);

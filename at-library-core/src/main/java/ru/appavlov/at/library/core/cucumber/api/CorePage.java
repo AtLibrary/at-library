@@ -138,13 +138,30 @@ public abstract class CorePage extends ElementsContainer {
         if (!(value instanceof List)) {
             throw new IllegalArgumentException("Список " + listName + " не описан на странице " + this.getClass().getName());
         }
-        FindBy listSelector = Arrays.stream(this.getClass().getDeclaredFields())
+        FindBy listSelector = Arrays.stream(this.getClass().getFields())
                 .filter(f -> f.getDeclaredAnnotation(Name.class) != null && f.getDeclaredAnnotation(Name.class).value().equals(listName))
                 .map(f -> f.getDeclaredAnnotation(FindBy.class))
                 .findFirst().get();
         FindBy.FindByBuilder findByBuilder = new FindBy.FindByBuilder();
         return $$(findByBuilder.buildIt(listSelector, null));
     }
+//
+//    /**
+//     * Получение элемента-списка со страницы по имени
+//     */
+//    @SuppressWarnings("unchecked")
+//    public ElementsCollection getElementsList(String listName) {
+//        Object value = namedElements.get(listName);
+//        if (!(value instanceof List)) {
+//            throw new IllegalArgumentException("Список " + listName + " не описан на странице " + this.getClass().getName());
+//        }
+//        FindBy listSelector = Arrays.stream(this.getClass().getDeclaredFields())
+//                .filter(f -> f.getDeclaredAnnotation(Name.class) != null && f.getDeclaredAnnotation(Name.class).value().equals(listName))
+//                .map(f -> f.getDeclaredAnnotation(FindBy.class))
+//                .findFirst().get();
+//        FindBy.FindByBuilder findByBuilder = new FindBy.FindByBuilder();
+//        return $$(findByBuilder.buildIt(listSelector, null));
+//    }
 
     /**
      * Получение текстов всех элементов, содержащихся в элементе-списке,
@@ -238,7 +255,7 @@ public abstract class CorePage extends ElementsContainer {
      * Проверка того, что элементы, не помеченные аннотацией "Optional", отображаются,
      * а элементы, помеченные аннотацией "Hidden", скрыты.
      */
-    protected void isAppeared() {
+    public void isAppeared() {
         getPrimaryElements().parallelStream().forEach(elem ->
                 elem.waitUntil(Condition.appear, timeout));
         getHiddenElements().parallelStream().forEach(elem ->
@@ -247,7 +264,7 @@ public abstract class CorePage extends ElementsContainer {
     }
 
     private void eachForm(Consumer<CorePage> func) {
-        Arrays.stream(getClass().getDeclaredFields())
+        Arrays.stream(getClass().getFields())
                 .filter(f -> f.getDeclaredAnnotation(ru.appavlov.at.library.core.cucumber.annotations.Optional.class) == null && f.getDeclaredAnnotation(Hidden.class) == null)
                 .forEach(f -> {
                     if (CorePage.class.isAssignableFrom(f.getType())) {
@@ -256,6 +273,18 @@ public abstract class CorePage extends ElementsContainer {
                     }
                 });
     }
+//
+//
+//    private void eachForm(Consumer<CorePage> func) {
+//        Arrays.stream(getClass().getDeclaredFields())
+//                .filter(f -> f.getDeclaredAnnotation(ru.appavlov.at.library.core.cucumber.annotations.Optional.class) == null && f.getDeclaredAnnotation(Hidden.class) == null)
+//                .forEach(f -> {
+//                    if (CorePage.class.isAssignableFrom(f.getType())) {
+//                        CorePage corePage = CoreScenario.getInstance().getPage((Class<? extends CorePage>) f.getType()).initialize();
+//                        func.accept(corePage);
+//                    }
+//                });
+//    }
 
     /**
      * Проверка, что все элементы страницы, не помеченные аннотацией "Optional" или "Hidden", исчезли
@@ -358,12 +387,22 @@ public abstract class CorePage extends ElementsContainer {
         return this;
     }
 
+//    /**
+//     * Поиск и инициализации элементов страницы
+//     */
+//    private Map<String, Object> readNamedElements() {
+//        checkNamedAnnotations();
+//        return Arrays.stream(getClass().getDeclaredFields())
+//                .filter(f -> f.getDeclaredAnnotation(Name.class) != null)
+//                .peek(this::checkFieldType)
+//                .collect(toMap(f -> f.getDeclaredAnnotation(Name.class).value(), this::extractFieldValueViaReflection));
+//    }
     /**
      * Поиск и инициализации элементов страницы
      */
     private Map<String, Object> readNamedElements() {
         checkNamedAnnotations();
-        return Arrays.stream(getClass().getDeclaredFields())
+        return Arrays.stream(getClass().getFields())
                 .filter(f -> f.getDeclaredAnnotation(Name.class) != null)
                 .peek(this::checkFieldType)
                 .collect(toMap(f -> f.getDeclaredAnnotation(Name.class).value(), this::extractFieldValueViaReflection));
@@ -396,7 +435,7 @@ public abstract class CorePage extends ElementsContainer {
      * Поиск по аннотации "Name"
      */
     private void checkNamedAnnotations() {
-        List<String> list = Arrays.stream(getClass().getDeclaredFields())
+        List<String> list = Arrays.stream(getClass().getFields())
                 .filter(f -> f.getDeclaredAnnotation(Name.class) != null)
                 .map(f -> f.getDeclaredAnnotation(Name.class).value())
                 .collect(toList());
@@ -404,12 +443,38 @@ public abstract class CorePage extends ElementsContainer {
             throw new IllegalStateException("Найдено несколько аннотаций @Name с одинаковым значением в классе " + this.getClass().getName());
         }
     }
+//
+//    /**
+//     * Поиск по аннотации "Name"
+//     */
+//    private void checkNamedAnnotations() {
+//        List<String> list = Arrays.stream(getClass().getDeclaredFields())
+//                .filter(f -> f.getDeclaredAnnotation(Name.class) != null)
+//                .map(f -> f.getDeclaredAnnotation(Name.class).value())
+//                .collect(toList());
+//        if (list.size() != new HashSet<>(list).size()) {
+//            throw new IllegalStateException("Найдено несколько аннотаций @Name с одинаковым значением в классе " + this.getClass().getName());
+//        }
+//    }
+
+//    /**
+//     * Поиск и инициализация элементов страницы без аннотации Optional или Hidden
+//     */
+//    private List<SelenideElement> readWithWrappedElements() {
+//        return Arrays.stream(getClass().getDeclaredFields())
+//                .filter(f -> f.getDeclaredAnnotation(ru.appavlov.at.library.core.cucumber.annotations.Optional.class) == null && f.getDeclaredAnnotation(Hidden.class) == null)
+//                .map(this::extractFieldValueViaReflection)
+//                .flatMap(v -> v instanceof List ? ((List<?>) v).stream() : Stream.of(v))
+//                .map(CorePage::castToSelenideElement)
+//                .filter(Objects::nonNull)
+//                .collect(toList());
+//    }
 
     /**
      * Поиск и инициализация элементов страницы без аннотации Optional или Hidden
      */
     private List<SelenideElement> readWithWrappedElements() {
-        return Arrays.stream(getClass().getDeclaredFields())
+        return Arrays.stream(getClass().getFields())
                 .filter(f -> f.getDeclaredAnnotation(ru.appavlov.at.library.core.cucumber.annotations.Optional.class) == null && f.getDeclaredAnnotation(Hidden.class) == null)
                 .map(this::extractFieldValueViaReflection)
                 .flatMap(v -> v instanceof List ? ((List<?>) v).stream() : Stream.of(v))
@@ -422,7 +487,7 @@ public abstract class CorePage extends ElementsContainer {
      * Поиск и инициализация элементов страницы c аннотацией Hidden
      */
     private List<SelenideElement> readWithHiddenElements() {
-        return Arrays.stream(getClass().getDeclaredFields())
+        return Arrays.stream(getClass().getFields())
                 .filter(f -> f.getDeclaredAnnotation(Hidden.class) != null)
                 .map(this::extractFieldValueViaReflection)
                 .flatMap(v -> v instanceof List ? ((List<?>) v).stream() : Stream.of(v))
@@ -430,6 +495,33 @@ public abstract class CorePage extends ElementsContainer {
                 .filter(Objects::nonNull)
                 .collect(toList());
     }
+//
+//
+//    /**
+//     * Поиск и инициализация элементов страницы c аннотацией Hidden
+//     */
+//    private List<SelenideElement> readWithHiddenElements() {
+//        return Arrays.stream(getClass().getDeclaredFields())
+//                .filter(f -> f.getDeclaredAnnotation(Hidden.class) != null)
+//                .map(this::extractFieldValueViaReflection)
+//                .flatMap(v -> v instanceof List ? ((List<?>) v).stream() : Stream.of(v))
+//                .map(CorePage::castToSelenideElement)
+//                .filter(Objects::nonNull)
+//                .collect(toList());
+//    }
+//
+//    /**
+//     * Поиск и инициализация элементов страницы c аннотацией Hidden
+//     */
+//    private List<SelenideElement> readWithHiddenElements() {
+//        return Arrays.stream(getClass().getDeclaredFields())
+//                .filter(f -> f.getDeclaredAnnotation(Hidden.class) != null)
+//                .map(this::extractFieldValueViaReflection)
+//                .flatMap(v -> v instanceof List ? ((List<?>) v).stream() : Stream.of(v))
+//                .map(CorePage::castToSelenideElement)
+//                .filter(Objects::nonNull)
+//                .collect(toList());
+//    }
 
     private Object extractFieldValueViaReflection(Field field) {
         return Reflection.extractFieldValue(field, this);

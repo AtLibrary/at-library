@@ -22,7 +22,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import ru.appavlov.at.library.core.cucumber.api.CoreScenario;
-import ru.appavlov.at.library.core.setup.AtCoreConfig;
 import ru.appavlov.at.library.mobile.utils.CustomMethods;
 import ru.appavlov.at.library.mobile.utils.MobileTestConfig;
 
@@ -286,23 +285,25 @@ public class MobileActionSteps {
      */
     @И("^экран свайпается \"(UP|DOWN|LEFT|RIGHT)\" до элемента \"([^\"]+)\"")
     public void scrollPageToElement(String direction, String elementName) {
-        String platform = AtCoreConfig.platformName.toLowerCase();
+        //TODO  разобраться
+//        String platform = AtCoreConfig.platformName.toLowerCase();
         WebElement element = null;
 
         for (int i = 1; i <= MobileTestConfig.DEFAULT_SWIPE_NUMBER; i++) {
             if (MobileTestConfig.isDisplayedSelenideElementInCurrentPage(elementName))
                 element = MobileTestConfig.getWebElementInCurrentPage(elementName);
-            if (platform.equals("android")) {
-                if (element != null) {
-                    break;
-                }
-            }
-
-            if (platform.equals("ios")) {
-                if (element != null && element.isDisplayed()) {
-                    break;
-                }
-            }
+            //TODO  разобраться
+//            if (platform.equals("android")) {
+//                if (element != null) {
+//                    break;
+//                }
+//            }
+//        //TODO  разобраться
+//            if (platform.equals("ios")) {
+//                if (element != null || element != null && element.isDisplayed()) {
+//                    break;
+//                }
+//            }
             if (direction.equals("DOWN") || direction.equals("RIGHT")) {
                 swipe(direction, 50, 80, null);
             } else {

@@ -405,4 +405,12 @@ public class OtherSteps {
     public void oldFramework() {
         throw new cucumber.api.PendingException("автотест реализован на старом фреймворке");
     }
+
+    /**
+     * Автотест реализован на старом фреймворке
+     */
+    @И("^не актуальный тест в тестовой моделе")
+    public void notActual() {
+        throw new cucumber.api.PendingException("не актуальный тест в тестовой моделе");
+    }
 }
