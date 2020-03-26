@@ -68,21 +68,6 @@ public class WebCheckSteps {
     }
 
     /**
-     * Проверка того, что значение из поля совпадает со значением заданной переменной из хранилища
-     *
-     * @param elementName  название поля|элемента
-     * @param variableName имя переменной
-     */
-    @И("^значение (?:поля|элемента|текста) \"([^\"]*)\" совпадает со значением из переменной \"([^\"]*)\"$")
-    public void compareFieldAndVariable(String elementName, String variableName) {
-        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
-        String expectedValue = coreScenario.getVar(variableName).toString();
-        element.shouldHave(or("значение элемента равено",
-                exactText(expectedValue),
-                exactValue(expectedValue)));
-    }
-
-    /**
      * Проверка того, что блок исчез/стал невидимым
      */
     @И("^(?:страница|блок|форма) \"([^\"]*)\" (?:скрыт|скрыта)")
@@ -114,8 +99,9 @@ public class WebCheckSteps {
      */
     @И("^значение (?:поля|элемента|текста) \"([^\"]*)\" сохранено в переменную \"([^\"]*)\"$")
     public void storeElementValueInVariable(String elementName, String variableName) {
-        coreScenario.setVar(variableName, coreScenario.getCurrentPage().getAnyElementText(elementName));
-        coreScenario.write("Значение [" + coreScenario.getCurrentPage().getAnyElementText(elementName) + "] сохранено в переменную [" + variableName + "]");
+        String text = coreScenario.getCurrentPage().getElement(elementName).getText();
+        coreScenario.setVar(variableName, text);
+        coreScenario.write("Значение [" + text + "] сохранено в переменную [" + variableName + "]");
     }
 
     /**
@@ -169,13 +155,14 @@ public class WebCheckSteps {
         element.shouldHave(not(cssClass(expectedClassValue)));
     }
 
+
     /**
      * Проверка, что значение в поле содержит текст, указанный в шаге
      * (в приоритете: из property, из переменной сценария, значение аргумента).
      * Не чувствителен к регистру
      */
-    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" содержит значение \"([^\"]*)\"$")
-    @А("^(?:кнопка|ссылка|поле|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" содержит значение$")
+    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" содержит текст \"([^\"]*)\"$")
+    @А("^(?:кнопка|ссылка|поле|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" содержит текст")
     public void testFieldContainsInnerText(String elementName, String expectedValue) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
@@ -185,13 +172,30 @@ public class WebCheckSteps {
                         value(expectedValue)));
     }
 
+
+    /**
+     * Проверка, что текста в поле равен значению, указанному в шаге
+     * (в приоритете: из property, из переменной сценария, значение аргумента)
+     */
+    @И("^текст (?:кнопки|ссылки|поля|чекбокса|радиокнопки|текста|элемента) \"([^\"]*)\" равен \"([^\"]*)\"$")
+    @А("^текст (?:кнопки|ссылки|поля|чекбокса|радиокнопки|текста|элемента) \"([^\"]*)\" равен$")
+    public void compareValInFieldAndFromStep(String elementName, String expectedValue) {
+        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
+        expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
+        element.shouldHave(
+                or("Текст элемента равен",
+                        exactText(expectedValue),
+                        exactValue(expectedValue)));
+    }
+
+
     /**
      * Проверка, что значение в поле содержит текст, указанный в шаге
      * (в приоритете: из property, из переменной сценария, значение аргумента).
      * Не чувствителен к регистру
      */
-    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" не содержит значение \"([^\"]*)\"$")
-    @А("^(?:кнопка|ссылка|поле|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" не содержит значение$")
+    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" не содержит текст \"([^\"]*)\"$")
+    @А("^(?:кнопка|ссылка|поле|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" не содержит текст")
     public void testFieldNotContainsInnerText(String elementName, String expectedValue) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
@@ -201,19 +205,6 @@ public class WebCheckSteps {
                         not(value(expectedValue))));
     }
 
-    /**
-     * Проверка, что значение в поле равно значению, указанному в шаге (в приоритете: из property, из переменной сценария, значение аргумента)
-     */
-    @И("^значение (?:кнопка|ссылка|поле|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" равно \"([^\"]*)\"$")
-    @А("^значение (?:кнопка|ссылка|поле|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" равно$")
-    public void compareValInFieldAndFromStep(String elementName, String expectedValue) {
-        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
-        expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
-        element.shouldHave(
-                or("Текст элемента равен",
-                        exactText(expectedValue),
-                        exactValue(expectedValue)));
-    }
 
     /**
      * Проверка, что кнопка/ссылка недоступна для нажатия
@@ -261,14 +252,13 @@ public class WebCheckSteps {
     }
 
     /**
-     * Проверка, что поле нередактируемо
+     * Проверка, что поле недоступно для редактирования
      */
     @И("^(?:поле|элемент) \"([^\"]*)\" (?:недоступно|недоступен) для редактирования$")
     public void fieldIsDisable(String elementName) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
         element.shouldHave(disabled);
     }
-
 
     /**
      * Проверка, что на странице не отображаются редактируемые элементы, такие как:
@@ -312,8 +302,81 @@ public class WebCheckSteps {
      */
     @И("^в поле \"([^\"]*)\" содержится (\\d+) символов$")
     public void checkFieldSymbolsCount(String elementName, int num) {
-        int length = coreScenario.getCurrentPage().getAnyElementText(elementName).length();
+        int length = coreScenario.getCurrentPage().getElement(elementName).getText().length();
         assertEquals(String.format("Неверное количество символов. Ожидаемый результат: %s, текущий результат: %s", num, length), num, length);
+    }
+
+//---------------------------------------------------Проверки в Блоке
+//---------------------------------------------------
+//---------------------------------------------------
+//---------------------------------------------------
+//---------------------------------------------------
+//---------------------------------------------------
+//---------------------------------------------------
+//---------------------------------------------------
+//---------------------------------------------------
+//---------------------------------------------------
+//---------------------------------------------------
+//---------------------------------------------------
+//---------------------------------------------------
+//---------------------------------------------------
+//---------------------------------------------------
+//---------------------------------------------------
+
+    /**
+     * Проверка, что значение в поле содержит текст, указанный в шаге
+     * (в приоритете: из property, из переменной сценария, значение аргумента).
+     * Не чувствителен к регистру
+     */
+    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" содержит текст \"([^\"]*)\"$")
+    @А("^(?:кнопка|ссылка|поле|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" содержит текст")
+    public void testFieldContainsInnerText(String elementName, String blockName, String expectedValue) {
+        CorePage currentPage = coreScenario.getCurrentPage();
+
+        SelenideElement element = coreScenario.getPage(blockName).getElement(elementName);
+        expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
+        element.shouldHave(
+                or("Текст элемента содержит",
+                        text(expectedValue),
+                        value(expectedValue)));
+
+        coreScenario.setCurrentPage(currentPage);
+    }
+
+
+    /**
+     * Проверка, что текста в поле равен значению, указанному в шаге
+     * (в приоритете: из property, из переменной сценария, значение аргумента)
+     */
+    @И("^текст (?:кнопки|ссылки|поля|чекбокса|радиокнопки|текста|элемента) \"([^\"]*)\" в блоке \"([^\"]*)\" равен \"([^\"]*)\"$")
+    @А("^текст (?:кнопки|ссылки|поля|чекбокса|радиокнопки|текста|элемента) \"([^\"]*)\" в блоке \"([^\"]*)\" равен$")
+    public void compareValInFieldAndFromStep(String elementName, String blockName, String expectedValue) {
+        CorePage currentPage = coreScenario.getCurrentPage();
+
+        SelenideElement element = coreScenario.getPage(blockName).getElement(elementName);
+        expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
+        element.shouldHave(
+                or("Текст элемента равен",
+                        exactText(expectedValue),
+                        exactValue(expectedValue)));
+
+        coreScenario.setCurrentPage(currentPage);
+    }
+
+    /**
+     * Проверка того, что элемент в блоке отображается на странице
+     *
+     * @param elementName  имя элемента
+     * @param blockName    имя блока
+     */
+    @А("^(?:кнопка|ссылка|поле|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" отображается на странице")
+    public void visible(String elementName, String blockName) {
+        CorePage currentPage = coreScenario.getCurrentPage();
+
+        coreScenario.getPage(blockName).getElement(elementName)
+                .shouldHave(visible);
+
+        coreScenario.setCurrentPage(currentPage);
     }
 
 
@@ -324,26 +387,16 @@ public class WebCheckSteps {
      * @param blockName    имя блока
      * @param variableName имя переменной
      */
-    @И("^значение (?:поля|элемента|текста) \"([^\"]*)\" в блоке \"([^\"]*)\" сохранено в переменную \"([^\"]*)\"$")
+    @И("^текст (?:поля|элемента|текста) \"([^\"]*)\" в блоке \"([^\"]*)\" сохранен в переменную \"([^\"]*)\"$")
     public void saveTextElementInBlock(String elementName, String blockName, String variableName) {
-        CorePage block = coreScenario.getCurrentPage().getBlock(blockName);
-        String elementText = block.getAnyElementText(elementName);
+        CorePage currentPage = coreScenario.getCurrentPage();
+
+        String elementText = coreScenario.getPage(blockName).getElement(elementName).getText();
         coreScenario.setVar(variableName, elementText);
         coreScenario.write("Значение [" + elementText + "] сохранено в переменную [" + variableName + "]");
+
+        coreScenario.setCurrentPage(currentPage);
     }
 
-    /**
-     * Проверка того, что значение из поля в блоке совпадает со значением заданной переменной из хранилища
-     *
-     * @param elementName  имя элемента
-     * @param blockName    имя блока
-     * @param variableName имя переменной
-     */
-    @И("^значение (?:поля|элемента|текста) \"([^\"]*)\" в блоке \"([^\"]*)\" совпадает со значением из переменной \"([^\"]*)\"$")
-    public void compareFieldAndVariable(String elementName, String blockName, String variableName) {
-        String expectedValue = coreScenario.getVar(variableName).toString();
-        coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName)
-                .shouldHave(exactText(expectedValue));
-    }
 
 }
