@@ -11,9 +11,9 @@ public class HomePage extends CorePage {
 
     @Name("Навигация")
     @FindBy(xpath = ".//nav")
-    private NavigationBlock navigationBlock;
+    public NavigationBlock navigationBlock;
 
     @Name("Демо-счет")
     @FindBy(css = "[class=\"header__demoaccount btn btn-secondary _small\"]")
-    private SelenideElement buttonDemoAccount;
+    public SelenideElement buttonDemoAccount;
 }

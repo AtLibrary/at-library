@@ -350,7 +350,7 @@ public class WebCheckSteps {
      */
     @И("^текст (?:кнопки|ссылки|поля|чекбокса|радиокнопки|текста|элемента) \"([^\"]*)\" в блоке \"([^\"]*)\" равен \"([^\"]*)\"$")
     @А("^текст (?:кнопки|ссылки|поля|чекбокса|радиокнопки|текста|элемента) \"([^\"]*)\" в блоке \"([^\"]*)\" равен$")
-    public void compareValInFieldAndFromStep(String elementName, String blockName, String expectedValue) {
+    public void /**/compareValInFieldAndFromStep(String elementName, String blockName, String expectedValue) {
         CorePage currentPage = coreScenario.getCurrentPage();
 
         SelenideElement element = coreScenario.getPage(blockName).getElement(elementName);

@@ -11,44 +11,44 @@ public class NavigationBlock extends CorePage {
 
     @Name("БКС брокер")
     @FindBy(css = "[role=\"banner\"]")
-    private SelenideElement logoappavlovBroker;
+    public SelenideElement logoappavlovBroker;
 
     @Name("Трейдинг")
     @FindBy(xpath = ".//div/a[text()='Трейдинг']")
-    private SelenideElement trading;
+    public SelenideElement trading;
 
     @Name("Продукты")
     @FindBy(xpath = ".//div/a[text()='Продукты']")
-    private SelenideElement products;
+    public SelenideElement products;
 
     @Name("Тарифы")
     @FindBy(xpath = ".//div/a[text()='Тарифы']")
-    private SelenideElement rates;
+    public SelenideElement rates;
 
     @Name("Идеи")
     @FindBy(xpath = ".//div/a[text()='Идеи']")
-    private SelenideElement ideas;
+    public SelenideElement ideas;
 
     @Name("Обучение")
     @FindBy(xpath = ".//div/a[text()='Обучение']")
-    private SelenideElement training;
+    public SelenideElement training;
 
     @Optional
     @Name("О компании")
     @FindBy(xpath = ".//div/a[text()='О компании']")
-    private SelenideElement aboutCompany;
+    public SelenideElement aboutCompany;
 
     @Optional
     @Name("Для бизнеса")
     @FindBy(xpath = ".//*[@href=\"/professionals\"]//../../../div/a[text()='Для бизнеса']")
-    private SelenideElement forBusiness;
+    public SelenideElement forBusiness;
 
     @Optional
     @Name("Блог")
     @FindBy(xpath = ".//div/a[text()='Блог']")
-    private SelenideElement blog;
+    public SelenideElement blog;
 
     @Name("FAQ")
     @FindBy(xpath = ".//div/a[text()='FAQ']")
-    private SelenideElement faq;
+    public SelenideElement faq;
 }

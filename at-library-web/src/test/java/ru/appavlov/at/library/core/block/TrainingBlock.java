@@ -10,10 +10,10 @@ public class TrainingBlock extends CorePage {
 
     @Name("Инвестиции 101")
     @FindBy(css = "[href='https://investments101.ru/']")
-    private SelenideElement professionals;
+    public SelenideElement professionals;
 
     @Name("Вебинары/Семинары")
     @FindBy(css = "[href='/studing']")
-    private SelenideElement onlinePartners;
+    public SelenideElement onlinePartners;
 
 }

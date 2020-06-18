@@ -11,7 +11,7 @@ public class SmsCodePage extends CorePage {
 
     @Name("Поле ввода SMS-код")
     @FindBy(css = ".become-demo__sms .ui-placeholder__text")
-    private SelenideElement inputSmsCode;
+    public SelenideElement inputSmsCode;
 
 }
 

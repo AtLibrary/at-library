@@ -1,6 +1,5 @@
 package ru.appavlov.at.library.core.block.old;
 
-
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.support.FindBy;
 import ru.appavlov.at.library.core.block.NavigationBlock;
@@ -14,22 +13,22 @@ public class BrokerDemoPage extends CorePage {
 
     @Name("Навигация")
     @FindBy(xpath = ".//nav")
-    private NavigationBlock navigationBlock;
+    public NavigationBlock navigationBlock;
 
     @Name("ФИО")
     @FindBy(css = demoAccountForm + "[name=\"name\"]")
-    private SelenideElement inputFIO;
+    public SelenideElement inputFIO;
 
     @Name("Номер телефона")
     @FindBy(css = demoAccountForm + "[name=\"phone\"]")
-    private SelenideElement inputPhone;
+    public SelenideElement inputPhone;
 
     @Name("Email")
     @FindBy(css = demoAccountForm + "[name=\"email\"]")
-    private SelenideElement inputEmail;
+    public SelenideElement inputEmail;
 
     @Name("Открыть счет")
     @FindBy(css = demoAccountForm + "[class='become-demo__form-submit'] button")
-    private SelenideElement buttonOpenScore;
+    public SelenideElement buttonOpenScore;
 }
 
