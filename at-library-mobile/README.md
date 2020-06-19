@@ -6,7 +6,7 @@ at-library-mobile
 Подключите зависимость
 ```xml
 <dependency>
-      <groupId>ru.appavlov</groupId>
+      <groupId>ru</groupId>
       <artifactId>at-library-mobile</artifactId>
       <version>0.0.0.2</version>
 </dependency>
@@ -170,7 +170,7 @@ test
 -DdeviceName="iPhone 6s" 
 -DplatformVersion=12.4 
 -Dapp=ru.admitadteam.SimpleScoreSwift 
--Dselenide.remote=http://test:test-password@selenoid.t-global.appavlov:4444/wd/hub/ 
+-Dselenide.remote=http://localhost:4444/wd/hub/ 
 -Dproxy=172.18.62.68:8080 
 allure:serve
 ```
@@ -222,5 +222,5 @@ allure:serve - запуск allure отчетов
 ```
 
 ```mvn
--Dselenide.remote=http://test:test-password@selenoid.t-global.appavlov:4444/wd/hub/ -Dproxy=172.18.62.68:8080 - для запуска тестов на selenoid
+-Dselenide.remote=http://localhost:4444/wd/hub/ -Dproxy=172.18.62.68:8080 - для запуска тестов на selenoid
 ```

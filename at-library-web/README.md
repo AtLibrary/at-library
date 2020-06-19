@@ -6,7 +6,7 @@ at-library-web
 Подключите зависимость
 ```xml
 <dependency>
-      <groupId>ru.appavlov</groupId>
+      <groupId>ru</groupId>
       <artifactId>at-library-web</artifactId>
       <version>0.0.0.2</version>
 </dependency>
@@ -138,12 +138,6 @@ public HeaderBlock header;
 При загрузке страницы будут учитываться элементы, описанные в блоке
 
 
-Просмотр прогона тестов Selenoid:
-=========================
-```url
-http://selenoid.t-global.appavlov/#/
-```
-
 После подключения всех плагинов и зависимостей вы можете запускать проект автотестов командами:
 =========================
 - Запуск локально на ubuntu
@@ -178,7 +172,7 @@ allure:serve
 clean 
 test 
 -Dselenide.browser="chrome" 
--Dselenide.remote=http://test:test-password@selenoid.t-global.appavlov:4444/wd/hub/ 
+-Dselenide.remote=http://localhost:4444/wd/hub/ 
 -Dproxy=172.18.62.68:8080 
 allure:serve
 ```
@@ -187,7 +181,7 @@ allure:serve
 clean 
 test 
 -Dselenide.browser="internet explorer" 
--Dselenide.remote=http://test:test-password@selenoid.t-global.appavlov:4444/wd/hub/ 
+-Dselenide.remote=http://localhost:4444/wd/hub/ 
 -Dproxy=172.18.62.68:8080 
 allure:serve
 ```
@@ -229,9 +223,9 @@ allure:serve - запуск allure отчетов
 -Djava.net.useSystemProxies=true - установив для этого свойства значение true, использовать настройки прокси-сервера системы
 ```
 ```mvn
--Dselenide.remote=http://test:test-password@selenoid.t-global.appavlov:4444/wd/hub/ -Dproxy=172.18.62.68:8080 - для запуска тестов на selenoid
+-Dselenide.remote=http://localhost:4444/wd/hub/ -Dproxy=172.18.62.68:8080 - для запуска тестов на selenoid
 ```
-- Чтобы установить базовый url(для api и ui тестов) его можно указать в application.properties по ключу baseURI=https://ef.tusvc.appavlov.ru
+- Чтобы установить базовый url(для api и ui тестов) его можно указать в application.properties по ключу baseURI=https://ef.tusvc.ru
 или передать параметром (если передан параметр и присутсивует в application.properties то будет использован тот что передан параметром)
 
 ```mvn

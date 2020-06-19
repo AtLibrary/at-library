@@ -6,7 +6,7 @@ at-library-api
 Подключите зависимость
 ```xml
 <dependency>
-      <groupId>ru.appavlov</groupId>
+      <groupId>ru</groupId>
       <artifactId>at-library-api</artifactId>
       <version>0.0.0.2</version>
 </dependency>

@@ -1,15 +1,6 @@
 at-library
 =========================
 
-Quick start
-=========================
-Подробное описание как писать Автотесты. От установки java до создания отчета с результатом прогона АТ выложено на confluence:
-
-https://jira.appavlov.ru:4464/confluence/pages/viewpage.action?pageId=142470113
-
-Если нет доступа, то необходимо завести СЗ на доступ к space: 
-- Quality Assurance
-
 BDD библиотека
 =======================
 BDD библиотека шагов для тестирования на основе:
@@ -38,42 +29,25 @@ BDD библиотека шагов для тестирования на осн�
 
 Подключение репозиториев:
 ====================
-- Подключение репозириев БКС для скачивания проекта из appavlov artifactory
+- Подключение репозириев
 ```xml
-<distributionManagement>
-    <snapshotRepository>
-        <id>snapshots</id>
-        <name>s-cicd-artif-01.global.appavlov-snapshots</name>
-        <url>https://artifactory.gitlab.appavlov.ru/artifactory/appavlov-main-snapshots</url>
-    </snapshotRepository>
-    <repository>
-        <id>appavlov-main-releases</id>
-        <url>https://artifactory.gitlab.appavlov.ru/artifactory/appavlov-main-releases</url>
-    </repository>
-</distributionManagement>
 <repositories>
-    <repository>
-        <id>appavlov-main-releases</id>
-        <url>https://artifactory.gitlab.appavlov.ru/artifactory/appavlov-main-releases</url>
-        <releases>
-            <enabled>true</enabled>
-        </releases>
-        <snapshots>
-            <enabled>false</enabled>
-        </snapshots>
-    </repository>
-    <repository>
-        <id>snapshots</id>
-        <name>s-cicd-artif-01.global.appavlov-snapshots</name>
-        <url>https://artifactory.gitlab.appavlov.ru/artifactory/appavlov-main-snapshots</url>
-        <releases>
-            <enabled>false</enabled>
-        </releases>
-        <snapshots>
-            <enabled>true</enabled>
-        </snapshots>
-    </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
 </repositories>
+
+<dependency>
+    <groupId>com.github.Antonppavlov.at-library</groupId>
+    <artifactId>at-library-core</artifactId>
+    <version>9315329412</version>
+</dependency>
+<dependency>
+    <groupId>com.github.Antonppavlov.at-library</groupId>
+    <artifactId>at-library-web</artifactId>
+    <version>9315329412</version>
+</dependency>
 ```
 
 Подключение плагинов:
@@ -131,8 +105,3 @@ BDD библиотека шагов для тестирования на осн�
 </plugin>
 ```
 
-Просмотр отчета о выполнении в ReportPortal:
-=========================
-```url
-https://reportportal.t-global.appavlov/
-```

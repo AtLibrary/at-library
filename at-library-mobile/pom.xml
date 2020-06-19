@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>at-library</artifactId>
-        <groupId>ru.appavlov</groupId>
+        <groupId>ru</groupId>
         <version>0.0.0.2</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -17,7 +17,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>ru.appavlov</groupId>
+            <groupId>ru</groupId>
             <artifactId>at-library-core</artifactId>
             <version>0.0.0.2</version>
             <scope>compile</scope>
@@ -50,8 +50,8 @@
                         -DplatformName=iOS
                         -DdeviceName="iPhone 6s"
                         -DplatformVersion=12.4
-                        -Dapp=ru.appavlov.demo.SimpleScoreSwift
-                        -Dselenide.remote=http://test:test-password@selenoid.t-global.appavlov:4444/wd/hub/
+                        -Dapp=ru.demo.SimpleScoreSwift
+                        -Dselenide.remote=http://localhost:4444/wd/hub/
                         -Dproxy=172.18.62.68:8080
                         -Dcucumber.options="
                         --plugin io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm"
