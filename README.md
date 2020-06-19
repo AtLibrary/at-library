@@ -44,16 +44,18 @@ BDD библиотека шагов для тестирования на осн�
 
 - Подключение зависимостей
 ```xml
-<dependency>
-    <groupId>com.github.Antonppavlov.at-library</groupId>
-    <artifactId>at-library-core</artifactId>
-    <version>9315329412</version>
-</dependency>
-<dependency>
-    <groupId>com.github.Antonppavlov.at-library</groupId>
-    <artifactId>at-library-web</artifactId>
-    <version>9315329412</version>
-</dependency>
+<dependencies>
+    <dependency>
+        <groupId>com.github.Antonppavlov.at-library</groupId>
+        <artifactId>at-library-core</artifactId>
+        <version>85b2b9a4fd</version>
+    </dependency>
+    <dependency>
+        <groupId>com.github.Antonppavlov.at-library</groupId>
+        <artifactId>at-library-web</artifactId>
+        <version>85b2b9a4fd</version>
+    </dependency>
+</dependencies>
 ```
 
 Подключение плагинов:
