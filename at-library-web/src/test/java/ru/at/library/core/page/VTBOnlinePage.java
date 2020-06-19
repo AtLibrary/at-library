@@ -4,6 +4,7 @@ import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.support.FindBy;
 import ru.at.library.core.cucumber.annotations.Name;
 import ru.at.library.core.cucumber.api.CorePage;
+
 @Name("ВТБ-Онлайн")
 public class VTBOnlinePage extends CorePage {
 

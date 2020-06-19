@@ -9,6 +9,6 @@ import ru.at.library.core.cucumber.api.CorePage;
 public class VTBPage extends CorePage {
 
     @Name("ВТБ-Онлайн")
-    @FindBy(css="[href=\"https://www.vtb.ru/app\"]")
+    @FindBy(css = "[href=\"https://www.vtb.ru/app\"]")
     public SelenideElement buttonOnlineVtb;
 }

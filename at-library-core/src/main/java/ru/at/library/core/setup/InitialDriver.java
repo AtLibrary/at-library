@@ -42,7 +42,7 @@ public class InitialDriver {
 
     }
 
-    private void initRemoteStart(Proxy proxy, Scenario scenario){
+    private void initRemoteStart(Proxy proxy, Scenario scenario) {
         log.info("Тесты запущены на удаленной машине: " + Configuration.remote);
         log.info("Тесты будут запущены локально в браузере: " + browser);
 

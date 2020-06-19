@@ -366,8 +366,8 @@ public class WebCheckSteps {
     /**
      * Проверка того, что элемент в блоке отображается на странице
      *
-     * @param elementName  имя элемента
-     * @param blockName    имя блока
+     * @param elementName имя элемента
+     * @param blockName   имя блока
      */
     @А("^(?:кнопка|ссылка|поле|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" отображается на странице")
     public void visible(String elementName, String blockName) {

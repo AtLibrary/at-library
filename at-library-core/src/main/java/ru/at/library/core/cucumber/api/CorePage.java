@@ -397,6 +397,7 @@ public abstract class CorePage extends ElementsContainer {
 //                .peek(this::checkFieldType)
 //                .collect(toMap(f -> f.getDeclaredAnnotation(Name.class).value(), this::extractFieldValueViaReflection));
 //    }
+
     /**
      * Поиск и инициализации элементов страницы
      */

@@ -4,7 +4,7 @@ import static ru.at.library.core.core.helpers.PropertyLoader.tryLoadProperty;
 
 public class AtCoreConfig {
 
-//    public static String platformName = tryLoadProperty("platformName");
+    //    public static String platformName = tryLoadProperty("platformName");
 //    public static String deviceName = tryLoadProperty("deviceName");
 //    public static String platformVersion = tryLoadProperty("platformVersion");
 //    public static String version = tryLoadProperty("version");

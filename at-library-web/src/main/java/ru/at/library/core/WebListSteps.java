@@ -73,7 +73,7 @@ public class WebListSteps {
      * (в приоритете: из property, из переменной сценария, значение аргумента)
      */
     @И("^нажатие на первый элемент с (?:текстом|значением) \"(.*)\" в списке \"([^\"]*)\"$")
-    public void checkIfSelectedListElementMatchesValue(String expectedValue,String listName) {
+    public void checkIfSelectedListElementMatchesValue(String expectedValue, String listName) {
         final String value = getPropertyOrStringVariableOrValue(expectedValue);
         ElementsCollection elements = coreScenario.getCurrentPage().getElementsList(listName);
         elements.find(exactText(value)).click();
@@ -108,7 +108,7 @@ public class WebListSteps {
 //    }
 
     /**
-     /**
+     * /**
      * Проверка не появления списка на странице в течение Configuration.timeout.
      *
      * @param listName название элемента
@@ -134,6 +134,7 @@ public class WebListSteps {
 
     /**
      * Выбор из списка со страницы любого случайного элемента
+     *
      * @return
      */
     @И("^нажатие на случайный элемент в списке \"([^\"]*)\"$")
