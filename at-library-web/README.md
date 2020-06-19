@@ -8,7 +8,7 @@ at-library-web
 <dependency>
       <groupId>ru.appavlov</groupId>
       <artifactId>at-library-web</artifactId>
-      <version>0.0.0.1</version>
+      <version>0.0.0.2</version>
 </dependency>
 ```
 

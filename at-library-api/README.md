@@ -8,7 +8,7 @@ at-library-api
 <dependency>
       <groupId>ru.appavlov</groupId>
       <artifactId>at-library-api</artifactId>
-      <version>0.0.0.1</version>
+      <version>0.0.0.2</version>
 </dependency>
 ```
 
