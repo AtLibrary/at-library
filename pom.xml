@@ -194,7 +194,7 @@
             <artifactId>mockneat</artifactId>
             <version>0.3.7</version>
         </dependency>
-<!--        ПРОКСИРОВАНИЕ-->
+        <!--ПРОКСИРОВАНИЕ-->
         <dependency>
             <groupId>io.appium</groupId>
             <artifactId>mitmproxy-java</artifactId>
