@@ -36,7 +36,7 @@
         <!--HAMCREST-->
         <hamcrest.version>2.1</hamcrest.version>
         <!--LOG-->
-        <logging.version>2.11.2</logging.version>
+        <logging.version>2.13.3</logging.version>
         <!--ВСПОМОГАТЕЛЬНЫЕ БИБЛИОТЕКИ-->
         <reflections.version>0.9.10</reflections.version>
         <guava.version>23.0</guava.version>
