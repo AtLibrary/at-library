@@ -55,6 +55,18 @@ public class WebCheckSteps {
     }
 
     /**
+     * Проверка того, что элемент исчезнет со страницы (станет невидимым) в течение seconds
+     *
+     * @param elementName название
+     * @param seconds время в секундах
+     */
+    @И("^ожидается исчезновение (?:кнопки|ссылки|поля|чекбокса|радиокнопи|текста|элемента) \"([^\"]*)\" в течение (\\d+) (?:секунд|секунды)")
+    public void elemDisappears(String elementName, int seconds) {
+        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
+        element.waitUntil(disappears, seconds * 1000);
+    }
+
+    /**
      * Проверка того, что элемент исчезнет со страницы (станет невидимым) в течение Configuration.timeout.
      * В случае, если свойство "waitingCustomElementsTimeout" в application.properties не задано,
      * таймаут равен 10 секундам
@@ -62,7 +74,7 @@ public class WebCheckSteps {
      * @param elementName название
      */
     @И("^ожидается исчезновение (?:кнопки|ссылки|поля|чекбокса|радиокнопи|текста|элемента) \"([^\"]*)\"")
-    public void elemDisappears(String elementName) {
+    public void elemDisappears(String elementName ) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
         element.shouldHave(disappears);
     }
