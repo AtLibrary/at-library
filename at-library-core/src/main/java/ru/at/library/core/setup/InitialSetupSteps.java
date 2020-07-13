@@ -64,7 +64,7 @@ public class InitialSetupSteps {
      * Если сценарий содержит тег @web" то будет создан WebDriver
      * Создает окружение(среду) для запуска сценария
      */
-    @Before
+    @Before(order = 0)
     public void beforeEachTest(Scenario scenario) throws MalformedURLException {
         RestAssured.baseURI = System.getProperty("baseURI", tryLoadProperty("baseURI"));
         baseUrl = System.getProperty("baseURI", tryLoadProperty("baseURI"));
@@ -94,7 +94,7 @@ public class InitialSetupSteps {
     /**
      * Если сценарий содержит тег @web" то по завершению теста удаляет все куки и закрывает веб-браузер
      */
-    @After
+    @After(order = 0)
     public void afterEachTest(Scenario scenario) {
         try {
             getWebDriver().quit();
