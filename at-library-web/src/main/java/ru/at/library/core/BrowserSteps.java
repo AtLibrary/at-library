@@ -206,6 +206,22 @@ public class BrowserSteps {
     }
 
     /**
+     * Производится нажатие кнопки вперед в браузере
+     */
+    @И("^нажатие кнопки вперед в браузере$")
+    public void forward() {
+       WebDriverRunner.getWebDriver().navigate().forward();
+    }
+    /**
+     *
+     * Производится закрытие текущей вкладки и возвращает на первую
+     */
+    @И("^нажатие кнопки назад в браузере$")
+    public void back() {
+       WebDriverRunner.getWebDriver().navigate().back();
+    }
+
+    /**
      * Переключение на вкладку браузера с заголовком
      *
      * @param title заголовок вкладки
