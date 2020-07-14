@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Random;
 
 import static org.apache.commons.lang3.RandomUtils.nextBoolean;
+import static ru.at.library.core.steps.OtherSteps.getPropertyOrStringVariableOrValue;
 
 /**
  * Шаги генерации тестовых данных
@@ -22,7 +23,7 @@ public class DataGenerationSteps {
      */
     @И("конкатенация строк \"([^\"]*)\" и \"([^\"]*)\" и сохранено в переменную \"([^\"]*)\"$")
     public void concatenationString(String text1, String text2, String varName) {
-        String text = text1 + text2;
+        String text = getPropertyOrStringVariableOrValue(text1) + getPropertyOrStringVariableOrValue(text2);
         coreScenario.setVar(varName, text);
         coreScenario.write("Строка равна: " + text);
     }
