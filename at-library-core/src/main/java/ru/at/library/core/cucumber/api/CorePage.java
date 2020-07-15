@@ -256,10 +256,10 @@ public abstract class CorePage extends ElementsContainer {
      * а элементы, помеченные аннотацией "Hidden", скрыты.
      */
     public void isAppeared() {
-        getPrimaryElements().parallelStream().forEach(elem ->
-                elem.waitUntil(Condition.appear, timeout));
-        getHiddenElements().parallelStream().forEach(elem ->
-                elem.waitUntil(Condition.hidden, timeout));
+        getPrimaryElements().forEach(elem ->
+                elem.shouldHave(Condition.appear));
+        getHiddenElements().forEach(elem ->
+                elem.shouldHave(Condition.hidden));
         eachForm(CorePage::isAppeared);
     }
 
@@ -323,9 +323,9 @@ public abstract class CorePage extends ElementsContainer {
      */
     protected void isAppearedInIe() {
         getPrimaryElements().stream().forEach(elem ->
-                elem.waitUntil(Condition.appear, timeout));
+                elem.shouldHave(Condition.appear));
         getHiddenElements().stream().forEach(elem ->
-                elem.waitUntil(Condition.hidden, timeout));
+                elem.shouldHave(Condition.hidden));
         eachForm(CorePage::isAppearedInIe);
     }
 
