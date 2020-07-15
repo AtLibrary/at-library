@@ -145,71 +145,6 @@ public abstract class CorePage extends ElementsContainer {
         FindBy.FindByBuilder findByBuilder = new FindBy.FindByBuilder();
         return $$(findByBuilder.buildIt(listSelector, null));
     }
-//
-//    /**
-//     * Получение элемента-списка со страницы по имени
-//     */
-//    @SuppressWarnings("unchecked")
-//    public ElementsCollection getElementsList(String listName) {
-//        Object value = namedElements.get(listName);
-//        if (!(value instanceof List)) {
-//            throw new IllegalArgumentException("Список " + listName + " не описан на странице " + this.getClass().getName());
-//        }
-//        FindBy listSelector = Arrays.stream(this.getClass().getDeclaredFields())
-//                .filter(f -> f.getDeclaredAnnotation(Name.class) != null && f.getDeclaredAnnotation(Name.class).value().equals(listName))
-//                .map(f -> f.getDeclaredAnnotation(FindBy.class))
-//                .findFirst().get();
-//        FindBy.FindByBuilder findByBuilder = new FindBy.FindByBuilder();
-//        return $$(findByBuilder.buildIt(listSelector, null));
-//    }
-
-//    /**
-//     * Получение текстов всех элементов, содержащихся в элементе-списке,
-//     * состоящего как из редактируемых полей, так и статичных элементов по имени
-//     * Используется метод innerText(), который получает как видимый, так и скрытый текст из элемента,
-//     * обрезая перенос строк и пробелы в конце и начале строчки.
-//     */
-//    public List<String> getAnyElementsListInnerTexts(String listName) {
-//        List<SelenideElement> elementsList = getElementsList(listName);
-//        return elementsList.stream()
-//                .map(element -> element.getTagName().equals("input")
-//                        ? element.getValue().trim()
-//                        : element.innerText().trim()
-//                )
-//                .collect(toList());
-//    }
-
-//    /**
-//     * Получение текста элемента, как редактируемого поля, так и статичного элемента по имени
-//     */
-//    public String getAnyElementText(String elementName) {
-//        return getAnyElementText(getElement(elementName));
-//    }
-
-//    /**
-//     * Получение текста элемента, как редактируемого поля, так и статичного элемента по значению элемента
-//     */
-//    public String getAnyElementText(SelenideElement element) {
-//        if (element.getTagName().equals("input") || element.getTagName().equals("textarea")) {
-//            return element.getValue();
-//        } else {
-//            return element.getText();
-//        }
-//    }
-
-//    /**
-//     * Получение текстов всех элементов, содержащихся в элементе-списке,
-//     * состоящего как из редактируемых полей, так и статичных элементов по имени
-//     */
-//    public List<String> getAnyElementsListTexts(String listName) {
-//        List<SelenideElement> elementsList = getElementsList(listName);
-//        return elementsList.stream()
-//                .map(element -> element.getTagName().equals("input")
-//                        ? element.getValue()
-//                        : element.getText()
-//                )
-//                .collect(toList());
-//    }
 
     /**
      * Получение всех элементов страницы, не помеченных аннотацией "Optional" или "Hidden"
@@ -273,18 +208,6 @@ public abstract class CorePage extends ElementsContainer {
                     }
                 });
     }
-//
-//
-//    private void eachForm(Consumer<CorePage> func) {
-//        Arrays.stream(getClass().getDeclaredFields())
-//                .filter(f -> f.getDeclaredAnnotation(ru.at.library.core.cucumber.annotations.Optional.class) == null && f.getDeclaredAnnotation(Hidden.class) == null)
-//                .forEach(f -> {
-//                    if (CorePage.class.isAssignableFrom(f.getType())) {
-//                        CorePage corePage = CoreScenario.getInstance().getPage((Class<? extends CorePage>) f.getType()).initialize();
-//                        func.accept(corePage);
-//                    }
-//                });
-//    }
 
     /**
      * Проверка, что все элементы страницы, не помеченные аннотацией "Optional" или "Hidden", исчезли
@@ -338,41 +261,6 @@ public abstract class CorePage extends ElementsContainer {
                 elem.waitWhile(Condition.exist, timeout));
     }
 
-//    /**
-//     * Обертка над Selenide.waitUntil для произвольного количества элементов
-//     *
-//     * @param condition Selenide.Condition
-//     * @param timeout   максимальное время ожидания для перехода элементов в заданное состояние
-//     * @param elements  произвольное количество selenide-элементов
-//     */
-//    public void waitElementsUntil(Condition condition, int timeout, SelenideElement... elements) {
-//        Spectators.waitElementsUntil(condition, timeout, elements);
-//    }
-//
-//    /**
-//     * Обертка над Selenide.waitUntil для работы со списком элементов
-//     *
-//     * @param elements список selenide-элементов
-//     */
-//    public void waitElementsUntil(Condition condition, int timeout, ElementsCollection elements) {
-//        Spectators.waitElementsUntil(condition, timeout, elements);
-//    }
-//
-//    /**
-//     * Проверка, что все переданные элементы в течении заданного периода времени
-//     * перешли в состояние Selenide.Condition
-//     *
-//     * @param elementNames произвольное количество строковых переменных с именами элементов
-//     */
-//    public void waitElementsUntil(Condition condition, int timeout, String... elementNames) {
-//        List<SelenideElement> elements = Arrays.stream(elementNames)
-//                .map(name -> namedElements.get(name))
-//                .flatMap(v -> v instanceof List ? ((List<?>) v).stream() : Stream.of(v))
-//                .map(CorePage::castToSelenideElement)
-//                .filter(Objects::nonNull)
-//                .collect(toList());
-//        Spectators.waitElementsUntil(condition, timeout, elements);
-//    }
 
     @Override
     public void setSelf(SelenideElement self) {
@@ -386,17 +274,6 @@ public abstract class CorePage extends ElementsContainer {
         hiddenElements = readWithHiddenElements();
         return this;
     }
-
-//    /**
-//     * Поиск и инициализации элементов страницы
-//     */
-//    private Map<String, Object> readNamedElements() {
-//        checkNamedAnnotations();
-//        return Arrays.stream(getClass().getDeclaredFields())
-//                .filter(f -> f.getDeclaredAnnotation(Name.class) != null)
-//                .peek(this::checkFieldType)
-//                .collect(toMap(f -> f.getDeclaredAnnotation(Name.class).value(), this::extractFieldValueViaReflection));
-//    }
 
     /**
      * Поиск и инициализации элементов страницы
@@ -444,32 +321,6 @@ public abstract class CorePage extends ElementsContainer {
             throw new IllegalStateException("Найдено несколько аннотаций @Name с одинаковым значением в классе " + this.getClass().getName());
         }
     }
-//
-//    /**
-//     * Поиск по аннотации "Name"
-//     */
-//    private void checkNamedAnnotations() {
-//        List<String> list = Arrays.stream(getClass().getDeclaredFields())
-//                .filter(f -> f.getDeclaredAnnotation(Name.class) != null)
-//                .map(f -> f.getDeclaredAnnotation(Name.class).value())
-//                .collect(toList());
-//        if (list.size() != new HashSet<>(list).size()) {
-//            throw new IllegalStateException("Найдено несколько аннотаций @Name с одинаковым значением в классе " + this.getClass().getName());
-//        }
-//    }
-
-//    /**
-//     * Поиск и инициализация элементов страницы без аннотации Optional или Hidden
-//     */
-//    private List<SelenideElement> readWithWrappedElements() {
-//        return Arrays.stream(getClass().getDeclaredFields())
-//                .filter(f -> f.getDeclaredAnnotation(ru.at.library.core.cucumber.annotations.Optional.class) == null && f.getDeclaredAnnotation(Hidden.class) == null)
-//                .map(this::extractFieldValueViaReflection)
-//                .flatMap(v -> v instanceof List ? ((List<?>) v).stream() : Stream.of(v))
-//                .map(CorePage::castToSelenideElement)
-//                .filter(Objects::nonNull)
-//                .collect(toList());
-//    }
 
     /**
      * Поиск и инициализация элементов страницы без аннотации Optional или Hidden
@@ -496,33 +347,6 @@ public abstract class CorePage extends ElementsContainer {
                 .filter(Objects::nonNull)
                 .collect(toList());
     }
-//
-//
-//    /**
-//     * Поиск и инициализация элементов страницы c аннотацией Hidden
-//     */
-//    private List<SelenideElement> readWithHiddenElements() {
-//        return Arrays.stream(getClass().getDeclaredFields())
-//                .filter(f -> f.getDeclaredAnnotation(Hidden.class) != null)
-//                .map(this::extractFieldValueViaReflection)
-//                .flatMap(v -> v instanceof List ? ((List<?>) v).stream() : Stream.of(v))
-//                .map(CorePage::castToSelenideElement)
-//                .filter(Objects::nonNull)
-//                .collect(toList());
-//    }
-//
-//    /**
-//     * Поиск и инициализация элементов страницы c аннотацией Hidden
-//     */
-//    private List<SelenideElement> readWithHiddenElements() {
-//        return Arrays.stream(getClass().getDeclaredFields())
-//                .filter(f -> f.getDeclaredAnnotation(Hidden.class) != null)
-//                .map(this::extractFieldValueViaReflection)
-//                .flatMap(v -> v instanceof List ? ((List<?>) v).stream() : Stream.of(v))
-//                .map(CorePage::castToSelenideElement)
-//                .filter(Objects::nonNull)
-//                .collect(toList());
-//    }
 
     private Object extractFieldValueViaReflection(Field field) {
         return Reflection.extractFieldValue(field, this);
