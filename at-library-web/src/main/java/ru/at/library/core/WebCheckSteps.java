@@ -56,15 +56,29 @@ public class WebCheckSteps {
     }
 
     /**
-     * Проверка того, что элемент исчезнет со страницы (станет невидимым) в течение seconds
+     * Проверка появления элемента(не списка) на странице в течение Configuration.timeout.
+     * В случае, если свойство "waitingCustomElementsTimeout" в application.properties не задано,
+     * таймаут равен 10 секундам
      *
      * @param elementName название
-     * @param seconds     время в секундах
      */
-    @И("^ожидается исчезновение (?:кнопки|ссылки|поля|чекбокса|радиокнопки|текста|элемента) \"([^\"]*)\" в течение (\\d+) (?:секунд|секунды)")
-    public void elemDisappears(String elementName, int seconds) {
+    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" не отображается на странице$")
+    public void elementHidden(String elementName) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
-        element.waitUntil(disappears, seconds * 1000);
+        element.shouldHave(hidden);
+    }
+
+    /**
+     * Проверка появления элемента(не списка) на странице в течение
+     * заданного количества секунд
+     *
+     * @param elementName название
+     * @param seconds     количество секунд
+     */
+    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" не отобразился на странице в течение (\\d+) (?:секунд|секунды)")
+    public void elementHiddenSecond(String elementName, int seconds) {
+        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
+        element.waitUntil(hidden, seconds * 1000);
     }
 
     /**
@@ -79,6 +93,19 @@ public class WebCheckSteps {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
         element.shouldHave(disappears);
     }
+
+    /**
+     * Проверка того, что элемент исчезнет со страницы (станет невидимым) в течение seconds
+     *
+     * @param elementName название
+     * @param seconds     время в секундах
+     */
+    @И("^ожидается исчезновение (?:кнопки|ссылки|поля|чекбокса|радиокнопки|текста|элемента) \"([^\"]*)\" в течение (\\d+) (?:секунд|секунды)")
+    public void elemDisappears(String elementName, int seconds) {
+        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
+        element.waitUntil(disappears, seconds * 1000);
+    }
+
 
     /**
      * Проверка того, что блок исчез/стал невидимым
@@ -367,6 +394,30 @@ public class WebCheckSteps {
     public void elementAppearedSecond(String elementName, String blockName, int seconds) {
         SelenideElement element = coreScenario.getCurrentPage().getBlockElement(blockName,elementName);
         element.waitUntil(appear, seconds * 1000);
+    }
+
+    /**
+     * Проверка не отображения элемента(не списка) на странице в течение Configuration.timeout.
+     *
+     * @param elementName название
+     */
+    @А("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" не отображается на странице")
+    public void elementHidden(String elementName, String blockName) {
+        SelenideElement element = coreScenario.getCurrentPage().getBlockElement(blockName,elementName);
+        element.shouldHave(hidden);
+    }
+
+    /**
+     * Проверка  не отображения элемента(не списка) на странице в течение
+     * заданного количества секунд
+     *
+     * @param elementName название
+     * @param seconds     количество секунд
+     */
+    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" не отображается на странице в течение (\\d+) (?:секунд|секунды)")
+    public void elementHiddenSecond(String elementName, String blockName, int seconds) {
+        SelenideElement element = coreScenario.getCurrentPage().getBlockElement(blockName,elementName);
+        element.waitUntil(hidden, seconds * 1000);
     }
 
     /**
