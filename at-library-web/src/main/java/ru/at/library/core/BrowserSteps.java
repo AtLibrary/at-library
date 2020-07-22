@@ -281,7 +281,7 @@ public class BrowserSteps {
      * Метод осуществляет снятие скриншота и прикрепление его к cucumber отчету.
      */
     @И("^снят скриншот текущей страницы$")
-    public void takeScreenshot() {
+    public synchronized static void takeScreenshot() {
         final byte[] screenshot = ((TakesScreenshot) getWebDriver()).getScreenshotAs(OutputType.BYTES);
         CoreScenario.getInstance().getScenario().embed(screenshot, "image/png");
     }
