@@ -393,6 +393,23 @@ public class WebCheckSteps {
 
 
     /**
+     * Проверка того, что элемент в блоке не отображается на странице
+     *
+     * @param elementName имя элемента
+     * @param blockName   имя блока
+     */
+    @А("^(?:кнопка|ссылка|поле|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" не отображается на странице")
+    public void notVisible(String elementName, String blockName) {
+        CorePage currentPage = coreScenario.getCurrentPage();
+
+        coreScenario.getPage(blockName).getElement(elementName)
+                .shouldHave(not(visible));
+
+        coreScenario.setCurrentPage(currentPage);
+    }
+
+
+    /**
      * Получение текста элемента в блоке и сохранение его в переменную
      *
      * @param elementName  имя элемента
