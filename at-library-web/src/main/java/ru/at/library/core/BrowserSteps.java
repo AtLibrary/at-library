@@ -87,24 +87,10 @@ public class BrowserSteps {
      */
     @И("^текущий URL равен \"([^\"]*)\"$")
     public void checkCurrentURL(String hardcodeUrl) {
-//TODO перписать
-        String url;
-
         String currentUrl = url();
-        hardcodeUrl = getPropertyOrValue(hardcodeUrl);
-        String propertyUrl = getPropertyOrValue(hardcodeUrl);
-        if (!propertyUrl.contains("http")) {
-            propertyUrl = Configuration.baseUrl + propertyUrl;
-        }
-        String variableUrl = loadValueFromFileOrVariableOrDefault(hardcodeUrl);
+        String expectedURL = formALinkExpectedURL(hardcodeUrl);
 
-        if (variableUrl.contains("http")) {
-            url = variableUrl;
-        } else {
-            url = propertyUrl;
-        }
-
-        assertThat("Текущий URL не совпадает с ожидаемым", currentUrl, is(url));
+        assertThat("Текущий URL не совпадает с ожидаемым", currentUrl, is(expectedURL));
     }
 
     /**
@@ -114,25 +100,11 @@ public class BrowserSteps {
      *                    то берется переданное значение)
      */
     @И("^текущий URL содержит \"([^\"]*)\"$")
-    public void checkСontainsStringURL(String hardcodeUrl) {
-//TODO перписать
-        String url;
-
+    public void checkContainsStringURL(String hardcodeUrl) {
         String currentUrl = url();
-        hardcodeUrl = getPropertyOrValue(hardcodeUrl);
-        String propertyUrl = getPropertyOrValue(hardcodeUrl);
-        if (!propertyUrl.contains("http")) {
-            propertyUrl = Configuration.baseUrl + propertyUrl;
-        }
-        String variableUrl = loadValueFromFileOrVariableOrDefault(hardcodeUrl);
+        String expectedURL = formALinkExpectedURL(hardcodeUrl);
 
-        if (variableUrl.contains("http")) {
-            url = variableUrl;
-        } else {
-            url = propertyUrl;
-        }
-
-        assertThat("Текущий URL не содержит ожидаемым", currentUrl, containsString(url));
+        assertThat("Текущий URL не содержит ожидаемым", currentUrl, containsString(expectedURL));
     }
 
     /**
@@ -143,10 +115,15 @@ public class BrowserSteps {
      */
     @И("^текущий URL не равен \"([^\"]*)\"$")
     public void checkCurrentURLIsNotEquals(String hardcodeUrl) {
-//TODO перписать
-        String url;
-
         String currentUrl = url();
+        String expectedURL = formALinkExpectedURL(hardcodeUrl);
+
+        assertThat("Текущий URL совпадает с ожидаемым", currentUrl, Matchers.not(expectedURL));
+    }
+
+    private String formALinkExpectedURL(String hardcodeUrl) {
+        String expectedURL;
+
         hardcodeUrl = getPropertyOrValue(hardcodeUrl);
         String propertyUrl = getPropertyOrValue(hardcodeUrl);
         if (!propertyUrl.contains("http")) {
@@ -155,12 +132,12 @@ public class BrowserSteps {
         String variableUrl = loadValueFromFileOrVariableOrDefault(hardcodeUrl);
 
         if (variableUrl.contains("http")) {
-            url = variableUrl;
+            expectedURL = variableUrl;
         } else {
-            url = propertyUrl;
+            expectedURL = propertyUrl;
         }
 
-        assertThat("Текущий URL совпадает с ожидаемым", currentUrl, Matchers.not(url));
+        return expectedURL;
     }
 
     /**
@@ -210,15 +187,15 @@ public class BrowserSteps {
      */
     @И("^нажатие кнопки вперед в браузере$")
     public void forward() {
-       WebDriverRunner.getWebDriver().navigate().forward();
+        WebDriverRunner.getWebDriver().navigate().forward();
     }
+
     /**
-     *
      * Производится закрытие текущей вкладки и возвращает на первую
      */
     @И("^нажатие кнопки назад в браузере$")
     public void back() {
-       WebDriverRunner.getWebDriver().navigate().back();
+        WebDriverRunner.getWebDriver().navigate().back();
     }
 
     /**

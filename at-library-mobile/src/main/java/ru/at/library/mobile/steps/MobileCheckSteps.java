@@ -63,7 +63,7 @@ public class MobileCheckSteps {
      *
      * @param elementName название кнопки|поля|блока
      */
-    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" отображается на экране$")
+    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" отображается на экране$")
     public void elemIsPresentedOnPage(String elementName) {
         WebElement element = MobileTestConfig.getWebElementInCurrentPage(elementName);
         AssertMobile.display(element, true, MobileTestConfig.DEFAULT_TIMEOUT);
@@ -76,7 +76,7 @@ public class MobileCheckSteps {
      * @param elementName название кнопки|поля|блока
      * @param seconds     количество секунд
      */
-    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" отобразился на экране в течение (\\d+) (?:секунд|секунды)")
+    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" отобразился на экране в течение (\\d+) (?:секунд|секунды)")
     public void testElementAppeared(String elementName, int seconds) {
         WebElement element = MobileTestConfig.getWebElementInCurrentPage(elementName);
         AssertMobile.display(element, true, seconds);
@@ -129,7 +129,7 @@ public class MobileCheckSteps {
     /**
      * Проверка, что элемент на экране кликабелен
      */
-    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" кликабельна$")
+    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" кликабельна$")
     public void clickableField(String elementName) {
         WebElement element = MobileTestConfig.getWebElementInCurrentPage(elementName);
         MobileTestConfig.driverWait().until(elementToBeClickable(element));
@@ -138,7 +138,7 @@ public class MobileCheckSteps {
     /**
      * Проверка, что элемент на экране кликабелен
      */
-    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" кликабельнов течение (\\d+) (?:секунд|секунды)$")
+    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" кликабельнов течение (\\d+) (?:секунд|секунды)$")
     public void clickableField(String elementName, int second) {
         WebElement element = MobileTestConfig.getWebElementInCurrentPage(elementName);
         MobileTestConfig.driverWait(second).until(elementToBeClickable(element));
@@ -147,7 +147,7 @@ public class MobileCheckSteps {
     /**
      * Проверка, что кнопка/ссылка недоступна для нажатия
      */
-    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" недоступна для нажатия$")
+    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" недоступна для нажатия$")
     public void buttonIsNotActive(String elementName) {
         WebElement element = MobileTestConfig.getWebElementInCurrentPage(elementName);
         MobileTestConfig.driverWait().until(not(elementToBeClickable(element)));

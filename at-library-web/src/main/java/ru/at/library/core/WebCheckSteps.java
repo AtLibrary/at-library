@@ -35,8 +35,8 @@ public class WebCheckSteps {
      *
      * @param elementName название
      */
-    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" отображается на странице$")
-    public void elemIsPresentedOnPage(String elementName) {
+    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" отображается на странице$")
+    public void elementAppeared(String elementName) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
         element.shouldHave(appear);
     }
@@ -48,8 +48,8 @@ public class WebCheckSteps {
      * @param elementName название
      * @param seconds     количество секунд
      */
-    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" отобразился на странице в течение (\\d+) (?:секунд|секунды)")
-    public void testElementAppeared(String elementName, int seconds) {
+    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" отобразился на странице в течение (\\d+) (?:секунд|секунды)")
+    public void elementAppearedSecond(String elementName, int seconds) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
         element.waitUntil(appear, seconds * 1000);
     }
@@ -58,9 +58,9 @@ public class WebCheckSteps {
      * Проверка того, что элемент исчезнет со страницы (станет невидимым) в течение seconds
      *
      * @param elementName название
-     * @param seconds время в секундах
+     * @param seconds     время в секундах
      */
-    @И("^ожидается исчезновение (?:кнопки|ссылки|поля|чекбокса|радиокнопи|текста|элемента) \"([^\"]*)\" в течение (\\d+) (?:секунд|секунды)")
+    @И("^ожидается исчезновение (?:кнопки|ссылки|поля|чекбокса|радиокнопки|текста|элемента) \"([^\"]*)\" в течение (\\d+) (?:секунд|секунды)")
     public void elemDisappears(String elementName, int seconds) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
         element.waitUntil(disappears, seconds * 1000);
@@ -73,8 +73,8 @@ public class WebCheckSteps {
      *
      * @param elementName название
      */
-    @И("^ожидается исчезновение (?:кнопки|ссылки|поля|чекбокса|радиокнопи|текста|элемента) \"([^\"]*)\"")
-    public void elemDisappears(String elementName ) {
+    @И("^ожидается исчезновение (?:кнопки|ссылки|поля|чекбокса|радиокнопки|текста|элемента) \"([^\"]*)\"")
+    public void elemDisappears(String elementName) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
         element.shouldHave(disappears);
     }
@@ -119,7 +119,7 @@ public class WebCheckSteps {
     /**
      * Проверка, что элемент на странице кликабелен
      */
-    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" кликабельно$")
+    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" кликабельно$")
     public void clickableField(String elementName) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
         element.shouldHave(enabled);
@@ -128,7 +128,7 @@ public class WebCheckSteps {
     /**
      * Проверка, что элемент на странице кликабелен
      */
-    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" кликабельно в течение (\\d+) (?:секунд|секунды)$")
+    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" кликабельно в течение (\\d+) (?:секунд|секунды)$")
     public void clickableField(String elementName, int second) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
         element.waitUntil(enabled, second * 1000);
@@ -137,11 +137,23 @@ public class WebCheckSteps {
     /**
      * Проверка, что у элемента есть атрибут с ожидаемым значением (в приоритете: из property, из переменной сценария, значение аргумента)
      */
-    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" содержит атрибут \"([^\"]*)\" со значением \"([^\"]*)\"$")
+    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" содержит атрибут \"([^\"]*)\" со значением \"([^\"]*)\"$")
     public void checkElemContainsAtrWithValue(String elementName, String attribute, String expectedAttributeValue) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
         expectedAttributeValue = getPropertyOrStringVariableOrValue(expectedAttributeValue);
         element.shouldHave(attribute(attribute, expectedAttributeValue));
+    }
+
+
+    /**
+     * Проверка, что у элемента есть css с ожидаемым значением (в приоритете: из property, из переменной сценария, значение аргумента)
+     */
+    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" содержит css \"([^\"]*)\" со значением \"([^\"]*)\"$")
+    public void checkCssInElement(String elementName, String cssName, String cssValue) {
+        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
+        cssName = getPropertyOrStringVariableOrValue(cssName);
+        cssValue = getPropertyOrStringVariableOrValue(cssValue);
+        element.shouldHave(cssValue(cssName, cssValue));
     }
 
     /**
@@ -150,17 +162,15 @@ public class WebCheckSteps {
      * если нужно проверить что элемент не отображается на странице, но проверки Selenium отрабатывают неверно,
      * можно использовать данный метод и проверить, что среди его классов есть disabled
      */
-    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" содержит класс со значением \"([^\"]*)\"$")
+    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" содержит класс со значением \"([^\"]*)\"$")
     public void checkElemClassContainsExpectedValue(String elementName, String expectedClassValue) {
-        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
-        expectedClassValue = getPropertyOrStringVariableOrValue(expectedClassValue);
-        element.shouldHave(cssClass(expectedClassValue));
+        checkElemContainsAtrWithValue(elementName,"class",expectedClassValue);
     }
 
     /**
      * Проверка, что элемент не содержит указанный класс
      */
-    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" не содержит класс со значением \"([^\"]*)\"$")
+    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" не содержит класс со значением \"([^\"]*)\"$")
     public void checkElemClassNotContainsExpectedValue(String elementName, String expectedClassValue) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
         expectedClassValue = getPropertyOrStringVariableOrValue(expectedClassValue);
@@ -173,8 +183,8 @@ public class WebCheckSteps {
      * (в приоритете: из property, из переменной сценария, значение аргумента).
      * Не чувствителен к регистру
      */
-    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" содержит текст \"([^\"]*)\"$")
-    @А("^(?:кнопка|ссылка|поле|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" содержит текст")
+    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" содержит текст \"([^\"]*)\"$")
+    @А("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" содержит текст")
     public void testFieldContainsInnerText(String elementName, String expectedValue) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
@@ -182,6 +192,22 @@ public class WebCheckSteps {
                 or("Текст элемента содержит",
                         text(expectedValue),
                         value(expectedValue)));
+    }
+
+    /**
+     * Проверка, что значение в поле содержит текст, указанный в шаге
+     * (в приоритете: из property, из переменной сценария, значение аргумента).
+     * Не чувствителен к регистру
+     */
+    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" не содержит текст \"([^\"]*)\"$")
+    @А("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" не содержит текст")
+    public void testFieldNotContainsInnerText(String elementName, String expectedValue) {
+        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
+        expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
+        element.shouldHave(
+                and("Текст элемента не содержит",
+                        not(text(expectedValue)),
+                        not(value(expectedValue))));
     }
 
 
@@ -202,26 +228,9 @@ public class WebCheckSteps {
 
 
     /**
-     * Проверка, что значение в поле содержит текст, указанный в шаге
-     * (в приоритете: из property, из переменной сценария, значение аргумента).
-     * Не чувствителен к регистру
-     */
-    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" не содержит текст \"([^\"]*)\"$")
-    @А("^(?:кнопка|ссылка|поле|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" не содержит текст")
-    public void testFieldNotContainsInnerText(String elementName, String expectedValue) {
-        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
-        expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
-        element.shouldHave(
-                and("Текст элемента не содержит",
-                        not(text(expectedValue)),
-                        not(value(expectedValue))));
-    }
-
-
-    /**
      * Проверка, что кнопка/ссылка недоступна для нажатия
      */
-    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" (?:недоступна|недоступен) для нажатия$")
+    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" (?:недоступна|недоступен) для нажатия$")
     public void buttonIsNotActive(String elementName) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
         element.shouldHave(disabled);
@@ -340,8 +349,8 @@ public class WebCheckSteps {
      * (в приоритете: из property, из переменной сценария, значение аргумента).
      * Не чувствителен к регистру
      */
-    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" содержит текст \"([^\"]*)\"$")
-    @А("^(?:кнопка|ссылка|поле|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" содержит текст")
+    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" содержит текст \"([^\"]*)\"$")
+    @А("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" содержит текст")
     public void testFieldContainsInnerText(String elementName, String blockName, String expectedValue) {
         CorePage currentPage = coreScenario.getCurrentPage();
 
@@ -381,7 +390,7 @@ public class WebCheckSteps {
      * @param elementName имя элемента
      * @param blockName   имя блока
      */
-    @А("^(?:кнопка|ссылка|поле|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" отображается на странице")
+    @А("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" отображается на странице")
     public void visible(String elementName, String blockName) {
         CorePage currentPage = coreScenario.getCurrentPage();
 
@@ -398,7 +407,7 @@ public class WebCheckSteps {
      * @param elementName имя элемента
      * @param blockName   имя блока
      */
-    @А("^(?:кнопка|ссылка|поле|чекбокс|радиокнопа|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" не отображается на странице")
+    @А("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" не отображается на странице")
     public void notVisible(String elementName, String blockName) {
         CorePage currentPage = coreScenario.getCurrentPage();
 

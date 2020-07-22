@@ -210,18 +210,18 @@ public class WebListSteps {
                 .shouldHaveSize(numberOfElements);
     }
 
-//
-//    /**
-//     * Производится сопоставление числа элементов списка и значения, указанного в шаге
-//     */
-//    @И("^в списке \"([^\"]*)\" содержится (более|менее) (\\d+) (?:элементов|элемента)")
-//    public void listContainsMoreOrLessElements(String listName, String moreOrLess, int quantity) {
-//        ElementsCollection listOfElementsFromPage = coreScenario.getCurrentPage().getElementsList(listName);
-//        if ("более".equals(moreOrLess)) {
-//            assertTrue(String.format("Число элементов списка меньше ожидаемого: %s", listOfElementsFromPage.size()), listOfElementsFromPage.size() > quantity);
-//        } else
-//            assertTrue(String.format("Число элементов списка превышает ожидаемое: %s", listOfElementsFromPage.size()), listOfElementsFromPage.size() < quantity);
-//    }
+
+    /**
+     * Производится сопоставление числа элементов списка и значения, указанного в шаге
+     */
+    @И("^в списке \"([^\"]*)\" содержится (более|менее) (\\d+) (?:элементов|элемента)")
+    public void listContainsMoreOrLessElements(String listName, String moreOrLess, int quantity) {
+        ElementsCollection listOfElementsFromPage = coreScenario.getCurrentPage().getElementsList(listName);
+        if ("более".equals(moreOrLess)) {
+            listOfElementsFromPage.shouldHave(CollectionCondition.sizeGreaterThan(quantity));
+        } else
+            listOfElementsFromPage.shouldHave(CollectionCondition.sizeLessThan(quantity));
+    }
 
 //    /**
 //     * @param blockName имя блока

@@ -203,7 +203,6 @@ public class WebActionSteps {
     public String setFieldValue(String elementName, String value) {
         value = getPropertyOrStringVariableOrValue(value);
         SelenideElement valueInput = coreScenario.getCurrentPage().getElement(elementName);
-//        cleanField(elementName);
         valueInput.setValue(value);
         return value;
     }
@@ -253,7 +252,7 @@ public class WebActionSteps {
         }
 
         if (valueInput.is(Condition.not(Condition.empty))) {
-            for (char character: valueInput.getValue().toCharArray()){
+            for (char character : valueInput.getValue().toCharArray()) {
                 valueInput.sendKeys(Keys.BACK_SPACE);
             }
         }
@@ -356,8 +355,6 @@ public class WebActionSteps {
     public void setRandomCharSequence(String elementName, String seqLengthString, String lang) {
         int seqLength = Integer.parseInt(seqLengthString);
         SelenideElement valueInput = coreScenario.getCurrentPage().getElement(elementName);
-//        cleanField(elementName);
-
         if (lang.equals("кириллице")) lang = "ru";
         else lang = "en";
         String charSeq = getRandCharSequence(seqLength, lang);
@@ -373,8 +370,6 @@ public class WebActionSteps {
     public void setRandomCharSequenceAndSaveToVar(String elementName, String seqLengthString, String lang, String varName) {
         int seqLength = Integer.parseInt(seqLengthString);
         SelenideElement valueInput = coreScenario.getCurrentPage().getElement(elementName);
-//        cleanField(elementName);
-
         if (lang.equals("кириллице")) lang = "ru";
         else lang = "en";
         String charSeq = getRandCharSequence(seqLength, lang);
