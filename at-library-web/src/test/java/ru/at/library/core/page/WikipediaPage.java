@@ -16,6 +16,10 @@ public class WikipediaPage extends CorePage {
     @FindBy(css = "[id=\"mw-panel\"] li")
     public ElementsCollection linkList;
 
+    @Name("Инструменты")
+    @FindBy(css = "[id=\"p-tb\"] li")
+    public ElementsCollection listToolsLink;
+
     @Name("Нет списка")
     @FindBy(css = "[id=\"not-spisok\"] li")
     public ElementsCollection notList;
