@@ -37,7 +37,7 @@ public class WebCheckSteps {
     /**
      * Проверка того, что блок отображается
      */
-    @И("^(?:страница|блок|форма|вкладка) \"([^\"]*)\" отображается")
+    @И("^(?:страница|блок|форма|вкладка) \"([^\"]*)\" отображается на странице$")
     public void blockAppeared(String nameOfPage) {
         coreScenario.getPage(nameOfPage).isAppeared();
     }
@@ -45,7 +45,7 @@ public class WebCheckSteps {
     /**
      * Проверка того, что блок исчез/стал невидимым
      */
-    @И("^(?:страница|блок|форма|вкладка) \"([^\"]*)\" не отображается")
+    @И("^(?:страница|блок|форма|вкладка) \"([^\"]*)\" не отображается на странице$")
     public void blockDisappeared(String nameOfPage) {
         if (isIE()) {
             coreScenario.getPage(nameOfPage).ieDisappeared();
