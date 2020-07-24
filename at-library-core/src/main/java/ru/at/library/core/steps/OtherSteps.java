@@ -15,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -155,6 +156,14 @@ public class OtherSteps {
         boolean variableCheck = checkResult(variableValue, "Переменная сценария " + propertyNameOrVariableNameOrValue);
 
         return propertyCheck ? propertyValue : (variableCheck ? variableValue : propertyNameOrVariableNameOrValue);
+    }
+
+    public static List<String> getPropertyOrStringVariableOrValue(List<String> textTable) {
+        List<String> list = new ArrayList<>();
+        for (String text : textTable) {
+            list.add(getPropertyOrStringVariableOrValue(text));
+        }
+        return list;
     }
 
     public static boolean checkResult(String result, String message) {

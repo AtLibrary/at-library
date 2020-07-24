@@ -6,16 +6,11 @@ import cucumber.api.java.ru.А;
 import cucumber.api.java.ru.И;
 import ru.at.library.core.cucumber.api.CoreScenario;
 
-import java.io.File;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Selenide.sleep;
 import static com.codeborne.selenide.WebDriverRunner.isIE;
-import static org.junit.Assert.*;
-import static ru.at.library.core.steps.OtherSteps.*;
+import static org.junit.Assert.assertEquals;
+import static ru.at.library.core.steps.OtherSteps.getPropertyOrStringVariableOrValue;
 
 /**
  * WEB шаги
@@ -28,6 +23,44 @@ import static ru.at.library.core.steps.OtherSteps.*;
  */
 public class WebCheckSteps {
     private CoreScenario coreScenario = CoreScenario.getInstance();
+
+    /**
+     * ------------------------------------------------------------------------------------------------------
+     * ------------------------------------------------------------------------------------------------------
+     * ------------------------------------------------------------------------------------------------------
+     * ---------------------------------------TODO Проверки страниц------------------------------------------
+     * ------------------------------------------------------------------------------------------------------
+     * ------------------------------------------------------------------------------------------------------
+     * ------------------------------------------------------------------------------------------------------
+     */
+
+    /**
+     * Проверка того, что блок отображается
+     */
+    @И("^(?:страница|блок|форма|вкладка) \"([^\"]*)\" отображается")
+    public void blockAppeared(String nameOfPage) {
+        coreScenario.getPage(nameOfPage).isAppeared();
+    }
+
+    /**
+     * Проверка того, что блок исчез/стал невидимым
+     */
+    @И("^(?:страница|блок|форма|вкладка) \"([^\"]*)\" не отображается")
+    public void blockDisappeared(String nameOfPage) {
+        if (isIE()) {
+            coreScenario.getPage(nameOfPage).ieDisappeared();
+        } else coreScenario.getPage(nameOfPage).disappeared();
+    }
+
+    /**
+     * ------------------------------------------------------------------------------------------------------
+     * ------------------------------------------------------------------------------------------------------
+     * ------------------------------------------------------------------------------------------------------
+     * ---------------------------------------TODO Проверки элементов----------------------------------------
+     * ------------------------------------------------------------------------------------------------------
+     * ------------------------------------------------------------------------------------------------------
+     * ------------------------------------------------------------------------------------------------------
+     */
 
     /**
      * Проверка появления элемента(не списка) на странице в течение Configuration.timeout.
@@ -49,7 +82,7 @@ public class WebCheckSteps {
      * @param elementName название
      * @param seconds     количество секунд
      */
-    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" отобразился на странице в течение (\\d+) (?:секунд|секунды)")
+    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" отобразится на странице в течение (\\d+) (?:секунд|секунды)")
     public void elementAppearedSecond(String elementName, int seconds) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
         element.waitUntil(appear, seconds * 1000);
@@ -69,60 +102,41 @@ public class WebCheckSteps {
     }
 
     /**
-     * Проверка появления элемента(не списка) на странице в течение
-     * заданного количества секунд
      *
      * @param elementName название
      * @param seconds     количество секунд
      */
-    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" не отобразился на странице в течение (\\d+) (?:секунд|секунды)")
+    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" не отобразится на странице в течение (\\d+) (?:секунд|секунды)")
     public void elementHiddenSecond(String elementName, int seconds) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
         element.waitUntil(hidden, seconds * 1000);
     }
 
     /**
-     * Проверка того, что элемент исчезнет со страницы (станет невидимым) в течение Configuration.timeout.
-     * В случае, если свойство "waitingCustomElementsTimeout" в application.properties не задано,
-     * таймаут равен 10 секундам
-     *
-     * @param elementName название
+     * Проверка, что элемент на странице доступен для нажатия
      */
-    @И("^ожидается исчезновение (?:кнопки|ссылки|поля|чекбокса|радиокнопки|текста|элемента) \"([^\"]*)\"")
-    public void elemDisappears(String elementName) {
+    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" (?:доступна|доступен) для нажатия$")
+    public void clickableField(String elementName) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
-        element.shouldHave(disappears);
+        element.shouldHave(enabled);
     }
 
     /**
-     * Проверка того, что элемент исчезнет со страницы (станет невидимым) в течение seconds
-     *
-     * @param elementName название
-     * @param seconds     время в секундах
+     * Проверка, что элемент на странице доступен для нажатия
      */
-    @И("^ожидается исчезновение (?:кнопки|ссылки|поля|чекбокса|радиокнопки|текста|элемента) \"([^\"]*)\" в течение (\\d+) (?:секунд|секунды)")
-    public void elemDisappears(String elementName, int seconds) {
+    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" (?:доступна|доступен) для нажатия в течение (\\d+) (?:секунд|секунды)$")
+    public void clickableField(String elementName, int second) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
-        element.waitUntil(disappears, seconds * 1000);
-    }
-
-
-    /**
-     * Проверка того, что блок исчез/стал невидимым
-     */
-    @И("^(?:страница|блок|форма) \"([^\"]*)\" (?:скрыт|скрыта)")
-    public void blockDisappeared(String nameOfPage) {
-        if (isIE()) {
-            coreScenario.getPage(nameOfPage).ieDisappeared();
-        } else coreScenario.getPage(nameOfPage).disappeared();
+        element.waitUntil(enabled, second * 1000);
     }
 
     /**
-     * Проверка того, что блок отображается
+     * Проверка, что элемент не недоступен для нажатия
      */
-    @И("^(?:блок|форма) \"([^\"]*)\" отображается на странице")
-    public void blockAppeared(String nameOfPage) {
-        coreScenario.getPage(nameOfPage).isAppeared();
+    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" (?:недоступна|недоступен) для нажатия$")
+    public void buttonIsNotActive(String elementName) {
+        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
+        element.shouldHave(disabled);
     }
 
     /**
@@ -137,29 +151,11 @@ public class WebCheckSteps {
     /**
      * Сохранение значения элемента в переменную
      */
-    @И("^значение (?:поля|элемента|текста) \"([^\"]*)\" сохранено в переменную \"([^\"]*)\"$")
+    @И("^значение (?:кнопки|ссылки|поля|чекбокса|радиокнопки|текста|элемента) \"([^\"]*)\" сохранено в переменную \"([^\"]*)\"$")
     public void storeElementValueInVariable(String elementName, String variableName) {
         String text = coreScenario.getCurrentPage().getElement(elementName).getText();
         coreScenario.setVar(variableName, text);
         coreScenario.write("Значение [" + text + "] сохранено в переменную [" + variableName + "]");
-    }
-
-    /**
-     * Проверка, что элемент на странице кликабелен
-     */
-    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" кликабельно$")
-    public void clickableField(String elementName) {
-        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
-        element.shouldHave(enabled);
-    }
-
-    /**
-     * Проверка, что элемент на странице кликабелен
-     */
-    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" кликабельно в течение (\\d+) (?:секунд|секунды)$")
-    public void clickableField(String elementName, int second) {
-        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
-        element.waitUntil(enabled, second * 1000);
     }
 
     /**
@@ -172,7 +168,6 @@ public class WebCheckSteps {
         element.shouldHave(attribute(attribute, expectedAttributeValue));
     }
 
-
     /**
      * Проверка, что у элемента есть css с ожидаемым значением (в приоритете: из property, из переменной сценария, значение аргумента)
      */
@@ -183,28 +178,6 @@ public class WebCheckSteps {
         cssValue = getPropertyOrStringVariableOrValue(cssValue);
         element.shouldHave(cssValue(cssName, cssValue));
     }
-
-    /**
-     * Проверка, что элемент содержит указанный класс (в приоритете: из property, из переменной сценария, значение аргумента)
-     * Например:
-     * если нужно проверить что элемент не отображается на странице, но проверки Selenium отрабатывают неверно,
-     * можно использовать данный метод и проверить, что среди его классов есть disabled
-     */
-    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" содержит класс со значением \"([^\"]*)\"$")
-    public void checkElemClassContainsExpectedValue(String elementName, String expectedClassValue) {
-        checkElemContainsAtrWithValue(elementName,"class",expectedClassValue);
-    }
-
-    /**
-     * Проверка, что элемент не содержит указанный класс
-     */
-    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" не содержит класс со значением \"([^\"]*)\"$")
-    public void checkElemClassNotContainsExpectedValue(String elementName, String expectedClassValue) {
-        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
-        expectedClassValue = getPropertyOrStringVariableOrValue(expectedClassValue);
-        element.shouldHave(not(cssClass(expectedClassValue)));
-    }
-
 
     /**
      * Проверка, что значение в поле содержит текст, указанный в шаге
@@ -238,7 +211,6 @@ public class WebCheckSteps {
                         not(value(expectedValue))));
     }
 
-
     /**
      * Проверка, что текста в поле равен значению, указанному в шаге
      * (в приоритете: из property, из переменной сценария, значение аргумента)
@@ -254,14 +226,13 @@ public class WebCheckSteps {
                         exactValue(expectedValue)));
     }
 
-
     /**
-     * Проверка, что кнопка/ссылка недоступна для нажатия
+     * Производится проверка количества символов в элементе со значением, указанным в шаге
      */
-    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" (?:недоступна|недоступен) для нажатия$")
-    public void buttonIsNotActive(String elementName) {
-        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
-        element.shouldHave(disabled);
+    @И("^в (?:кнопке|ссылке|поле|чекбоксе|радиокнопке|тексте|элементе) \"([^\"]*)\" содержится (\\d+) символов$")
+    public void checkFieldSymbolsCount(String elementName, int num) {
+        int length = coreScenario.getCurrentPage().getElement(elementName).getText().length();
+        assertEquals(String.format("Неверное количество символов. Ожидаемый результат: %s, текущий результат: %s", num, length), num, length);
     }
 
     /**
@@ -300,77 +271,16 @@ public class WebCheckSteps {
         element.shouldHave(not(checked));
     }
 
-    /**
-     * Проверка, что поле недоступно для редактирования
-     */
-    @И("^(?:поле|элемент) \"([^\"]*)\" (?:недоступно|недоступен) для редактирования$")
-    public void fieldIsDisable(String elementName) {
-        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
-        element.shouldHave(disabled);
-    }
 
     /**
-     * Проверка, что на странице не отображаются редактируемые элементы, такие как:
-     * -input
-     * -textarea
+     * ------------------------------------------------------------------------------------------------------
+     * ------------------------------------------------------------------------------------------------------
+     * ------------------------------------------------------------------------------------------------------
+     * ---------------------------------------TODO Проверки в Блоке------------------------------------------
+     * ------------------------------------------------------------------------------------------------------
+     * ------------------------------------------------------------------------------------------------------
+     * ------------------------------------------------------------------------------------------------------
      */
-    @И("^открыта read-only форма$")
-    public void openReadOnlyForm() {
-        int inputsCount = getDisplayedElementsByCss("input").size();
-        assertTrue("Форма не read-only. Количество input-полей: " + inputsCount, inputsCount == 0);
-        int textareasCount = getDisplayedElementsByCss("textarea").size();
-        assertTrue("Форма не read-only. Количество элементов textarea: " + textareasCount, textareasCount == 0);
-    }
-
-    private List<SelenideElement> getDisplayedElementsByCss(String cssSelector) {
-        return $$(cssSelector).stream()
-                .filter(SelenideElement::isDisplayed)
-                .collect(Collectors.toList());
-    }
-
-
-    /**
-     * Выполняется поиск нужного файла в папке /Downloads
-     * Поиск осуществляется по содержанию ожидаемого текста в названии файла. Можно передавать регулярное выражение.
-     * После выполнения проверки файл удаляется
-     */
-    @И("^файл \"([^\"]*)\" загрузился в папку /Downloads$")
-    public void testFileDownloaded(String fileName) {
-        File downloads = getDownloadsDir();
-        File[] expectedFiles = downloads.listFiles((files, file) -> file.contains(fileName));
-        assertNotNull("Ошибка поиска файла", expectedFiles);
-        assertFalse("Файл не загрузился", expectedFiles.length == 0);
-        assertTrue(String.format("В папке присутствуют более одного файла с одинаковым названием, содержащим текст [%s]", fileName),
-                expectedFiles.length == 1);
-        deleteFiles(expectedFiles);
-    }
-
-
-    /**
-     * Производится проверка количества символов в поле со значением, указанным в шаге
-     */
-    @И("^в поле \"([^\"]*)\" содержится (\\d+) символов$")
-    public void checkFieldSymbolsCount(String elementName, int num) {
-        int length = coreScenario.getCurrentPage().getElement(elementName).getText().length();
-        assertEquals(String.format("Неверное количество символов. Ожидаемый результат: %s, текущий результат: %s", num, length), num, length);
-    }
-
-//------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------
-//----------------------------------------Проверки в Блоке----------------------------------------------
-//------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------
 
 
     /**

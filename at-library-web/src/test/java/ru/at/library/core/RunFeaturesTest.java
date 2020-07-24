@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         monochrome = true,
         plugin = {"io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm", "pretty"},
-        tags = "@mrt_regress",
+        tags = "@unit",
         features = "src/test/resources/features",
         glue = {"ru"}
 )

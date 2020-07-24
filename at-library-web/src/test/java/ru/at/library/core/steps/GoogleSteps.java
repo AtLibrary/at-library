@@ -3,7 +3,7 @@ package ru.at.library.core.steps;
 import cucumber.api.java.ru.И;
 import ru.at.library.core.WebActionSteps;
 
-public class BrokerDemoPageSteps {
+public class GoogleSteps {
 
     @И("создание пользователя с ФИО: \"([^\"]*)\" телефон: \"([^\"]*)\" email: \"([^\"]*)\"")
     public void loginSystem(String fio, String password, String email) {

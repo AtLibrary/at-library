@@ -54,7 +54,7 @@ public class BrowserSteps {
      *                меняются на их значения из хранилища coreScenario
      */
     @И("^совершен переход по ссылке \"([^\"]*)\"$")
-    public void goToUrl(String address) {
+    public void openUrl(String address) {
         String url = resolveVars(getPropertyOrStringVariableOrValue(address));
         open(url);
         coreScenario.write("Url = " + url);
@@ -117,6 +117,13 @@ public class BrowserSteps {
     public void checkCurrentURLIsNotEquals(String hardcodeUrl) {
         String currentUrl = url();
         String expectedURL = formALinkExpectedURL(hardcodeUrl);
+        int sleepTime = 100;
+
+        for (int time = 0; time < Configuration.timeout; time += sleepTime) {
+            if (currentUrl.equals(expectedURL)) {
+                sleep(sleepTime);
+            }
+        }
 
         assertThat("Текущий URL совпадает с ожидаемым", currentUrl, Matchers.not(expectedURL));
     }
@@ -324,14 +331,41 @@ public class BrowserSteps {
     }
 
     /**
+     * проверка cookie по имени.
+     * Сохранение cookie в переменную для дальнейшего использования
+     *
+     * @param cookieName          имя cookie
+     * @param expectedCookieValue предполагаемое содержимое cookie
+     */
+    @И("^содержимое cookie с именем \"([^\"]*)\" равно \"([^\"]*)\"$")
+    public void checkValueCookie(String cookieName, String expectedCookieValue) {
+        cookieName = getPropertyOrStringVariableOrValue(cookieName);
+        expectedCookieValue = getPropertyOrStringVariableOrValue(expectedCookieValue);
+
+        int sleepTime = 100;
+        for (int time = 0; time < Configuration.timeout; time += sleepTime) {
+            Cookie cookie = getWebDriver().manage().getCookieNamed(cookieName);
+            if (cookie.getValue().equals(expectedCookieValue)) {
+                return;
+            }
+            sleep(sleepTime);
+        }
+
+        takeScreenshot();
+        fail("Содержимое cookie c именем: " + cookieName + " : " + getWebDriver().manage().getCookieNamed(cookieName).getValue());
+    }
+
+    /**
      * Сохраняем все cookies в переменную для дальнейшего использования
      *
      * @param variableName имя переменной
      */
     @И("^cookies сохранены в переменную \"([^\"]*)\"$")
     public void saveAllCookies(String variableName) {
-        Set cookies = getWebDriver().manage().getCookies();
-        coreScenario.setVar(variableName, cookies);
+        coreScenario.setVar(
+                variableName,
+                getWebDriver().manage().getCookies()
+        );
     }
 
     /**

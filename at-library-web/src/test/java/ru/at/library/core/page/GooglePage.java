@@ -5,10 +5,10 @@ import org.openqa.selenium.support.FindBy;
 import ru.at.library.core.cucumber.annotations.Name;
 import ru.at.library.core.cucumber.api.CorePage;
 
-@Name("ВТБ")
-public class VTBPage extends CorePage {
+@Name("Главная")
+public class GooglePage extends CorePage {
 
-    @Name("ВТБ-Онлайн")
-    @FindBy(css = "[href=\"https://www.vtb.ru/app\"]")
-    public SelenideElement buttonOnlineVtb;
+    @Name("Поиск")
+    @FindBy(css = "input[name=\"q\"]")
+    public SelenideElement searchInput;
 }

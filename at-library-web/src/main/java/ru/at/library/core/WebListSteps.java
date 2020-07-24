@@ -1,6 +1,7 @@
 package ru.at.library.core;
 
 import com.codeborne.selenide.CollectionCondition;
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import cucumber.api.java.ru.И;
@@ -17,22 +18,6 @@ public class WebListSteps {
 
     private CoreScenario coreScenario = CoreScenario.getInstance();
 
-//    /**
-//     * Проверка того, что значение из поля содержится в списке,
-//     * полученном из хранилища переменных по заданному ключу
-//     *
-//     * @param variableListName имя переменной
-//     * @param elementName      имя :поля|элемента
-//     */
-//    @SuppressWarnings("unchecked")
-//    @И("^список из переменной \"([^\"]*)\" содержит значение (?:поля|элемента) \"([^\"]*)\"$")
-//    public void checkIfListContainsValueFromField(String variableListName, String elementName) {
-//        String actualValue = coreScenario.getCurrentPage().getAnyElementText(elementName);
-//        List<String> listFromVariable = ((List<String>) coreScenario.getVar(variableListName));
-//        assertTrue(String.format("Список из переменной [%s] не содержит значение поля [%s]", variableListName, elementName),
-//                listFromVariable.contains(actualValue));
-//    }
-
     /**
      * Проверка появления списка на странице в течение Configuration.timeout.
      *
@@ -45,15 +30,15 @@ public class WebListSteps {
     }
 
     /**
-     * Проверка, что список со страницы состоит только из элементов,
-     * перечисленных в таблице
-     * Для получения текста из элементов списка используется метод getText()
+     *
      */
     @И("список элементов \"([^\"]*)\" включает в себя список из таблицы$")
     public void checkIfListConsistsOfTableElements(String listName, List<String> textTable) {
-        //TODO добавить getPropertyOrStringVariableOrValue(expectedValue);
+        textTable = getPropertyOrStringVariableOrValue(textTable);
         ElementsCollection elements = coreScenario.getCurrentPage().getElementsList(listName);
-        elements.shouldHave(CollectionCondition.texts(textTable));
+        for (String expectedText : textTable) {
+            elements.find(text(expectedText)).shouldHave(text(expectedText));
+        }
     }
 
     /**
@@ -63,16 +48,16 @@ public class WebListSteps {
      */
     @И("^список элементов \"([^\"]*)\" равен списку из таблицы$")
     public void checkIfListInnerTextConsistsOfTableElements(String listName, List<String> textTable) {
-        //TODO добавить getPropertyOrStringVariableOrValue(expectedValue);
+        textTable = getPropertyOrStringVariableOrValue(textTable);
         ElementsCollection elements = coreScenario.getCurrentPage().getElementsList(listName);
-        elements.shouldHave(CollectionCondition.exactTexts(textTable));
+        elements.shouldHave(CollectionCondition.textsInAnyOrder(textTable));
     }
 
     /**
      * Выбор из списка со страницы элемента с заданным значением
      * (в приоритете: из property, из переменной сценария, значение аргумента)
      */
-    @И("^нажатие на первый элемент с (?:текстом|значением) \"(.*)\" в списке \"([^\"]*)\"$")
+    @И("^нажатие на элемент с (?:текстом|значением) \"([^\"]*)\" в списке \"([^\"]*)\"$")
     public void checkIfSelectedListElementMatchesValue(String expectedValue, String listName) {
         final String value = getPropertyOrStringVariableOrValue(expectedValue);
         ElementsCollection elements = coreScenario.getCurrentPage().getElementsList(listName);
@@ -84,28 +69,12 @@ public class WebListSteps {
      * (в приоритете: из property, из переменной сценария, значение аргумента)
      * Не чувствителен к регистру
      */
-    @И("^нажатие на первый элемент содержащий (?:текстом|значением) \"(.*)\" в списке \"([^\"]*)\"$")
-    public void selectElementInListIfFoundByText(String listName, String expectedValue) {
+    @И("^нажатие на элемент содержащий (?:текст|значение) \"(.*)\" в списке \"([^\"]*)\"$")
+    public void selectElementInListIfFoundByText(String expectedValue, String listName) {
         final String value = getPropertyOrStringVariableOrValue(expectedValue);
         ElementsCollection elements = coreScenario.getCurrentPage().getElementsList(listName);
         elements.find(text(value)).click();
     }
-
-//    /**
-//     * Проверка, что список со страницы совпадает со списком из переменной
-//     * без учёта порядка элементов
-//     * Для получения текста из элементов списка используется метод innerText()
-//     */
-//    @SuppressWarnings("unchecked")
-//    @И("^список \"([^\"]*)\" на странице совпадает со списком \"([^\"]*)\"$")
-//    public void checkListInnerTextCorrespondsToListFromVariable(String listName, String listVariable) {
-//        List<String> expectedList = new ArrayList<>((List<String>) coreScenario.getVar(listVariable));
-//        List<String> actualList = new ArrayList<>(coreScenario.getCurrentPage().getAnyElementsListInnerTexts(listName));
-//        assertThat(String.format("Количество элементов списка %s = %s, ожидаемое значение = %s", listName, actualList.size(), expectedList.size()), actualList,
-//                hasSize(expectedList.size()));
-//        assertThat(String.format("Список со страницы %s: %s не совпадает с ожидаемым списком из переменной %s:%s", listName, actualList, listVariable, expectedList)
-//                , actualList, containsInAnyOrder(expectedList.toArray()));
-//    }
 
     /**
      * /**
@@ -119,18 +88,15 @@ public class WebListSteps {
         elements.first().shouldHave(not(visible));
     }
 
-//
-//    /**
-//     * Проверка, что список со страницы совпадает со списком из переменной
-//     * без учёта порядка элементов
-//     */
-//    @SuppressWarnings("unchecked")
-//    @И("^список \"([^\"]*)\" со страницы совпадает со списком \"([^\"]*)\"$")
-//    public void compareListFromUIAndFromVariable(String listName, String listVariable) {
-//        HashSet<String> expectedList = new HashSet<>((List<String>) coreScenario.getVar(listVariable));
-//        HashSet<String> actualList = new HashSet<>(coreScenario.getCurrentPage().getAnyElementsListTexts(listName));
-//        assertThat(String.format("Список со страницы [%s] не совпадает с ожидаемым списком из переменной [%s]", listName, listVariable), actualList, equalTo(expectedList));
-//    }
+    /**
+     * Выбор n-го элемента из списка со страницы
+     * Нумерация элементов начинается с 1
+     */
+    @И("^нажатие на \"([^\"]*)\"-й элемент в списке \"([^\"]*)\"$")
+    public void selectElementNumberFromList(String number, String listName) {
+        coreScenario.getCurrentPage().getElementsList(listName)
+                .get(Integer.parseInt(number)-1).click();
+    }
 
     /**
      * Выбор из списка со страницы любого случайного элемента
@@ -157,15 +123,7 @@ public class WebListSteps {
                 coreScenario.getVar(varName), listName));
     }
 
-    /**
-     * Выбор n-го элемента из списка со страницы
-     * Нумерация элементов начинается с 1
-     */
-    @И("^нажатие на \"([^\"]*)\"-й элемент в списке \"([^\"]*)\"$")
-    public void selectElementNumberFromList(String number, String listName) {
-        coreScenario.getCurrentPage().getElementsList(listName)
-                .get(Integer.parseInt(number)).click();
-    }
+
 
     /**
      * Проверка, что каждый элемент списка содержит ожидаемый текст
@@ -174,7 +132,7 @@ public class WebListSteps {
     public void checkListElementsContainsText(String listName, String expectedValue) {
         final String value = getPropertyOrStringVariableOrValue(expectedValue);
         ElementsCollection elements = coreScenario.getCurrentPage().getElementsList(listName);
-        elements.shouldHave(CollectionCondition.exactTexts(value));
+        elements.find(Condition.text(value)).shouldHave(text(value));
     }
 
     /**
@@ -184,21 +142,9 @@ public class WebListSteps {
     public void checkListElementsNotContainsText(String listName, String expectedValue) {
         final String value = getPropertyOrStringVariableOrValue(expectedValue);
         ElementsCollection elements = coreScenario.getCurrentPage().getElementsList(listName);
-        elements.shouldHave(CollectionCondition.exactTexts(value));
-        //TODO исправить при первом падении
+        elements.filter(Condition.text(value)).shouldHaveSize(0);
     }
 
-//    /**
-//     * Проход по списку и проверка текста у элемента на соответствие формату регулярного выражения
-//     */
-//    @И("элементы списка \"([^\"]*)\" соответствуют формату \"([^\"]*)\"$")
-//    public void checkListTextsByRegExp(String listName, String pattern) {
-//        coreScenario.getCurrentPage().getElementsList(listName).forEach(element -> {
-//            String str = coreScenario.getCurrentPage().getAnyElementText(element);
-//            assertTrue(format("Текст '%s' из списка '%s' не соответствует формату регулярного выражения", str, listName),
-//                    isTextMatches(str, pattern));
-//        });
-//    }
 
     /**
      * Производится проверка соответствия числа элементов списка значению, указанному в шаге
@@ -223,29 +169,4 @@ public class WebListSteps {
             listOfElementsFromPage.shouldHave(CollectionCondition.sizeLessThan(quantity));
     }
 
-//    /**
-//     * @param blockName имя блока
-//     * @param listName
-//     * @param varName
-//     */
-//    @И("^в блоке \"([^\"]*)\" найден список элементов\"([^\"]*)\" и сохранен в переменную \"([^\"]*)\"$")
-//    public void getElementsList(String blockName, String listName, String varName) {
-//        coreScenario.setVar(varName, coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName));
-//    }
-//
-//    /**
-//     * @param blockName имя блока
-//     * @param listName
-//     * @param varName
-//     */
-//    @И("^в блоке \"([^\"]*)\" найден список элементов\"([^\"]*)\" и сохранен текст в переменную \"([^\"]*)\"$")
-//    public void getListElementsText(String blockName, String listName, String varName) {
-//        coreScenario.setVar(varName,
-//                coreScenario.getCurrentPage()
-//                        .getBlock(blockName)
-//                        .getElementsList(listName)
-//                        .stream()
-//                        .map(SelenideElement::getText)
-//                        .collect(Collectors.toList()));
-//    }
 }

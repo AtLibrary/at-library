@@ -18,15 +18,11 @@ import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.ClipboardOwner;
 import java.awt.datatransfer.StringSelection;
-import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverRunner.isIE;
 import static com.codeborne.selenide.WebDriverRunner.url;
-import static ru.at.library.core.core.helpers.PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault;
 import static ru.at.library.core.cucumber.ScopedVariables.resolveVars;
 import static ru.at.library.core.steps.OtherSteps.*;
 
@@ -41,6 +37,40 @@ import static ru.at.library.core.steps.OtherSteps.*;
  */
 public class WebActionSteps {
     private CoreScenario coreScenario = CoreScenario.getInstance();
+
+    /**
+     * Проверка того, что все элементы, которые описаны в классе страницы с аннотацией @Name,
+     * но без аннотации @Optional появились на странице
+     * в течение WAITING_APPEAR_TIMEOUT, которое равно значению свойства "waitingAppearTimeout"
+     * из application.properties. Если свойство не найдено, время таймаута равно 8 секундам
+     *
+     * @param nameOfPage название страница|блок|форма|вкладка
+     */
+    @И("^(?:страница|блок|форма|вкладка) \"([^\"]*)\" (?:загрузилась|загрузился)$")
+    public void loadPage(String nameOfPage) {
+        coreScenario.setCurrentPage(coreScenario.getPage(nameOfPage));
+        if (isIE()) {
+            coreScenario.getCurrentPage().ieAppeared();
+        } else {
+            coreScenario.getCurrentPage().appeared();
+        }
+    }
+
+    /**
+     * Проверка того, что все элементы, которые описаны в классе страницы с аннотацией @Name,
+     * но без аннотации @Optional, не появились на странице
+     *
+     * @param nameOfPage название страница|блок|форма|вкладка
+     */
+    @И("^(?:страница|блок|форма|вкладка) \"([^\"]*)\" не (?:загрузилась|загрузился)$")
+    public void loadPageFailed(String nameOfPage) {
+        coreScenario.setCurrentPage(coreScenario.getPage(nameOfPage));
+        if (isIE()) {
+            coreScenario.getCurrentPage().ieDisappeared();
+        } else {
+            coreScenario.getCurrentPage().disappeared();
+        }
+    }
 
     /**
      * Выполняется переход по заданной ссылке.
@@ -79,40 +109,6 @@ public class WebActionSteps {
         coreScenario.getCurrentPage().getElement(elementName).click();
         loadPage(pageName);
         coreScenario.write(" url = " + url());
-    }
-
-    /**
-     * Проверка того, что все элементы, которые описаны в классе страницы с аннотацией @Name,
-     * но без аннотации @Optional появились на странице
-     * в течение WAITING_APPEAR_TIMEOUT, которое равно значению свойства "waitingAppearTimeout"
-     * из application.properties. Если свойство не найдено, время таймаута равно 8 секундам
-     *
-     * @param nameOfPage название страница|блок|форма|вкладка
-     */
-    @И("^(?:страница|блок|форма|вкладка) \"([^\"]*)\" (?:загрузилась|загрузился)$")
-    public void loadPage(String nameOfPage) {
-        coreScenario.setCurrentPage(coreScenario.getPage(nameOfPage));
-        if (isIE()) {
-            coreScenario.getCurrentPage().ieAppeared();
-        } else {
-            coreScenario.getCurrentPage().appeared();
-        }
-    }
-
-    /**
-     * Проверка того, что все элементы, которые описаны в классе страницы с аннотацией @Name,
-     * но без аннотации @Optional, не появились на странице
-     *
-     * @param nameOfPage название страница|блок|форма|вкладка
-     */
-    @И("^(?:страница|блок|форма|вкладка) \"([^\"]*)\" не (?:загрузилась|загрузился)$")
-    public void loadPageFailed(String nameOfPage) {
-        coreScenario.setCurrentPage(coreScenario.getPage(nameOfPage));
-        if (isIE()) {
-            coreScenario.getCurrentPage().ieDisappeared();
-        } else {
-            coreScenario.getCurrentPage().disappeared();
-        }
     }
 
     /**
@@ -158,38 +154,12 @@ public class WebActionSteps {
     }
 
     /**
-     * Эмулирует нажатие клавиш на клавиатуре
+     * Выполняется наведение курсора на элемент
      */
-    @И("^выполнено нажатие на клавиатуре \"([^\"]*)\"$")
-    public void pushButtonOnKeyboard(String buttonName) {
-        switchTo().activeElement()
-                .sendKeys(getKeyOrCharacter(buttonName));
-    }
-
-    /**
-     * <p style="color: green; font-size: 1.5em">
-     *
-     * @param keyNames название клавиши
-     *                 Эмулирует нажатие сочетания клавиш на клавиатуре.
-     *                 Допустим, чтобы эмулировать нажатие на Ctrl+A, в таблице должны быть следующие значения
-     *                 | CONTROL |
-     *                 | a       |
-     */
-    @И("^выполнено нажатие на сочетание клавиш из таблицы$")
-    public void pressKeyCombination(List<String> keyNames) {
-        Iterable<CharSequence> listKeys = keyNames.stream()
-                .map(this::getKeyOrCharacter)
-                .collect(Collectors.toList());
-        String combination = Keys.chord(listKeys);
-        switchTo().activeElement().sendKeys(combination);
-    }
-
-    private CharSequence getKeyOrCharacter(String key) {
-        try {
-            return Keys.valueOf(key.toUpperCase());
-        } catch (IllegalArgumentException ex) {
-            return key;
-        }
+    @И("^выполнен ховер на (?:кнопку|ссылку|поле|чекбокс|радиокнопу|текст|элемент) \"([^\"]*)\"$")
+    public void elementHover(String elementName) {
+        SelenideElement field = coreScenario.getCurrentPage().getElement(elementName);
+        field.hover();
     }
 
     /**
@@ -239,33 +209,6 @@ public class WebActionSteps {
         sleep(200);
     }
 
-    /**
-     * Очищается заданное поле
-     */
-    @И("^очищено поле \"([^\"]*)\"$")
-    public void cleanField(String nameOfField) {
-        SelenideElement valueInput = coreScenario.getCurrentPage().getElement(nameOfField);
-        valueInput.clear();
-
-        if (valueInput.is(Condition.not(Condition.empty))) {
-            valueInput.sendKeys(Keys.chord(Keys.CONTROL + "a" + Keys.BACK_SPACE));
-        }
-
-        if (valueInput.is(Condition.not(Condition.empty))) {
-            for (char character : valueInput.getValue().toCharArray()) {
-                valueInput.sendKeys(Keys.BACK_SPACE);
-            }
-        }
-    }
-
-    /**
-     * Выполняется наведение курсора на элемент
-     */
-    @И("^выполнен ховер на (?:кнопку|ссылку|поле|чекбокс|радиокнопу|текст|элемент) \"([^\"]*)\"$")
-    public void elementHover(String elementName) {
-        SelenideElement field = coreScenario.getCurrentPage().getElement(elementName);
-        field.hover();
-    }
 
     /**
      * Добавление строки (в приоритете: из property, из переменной сценария, значение аргумента) в поле к уже заполненой строке
@@ -327,25 +270,24 @@ public class WebActionSteps {
     }
 
     /**
-     * Выполняется поиск нужного файла в папке /Downloads
-     * Поиск осуществляется по содержанию ожидаемого текста в названии файла. Можно передавать регулярное выражение.
-     * После выполнения проверки файл удаляется
+     * Очищается заданное поле
      */
-    @И("^файл по пути \"([^\"]*)\" выгрузился в поле \"([^\"]*)\"$")
-    public void uploadFile(String path, String fieldName) {
-        coreScenario.getCurrentPage()
-                .getElement(fieldName)
-                .uploadFile(new File(path));
+    @И("^очищено поле \"([^\"]*)\"$")
+    public void cleanField(String nameOfField) {
+        SelenideElement valueInput = coreScenario.getCurrentPage().getElement(nameOfField);
+        valueInput.clear();
+
+        if (valueInput.is(Condition.not(Condition.empty))) {
+            valueInput.sendKeys(Keys.chord(Keys.CONTROL + "a" + Keys.BACK_SPACE));
+        }
+
+        if (valueInput.is(Condition.not(Condition.empty))) {
+            for (char character : valueInput.getValue().toCharArray()) {
+                valueInput.sendKeys(Keys.BACK_SPACE);
+            }
+        }
     }
 
-    /**
-     * Скроллит экран до нужного элемента, имеющегося на странице, но видимого только в нижней/верхней части страницы.
-     */
-    @Deprecated
-    @И("^страница прокручена до элемента \"([^\"]*)\"")
-    public void scrollPageToElement(String elementName) {
-        coreScenario.getCurrentPage().getElement(elementName).scrollTo();
-    }
 
     /**
      * Ввод в поле случайной последовательности латинских или кириллических букв задаваемой длины
@@ -403,15 +345,16 @@ public class WebActionSteps {
                 elementName, value, varName));
     }
 
+
     /**
-     * Выполняется запуск js-скрипта с указанием в js.executeScript его логики
-     * Скрипт можно передать как аргумент метода или значение из application.properties
+     * Скроллит экран до нужного элемента, имеющегося на странице, но видимого только в нижней/верхней части страницы.
      */
-    @И("^выполнен js-скрипт \"([^\"]*)\"")
-    public void executeJsScript(String scriptName) {
-        String content = loadValueFromFileOrPropertyOrVariableOrDefault(scriptName);
-        Selenide.executeJavaScript(content);
+    @Deprecated
+    @И("^страница прокручена до элемента \"([^\"]*)\"")
+    public void scrollPageToElement(String elementName) {
+        coreScenario.getCurrentPage().getElement(elementName).scrollTo();
     }
+
 
     /**
      * Скроллит страницу вниз до появления элемента каждую секунду.
@@ -436,18 +379,6 @@ public class WebActionSteps {
         SelenideElement el = $(By.xpath(getTranslateNormalizeSpaceText(getPropertyOrStringVariableOrValue(expectedValue))));
         ((JavascriptExecutor) WebDriverRunner.getWebDriver()).executeScript("arguments[0].scrollIntoView();", el);
         el.click();
-    }
-
-    /**
-     * Выполняется нажатие на кнопку и подгружается указанный файл
-     * Селектор кнопки должны быть строго на input элемента
-     * Можно указать путь до файла. Например, src/test/resources/example.pdf
-     */
-    @И("^выполнено нажатие на кнопку \"([^\"]*)\" и загружен файл \"([^\"]*)\"$")
-    public void clickOnButtonAndUploadFile(String buttonName, String fileName) {
-        String file = loadValueFromFileOrPropertyOrVariableOrDefault(fileName);
-        File attachmentFile = new File(file);
-        coreScenario.getCurrentPage().getElement(buttonName).uploadFile(attachmentFile);
     }
 
     /**
