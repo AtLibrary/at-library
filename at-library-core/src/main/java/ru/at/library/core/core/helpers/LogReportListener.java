@@ -8,7 +8,6 @@ import io.restassured.RestAssured;
 import io.restassured.filter.Filter;
 import lombok.extern.log4j.Log4j2;
 import ru.at.library.core.core.log.Log4jRestAssuredFilter;
-import ru.at.library.core.cucumber.api.CoreScenario;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,17 +44,16 @@ public class LogReportListener {
                         .savePageSource(true)
                         .enableLogs(LogType.BROWSER, Level.ALL)
         );
-        CoreScenario.getInstance().write("Включен слушатель Selenide в Allure");
-        log.debug("Включен слушатель Selenide в Allure");
+        log.info("Включен слушатель Selenide в Allure");
     }
 
     private synchronized static void turnListenerRestAssured() {
         List<Filter> filters = new ArrayList<>();
         filters.add(new Log4jRestAssuredFilter());
-        log.debug("Включен слушатель rest-assured в log4j");
+        log.info("Включен слушатель rest-assured в log4j");
 
         filters.add(new AllureRestAssured());
-        log.debug("Включен слушатель rest-assured в Allure");
+        log.info("Включен слушатель rest-assured в Allure");
 
         RestAssured.filters(filters);
     }

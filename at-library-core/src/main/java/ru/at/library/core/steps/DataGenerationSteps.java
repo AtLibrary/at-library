@@ -1,6 +1,7 @@
 package ru.at.library.core.steps;
 
 import cucumber.api.java.ru.И;
+import lombok.extern.log4j.Log4j2;
 import net.andreinc.mockneat.MockNeat;
 import org.apache.commons.lang3.RandomStringUtils;
 import ru.at.library.core.cucumber.api.CoreScenario;
@@ -14,6 +15,7 @@ import static ru.at.library.core.steps.OtherSteps.getPropertyOrStringVariableOrV
 /**
  * Шаги генерации тестовых данных
  */
+@Log4j2
 public class DataGenerationSteps {
 
     private static CoreScenario coreScenario = CoreScenario.getInstance();
@@ -25,7 +27,7 @@ public class DataGenerationSteps {
     public void concatenationString(String text1, String text2, String varName) {
         String text = getPropertyOrStringVariableOrValue(text1) + getPropertyOrStringVariableOrValue(text2);
         coreScenario.setVar(varName, text);
-        coreScenario.write("Строка равна: " + text);
+        log.info("Строка равна: " + text);
     }
 
     /**
@@ -40,7 +42,7 @@ public class DataGenerationSteps {
         }
         String charSeq = OtherSteps.getRandCharSequence(seqLength, lang);
         coreScenario.setVar(varName, charSeq);
-        coreScenario.write("Строка случайных символов равна: " + charSeq);
+        log.info("Строка случайных символов равна: " + charSeq);
     }
 
     /**
@@ -50,7 +52,7 @@ public class DataGenerationSteps {
     public void randomNumSequence(int seqLength, String varName) {
         String numSeq = RandomStringUtils.randomNumeric(seqLength);
         coreScenario.setVar(varName, numSeq);
-        coreScenario.write("Случайное число равно: " + numSeq);
+        log.info("Случайное число равно: " + numSeq);
     }
 
     /**
@@ -63,7 +65,7 @@ public class DataGenerationSteps {
         String numSeq = String.valueOf(number);
         ;
         coreScenario.setVar(varName, numSeq);
-        coreScenario.write("Случайное число равно: " + numSeq);
+        log.info("Случайное число равно: " + numSeq);
     }
 
     /**
@@ -73,7 +75,7 @@ public class DataGenerationSteps {
     public void randomBoolean(String varName) {
         String randomString = String.valueOf(nextBoolean());
         coreScenario.setVar(varName, randomString);
-        coreScenario.write("Случайное boolean равно: " + randomString);
+        log.info("Случайное boolean равно: " + randomString);
     }
 
     /**
@@ -84,7 +86,7 @@ public class DataGenerationSteps {
         int random = new Random().nextInt(list.size());
         String randomString = list.get(random);
         coreScenario.setVar(varName, randomString);
-        coreScenario.write("Строка равна: " + randomString);
+        log.info("Строка равна: " + randomString);
     }
 
     /**
@@ -94,6 +96,6 @@ public class DataGenerationSteps {
     public void randomEmail(String varName) {
         String randomEmail = MockNeat.secure().emails().val();
         coreScenario.setVar(varName, randomEmail);
-        coreScenario.write("Email равен: " + randomEmail);
+        log.info("Email равен: " + randomEmail);
     }
 }

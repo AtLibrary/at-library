@@ -3,6 +3,7 @@ package ru.at.library.core.steps;
 import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.То;
 import io.cucumber.datatable.DataTable;
+import lombok.extern.log4j.Log4j2;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import ru.at.library.core.cucumber.api.CoreScenario;
@@ -31,6 +32,7 @@ import static ru.at.library.core.core.helpers.PropertyLoader.*;
 /**
  * Набор общих шагов под api/web/mob</>
  */
+@Log4j2
 public class OtherSteps {
 
     private static CoreScenario coreScenario = CoreScenario.getInstance();
@@ -148,7 +150,7 @@ public class OtherSteps {
      * @return Возвращает значение из property файла, если отсутствует, то из пользовательских переменных,
      * если и оно отсутствует, то возвращает значение переданной на вход переменной
      */
-    public static String getPropertyOrStringVariableOrValue(String propertyNameOrVariableNameOrValue) {
+    public synchronized static String getPropertyOrStringVariableOrValue(String propertyNameOrVariableNameOrValue) {
         String propertyValue = tryLoadProperty(propertyNameOrVariableNameOrValue);
         String variableValue = (String) CoreScenario.getInstance().tryGetVar(propertyNameOrVariableNameOrValue);
 
@@ -158,7 +160,7 @@ public class OtherSteps {
         return propertyCheck ? propertyValue : (variableCheck ? variableValue : propertyNameOrVariableNameOrValue);
     }
 
-    public static List<String> getPropertyOrStringVariableOrValue(List<String> textTable) {
+    public synchronized static List<String> getPropertyOrStringVariableOrValue(List<String> textTable) {
         List<String> list = new ArrayList<>();
         for (String text : textTable) {
             list.add(getPropertyOrStringVariableOrValue(text));
@@ -168,11 +170,11 @@ public class OtherSteps {
 
     public static boolean checkResult(String result, String message) {
         if (isNull(result)) {
-            coreScenario.write(message + " не найдена");
+            log.info(message + " не найдена");
             return false;
         }
-        coreScenario.write(message + " = " + result);
-        CoreScenario.getInstance().write(message + " = " + result);
+        log.info(message + " = " + result);
+        log.info(message + " = " + result);
         return true;
     }
 
@@ -258,7 +260,7 @@ public class OtherSteps {
     public void saveValueToVar(String propertyVariableName, String variableName) {
         propertyVariableName = loadProperty(propertyVariableName);
         coreScenario.setVar(variableName, propertyVariableName);
-        coreScenario.write("Значение сохраненной переменной " + propertyVariableName);
+        log.info("Значение сохраненной переменной " + propertyVariableName);
     }
 
     /**
@@ -284,7 +286,7 @@ public class OtherSteps {
             if (template.contains(regexp)) {
                 template = template.replaceAll(regexp, replacement);
             } else {
-                coreScenario.write("В шаблоне не найден элемент " + regexp);
+                log.info("В шаблоне не найден элемент " + regexp);
                 error = true;
             }
         }
@@ -367,7 +369,7 @@ public class OtherSteps {
             currentStringDate = new SimpleDateFormat(dateFormat).format(date);
         } catch (IllegalArgumentException ex) {
             currentStringDate = new SimpleDateFormat("dd.MM.yyyy").format(date);
-            coreScenario.write("Неверный формат даты. Будет использоваться значание по умолчанию в формате dd.MM.yyyy");
+            log.info("Неверный формат даты. Будет использоваться значание по умолчанию в формате dd.MM.yyyy");
         }
 
         coreScenario.setVar(variableName, currentStringDate);

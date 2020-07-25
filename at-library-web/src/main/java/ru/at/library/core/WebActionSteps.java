@@ -6,6 +6,7 @@ import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
 import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.То;
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -35,6 +36,7 @@ import static ru.at.library.core.steps.OtherSteps.*;
  * можно было именно по русскому описанию, а не по селектору. Селекторы следует хранить только в классе страницы,
  * не в степах, в степах - взаимодействие по русскому названию элемента.
  */
+@Log4j2
 public class WebActionSteps {
     private CoreScenario coreScenario = CoreScenario.getInstance();
 
@@ -80,7 +82,7 @@ public class WebActionSteps {
     @И("^совершен переход на страницу \"([^\"]*)\" по ссылке \"([^\"]*)\"$")
     public void goToSelectedPageByLink(String pageName, String urlOrName) {
         String url = resolveVars(getPropertyOrStringVariableOrValue(urlOrName));
-        coreScenario.write(" url = " + url);
+        log.info(" url = " + url);
         open(url);
         loadPage(pageName);
     }
@@ -93,7 +95,7 @@ public class WebActionSteps {
     @И("^совершен переход на страницу \"([^\"]*)\" в новой вкладке по ссылке \"([^\"]*)\"$")
     public void goToSelectedPageByLinkNewTab(String pageName, String urlOrName) {
         String url = resolveVars(getPropertyOrStringVariableOrValue(urlOrName));
-        coreScenario.write(" url = " + url);
+        log.info(" url = " + url);
         ((JavascriptExecutor) WebDriverRunner.getWebDriver())
                 .executeScript("window.open('" + url + "','_blank');");
         int numberThisTab = WebDriverRunner.getWebDriver().getWindowHandles().size() - 1;
@@ -108,7 +110,7 @@ public class WebActionSteps {
     public void urlClickAndCheckRedirection(String pageName, String elementName) {
         coreScenario.getCurrentPage().getElement(elementName).click();
         loadPage(pageName);
-        coreScenario.write(" url = " + url());
+        log.info(" url = " + url());
     }
 
     /**
@@ -246,12 +248,12 @@ public class WebActionSteps {
             currentStringDate = new SimpleDateFormat(dateFormat).format(date);
         } catch (IllegalArgumentException ex) {
             currentStringDate = new SimpleDateFormat("dd.MM.yyyy").format(date);
-            coreScenario.write("Неверный формат даты. Будет использоваться значание по умолчанию в формате dd.MM.yyyy");
+            log.info("Неверный формат даты. Будет использоваться значание по умолчанию в формате dd.MM.yyyy");
         }
         SelenideElement valueInput = coreScenario.getCurrentPage().getElement(fieldName);
         valueInput.setValue("");
         valueInput.setValue(currentStringDate);
-        coreScenario.write("Текущая дата " + currentStringDate);
+        log.info("Текущая дата " + currentStringDate);
     }
 
     /**
@@ -301,7 +303,7 @@ public class WebActionSteps {
         else lang = "en";
         String charSeq = getRandCharSequence(seqLength, lang);
         valueInput.setValue(charSeq);
-        coreScenario.write("Строка случайных символов равна :" + charSeq);
+        log.info("Строка случайных символов равна :" + charSeq);
     }
 
     /**
@@ -317,7 +319,7 @@ public class WebActionSteps {
         String charSeq = getRandCharSequence(seqLength, lang);
         valueInput.setValue(charSeq);
         coreScenario.setVar(varName, charSeq);
-        coreScenario.write("Строка случайных символов равна :" + charSeq);
+        log.info("Строка случайных символов равна :" + charSeq);
     }
 
     /**
@@ -341,7 +343,7 @@ public class WebActionSteps {
     public void inputAndSetRandomNumSequence(String elementName, String seqLengthString, String varName) {
         String value = inputRandomNumSequence(elementName, seqLengthString);
         coreScenario.setVar(varName, value);
-        coreScenario.write(String.format("В поле [%s] введено значение [%s] и сохранено в переменную [%s]",
+        log.info(String.format("В поле [%s] введено значение [%s] и сохранено в переменную [%s]",
                 elementName, value, varName));
     }
 

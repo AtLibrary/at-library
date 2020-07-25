@@ -4,6 +4,7 @@ import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.SelenideElement;
 import cucumber.api.java.ru.А;
 import cucumber.api.java.ru.И;
+import lombok.extern.log4j.Log4j2;
 import ru.at.library.core.cucumber.api.CoreScenario;
 
 import static com.codeborne.selenide.Condition.*;
@@ -21,6 +22,7 @@ import static ru.at.library.core.steps.OtherSteps.getPropertyOrStringVariableOrV
  * можно было именно по русскому описанию, а не по селектору. Селекторы следует хранить только в классе страницы,
  * не в степах, в степах - взаимодействие по русскому названию элемента.
  */
+@Log4j2
 public class WebCheckSteps {
     private CoreScenario coreScenario = CoreScenario.getInstance();
 
@@ -155,7 +157,7 @@ public class WebCheckSteps {
     public void storeElementValueInVariable(String elementName, String variableName) {
         String text = coreScenario.getCurrentPage().getElement(elementName).getText();
         coreScenario.setVar(variableName, text);
-        coreScenario.write("Значение [" + text + "] сохранено в переменную [" + variableName + "]");
+        log.info("Значение [" + text + "] сохранено в переменную [" + variableName + "]");
     }
 
     /**
@@ -538,7 +540,7 @@ public class WebCheckSteps {
     public void storeElementValueInVariable(String elementName, String blockName, String variableName) {
         String text = coreScenario.getPage(blockName).getElement(elementName).getText();
         coreScenario.setVar(variableName, text);
-        coreScenario.write("Значение [" + text + "] сохранено в переменную [" + variableName + "]");
+        log.info("Значение [" + text + "] сохранено в переменную [" + variableName + "]");
     }
 
 }

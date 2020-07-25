@@ -14,7 +14,6 @@ package ru.at.library.core.cucumber.api;
 import cucumber.api.Scenario;
 import lombok.extern.slf4j.Slf4j;
 import ru.at.library.core.cucumber.ScopedVariables;
-import ru.at.library.core.setup.AtCoreConfig;
 
 import java.util.function.Consumer;
 
@@ -112,14 +111,14 @@ public final class CoreScenario {
         return this.getEnvironment().getPage(name);
     }
 
-    /**
-     * Выводит дополнительный информационный текст в отчет (уровень логирования INFO)
-     */
-    public void write(Object object) {
-        if (AtCoreConfig.debugCore) {
-            this.getEnvironment().write(object);
-        }
-    }
+//    /**
+//     * Выводит дополнительный информационный текст в отчет (уровень логирования INFO)
+//     */
+//    public void write(Object object) {
+//        if (AtCoreConfig.debugCore) {
+//            this.getEnvironment().write(object);
+//        }
+//    }
 
     /**
      * Получение переменной по имени, заданного пользователем, из пула переменных "variables" в CoreEnvironment

@@ -123,7 +123,7 @@ public class MobileCheckSteps {
         WebElement element = MobileTestConfig.getWebElementInCurrentPage(elementName);
         String elementText = element.getText();
         coreScenario.setVar(variableName, elementText);
-        coreScenario.write("Значение [" + elementText + "] сохранено в переменную [" + variableName + "]");
+        log.info("Значение [" + elementText + "] сохранено в переменную [" + variableName + "]");
     }
 
     /**
@@ -204,7 +204,7 @@ public class MobileCheckSteps {
         String elementText = element.getText();
 
         coreScenario.setVar(variableName, elementText);
-        coreScenario.write("Значение [" + elementText + "] сохранено в переменную [" + variableName + "]");
+        log.info("Значение [" + elementText + "] сохранено в переменную [" + variableName + "]");
     }
 
     /**

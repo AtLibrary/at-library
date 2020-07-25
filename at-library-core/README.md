@@ -48,7 +48,7 @@ application.properties
 
 Для того, чтобы в отчете появился блок Output с информацией, полезной для анализа отчета, можно воспользоваться следующим методом
  ```java
-CoreScenario.write("Текущий URL = " + currentUrl + " \nОжидаемый URL = " + expectedUrl);
+log.info("Текущий URL = " + currentUrl + " \nОжидаемый URL = " + expectedUrl);
  ```
 
 Использование переменных

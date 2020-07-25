@@ -5,6 +5,7 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import cucumber.api.java.ru.И;
+import lombok.extern.log4j.Log4j2;
 import ru.at.library.core.cucumber.api.CoreScenario;
 
 import java.util.List;
@@ -14,6 +15,7 @@ import static java.lang.String.format;
 import static ru.at.library.core.steps.OtherSteps.getPropertyOrStringVariableOrValue;
 import static ru.at.library.core.steps.OtherSteps.getRandom;
 
+@Log4j2
 public class WebListSteps {
 
     private CoreScenario coreScenario = CoreScenario.getInstance();
@@ -109,7 +111,7 @@ public class WebListSteps {
         listOfElementsFromPage = listOfElementsFromPage.filter(visible);
         SelenideElement selenideElement = listOfElementsFromPage.get(getRandom(listOfElementsFromPage.size())).shouldBe(visible);
         selenideElement.click();
-        coreScenario.write("Выбран случайный элемент: " + selenideElement);
+        log.info("Выбран случайный элемент: " + selenideElement);
         return selenideElement;
     }
 
@@ -120,7 +122,7 @@ public class WebListSteps {
     public void selectRandomElementFromListAndSaveVar(String listName, String varName) {
         String text = selectRandomElementFromList(listName).getText();
         coreScenario.setVar(varName, text);
-        coreScenario.write(format("Переменной [%s] присвоено значение [%s] из списка [%s]", varName,
+        log.info(format("Переменной [%s] присвоено значение [%s] из списка [%s]", varName,
                 coreScenario.getVar(varName), listName));
     }
 

@@ -1,5 +1,5 @@
 # language: ru
-@Google
+@Wikipedia
 Функционал: Wikipedia
 
   Сценарий: Проверка работы отображения списка элементов

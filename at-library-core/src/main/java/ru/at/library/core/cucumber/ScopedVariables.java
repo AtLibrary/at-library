@@ -13,6 +13,7 @@ package ru.at.library.core.cucumber;
 
 import com.google.common.collect.Maps;
 import groovy.lang.GroovyShell;
+import lombok.extern.log4j.Log4j2;
 import ru.at.library.core.cucumber.api.CoreScenario;
 
 import java.math.BigDecimal;
@@ -27,6 +28,7 @@ import static ru.at.library.core.core.helpers.Utils.isJSONValid;
 /**
  * Реализация хранилища переменных, заданных пользователем, внутри тестовых сценариев
  */
+@Log4j2
 public class ScopedVariables {
 
     public static final String CURVE_BRACES_PATTERN = "\\{([^{}]+)\\}";
@@ -55,7 +57,7 @@ public class ScopedVariables {
         if (newString.isEmpty()) {
             newString = inputString;
         } else {
-            CoreScenario.getInstance().write(format("Значение переменной %s = %s", inputString, newString));
+            log.info(format("Значение переменной %s = %s", inputString, newString));
         }
         return newString;
     }
@@ -75,7 +77,7 @@ public class ScopedVariables {
             String varName = m.group(1);
             String value = loadProperty(varName, (String) CoreScenario.getInstance().tryGetVar(varName));
             if (value == null) {
-                CoreScenario.getInstance().write(
+                log.info(
                         "Значение " + varName +
                                 " не было найдено ни в application.properties, ни в environment переменной");
             }

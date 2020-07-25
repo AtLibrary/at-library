@@ -177,14 +177,14 @@ public class MobileActionSteps {
             currentStringDate = new SimpleDateFormat(dateFormat).format(date);
         } catch (IllegalArgumentException ex) {
             currentStringDate = new SimpleDateFormat("dd.MM.yyyy").format(date);
-            coreScenario.write("Неверный формат даты. Будет использоваться значание по умолчанию в формате dd.MM.yyyy");
+            log.info("Неверный формат даты. Будет использоваться значание по умолчанию в формате dd.MM.yyyy");
         }
 
         WebElement element = MobileTestConfig.getWebElementInCurrentPage(elementName);
 
         element.clear();
         element.sendKeys(currentStringDate);
-        coreScenario.write("Текущая дата " + currentStringDate);
+        log.info("Текущая дата " + currentStringDate);
     }
 
     /**
@@ -199,7 +199,7 @@ public class MobileActionSteps {
         else lang = "en";
         String charSeq = getRandCharSequence(seqLength, lang);
         element.sendKeys(charSeq);
-        coreScenario.write("Строка случайных символов равна :" + charSeq);
+        log.info("Строка случайных символов равна :" + charSeq);
     }
 
     /**
@@ -215,7 +215,7 @@ public class MobileActionSteps {
         String charSeq = getRandCharSequence(seqLength, lang);
         element.sendKeys(charSeq);
         coreScenario.setVar(varName, charSeq);
-        coreScenario.write("Строка случайных символов равна :" + charSeq);
+        log.info("Строка случайных символов равна :" + charSeq);
     }
 
     /**
@@ -227,7 +227,7 @@ public class MobileActionSteps {
         cleanField(elementName);
         String numSeq = RandomStringUtils.randomNumeric(seqLength);
         element.sendKeys(numSeq);
-        coreScenario.write(String.format("В поле [%s] введено значение [%s]", elementName, numSeq));
+        log.info(String.format("В поле [%s] введено значение [%s]", elementName, numSeq));
     }
 
     /**
@@ -241,7 +241,7 @@ public class MobileActionSteps {
 
         element.sendKeys(numSeq);
         coreScenario.setVar(varName, numSeq);
-        coreScenario.write(String.format("В поле [%s] введено значение [%s] и сохранено в переменную [%s]",
+        log.info(String.format("В поле [%s] введено значение [%s] и сохранено в переменную [%s]",
                 elementName, numSeq, varName));
     }
 

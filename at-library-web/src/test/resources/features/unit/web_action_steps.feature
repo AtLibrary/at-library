@@ -1,8 +1,5 @@
 # language: ru
-@unit
-@unit123
-@web
-@web_action_steps.feature
+#@unit
 Функционал: WebActionSteps
 
 ####################################################################################

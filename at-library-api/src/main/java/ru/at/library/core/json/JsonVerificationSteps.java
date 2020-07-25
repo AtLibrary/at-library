@@ -6,6 +6,7 @@ import cucumber.api.java.ru.И;
 import io.cucumber.datatable.DataTable;
 import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.response.Response;
+import lombok.extern.log4j.Log4j2;
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
@@ -17,7 +18,7 @@ import ru.at.library.core.cucumber.ScopedVariables;
 import ru.at.library.core.cucumber.api.CoreScenario;
 
 import java.util.List;
-
+@Log4j2
 public class JsonVerificationSteps {
 
     private CoreScenario coreScenario = CoreScenario.getInstance();
@@ -151,7 +152,7 @@ public class JsonVerificationSteps {
             }
 
             coreScenario.setVar(varName, value);
-            coreScenario.write(typeContentBody.toUpperCase() + " path: " + path + ", значение: " + value + ", записано в переменную: " + varName);
+            log.info(typeContentBody.toUpperCase() + " path: " + path + ", значение: " + value + ", записано в переменную: " + varName);
         }
     }
 

@@ -346,7 +346,7 @@ public class RequestSteps {
                 }
             }
             if (body != null) {
-                coreScenario.write("Тело запроса:\n" + body);
+                log.info("Тело запроса:\n" + body);
             }
         }
 

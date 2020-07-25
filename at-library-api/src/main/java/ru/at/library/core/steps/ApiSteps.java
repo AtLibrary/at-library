@@ -55,7 +55,7 @@ public class ApiSteps {
         Response response = (Response) CoreScenario.getInstance().getVar(responseNameVariable);
 
         coreScenario.setVar(variableName, response.getBody().asString());
-        coreScenario.write("Значение: " + response.getBody().asString() + ", записано в переменную: " + variableName);
+        log.info("Значение: " + response.getBody().asString() + ", записано в переменную: " + variableName);
     }
 
     /**
@@ -81,7 +81,7 @@ public class ApiSteps {
             }
 
             coreScenario.setVar(varName, value);
-            coreScenario.write("Значение Cookies с именем: " + nameCookies + " с value: " + value + ", записано в переменную: " + varName);
+            log.info("Значение Cookies с именем: " + nameCookies + " с value: " + value + ", записано в переменную: " + varName);
         }
     }
 

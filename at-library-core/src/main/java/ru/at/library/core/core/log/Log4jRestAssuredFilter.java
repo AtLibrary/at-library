@@ -21,7 +21,7 @@ public class Log4jRestAssuredFilter implements OrderedFilter {
 
     @Override
     public Response filter(FilterableRequestSpecification requestSpec, FilterableResponseSpecification responseSpec, FilterContext filterContext) {
-        log.debug("REQUEST method='{}' uri='{}'", requestSpec.getMethod(), requestSpec.getURI());
+        log.info("REQUEST method='{}' uri='{}'", requestSpec.getMethod(), requestSpec.getURI());
         if (log.isTraceEnabled()) {
             doLogHeaders(requestSpec.getHeaders());
             if (requestSpec.getBody() != null) {
@@ -30,7 +30,7 @@ public class Log4jRestAssuredFilter implements OrderedFilter {
             }
         }
         Response response = filterContext.next(requestSpec, responseSpec);
-        log.debug("RESPONSE status='{}'", response.getStatusLine());
+        log.info("RESPONSE status='{}'", response.getStatusLine());
         if (log.isTraceEnabled()) {
             doLogHeaders(response.getHeaders());
             if (response.getBody() != null) {

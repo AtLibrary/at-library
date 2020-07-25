@@ -1,7 +1,5 @@
 # language: ru
-@unit
-@web
-@web_check_steps.feature
+#@unit
 Функционал: WebCheckSteps
 
   Предыстория: Предыстрория

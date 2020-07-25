@@ -38,6 +38,8 @@ import static ru.at.library.core.core.helpers.PropertyLoader.tryLoadProperty;
 @Log4j2
 public class InitialSetupSteps {
 
+    private static int scenarioNumber = 0;
+
     @Delegate
     CoreScenario coreScenario = CoreScenario.getInstance();
 
@@ -49,10 +51,10 @@ public class InitialSetupSteps {
         Selenide.sleep(1000);
         List<String> webDriverLogs = Selenide.getWebDriverLogs(LogType.BROWSER, Level.ALL);
         StringBuilder stringBuilder = new StringBuilder();
-        for (String log : webDriverLogs) {
-            stringBuilder.append(log);
+        for (String logText : webDriverLogs) {
+            stringBuilder.append(logText);
             stringBuilder.append("\n\n");
-            CoreScenario.getInstance().write(log);
+            log.info(logText);
         }
 
         return stringBuilder.toString();
@@ -66,6 +68,10 @@ public class InitialSetupSteps {
      */
     @Before(order = 0)
     public void beforeEachTest(Scenario scenario) throws MalformedURLException {
+        scenarioNumber++;
+
+        log.debug("Старт" + scenarioNumber + " сценария: " + scenario.getName());
+
         RestAssured.baseURI = System.getProperty("baseURI", tryLoadProperty("baseURI"));
         baseUrl = System.getProperty("baseURI", tryLoadProperty("baseURI"));
 
@@ -99,7 +105,7 @@ public class InitialSetupSteps {
         try {
             getWebDriver().quit();
         } catch (IllegalStateException ex) {
-            log.info("Использовался метод getWebDriver().quit(), но браузер небыл запущен");
+            log.info("Использовался метод getWebDriver().quit(), но браузер не был запущен");
         }
     }
 }
