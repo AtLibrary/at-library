@@ -122,7 +122,7 @@ public class WebListInBlockSteps {
         listOfElementsFromPage = listOfElementsFromPage.filter(visible);
         SelenideElement selenideElement = listOfElementsFromPage.get(getRandom(listOfElementsFromPage.size())).shouldBe(visible);
         selenideElement.click();
-        log.info("Выбран случайный элемент: " + selenideElement);
+        log.trace("Выбран случайный элемент: " + selenideElement);
         return selenideElement;
     }
 
@@ -133,7 +133,7 @@ public class WebListInBlockSteps {
     public void selectRandomElementFromListAndSaveVar(String listName, String varName, String blockName) {
         String text = selectRandomElementFromList(listName, blockName).getText();
         coreScenario.setVar(varName, text);
-        log.info(format("Переменной [%s] присвоено значение [%s] из списка [%s]", varName,
+        log.trace(format("Переменной [%s] присвоено значение [%s] из списка [%s]", varName,
                 coreScenario.getVar(varName), listName));
     }
 

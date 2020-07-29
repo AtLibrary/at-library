@@ -176,10 +176,10 @@ public class PropertyLoader {
             Path path = Paths.get(System.getProperty("user.dir") + valueToFind);
             pathAsString = path.toString();
             String fileValue = new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
-            log.info("Значение из файла " + valueToFind + " = " + fileValue);
+            log.trace("Значение из файла " + valueToFind + " = " + fileValue);
             return fileValue;
         } catch (IOException | InvalidPathException e) {
-            log.info("Значение не найдено по пути " + pathAsString);
+            log.trace("Значение не найдено по пути " + pathAsString);
         }
         if (CoreScenario.getInstance().tryGetVar(valueToFind) != null) {
             Object var = CoreScenario.getInstance().getVar(valueToFind);
@@ -189,7 +189,7 @@ public class PropertyLoader {
             }
             return (String) var;
         }
-        log.info("Значение не найдено в хранилище. Будет исользовано значение по умолчанию " + valueToFind);
+        log.trace("Значение не найдено в хранилище. Будет исользовано значение по умолчанию " + valueToFind);
         return valueToFind;
     }
 
@@ -204,17 +204,17 @@ public class PropertyLoader {
         String pathAsString = StringUtils.EMPTY;
         String propertyValue = tryLoadProperty(valueToFind);
         if (StringUtils.isNotBlank(propertyValue)) {
-            log.info("Значение переменной: " + valueToFind + " из application.properties = " + propertyValue);
+            log.trace("Значение переменной: " + valueToFind + " из application.properties = " + propertyValue);
             return propertyValue;
         }
         try {
             Path path = Paths.get(System.getProperty("user.dir") + valueToFind);
             pathAsString = path.toString();
             String fileValue = new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
-            log.info("Значение из файла " + valueToFind + " = " + fileValue);
+            log.trace("Значение из файла " + valueToFind + " = " + fileValue);
             return fileValue;
         } catch (IOException | InvalidPathException e) {
-            log.info("Значение не найдено по пути: " + pathAsString);
+            log.trace("Значение не найдено по пути: " + pathAsString);
         }
         if (CoreScenario.getInstance().tryGetVar(valueToFind) != null) {
             Object var = CoreScenario.getInstance().getVar(valueToFind);
@@ -224,7 +224,7 @@ public class PropertyLoader {
             }
             return (String) var;
         }
-        log.info("Значение не найдено в хранилище. Будет исользовано значение по умолчанию " + valueToFind);
+        log.trace("Значение не найдено в хранилище. Будет исользовано значение по умолчанию " + valueToFind);
         return valueToFind;
     }
 

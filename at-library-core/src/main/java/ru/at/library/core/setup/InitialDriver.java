@@ -33,18 +33,18 @@ public class InitialDriver {
     }
 
     private void initLocalStart(Proxy proxy) {
-        log.info("Тесты будут запущены на операционной системе: " + System.getProperty("os.name"));
-        log.info("Тесты будут запущены локально в браузере: " + browser);
+        log.info("Тест запущен на операционной системе: " + System.getProperty("os.name"));
+        log.info("Тест запущен локально в браузере: " + browser);
         if (proxy != null) {
             WebDriverRunner.setProxy(proxy);
-            log.info("Проставлена прокси: " + proxy);
+            log.trace("Проставлена прокси: " + proxy);
         }
 
     }
 
     private void initRemoteStart(Proxy proxy, Scenario scenario) {
-        log.info("Тесты запущены на удаленной машине: " + Configuration.remote);
-        log.info("Тесты будут запущены локально в браузере: " + browser);
+        log.info("Тест запущен на удаленной машине: " + Configuration.remote);
+        log.info("Тест запущен в браузере: " + browser);
 
         Configuration.browserCapabilities.setCapability("enableVNC", true);
         Configuration.browserCapabilities.setCapability("enableVideo", false);

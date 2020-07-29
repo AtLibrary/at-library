@@ -57,7 +57,7 @@ public class ScopedVariables {
         if (newString.isEmpty()) {
             newString = inputString;
         } else {
-            log.info(format("Значение переменной %s = %s", inputString, newString));
+            log.trace(format("Значение переменной %s = %s", inputString, newString));
         }
         return newString;
     }
@@ -77,7 +77,7 @@ public class ScopedVariables {
             String varName = m.group(1);
             String value = loadProperty(varName, (String) CoreScenario.getInstance().tryGetVar(varName));
             if (value == null) {
-                log.info(
+                log.trace(
                         "Значение " + varName +
                                 " не было найдено ни в application.properties, ни в environment переменной");
             }

@@ -170,11 +170,11 @@ public class OtherSteps {
 
     public static boolean checkResult(String result, String message) {
         if (isNull(result)) {
-            log.info(message + " не найдена");
+            log.trace(message + " не найдена");
             return false;
         }
-        log.info(message + " = " + result);
-        log.info(message + " = " + result);
+        log.trace(message + " = " + result);
+        log.trace(message + " = " + result);
         return true;
     }
 
@@ -260,7 +260,7 @@ public class OtherSteps {
     public void saveValueToVar(String propertyVariableName, String variableName) {
         propertyVariableName = loadProperty(propertyVariableName);
         coreScenario.setVar(variableName, propertyVariableName);
-        log.info("Значение сохраненной переменной " + propertyVariableName);
+        log.trace("Значение сохраненной переменной " + propertyVariableName);
     }
 
     /**
@@ -286,7 +286,7 @@ public class OtherSteps {
             if (template.contains(regexp)) {
                 template = template.replaceAll(regexp, replacement);
             } else {
-                log.info("В шаблоне не найден элемент " + regexp);
+                log.trace("В шаблоне не найден элемент " + regexp);
                 error = true;
             }
         }
@@ -369,7 +369,7 @@ public class OtherSteps {
             currentStringDate = new SimpleDateFormat(dateFormat).format(date);
         } catch (IllegalArgumentException ex) {
             currentStringDate = new SimpleDateFormat("dd.MM.yyyy").format(date);
-            log.info("Неверный формат даты. Будет использоваться значание по умолчанию в формате dd.MM.yyyy");
+            log.trace("Неверный формат даты. Будет использоваться значание по умолчанию в формате dd.MM.yyyy");
         }
 
         coreScenario.setVar(variableName, currentStringDate);

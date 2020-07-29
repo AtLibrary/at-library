@@ -346,7 +346,7 @@ public class RequestSteps {
                 }
             }
             if (body != null) {
-                log.info("Тело запроса:\n" + body);
+                log.trace("Тело запроса:\n" + body);
             }
         }
 

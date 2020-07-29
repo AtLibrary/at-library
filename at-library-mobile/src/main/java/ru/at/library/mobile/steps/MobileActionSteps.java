@@ -177,14 +177,14 @@ public class MobileActionSteps {
             currentStringDate = new SimpleDateFormat(dateFormat).format(date);
         } catch (IllegalArgumentException ex) {
             currentStringDate = new SimpleDateFormat("dd.MM.yyyy").format(date);
-            log.info("Неверный формат даты. Будет использоваться значание по умолчанию в формате dd.MM.yyyy");
+            log.trace("Неверный формат даты. Будет использоваться значание по умолчанию в формате dd.MM.yyyy");
         }
 
         WebElement element = MobileTestConfig.getWebElementInCurrentPage(elementName);
 
         element.clear();
         element.sendKeys(currentStringDate);
-        log.info("Текущая дата " + currentStringDate);
+        log.trace("Текущая дата " + currentStringDate);
     }
 
     /**
@@ -199,7 +199,7 @@ public class MobileActionSteps {
         else lang = "en";
         String charSeq = getRandCharSequence(seqLength, lang);
         element.sendKeys(charSeq);
-        log.info("Строка случайных символов равна :" + charSeq);
+        log.trace("Строка случайных символов равна :" + charSeq);
     }
 
     /**
@@ -215,7 +215,7 @@ public class MobileActionSteps {
         String charSeq = getRandCharSequence(seqLength, lang);
         element.sendKeys(charSeq);
         coreScenario.setVar(varName, charSeq);
-        log.info("Строка случайных символов равна :" + charSeq);
+        log.trace("Строка случайных символов равна :" + charSeq);
     }
 
     /**
@@ -227,7 +227,7 @@ public class MobileActionSteps {
         cleanField(elementName);
         String numSeq = RandomStringUtils.randomNumeric(seqLength);
         element.sendKeys(numSeq);
-        log.info(String.format("В поле [%s] введено значение [%s]", elementName, numSeq));
+        log.trace(String.format("В поле [%s] введено значение [%s]", elementName, numSeq));
     }
 
     /**
@@ -241,7 +241,7 @@ public class MobileActionSteps {
 
         element.sendKeys(numSeq);
         coreScenario.setVar(varName, numSeq);
-        log.info(String.format("В поле [%s] введено значение [%s] и сохранено в переменную [%s]",
+        log.trace(String.format("В поле [%s] введено значение [%s] и сохранено в переменную [%s]",
                 elementName, numSeq, varName));
     }
 

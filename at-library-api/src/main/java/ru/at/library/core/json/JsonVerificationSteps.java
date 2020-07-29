@@ -152,7 +152,7 @@ public class JsonVerificationSteps {
             }
 
             coreScenario.setVar(varName, value);
-            log.info(typeContentBody.toUpperCase() + " path: " + path + ", значение: " + value + ", записано в переменную: " + varName);
+            log.trace(typeContentBody.toUpperCase() + " path: " + path + ", значение: " + value + ", записано в переменную: " + varName);
         }
     }
 

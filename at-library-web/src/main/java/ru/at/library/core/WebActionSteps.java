@@ -82,7 +82,7 @@ public class WebActionSteps {
     @И("^совершен переход на страницу \"([^\"]*)\" по ссылке \"([^\"]*)\"$")
     public void goToSelectedPageByLink(String pageName, String urlOrName) {
         String url = resolveVars(getPropertyOrStringVariableOrValue(urlOrName));
-        log.info(" url = " + url);
+        log.trace(" url = " + url);
         open(url);
         loadPage(pageName);
     }
@@ -95,7 +95,7 @@ public class WebActionSteps {
     @И("^совершен переход на страницу \"([^\"]*)\" в новой вкладке по ссылке \"([^\"]*)\"$")
     public void goToSelectedPageByLinkNewTab(String pageName, String urlOrName) {
         String url = resolveVars(getPropertyOrStringVariableOrValue(urlOrName));
-        log.info(" url = " + url);
+        log.trace(" url = " + url);
         ((JavascriptExecutor) WebDriverRunner.getWebDriver())
                 .executeScript("window.open('" + url + "','_blank');");
         int numberThisTab = WebDriverRunner.getWebDriver().getWindowHandles().size() - 1;
@@ -110,7 +110,7 @@ public class WebActionSteps {
     public void urlClickAndCheckRedirection(String pageName, String elementName) {
         coreScenario.getCurrentPage().getElement(elementName).click();
         loadPage(pageName);
-        log.info(" url = " + url());
+        log.trace(" url = " + url());
     }
 
     /**
@@ -248,12 +248,12 @@ public class WebActionSteps {
             currentStringDate = new SimpleDateFormat(dateFormat).format(date);
         } catch (IllegalArgumentException ex) {
             currentStringDate = new SimpleDateFormat("dd.MM.yyyy").format(date);
-            log.info("Неверный формат даты. Будет использоваться значание по умолчанию в формате dd.MM.yyyy");
+            log.trace("Неверный формат даты. Будет использоваться значание по умолчанию в формате dd.MM.yyyy");
         }
         SelenideElement valueInput = coreScenario.getCurrentPage().getElement(fieldName);
         valueInput.setValue("");
         valueInput.setValue(currentStringDate);
-        log.info("Текущая дата " + currentStringDate);
+        log.trace("Текущая дата " + currentStringDate);
     }
 
     /**
@@ -303,7 +303,7 @@ public class WebActionSteps {
         else lang = "en";
         String charSeq = getRandCharSequence(seqLength, lang);
         valueInput.setValue(charSeq);
-        log.info("Строка случайных символов равна :" + charSeq);
+        log.trace("Строка случайных символов равна :" + charSeq);
     }
 
     /**
@@ -319,7 +319,7 @@ public class WebActionSteps {
         String charSeq = getRandCharSequence(seqLength, lang);
         valueInput.setValue(charSeq);
         coreScenario.setVar(varName, charSeq);
-        log.info("Строка случайных символов равна :" + charSeq);
+        log.trace("Строка случайных символов равна :" + charSeq);
     }
 
     /**
@@ -343,7 +343,7 @@ public class WebActionSteps {
     public void inputAndSetRandomNumSequence(String elementName, String seqLengthString, String varName) {
         String value = inputRandomNumSequence(elementName, seqLengthString);
         coreScenario.setVar(varName, value);
-        log.info(String.format("В поле [%s] введено значение [%s] и сохранено в переменную [%s]",
+        log.trace(String.format("В поле [%s] введено значение [%s] и сохранено в переменную [%s]",
                 elementName, value, varName));
     }
 

@@ -157,7 +157,7 @@ public class WebCheckSteps {
     public void storeElementValueInVariable(String elementName, String variableName) {
         String text = coreScenario.getCurrentPage().getElement(elementName).getText();
         coreScenario.setVar(variableName, text);
-        log.info("Значение [" + text + "] сохранено в переменную [" + variableName + "]");
+        log.trace("Значение [" + text + "] сохранено в переменную [" + variableName + "]");
     }
 
     /**
@@ -540,7 +540,7 @@ public class WebCheckSteps {
     public void storeElementValueInVariable(String elementName, String blockName, String variableName) {
         String text = coreScenario.getPage(blockName).getElement(elementName).getText();
         coreScenario.setVar(variableName, text);
-        log.info("Значение [" + text + "] сохранено в переменную [" + variableName + "]");
+        log.trace("Значение [" + text + "] сохранено в переменную [" + variableName + "]");
     }
 
 }

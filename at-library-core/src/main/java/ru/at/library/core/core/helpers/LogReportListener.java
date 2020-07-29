@@ -44,16 +44,16 @@ public class LogReportListener {
                         .savePageSource(true)
                         .enableLogs(LogType.BROWSER, Level.ALL)
         );
-        log.info("Включен слушатель Selenide в Allure");
+        log.trace("Включен слушатель Selenide в Allure");
     }
 
     private synchronized static void turnListenerRestAssured() {
         List<Filter> filters = new ArrayList<>();
         filters.add(new Log4jRestAssuredFilter());
-        log.info("Включен слушатель rest-assured в log4j");
+        log.trace("Включен слушатель rest-assured в log4j");
 
         filters.add(new AllureRestAssured());
-        log.info("Включен слушатель rest-assured в Allure");
+        log.trace("Включен слушатель rest-assured в Allure");
 
         RestAssured.filters(filters);
     }

@@ -54,7 +54,7 @@ public class InitialSetupSteps {
         for (String logText : webDriverLogs) {
             stringBuilder.append(logText);
             stringBuilder.append("\n\n");
-            log.info(logText);
+            log.trace(logText);
         }
 
         return stringBuilder.toString();
@@ -70,7 +70,7 @@ public class InitialSetupSteps {
     public void beforeEachTest(Scenario scenario) throws MalformedURLException {
         scenarioNumber++;
 
-        log.debug("Старт" + scenarioNumber + " сценария: " + scenario.getName());
+        log.info("Старт сценария №" + scenarioNumber + " с именем: " + scenario.getName());
 
         RestAssured.baseURI = System.getProperty("baseURI", tryLoadProperty("baseURI"));
         baseUrl = System.getProperty("baseURI", tryLoadProperty("baseURI"));
@@ -105,7 +105,7 @@ public class InitialSetupSteps {
         try {
             getWebDriver().quit();
         } catch (IllegalStateException ex) {
-            log.info("Использовался метод getWebDriver().quit(), но браузер не был запущен");
+            log.warn("Использовался метод getWebDriver().quit(), но браузер не был запущен");
         }
     }
 }

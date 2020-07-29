@@ -57,7 +57,7 @@ public class BrowserSteps {
     public void openUrl(String address) {
         String url = resolveVars(getPropertyOrStringVariableOrValue(address));
         open(url);
-        log.info("Url = " + url);
+        log.trace("Url = " + url);
     }
 
     /**
@@ -154,7 +154,7 @@ public class BrowserSteps {
     public void switchToTheNextTab() {
         String nextWindowHandle = nextWindowHandle();
         getWebDriver().switchTo().window(nextWindowHandle);
-        log.info("Текущая вкладка " + nextWindowHandle);
+        log.trace("Текущая вкладка " + nextWindowHandle);
     }
 
     /**
@@ -249,7 +249,7 @@ public class BrowserSteps {
     public void savePageTitleToVariable(String variableName) {
         String titleName = title();
         coreScenario.setVar(variableName, titleName);
-        log.info("Значение заголовка страницы [" + titleName + "] сохранено в переменную [" + variableName + "]");
+        log.trace("Значение заголовка страницы [" + titleName + "] сохранено в переменную [" + variableName + "]");
     }
 
     /**
@@ -263,7 +263,7 @@ public class BrowserSteps {
         int width = Integer.parseInt(widthString);
         int height = Integer.parseInt(heightString);
         getWebDriver().manage().window().setSize(new Dimension(width, height));
-        log.info("Установлены размеры окна браузера: ширина " + width + " высота" + height);
+        log.trace("Установлены размеры окна браузера: ширина " + width + " высота" + height);
     }
 
     /**
