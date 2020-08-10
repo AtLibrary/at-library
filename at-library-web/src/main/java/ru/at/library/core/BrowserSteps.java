@@ -213,8 +213,12 @@ public class BrowserSteps {
     @И("^выполнено переключение на вкладку с заголовком \"([^\"]*)\"$")
     public void switchToTheTabWithTitle(String title) {
         title = getPropertyOrStringVariableOrValue(title);
-        switchTo().window(title);
-        checkPageTitle(title);
+        try {
+            switchTo().window(title);
+        }catch (Exception exception){
+            exception.printStackTrace();
+            checkPageTitle(title);
+        }
     }
 
     /**
