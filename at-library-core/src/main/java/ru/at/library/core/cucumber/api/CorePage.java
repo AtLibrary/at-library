@@ -296,7 +296,7 @@ public abstract class CorePage extends ElementsContainer {
     private void checkCollectionFieldType(Field f) {
         if (ElementsCollection.class.isAssignableFrom(f.getType())) {
             return;
-        } else if (ElementsCollection.class.isAssignableFrom(f.getType())) {
+        } else if (ElementsCollection.class.isAssignableFrom(f.getType()) || List.class.isAssignableFrom(f.getType())) {
             ParameterizedType listType = (ParameterizedType) f.getGenericType();
             Class<?> listClass = (Class<?>) listType.getActualTypeArguments()[0];
             if (SelenideElement.class.isAssignableFrom(listClass) || CorePage.class.isAssignableFrom(listClass)) {
