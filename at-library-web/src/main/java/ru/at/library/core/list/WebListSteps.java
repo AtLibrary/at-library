@@ -1,4 +1,4 @@
-package ru.at.library.core;
+package ru.at.library.core.list;
 
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;

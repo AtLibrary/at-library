@@ -79,7 +79,9 @@ public final class Pages {
      * Получение страницы из "pages" по имени
      */
     public CorePage get(String pageName) {
-        return Selenide.page(getPageFromPagesByName(pageName)).initialize();
+        CorePage pageFromPagesByName = getPageFromPagesByName(pageName);
+        CorePage page = Selenide.page(pageFromPagesByName);
+        return page.initialize();
     }
 
     /**

@@ -19,7 +19,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!--WEB ТЕСТИРОВАНИЕ-->
-        <selenide.version>5.2.2</selenide.version>
+<!--        <selenide.version>5.13.1</selenide.version>-->
+        <selenide.version>5.2.7</selenide.version>
         <!--API ТЕСТИРОВАНИЕ-->
         <rest-assured.version>3.3.0</rest-assured.version>
         <!--MOBILE ТЕСТИРОВАНИЕ-->
@@ -28,7 +29,8 @@
         <!--        <cucumber.version>5.4.1</cucumber.version>-->
         <cucumber.version>4.3.0</cucumber.version>
         <!--ОТЧЕТ ALLURE-->
-        <allure.version>2.11.0</allure.version>
+<!--        <allure.version>2.11.0</allure.version>-->
+        <allure.version>2.13.5</allure.version>
         <!--LOMBOK-->
         <lombok.version>1.18.10</lombok.version>
         <!--JACKSON-->
