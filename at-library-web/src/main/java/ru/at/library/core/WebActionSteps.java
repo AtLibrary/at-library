@@ -392,7 +392,7 @@ public class WebActionSteps {
     @И("^выполнено нажатие на (?:кнопку|ссылку|поле|чекбокс|радиокнопу|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\"$")
     public void clickOnElementInBlock(String elementName, String blockName) {
         CorePage currentPage = coreScenario.getCurrentPage();
-        coreScenario.getPage(blockName).getElement(elementName).click();
+        coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName).click();
         coreScenario.setCurrentPage(currentPage);
     }
 

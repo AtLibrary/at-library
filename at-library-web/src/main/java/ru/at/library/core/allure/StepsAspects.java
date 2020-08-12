@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static io.qameta.allure.util.AspectUtils.getName;
 import static io.qameta.allure.util.AspectUtils.getParameters;
 import static io.qameta.allure.util.ResultsUtils.getStatus;
 import static io.qameta.allure.util.ResultsUtils.getStatusDetails;
@@ -47,7 +46,8 @@ public class StepsAspects {
         final И step = methodSignature.getMethod().getAnnotation(И.class);
 
         final String uuid = UUID.randomUUID().toString();
-        String name = getName(step.value(), joinPoint);
+//        String name = getName(step.value(), joinPoint);
+        String name = "getName(step.value(), joinPoint);";
         List<Parameter> parameters = getParameters(methodSignature, joinPoint.getArgs());
         name = updateName(name, parameters);
         parameters = updateParameters(parameters);

@@ -6,6 +6,7 @@ import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import cucumber.api.java.ru.И;
 import lombok.extern.log4j.Log4j2;
+import ru.at.library.core.cucumber.api.CorePage;
 import ru.at.library.core.cucumber.api.CoreScenario;
 
 import java.util.List;
@@ -38,7 +39,7 @@ public class WebListInBlockSteps {
      */
     @И("^список элементов \"([^\"]*)\" в блоке \"([^\"]*)\" отображается на странице$")
     public void listIsPresentedOnPage(String listName, String blockName) {
-        ElementsCollection elements = coreScenario.getPage(blockName).getElementsList(listName);
+        ElementsCollection elements = coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName);
         elements.first().shouldHave(visible);
     }
 
@@ -48,7 +49,7 @@ public class WebListInBlockSteps {
     @И("список элементов \"([^\"]*)\" в блоке \"([^\"]*)\" включает в себя список из таблицы$")
     public void checkIfListConsistsOfTableElements(String listName, List<String> textTable, String blockName) {
         textTable = getPropertyOrStringVariableOrValue(textTable);
-        ElementsCollection elements = coreScenario.getPage(blockName).getElementsList(listName);
+        ElementsCollection elements = coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName);
         for (String expectedText : textTable) {
             elements.find(text(expectedText)).shouldHave(text(expectedText));
         }
@@ -62,7 +63,7 @@ public class WebListInBlockSteps {
     @И("^список элементов \"([^\"]*)\" в блоке \"([^\"]*)\" равен списку из таблицы$")
     public void checkIfListInnerTextConsistsOfTableElements(String listName, List<String> textTable, String blockName) {
         textTable = getPropertyOrStringVariableOrValue(textTable);
-        ElementsCollection elements = coreScenario.getPage(blockName).getElementsList(listName);
+        ElementsCollection elements = coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName);
         elements.shouldHave(CollectionCondition.textsInAnyOrder(textTable));
     }
 
@@ -73,7 +74,8 @@ public class WebListInBlockSteps {
     @И("^нажатие на элемент с (?:текстом|значением) \"([^\"]*)\" в списке \"([^\"]*)\" в блоке \"([^\"]*)\"$")
     public void checkIfSelectedListElementMatchesValue(String expectedValue, String listName, String blockName) {
         final String value = getPropertyOrStringVariableOrValue(expectedValue);
-        ElementsCollection elements = coreScenario.getPage(blockName).getElementsList(listName);
+        CorePage page = coreScenario.getCurrentPage().getBlock(blockName);
+        ElementsCollection elements = page.getElementsList(listName);
         elements.find(exactText(value)).click();
     }
 
@@ -85,7 +87,8 @@ public class WebListInBlockSteps {
     @И("^нажатие на элемент содержащий (?:текст|значение) \"([^\"]*)\" в списке \"([^\"]*)\" в блоке \"([^\"]*)\"$")
     public void selectElementInListIfFoundByText(String expectedValue, String listName, String blockName) {
         final String value = getPropertyOrStringVariableOrValue(expectedValue);
-        ElementsCollection elements = coreScenario.getPage(blockName).getElementsList(listName);
+        CorePage page = coreScenario.getCurrentPage().getBlock(blockName);
+        ElementsCollection elements = page.getElementsList(listName);
         elements.find(text(value)).click();
     }
 
@@ -97,7 +100,7 @@ public class WebListInBlockSteps {
      */
     @И("^список элементов \"([^\"]*)\" в блоке \"([^\"]*)\" не отображается на странице$")
     public void listIsNotPresentedOnPage(String listName, String blockName) {
-        ElementsCollection elements = coreScenario.getPage(blockName).getElementsList(listName);
+        ElementsCollection elements = coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName);
         elements.first().shouldHave(not(visible));
     }
 
@@ -107,7 +110,7 @@ public class WebListInBlockSteps {
      */
     @И("^нажатие на \"(\\d+)\" элемент в списке \"([^\"]*)\" в блоке \"([^\"]*)\"$")
     public void selectElementNumberFromList(int number, String listName, String blockName) {
-        coreScenario.getPage(blockName).getElementsList(listName)
+        coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName)
                 .get(number - 1).click();
     }
 
@@ -118,7 +121,7 @@ public class WebListInBlockSteps {
      */
     @И("^нажатие на случайный элемент в списке \"([^\"]*)\" в блоке \"([^\"]*)\"$")
     public SelenideElement selectRandomElementFromList(String listName, String blockName) {
-        ElementsCollection listOfElementsFromPage = coreScenario.getPage(blockName).getElementsList(listName);
+        ElementsCollection listOfElementsFromPage = coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName);
         listOfElementsFromPage = listOfElementsFromPage.filter(visible);
         SelenideElement selenideElement = listOfElementsFromPage.get(getRandom(listOfElementsFromPage.size())).shouldBe(visible);
         selenideElement.click();
@@ -143,7 +146,7 @@ public class WebListInBlockSteps {
     @И("^текст в \"(\\d+)\" элементе списка \"([^\"]*)\" в блоке \"([^\"]*)\" равен тексту \"([^\"]*)\"$")
     public void checkTextElementInListElement(int number, String listName, String blockName, String expectedValue) {
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
-        coreScenario.getPage(blockName).getElementsList(listName)
+        coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName)
                 .get(number - 1).shouldHave(text(expectedValue));
     }
 
@@ -153,7 +156,7 @@ public class WebListInBlockSteps {
     @И("^список элементов \"([^\"]*)\" в блоке \"([^\"]*)\" содержит элемент с текстом \"([^\"]*)\"$")
     public void checkListElementsContainsText(String listName, String blockName, String expectedValue) {
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
-        ElementsCollection elements = coreScenario.getPage(blockName).getElementsList(listName);
+        ElementsCollection elements = coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName);
         elements.find(Condition.text(expectedValue)).shouldHave(text(expectedValue));
     }
 
@@ -163,7 +166,7 @@ public class WebListInBlockSteps {
     @И("^список элементов \"([^\"]*)\" в блоке \"([^\"]*)\" не содержит элемент с текстом \"([^\"]*)\"$")
     public void checkListElementsNotContainsText(String listName, String blockName, String expectedValue) {
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
-        ElementsCollection elements = coreScenario.getPage(blockName).getElementsList(listName);
+        ElementsCollection elements = coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName);
         elements.filter(Condition.text(expectedValue)).shouldHaveSize(0);
     }
 
@@ -174,7 +177,7 @@ public class WebListInBlockSteps {
     @И("^список элементов \"([^\"]*)\" в блоке \"([^\"]*)\" состоит из \"([^\"]*)\" элементов")
     public void listContainsNumberOfElements(String listName, String blockName, String quantity) {
         int numberOfElements = Integer.parseInt(getPropertyOrStringVariableOrValue(quantity));
-        coreScenario.getPage(blockName).getElementsList(listName)
+        coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName)
                 .shouldHaveSize(numberOfElements);
     }
 
@@ -184,7 +187,7 @@ public class WebListInBlockSteps {
      */
     @И("^в списке элементов \"([^\"]*)\" в блоке \"([^\"]*)\" содержится (более|менее) (\\d+) (?:элементов|элемента)")
     public void listContainsMoreOrLessElements(String listName, String blockName, String moreOrLess, int quantity) {
-        ElementsCollection listOfElementsFromPage = coreScenario.getPage(blockName).getElementsList(listName);
+        ElementsCollection listOfElementsFromPage = coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName);
         if ("более".equals(moreOrLess)) {
             listOfElementsFromPage.shouldHave(CollectionCondition.sizeGreaterThan(quantity));
         } else

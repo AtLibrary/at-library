@@ -3,7 +3,6 @@ package ru.at.library.core.core.helpers;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.restassured.AllureRestAssured;
 import io.qameta.allure.selenide.AllureSelenide;
-import io.qameta.allure.selenide.LogType;
 import io.restassured.RestAssured;
 import io.restassured.filter.Filter;
 import lombok.extern.log4j.Log4j2;
@@ -11,7 +10,6 @@ import ru.at.library.core.core.log.Log4jRestAssuredFilter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 
 @Log4j2
 public class LogReportListener {
@@ -42,7 +40,7 @@ public class LogReportListener {
                 new AllureSelenide()
                         .screenshots(true)
                         .savePageSource(true)
-                        .enableLogs(LogType.BROWSER, Level.ALL)
+//                        .enableLogs(LogType.BROWSER, Level.ALL)
         );
         log.trace("Включен слушатель Selenide в Allure");
     }
