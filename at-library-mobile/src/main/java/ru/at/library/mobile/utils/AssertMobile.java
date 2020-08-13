@@ -34,7 +34,7 @@ public class AssertMobile {
             sleep(1000);
         }
         screenshot();
-        Assert.fail("Текс: " + actualText + " не содержит: " + containText);
+        Assert.fail("Текст: " + actualText + " не содержит: " + containText);
     }
 
     public static void display(WebElement element, boolean expectedDisplayed, int second) {
