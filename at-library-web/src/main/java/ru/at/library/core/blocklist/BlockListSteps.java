@@ -48,6 +48,16 @@ public class BlockListSteps {
     }
 
 
+    @И("^в любом блоке в списке блоков \"([^\"]*)\" в элементе \"([^\"]*)\" текст равен \"([^\"]*)\"$")
+    public void checkTextInAnyBlock(String listName, String elementName, String expectedText) {
+        expectedText = getPropertyOrStringVariableOrValue(expectedText);
+
+        List<CorePage> blocksList =
+                coreScenario.getCurrentPage().getBlocksList(listName);
+        findCorePageByTextInElement(blocksList, elementName, expectedText);
+    }
+
+
     @И("^в любом блоке в списке блоков \"([^\"]*)\" в блоке \"([^\"]*)\" в элементе \"([^\"]*)\" текст равен \"([^\"]*)\"$")
     public void checkTextInAnyBlock(String listName, String blockName, String elementName, String expectedText) {
         expectedText = getPropertyOrStringVariableOrValue(expectedText);
@@ -110,6 +120,15 @@ public class BlockListSteps {
     @И("^текст в элементе \"([^\"]*)\" равен формату \"([^\"]*)\" в списке блоков \"([^\"]*)\" где в элементе \"([^\"]*)\" текст равен \"([^\"]*)\" в блоке \"([^\"]*)\"$")
     public void checkTextInAnyBlockMatches(String elementNameClick, String regExp, String listName, String elementNameText, String expectedText, String blockName) {
         List<CorePage> blocksList = coreScenario.getCurrentPage().getBlock(blockName).getBlocksList(listName);
+        CorePage corePageByTextInElement = findCorePageByTextInElement(blocksList, elementNameText, expectedText);
+
+        SelenideElement element = corePageByTextInElement.getElement(elementNameClick);
+        checkTextMatches(element, regExp);
+    }
+
+    @И("^текст в элементе \"([^\"]*)\" равен формату \"([^\"]*)\" в списке блоков \"([^\"]*)\" где в элементе \"([^\"]*)\" текст равен \"([^\"]*)\"$")
+    public void checkTextInAnyBlockMatches(String elementNameClick, String regExp, String listName, String elementNameText, String expectedText) {
+        List<CorePage> blocksList = coreScenario.getCurrentPage().getBlocksList(listName);
         CorePage corePageByTextInElement = findCorePageByTextInElement(blocksList, elementNameText, expectedText);
 
         SelenideElement element = corePageByTextInElement.getElement(elementNameClick);
