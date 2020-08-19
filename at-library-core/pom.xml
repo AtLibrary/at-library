@@ -13,13 +13,49 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <junit-platform-console-standalone.version>1.6.2</junit-platform-console-standalone.version>
+        <exec-maven.version>1.6.0</exec-maven.version>
     </properties>
+
+    <profiles>
+        <profile>
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <surefire_phase>test</surefire_phase>
+                <exec_phase>none</exec_phase>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>console-only</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>console-only</value>
+                </property>
+            </activation>
+            <properties>
+                <surefire_phase>none</surefire_phase>
+                <exec_phase>test</exec_phase>
+            </properties>
+        </profile>
+    </profiles>
 
     <dependencies>
         <dependency>
             <groupId>jcifs</groupId>
             <artifactId>jcifs</artifactId>
             <version>1.3.17</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-console-standalone</artifactId>
+            <version>${junit-platform-console-standalone.version}</version>
         </dependency>
     </dependencies>
 
@@ -51,6 +87,12 @@
                         --plugin io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm"
                     </argLine>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>default-test</id>
+                        <phase>${surefire_phase}</phase>
+                    </execution>
+                </executions>
                 <dependencies>
                     <dependency>
                         <groupId>org.aspectj</groupId>
@@ -58,6 +100,32 @@
                         <version>1.9.1</version>
                     </dependency>
                 </dependencies>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>${exec-maven.version}</version>
+                <executions>
+                    <execution>
+                        <phase>${exec_phase}</phase>
+                        <goals><goal>java</goal></goals>
+                        <configuration>
+                            <mainClass>org.junit.platform.console.ConsoleLauncher</mainClass>
+                            <arguments>
+                                <argument>--scan-class-path</argument>
+                                <argument>${project.build.directory}/test-classes</argument>
+                            </arguments>
+                            <classpathScope>test</classpathScope>
+                            <systemProperties>
+                                <systemProperty>
+                                    <key>file.encoding</key>
+                                    <value>UTF-8</value>
+                                </systemProperty>
+                            </systemProperties>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>
