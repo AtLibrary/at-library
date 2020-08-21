@@ -40,6 +40,11 @@ public class InitialSetupSteps {
 
     private static int scenarioNumber = 0;
 
+    private boolean hasWebDriver(Scenario scenario) {
+        return scenario.getSourceTagNames().contains("@web") ||
+                scenario.getSourceTagNames().contains("@mobile");
+    }
+
     @Delegate
     CoreScenario coreScenario = CoreScenario.getInstance();
 
@@ -70,7 +75,7 @@ public class InitialSetupSteps {
     public void beforeEachTest(Scenario scenario) throws MalformedURLException {
         scenarioNumber++;
 
-        log.info("Старт сценария №" + scenarioNumber + " с именем: " + scenario.getName());
+        log.info(String.format("%s: старт сценария %d с именем %s", scenario.getId(), scenarioNumber, scenario.getName()));
 
         RestAssured.baseURI = System.getProperty("baseURI", tryLoadProperty("baseURI"));
         baseUrl = System.getProperty("baseURI", tryLoadProperty("baseURI"));
@@ -78,11 +83,7 @@ public class InitialSetupSteps {
         /**
          * Если сценарий содержит тег @web" то будет создан WebDriver
          */
-        boolean uiTest =
-                scenario.getSourceTagNames().contains("@web") ||
-                        scenario.getSourceTagNames().contains("@mobile");
-
-        if (uiTest) {
+        if (hasWebDriver(scenario)) {
             new InitialDriver().startUITest(scenario);
         }
 
@@ -102,10 +103,14 @@ public class InitialSetupSteps {
      */
     @After(order = 0)
     public void afterEachTest(Scenario scenario) {
-        try {
-            getWebDriver().quit();
-        } catch (IllegalStateException ex) {
-            log.warn("Использовался метод getWebDriver().quit(), но браузер не был запущен");
+        log.info(String.format("%s: завершения сценария с именем %s", scenario.getId(), scenario.getName()));
+
+        if (hasWebDriver(scenario)) {
+            try {
+                getWebDriver().quit();
+            } catch (IllegalStateException ex) {
+                log.warn("Использовался метод getWebDriver().quit(), но браузер не был запущен");
+            }
         }
     }
 }

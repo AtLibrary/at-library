@@ -26,15 +26,15 @@ public class InitialDriver {
          * Уведомление о месте запуска тестов
          */
         if (Strings.isNullOrEmpty(Configuration.remote)) {
-            initLocalStart(proxy);
+            initLocalStart(proxy, scenario);
         } else {
             initRemoteStart(proxy, scenario);
         }
     }
 
-    private void initLocalStart(Proxy proxy) {
-        log.info("Тест запущен на операционной системе: " + System.getProperty("os.name"));
-        log.info("Тест запущен локально в браузере: " + browser);
+    private void initLocalStart(Proxy proxy, Scenario scenario) {
+        log.info(String.format("%s: Тест запущен на операционной системе: %s", scenario.getId(), System.getProperty("os.name")));
+        log.info(String.format("%s: Тест запущен локально в браузере: %s", scenario.getId(), browser));
         if (proxy != null) {
             WebDriverRunner.setProxy(proxy);
             log.trace("Проставлена прокси: " + proxy);
@@ -43,8 +43,8 @@ public class InitialDriver {
     }
 
     private void initRemoteStart(Proxy proxy, Scenario scenario) {
-        log.info("Тест запущен на удаленной машине: " + Configuration.remote);
-        log.info("Тест запущен в браузере: " + browser);
+        log.info(String.format("%s: Тест запущен на удаленной машине: %s", scenario.getId(), Configuration.remote));
+        log.info(String.format("%s: Тест запущен в браузере: %s", scenario.getId(), browser));
 
         Configuration.browserCapabilities.setCapability("enableVNC", true);
         Configuration.browserCapabilities.setCapability("enableVideo", false);
