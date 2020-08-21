@@ -103,11 +103,12 @@ public class InitialSetupSteps {
      */
     @After(order = 0)
     public void afterEachTest(Scenario scenario) {
-        log.info(String.format("%s: завершения сценария с именем %s", scenario.getId(), scenario.getName()));
+        log.info(String.format("%s: завершение сценария с именем %s", scenario.getId(), scenario.getName()));
 
         if (hasWebDriver(scenario)) {
             try {
                 getWebDriver().quit();
+                log.info(String.format("%s: драйвер успешно остановлен", scenario.getId()));
             } catch (IllegalStateException ex) {
                 log.warn("Использовался метод getWebDriver().quit(), но браузер не был запущен");
             }
