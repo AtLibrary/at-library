@@ -1,7 +1,6 @@
 package ru.at.library.core.blocklist;
 
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import cucumber.api.java.ru.И;
@@ -172,31 +171,23 @@ public class BlockListSteps {
     }
 
 
-    @Step("Проверка что TextMatches элемента '{elementName}' : '{expectedText}'")
+    @Step("Проверка что TextMatches элемента '{elementName}' : '{regExp}'")
     private void checkTextMatches(CorePage block, String elementName, String regExp) {
         SelenideElement element = block.getElement(elementName);
 
-        int timeSleep = 100;
-        for (int i = 0; i < Configuration.timeout; i += timeSleep) {
-            boolean textMatches = false;
-            boolean valueMatches = false;
-            boolean titleMatches = false;
+        boolean textMatches = element.is(Condition.matchText(regExp));
+        boolean valueMatches = false;
+        boolean titleMatches = false;
 
-            if (element.getText() != null) {
-                textMatches = isTextMatches(element.getText(), regExp);
-            }
-            if (element.getValue() != null) {
-                valueMatches = isTextMatches(element.getValue(), regExp);
-            }
-            if (element.getAttribute("title") != null) {
-                titleMatches = isTextMatches(element.getAttribute("title"), regExp);
-            }
+        if (element.getValue() != null) {
+            valueMatches = isTextMatches(element.getValue(), regExp);
+        }
+        if (element.getAttribute("title") != null) {
+            titleMatches = isTextMatches(element.getAttribute("title"), regExp);
+        }
 
-            if (textMatches || valueMatches || titleMatches) {
-                return;
-            }
-
-            Selenide.sleep(timeSleep);
+        if (textMatches || valueMatches || titleMatches) {
+            return;
         }
 
         element.waitUntil(Condition.matchText(regExp), 1);
