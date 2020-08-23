@@ -5,6 +5,7 @@ import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import cucumber.api.java.ru.И;
+import io.qameta.allure.Step;
 import lombok.extern.log4j.Log4j2;
 import ru.at.library.core.cucumber.api.CorePage;
 import ru.at.library.core.cucumber.api.CoreScenario;
@@ -75,8 +76,7 @@ public class BlockListSteps {
                 coreScenario.getCurrentPage().getBlock(blockName).getBlocksList(listName);
 
         for (CorePage block : blocksList) {
-            SelenideElement element = block.getElement(elementName);
-            checkTextMatches(element, regExp);
+            checkTextMatches(block, elementName, regExp);
         }
     }
 
@@ -118,23 +118,22 @@ public class BlockListSteps {
     }
 
     @И("^текст в элементе \"([^\"]*)\" равен формату \"([^\"]*)\" в списке блоков \"([^\"]*)\" где в элементе \"([^\"]*)\" текст равен \"([^\"]*)\" в блоке \"([^\"]*)\"$")
-    public void checkTextInAnyBlockMatches(String elementNameClick, String regExp, String listName, String elementNameText, String expectedText, String blockName) {
+    public void checkTextInAnyBlockMatches(String elementNameCheck, String regExp, String listName, String elementNameText, String expectedText, String blockName) {
         List<CorePage> blocksList = coreScenario.getCurrentPage().getBlock(blockName).getBlocksList(listName);
         CorePage corePageByTextInElement = findCorePageByTextInElement(blocksList, elementNameText, expectedText);
 
-        SelenideElement element = corePageByTextInElement.getElement(elementNameClick);
-        checkTextMatches(element, regExp);
+        checkText(corePageByTextInElement,elementNameCheck, regExp);
     }
 
     @И("^текст в элементе \"([^\"]*)\" равен формату \"([^\"]*)\" в списке блоков \"([^\"]*)\" где в элементе \"([^\"]*)\" текст равен \"([^\"]*)\"$")
-    public void checkTextInAnyBlockMatches(String elementNameClick, String regExp, String listName, String elementNameText, String expectedText) {
+    public void checkTextInAnyBlockMatches(String elementNameCheck, String regExp, String listName, String elementNameText, String expectedText) {
         List<CorePage> blocksList = coreScenario.getCurrentPage().getBlocksList(listName);
         CorePage corePageByTextInElement = findCorePageByTextInElement(blocksList, elementNameText, expectedText);
 
-        SelenideElement element = corePageByTextInElement.getElement(elementNameClick);
-        checkTextMatches(element, regExp);
+        checkText(corePageByTextInElement, elementNameCheck, regExp);
     }
 
+    @Step("Поиск блока в котором текст элемента '{elementName}' равен : '{expectedText}'")
     private CorePage findCorePageByTextInElement(List<CorePage> blocksList, String elementName, String expectedText) {
         for (CorePage page : blocksList) {
             SelenideElement element = page.getElement(elementName);
@@ -154,10 +153,29 @@ public class BlockListSteps {
         }
         takeScreenshot();
         //TODO добавить имя блок и имя элемента
-        throw new AssertionError("Текст: " + expectedText + " не найден в блоках!");
+        throw new AssertionError(
+                "Во всех блоках в элементах " + elementName + " не найден текст:" + expectedText
+                        + "\nРазмер блоков: " + blocksList.size()
+                        + "\nСодержимое блоков: " + blocksList);
     }
 
-    private void checkTextMatches(SelenideElement element, String regExp) {
+
+    @Step("Проверка что текст элемента '{elementName}' равен: '{expectedText}'")
+    private void checkText(CorePage block, String elementName,  String expectedText) {
+        SelenideElement element = block.getElement(elementName);
+
+        element.shouldHave(Condition.or("проверка на текст",
+                Condition.exactText(expectedText),
+                Condition.exactValue(expectedText),
+                Condition.attribute("title", expectedText)
+        ));
+    }
+
+
+    @Step("Проверка что TextMatches элемента '{elementName}' : '{expectedText}'")
+    private void checkTextMatches(CorePage block, String elementName, String regExp) {
+        SelenideElement element = block.getElement(elementName);
+
         int timeSleep = 100;
         for (int i = 0; i < Configuration.timeout; i += timeSleep) {
             boolean textMatches = false;
@@ -174,15 +192,12 @@ public class BlockListSteps {
                 titleMatches = isTextMatches(element.getAttribute("title"), regExp);
             }
 
-
             if (textMatches || valueMatches || titleMatches) {
                 return;
             }
 
             Selenide.sleep(timeSleep);
         }
-
-        takeScreenshot();
 
         element.waitUntil(Condition.matchText(regExp), 1);
     }

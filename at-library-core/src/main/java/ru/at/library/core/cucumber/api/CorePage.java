@@ -351,4 +351,6 @@ public abstract class CorePage extends ElementsContainer {
     private Object extractFieldValueViaReflection(Field field) {
         return Reflection.extractFieldValue(field, this);
     }
+
+
 }
