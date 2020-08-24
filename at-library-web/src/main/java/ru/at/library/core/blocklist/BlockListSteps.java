@@ -121,7 +121,7 @@ public class BlockListSteps {
         List<CorePage> blocksList = coreScenario.getCurrentPage().getBlock(blockName).getBlocksList(listName);
         CorePage corePageByTextInElement = findCorePageByTextInElement(blocksList, elementNameText, expectedText);
 
-        checkText(corePageByTextInElement,elementNameCheck, regExp);
+        checkTextMatches(corePageByTextInElement,elementNameCheck, regExp);
     }
 
     @И("^текст в элементе \"([^\"]*)\" равен формату \"([^\"]*)\" в списке блоков \"([^\"]*)\" где в элементе \"([^\"]*)\" текст равен \"([^\"]*)\"$")
@@ -129,7 +129,7 @@ public class BlockListSteps {
         List<CorePage> blocksList = coreScenario.getCurrentPage().getBlocksList(listName);
         CorePage corePageByTextInElement = findCorePageByTextInElement(blocksList, elementNameText, expectedText);
 
-        checkText(corePageByTextInElement, elementNameCheck, regExp);
+        checkTextMatches(corePageByTextInElement, elementNameCheck, regExp);
     }
 
     @Step("Поиск блока в котором текст элемента '{elementName}' равен : '{expectedText}'")
