@@ -5,13 +5,15 @@ import com.codeborne.selenide.SelenideElement;
 import cucumber.api.java.ru.А;
 import cucumber.api.java.ru.И;
 import lombok.extern.log4j.Log4j2;
+import org.openqa.selenium.By;
 import ru.at.library.core.cucumber.api.CoreScenario;
 
 import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selenide.sleep;
+import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverRunner.isIE;
 import static org.junit.Assert.assertEquals;
 import static ru.at.library.core.steps.OtherSteps.getPropertyOrStringVariableOrValue;
+import static ru.at.library.core.steps.OtherSteps.getTranslateNormalizeSpaceText;
 
 /**
  * WEB шаги
@@ -101,6 +103,56 @@ public class WebCheckSteps {
     public void elementHidden(String elementName) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
         element.shouldHave(hidden);
+    }
+
+    /**
+     * Проверка появления элемента(не списка) в видимой части браузера
+     *
+     * @param element элемент для проверки
+     */
+    private void elementInBounds(SelenideElement element) {
+        int elementLeftBound = element.getLocation().x;
+        int elementUpperBound = element.getLocation().y;
+        int elementRightBound = elementLeftBound + element.getSize().width;
+        int elementLowerBound = elementUpperBound + element.getSize().height;
+
+        long winLeftBound = executeJavaScript("return window.pageXOffset");
+        long winUpperBound = executeJavaScript("return window.pageYOffset");
+        long winWidth = executeJavaScript("return document.documentElement.clientWidth");
+        long winHeight = executeJavaScript("return document.documentElement.clientHeight");
+        long winRightBound = winLeftBound + winWidth;
+        long winLowerBound = winUpperBound + winHeight;
+
+        boolean inBounds = winLeftBound <= elementLeftBound
+                && winUpperBound <= elementUpperBound
+                && winRightBound >= elementRightBound
+                && winLowerBound >= elementLowerBound;
+
+        assertEquals(String.format("Элемент вне видимой части браузера. Видимая область: %d %d %d %d Координаты элемента: %d %d %d %d",
+                winLeftBound, winUpperBound, winRightBound, winLowerBound, elementLeftBound, elementUpperBound, elementRightBound, elementLowerBound),
+                true, inBounds);
+    }
+
+    /**
+     * Проверка появления элемента(не списка) в видимой части браузера
+     *
+     * @param elementName название
+     */
+    @И("^элемент \"([^\"]*)\" расположен в видимой части страницы$")
+    public void elementInVisiblePartOfBrowser(String elementName) {
+        elementInBounds(coreScenario.getCurrentPage().getElement(elementName));
+    }
+
+    /**
+     * Проверка появления элемента(не списка) с текстом из property файла, из переменной сценария в видимой части браузера
+     *
+     * @param expectedValue текст/переменная в property файле/переменная сценария
+     */
+    @И("^элемент содержащий текст \"([^\"]*)\" расположен в видимой части страницы$")
+    public void elementWihTextInVisiblePartOfBrowser(String expectedValue) {
+        elementInBounds(
+                $(By.xpath(getTranslateNormalizeSpaceText(getPropertyOrStringVariableOrValue(expectedValue))))
+        );
     }
 
     /**
@@ -233,7 +285,14 @@ public class WebCheckSteps {
      */
     @И("^в (?:кнопке|ссылке|поле|чекбоксе|радиокнопке|тексте|элементе) \"([^\"]*)\" содержится (\\d+) символов$")
     public void checkFieldSymbolsCount(String elementName, int num) {
-        int length = coreScenario.getCurrentPage().getElement(elementName).getText().length();
+        //int length = coreScenario.getCurrentPage().getElement(elementName).getText().length();
+        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
+        int length;
+        if (element.getTagName().equalsIgnoreCase("input")) {
+            length = element.getAttribute("value").length();
+        } else {
+            length = element.getText().length();
+        }
         assertEquals(String.format("Неверное количество символов. Ожидаемый результат: %s, текущий результат: %s", num, length), num, length);
     }
 

@@ -299,8 +299,10 @@ public class WebActionSteps {
     public void setRandomCharSequence(String elementName, String seqLengthString, String lang) {
         int seqLength = Integer.parseInt(seqLengthString);
         SelenideElement valueInput = coreScenario.getCurrentPage().getElement(elementName);
-        if (lang.equals("кириллице")) lang = "ru";
-        else lang = "en";
+        if (lang.equals("кириллице"))
+            lang = "ru";
+        else
+            lang = "en";
         String charSeq = getRandCharSequence(seqLength, lang);
         valueInput.setValue(charSeq);
         log.trace("Строка случайных символов равна :" + charSeq);
@@ -314,8 +316,10 @@ public class WebActionSteps {
     public void setRandomCharSequenceAndSaveToVar(String elementName, String seqLengthString, String lang, String varName) {
         int seqLength = Integer.parseInt(seqLengthString);
         SelenideElement valueInput = coreScenario.getCurrentPage().getElement(elementName);
-        if (lang.equals("кириллице")) lang = "ru";
-        else lang = "en";
+        if (lang.equals("кириллице"))
+            lang = "ru";
+        else
+            lang = "en";
         String charSeq = getRandCharSequence(seqLength, lang);
         valueInput.setValue(charSeq);
         coreScenario.setVar(varName, charSeq);
@@ -340,8 +344,8 @@ public class WebActionSteps {
      */
     @Deprecated
     @И("^в поле \"([^\"]*)\" введено случайное число из (\\d+) (?:цифр|цифры) и сохранено в переменную \"([^\"]*)\"$")
-    public void inputAndSetRandomNumSequence(String elementName, String seqLengthString, String varName) {
-        String value = inputRandomNumSequence(elementName, seqLengthString);
+    public void inputAndSetRandomNumSequence(String elementName, int seqLengthString, String varName) {
+        String value = inputRandomNumSequence(elementName, String.valueOf(seqLengthString));
         coreScenario.setVar(varName, value);
         log.trace(String.format("В поле [%s] введено значение [%s] и сохранено в переменную [%s]",
                 elementName, value, varName));
@@ -380,7 +384,6 @@ public class WebActionSteps {
     public void scrollWhileElemWithTextNotFoundOnPage(String expectedValue) {
         SelenideElement el = $(By.xpath(getTranslateNormalizeSpaceText(getPropertyOrStringVariableOrValue(expectedValue))));
         ((JavascriptExecutor) WebDriverRunner.getWebDriver()).executeScript("arguments[0].scrollIntoView();", el);
-        el.click();
     }
 
     /**

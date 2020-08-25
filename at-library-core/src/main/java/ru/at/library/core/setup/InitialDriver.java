@@ -33,18 +33,18 @@ public class InitialDriver {
     }
 
     private void initLocalStart(Proxy proxy, Scenario scenario) {
-        log.info(String.format("%s: Тест запущен на операционной системе: %s", scenario.getId(), System.getProperty("os.name")));
-        log.info(String.format("%s: Тест запущен локально в браузере: %s", scenario.getId(), browser));
+        log.info(String.format("%s: ОС: %s", scenario.getId(), System.getProperty("os.name")));
+        log.info(String.format("%s: локальный бразуер: %s", scenario.getId(), browser));
         if (proxy != null) {
             WebDriverRunner.setProxy(proxy);
-            log.trace("Проставлена прокси: " + proxy);
+            log.trace(String.format("%s: Проставлена прокси: %s", scenario.getId(), proxy));
         }
 
     }
 
     private void initRemoteStart(Proxy proxy, Scenario scenario) {
-        log.info(String.format("%s: Тест запущен на удаленной машине: %s", scenario.getId(), Configuration.remote));
-        log.info(String.format("%s: Тест запущен в браузере: %s", scenario.getId(), browser));
+        log.info(String.format("%s: удаленная машина: %s", scenario.getId(), Configuration.remote));
+        log.info(String.format("%s: браузер: %s", scenario.getId(), browser));
 
         Configuration.browserCapabilities.setCapability("enableVNC", true);
         Configuration.browserCapabilities.setCapability("enableVideo", false);
@@ -52,7 +52,7 @@ public class InitialDriver {
 
         if (proxy != null) {
             Configuration.browserCapabilities.setCapability(CapabilityType.PROXY, proxy);
-            log.info("Проставлена прокси: " + proxy);
+            log.trace(String.format("%s: Проставлена прокси: %s", scenario.getId(), proxy));
         }
     }
 
