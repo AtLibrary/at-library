@@ -40,11 +40,6 @@ public class InitialSetupSteps {
 
     private static int scenarioNumber = 0;
 
-    private boolean hasWebDriver(Scenario scenario) {
-        return scenario.getSourceTagNames().contains("@web") ||
-                scenario.getSourceTagNames().contains("@mobile");
-    }
-
     @Delegate
     CoreScenario coreScenario = CoreScenario.getInstance();
 
@@ -112,5 +107,10 @@ public class InitialSetupSteps {
                 log.warn(String.format("%s: Использовался метод getWebDriver().quit(), но браузер не был запущен", scenario.getId()));
             }
         }
+    }
+
+    private boolean hasWebDriver(Scenario scenario) {
+        return scenario.getSourceTagNames().contains("@web") ||
+                scenario.getSourceTagNames().contains("@mobile");
     }
 }

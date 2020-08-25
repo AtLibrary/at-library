@@ -285,8 +285,8 @@ public class WebCheckSteps {
      */
     @И("^в (?:кнопке|ссылке|поле|чекбоксе|радиокнопке|тексте|элементе) \"([^\"]*)\" содержится (\\d+) символов$")
     public void checkFieldSymbolsCount(String elementName, int num) {
-        //int length = coreScenario.getCurrentPage().getElement(elementName).getText().length();
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
+        element.should(visible);
         int length;
         if (element.getTagName().equalsIgnoreCase("input")) {
             length = element.getAttribute("value").length();
