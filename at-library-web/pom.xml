@@ -53,6 +53,8 @@
                         </property>
                     </properties>
                     <perCoreThreadCount>false</perCoreThreadCount>
+                    <threadCount>20</threadCount>
+                    <parallel>methods</parallel>
                     <threadCount>4</threadCount>
                     <parallel>classesAndMethods</parallel>
                     <testFailureIgnore>true</testFailureIgnore>
