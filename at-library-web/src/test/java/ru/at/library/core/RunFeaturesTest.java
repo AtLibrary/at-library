@@ -10,7 +10,7 @@ import org.testng.annotations.DataProvider;
 @CucumberOptions(
         monochrome = true,
         plugin = {"io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm", "pretty"},
-        tags = "@web-action-steps",
+        tags = "@web-check-steps",
         features = "src/test/resources/features",
         glue = {"ru"}
 )

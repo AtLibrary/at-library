@@ -53,7 +53,9 @@ public class WebCheckSteps {
     public void blockDisappeared(String nameOfPage) {
         if (isIE()) {
             coreScenario.getPage(nameOfPage).ieDisappeared();
-        } else coreScenario.getPage(nameOfPage).disappeared();
+        } else {
+            coreScenario.getPage(nameOfPage).disappeared();
+        }
     }
 
     /**
