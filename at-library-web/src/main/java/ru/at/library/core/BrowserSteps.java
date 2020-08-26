@@ -222,6 +222,32 @@ public class BrowserSteps {
     }
 
     /**
+     * Переключение на фрейм с именем (property/var/hardcode)
+     *
+     * @param frameName имя/id фрейма
+     */
+    @И("^выполнено переключение на фрейм с (?:именем|id) \"([^\"]*)\"$")
+    public void switchToFrameWithName(String frameName) {
+        try {
+            switchTo().frame(getPropertyOrStringVariableOrValue(frameName));
+        }catch (Exception exception){
+            exception.printStackTrace();
+        }
+    }
+
+    /**
+     * Переключение на основной фрейм страницы
+     */
+    @И("^выполнено переключение основной на фрейм страницы$")
+    public void switchToDefaultFrame() {
+        try {
+            switchTo().defaultContent();
+        }catch (Exception exception){
+            exception.printStackTrace();
+        }
+    }
+
+    /**
      * Производится сравнение заголовка страницы со значением, указанным в шаге
      * (в приоритете: из property, из переменной сценария, значение аргумента)
      *
