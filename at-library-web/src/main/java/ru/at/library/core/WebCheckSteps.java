@@ -108,34 +108,6 @@ public class WebCheckSteps {
     /**
      * Проверка появления элемента(не списка) в видимой части браузера
      *
-     * @param element элемент для проверки
-     */
-    private void elementInBounds(SelenideElement element) {
-        int elementLeftBound = element.getLocation().x;
-        int elementUpperBound = element.getLocation().y;
-        int elementRightBound = elementLeftBound + element.getSize().width;
-        int elementLowerBound = elementUpperBound + element.getSize().height;
-
-        long winLeftBound = executeJavaScript("return window.pageXOffset");
-        long winUpperBound = executeJavaScript("return window.pageYOffset");
-        long winWidth = executeJavaScript("return document.documentElement.clientWidth");
-        long winHeight = executeJavaScript("return document.documentElement.clientHeight");
-        long winRightBound = winLeftBound + winWidth;
-        long winLowerBound = winUpperBound + winHeight;
-
-        boolean inBounds = winLeftBound <= elementLeftBound
-                && winUpperBound <= elementUpperBound
-                && winRightBound >= elementRightBound
-                && winLowerBound >= elementLowerBound;
-
-        assertEquals(String.format("Элемент вне видимой части браузера. Видимая область: %d %d %d %d Координаты элемента: %d %d %d %d",
-                winLeftBound, winUpperBound, winRightBound, winLowerBound, elementLeftBound, elementUpperBound, elementRightBound, elementLowerBound),
-                true, inBounds);
-    }
-
-    /**
-     * Проверка появления элемента(не списка) в видимой части браузера
-     *
      * @param elementName название
      */
     @И("^элемент \"([^\"]*)\" расположен в видимой части страницы$")
@@ -285,8 +257,8 @@ public class WebCheckSteps {
      */
     @И("^в (?:кнопке|ссылке|поле|чекбоксе|радиокнопке|тексте|элементе) \"([^\"]*)\" содержится (\\d+) символов$")
     public void checkFieldSymbolsCount(String elementName, int num) {
-        //int length = coreScenario.getCurrentPage().getElement(elementName).getText().length();
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
+        element.should(visible);
         int length;
         if (element.getTagName().equalsIgnoreCase("input")) {
             length = element.getAttribute("value").length();
@@ -602,4 +574,31 @@ public class WebCheckSteps {
         log.trace("Значение [" + text + "] сохранено в переменную [" + variableName + "]");
     }
 
+    /**
+     * Проверка появления элемента(не списка) в видимой части браузера
+     *
+     * @param element элемент для проверки
+     */
+    private void elementInBounds(SelenideElement element) {
+        int elementLeftBound = element.getLocation().x;
+        int elementUpperBound = element.getLocation().y;
+        int elementRightBound = elementLeftBound + element.getSize().width;
+        int elementLowerBound = elementUpperBound + element.getSize().height;
+
+        long winLeftBound = executeJavaScript("return window.pageXOffset");
+        long winUpperBound = executeJavaScript("return window.pageYOffset");
+        long winWidth = executeJavaScript("return document.documentElement.clientWidth");
+        long winHeight = executeJavaScript("return document.documentElement.clientHeight");
+        long winRightBound = winLeftBound + winWidth;
+        long winLowerBound = winUpperBound + winHeight;
+
+        boolean inBounds = winLeftBound <= elementLeftBound
+                && winUpperBound <= elementUpperBound
+                && winRightBound >= elementRightBound
+                && winLowerBound >= elementLowerBound;
+
+        assertEquals(String.format("Элемент вне видимой части браузера. Видимая область: %d %d %d %d Координаты элемента: %d %d %d %d",
+                winLeftBound, winUpperBound, winRightBound, winLowerBound, elementLeftBound, elementUpperBound, elementRightBound, elementLowerBound),
+                true, inBounds);
+    }
 }
