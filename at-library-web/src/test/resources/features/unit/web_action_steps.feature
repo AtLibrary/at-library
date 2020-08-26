@@ -1,5 +1,5 @@
 # language: ru
-#@unit
+@unit
 @web
 @web-action-steps
 Функционал: WebActionSteps
