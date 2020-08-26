@@ -58,6 +58,16 @@ public class BlockListSteps {
     }
 
 
+    @И("^в любом блоке в списке блоков \"([^\"]*)\" в элементе \"([^\"]*)\" текст содержит \"([^\"]*)\"$")
+    public void checkContainTextInAnyBlock(String listName, String elementName, String expectedText) {
+        expectedText = getPropertyOrStringVariableOrValue(expectedText);
+
+        List<CorePage> blocksList =
+                coreScenario.getCurrentPage().getBlocksList(listName);
+        findCorePageByTextContainInElement(blocksList, elementName, expectedText);
+    }
+
+
     @И("^в любом блоке в списке блоков \"([^\"]*)\" в блоке \"([^\"]*)\" в элементе \"([^\"]*)\" текст равен \"([^\"]*)\"$")
     public void checkTextInAnyBlock(String listName, String blockName, String elementName, String expectedText) {
         expectedText = getPropertyOrStringVariableOrValue(expectedText);
@@ -143,6 +153,32 @@ public class BlockListSteps {
                     Condition.or("проверка на текст",
                             Condition.exactText(expectedText),
                             Condition.exactValue(expectedText),
+                            Condition.attribute("title", expectedText)
+                    ));
+
+            if (expectedTextFind) {
+                return page;
+            }
+        }
+        takeScreenshot();
+        //TODO добавить имя блок и имя элемента
+        throw new AssertionError(
+                "Во всех блоках в элементах " + elementName + " не найден текст:" + expectedText
+                        + "\nРазмер блоков: " + blocksList.size()
+                        + "\nСодержимое блоков: " + blocksList);
+    }
+
+    @Step("Поиск блока в котором текст элемента '{elementName}' содержит : '{expectedText}'")
+    private CorePage findCorePageByTextContainInElement(List<CorePage> blocksList, String elementName, String expectedText) {
+        for (CorePage page : blocksList) {
+            SelenideElement element = page.getElement(elementName);
+
+            Selenide.executeJavaScript("arguments[0].scrollIntoView({block: \"center\", inline: \"center\"});", element);
+
+            boolean expectedTextFind = element.is(
+                    Condition.or("проверка на текст",
+                            Condition.text(expectedText),
+                            Condition.value(expectedText),
                             Condition.attribute("title", expectedText)
                     ));
 
