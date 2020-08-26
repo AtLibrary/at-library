@@ -107,7 +107,9 @@ public class WebCheckSteps {
     @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" не отобразится на странице в течение (\\d+) (?:секунд|секунды)")
     public void elementHiddenSecond(String elementName, int seconds) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
-        element.waitWhile(hidden, seconds * 1000);
+        //element.waitUntil(hidden, seconds * 1000);
+        sleep(seconds * 1000);
+        element.waitUntil(hidden,0);
     }
 
     /**
