@@ -42,7 +42,7 @@ public class WikipediaPage extends CorePage {
     public SelenideElement platformButton;
 
     @Name("Заявление о куки")
-    @FindBy(css = "#footer-places-cookiestatement")
+    @FindBy(css = "#footer-places-cookiestatement>a")
     public SelenideElement aboutCookiesBtn;
 
 }

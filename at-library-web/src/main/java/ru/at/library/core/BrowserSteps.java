@@ -128,25 +128,6 @@ public class BrowserSteps {
         assertThat("Текущий URL совпадает с ожидаемым", currentUrl, Matchers.not(expectedURL));
     }
 
-    private String formALinkExpectedURL(String hardcodeUrl) {
-        String expectedURL;
-
-        hardcodeUrl = getPropertyOrValue(hardcodeUrl);
-        String propertyUrl = getPropertyOrValue(hardcodeUrl);
-        if (!propertyUrl.contains("http")) {
-            propertyUrl = Configuration.baseUrl + propertyUrl;
-        }
-        String variableUrl = loadValueFromFileOrVariableOrDefault(hardcodeUrl);
-
-        if (variableUrl.contains("http")) {
-            expectedURL = variableUrl;
-        } else {
-            expectedURL = propertyUrl;
-        }
-
-        return expectedURL;
-    }
-
     /**
      * Переключение на следующую вкладку браузера
      */
@@ -198,7 +179,7 @@ public class BrowserSteps {
     }
 
     /**
-     * Производится закрытие текущей вкладки и возвращает на первую
+     * Производится нажатие назад вперед
      */
     @И("^нажатие кнопки назад в браузере$")
     public void back() {
@@ -242,6 +223,7 @@ public class BrowserSteps {
     public void switchToDefaultFrame() {
         try {
             switchTo().defaultContent();
+
         }catch (Exception exception){
             exception.printStackTrace();
         }
@@ -436,5 +418,24 @@ public class BrowserSteps {
         windowHandles.remove(currentWindowHandle);
 
         return windowHandles.iterator().next();
+    }
+
+    private String formALinkExpectedURL(String hardcodeUrl) {
+        String expectedURL;
+
+        hardcodeUrl = getPropertyOrValue(hardcodeUrl);
+        String propertyUrl = getPropertyOrValue(hardcodeUrl);
+        if (!propertyUrl.contains("http")) {
+            propertyUrl = Configuration.baseUrl + propertyUrl;
+        }
+        String variableUrl = loadValueFromFileOrVariableOrDefault(hardcodeUrl);
+
+        if (variableUrl.contains("http")) {
+            expectedURL = variableUrl;
+        } else {
+            expectedURL = propertyUrl;
+        }
+
+        return expectedURL;
     }
 }
