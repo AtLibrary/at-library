@@ -111,9 +111,10 @@ public class WebCheckSteps {
     @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" не отобразится на странице в течение (\\d+) (?:секунд|секунды)")
     public void elementHiddenSecond(String elementName, int seconds) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
-        //element.waitUntil(hidden, seconds * 1000);
-        sleep(seconds * 1000);
-        element.waitUntil(hidden,0);
+        for (int i = 0; i < seconds * 2; ++i) {
+            element.waitUntil(hidden,0);
+            sleep(500);
+        }
     }
 
     /**
@@ -299,7 +300,7 @@ public class WebCheckSteps {
     }
 
     /**
-     * Проверка, что чекбокс выбрана
+     * Проверка, что чекбокс отмечен
      */
     @И("^чекбокс \"([^\"]*)\" выбран$")
     public void checkBoxIsChecked(String elementName) {
@@ -308,7 +309,7 @@ public class WebCheckSteps {
     }
 
     /**
-     * Проверка, что чекбокс не выбран
+     * Проверка, что чекбокс не отмечен
      */
     @И("^чекбокс \"([^\"]*)\" не выбран$")
     public void checkBoxIsNotChecked(String elementName) {
@@ -324,7 +325,7 @@ public class WebCheckSteps {
      */
 
     /**
-     * -----------------------------------------Проверки отображения элементов------------------------------------------
+     * -------------------------------------Проверки отображения элементов в блоке--------------------------------------
      */
 
     /**
@@ -372,7 +373,10 @@ public class WebCheckSteps {
     @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" не отображается на странице в течение (\\d+) (?:секунд|секунды)")
     public void elementHiddenSecond(String elementName, String blockName, int seconds) {
         SelenideElement element = coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName);
-        element.waitUntil(hidden, seconds * 1000);
+        for (int i = 0; i < seconds * 2; ++i) {
+            element.waitUntil(hidden,0);
+            sleep(500);
+        }
     }
 
     /**
@@ -399,6 +403,10 @@ public class WebCheckSteps {
         SelenideElement element = coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName);
         element.waitUntil(disappears, seconds * 1000);
     }
+
+    /**
+     * ------------------------------------Проверки доступности для нажатия в блоке-------------------------------------
+     */
 
     /**
      * Проверка, что элемент на странице кликабелен
@@ -433,8 +441,15 @@ public class WebCheckSteps {
     @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" (?:недоступна|недоступно|недоступен) для (?:нажатия|редактирования) в течение (\\d+) (?:секунд|секунды)$")
     public void buttonIsNotActive(String elementName, String blockName, int second) {
         SelenideElement element = coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName);
-        element.waitUntil(disabled, second * 1000);
+        for (int i = 0; i < second * 2; ++i) {
+            element.waitUntil(disabled,0);
+            sleep(500);
+        }
     }
+
+    /**
+     * -------------------------------------Проверки содержимого элементов в блоке--------------------------------------
+     */
 
     /**
      * Проверка, что поле для ввода пусто
@@ -446,41 +461,35 @@ public class WebCheckSteps {
     }
 
     /**
-     * Проверка, что радиокнопка выбрана
+     * Сохранение значения элемента в переменную
      */
-    @И("^(?:кнопка|ссылка|поле|радиокнопка|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" (?:выбрана|выбрано|выбран)$")
-    public void radioButtonIsSelected(String elementName, String blockName) {
-        SelenideElement element = coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName);
-        element.shouldHave(selected);
+    @И("^значение (?:кнопки|ссылки|поля|чекбокса|радиокнопки|текста|элемента) \"([^\"]*)\" в блоке \"([^\"]*)\" сохранено в переменную \"([^\"]*)\"$")
+    public void storeElementValueInVariable(String elementName, String blockName, String variableName) {
+        String text = coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName).getText();
+        coreScenario.setVar(variableName, text);
+        log.trace("Значение [" + text + "] сохранено в переменную [" + variableName + "]");
     }
 
     /**
-     * Проверка, что радиокнопка не выбрана
+     * Проверка, что у элемента есть атрибут с ожидаемым значением (в приоритете: из property, из переменной сценария, значение аргумента)
      */
-    @И("^(?:кнопка|ссылка|поле|радиокнопка|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" не (?:выбрана|выбрано|выбран)$")
-    public void radioButtonIsNotSelected(String elementName, String blockName) {
+    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" содержит атрибут \"([^\"]*)\" со значением \"([^\"]*)\"$")
+    public void checkElemContainsAtrWithValue(String elementName, String blockName, String attribute, String expectedAttributeValue) {
         SelenideElement element = coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName);
-        element.shouldHave(not(selected));
+        expectedAttributeValue = getPropertyOrStringVariableOrValue(expectedAttributeValue);
+        element.shouldHave(attribute(attribute, expectedAttributeValue));
     }
 
     /**
-     * Проверка, что радиокнопка выбрана
+     * Проверка, что у элемента есть css с ожидаемым значением (в приоритете: из property, из переменной сценария, значение аргумента)
      */
-    @И("^чекбокс \"([^\"]*)\" в блоке \"([^\"]*)\" выбран$")
-    public void checkBoxIsChecked(String elementName, String blockName) {
+    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" содержит css \"([^\"]*)\" со значением \"([^\"]*)\"$")
+    public void checkCssInElement(String elementName, String blockName, String cssName, String cssValue) {
         SelenideElement element = coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName);
-        element.shouldHave(checked);
+        cssName = getPropertyOrStringVariableOrValue(cssName);
+        cssValue = getPropertyOrStringVariableOrValue(cssValue);
+        element.shouldHave(cssValue(cssName, cssValue));
     }
-
-    /**
-     * Проверка, что радиокнопка не выбрана
-     */
-    @И("^чекбокс \"([^\"]*)\" в блоке \"([^\"]*)\" не выбран$")
-    public void checkBoxIsNotChecked(String elementName, String blockName) {
-        SelenideElement element = coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName);
-        element.shouldHave(not(checked));
-    }
-
 
     /**
      * Проверка, что значение в поле содержит текст, указанный в шаге
@@ -552,38 +561,51 @@ public class WebCheckSteps {
         assertEquals(String.format("Неверное количество символов. Ожидаемый результат: %s, текущий результат: %s", num, lengthText), num, lengthText);
     }
 
+    /**
+     * -------------------------------------Проверки радиокнопок/чекбоксов в блоке--------------------------------------
+     */
 
     /**
-     * Проверка, что у элемента есть атрибут с ожидаемым значением (в приоритете: из property, из переменной сценария, значение аргумента)
+     * Проверка, что радиокнопка выбрана
      */
-    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" содержит атрибут \"([^\"]*)\" со значением \"([^\"]*)\"$")
-    public void checkElemContainsAtrWithValue(String elementName, String blockName, String attribute, String expectedAttributeValue) {
+    @И("^(?:кнопка|ссылка|поле|радиокнопка|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" (?:выбрана|выбрано|выбран)$")
+    public void radioButtonIsSelected(String elementName, String blockName) {
         SelenideElement element = coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName);
-        expectedAttributeValue = getPropertyOrStringVariableOrValue(expectedAttributeValue);
-        element.shouldHave(attribute(attribute, expectedAttributeValue));
+        element.shouldHave(selected);
     }
 
-
     /**
-     * Проверка, что у элемента есть css с ожидаемым значением (в приоритете: из property, из переменной сценария, значение аргумента)
+     * Проверка, что радиокнопка не выбрана
      */
-    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" содержит css \"([^\"]*)\" со значением \"([^\"]*)\"$")
-    public void checkCssInElement(String elementName, String blockName, String cssName, String cssValue) {
+    @И("^(?:кнопка|ссылка|поле|радиокнопка|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" не (?:выбрана|выбрано|выбран)$")
+    public void radioButtonIsNotSelected(String elementName, String blockName) {
         SelenideElement element = coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName);
-        cssName = getPropertyOrStringVariableOrValue(cssName);
-        cssValue = getPropertyOrStringVariableOrValue(cssValue);
-        element.shouldHave(cssValue(cssName, cssValue));
+        element.shouldHave(not(selected));
     }
 
     /**
-     * Сохранение значения элемента в переменную
+     * Проверка, что чекбокс отмечен
      */
-    @И("^значение (?:кнопки|ссылки|поля|чекбокса|радиокнопки|текста|элемента) \"([^\"]*)\" в блоке \"([^\"]*)\" сохранено в переменную \"([^\"]*)\"$")
-    public void storeElementValueInVariable(String elementName, String blockName, String variableName) {
-        String text = coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName).getText();
-        coreScenario.setVar(variableName, text);
-        log.trace("Значение [" + text + "] сохранено в переменную [" + variableName + "]");
+    @И("^чекбокс \"([^\"]*)\" в блоке \"([^\"]*)\" выбран$")
+    public void checkBoxIsChecked(String elementName, String blockName) {
+        SelenideElement element = coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName);
+        element.shouldHave(checked);
     }
+
+    /**
+     * Проверка, что чекбокс не отмечен
+     */
+    @И("^чекбокс \"([^\"]*)\" в блоке \"([^\"]*)\" не выбран$")
+    public void checkBoxIsNotChecked(String elementName, String blockName) {
+        SelenideElement element = coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName);
+        element.shouldHave(not(checked));
+    }
+
+    /**
+     * -----------------------------------------------------------------------------------------------------------------
+     * ---------------------------------------------Вспомогательные методы----------------------------------------------
+     * -----------------------------------------------------------------------------------------------------------------
+     */
 
     /**
      * Проверка появления элемента(не списка) в видимой части браузера
