@@ -11,8 +11,8 @@
  */
 package ru.at.library.mobile.steps;
 
-import cucumber.api.java.ru.И;
-import cucumber.api.java.ru.То;
+import io.cucumber.java.ru.И;
+import io.cucumber.java.ru.То;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;

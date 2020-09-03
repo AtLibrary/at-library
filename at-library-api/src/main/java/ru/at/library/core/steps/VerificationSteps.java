@@ -1,7 +1,7 @@
 package ru.at.library.core.steps;
 
-import cucumber.api.java.ru.И;
 import io.cucumber.datatable.DataTable;
+import io.cucumber.java.ru.И;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.hamcrest.text.MatchesPattern;

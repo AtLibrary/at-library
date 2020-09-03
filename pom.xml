@@ -19,29 +19,29 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!--WEB ТЕСТИРОВАНИЕ-->
-        <selenide.version>5.14.0</selenide.version>
+        <selenide.version>5.14.2</selenide.version>
         <!--        <selenide.version>5.2.7</selenide.version>-->
         <!--API ТЕСТИРОВАНИЕ-->
-        <rest-assured.version>3.3.0</rest-assured.version>
+        <rest-assured.version>4.2.0</rest-assured.version>
         <!--MOBILE ТЕСТИРОВАНИЕ-->
         <io.appium.java-client.version>7.3.0</io.appium.java-client.version>
         <!--CUCUMBER-->
         <!--        <cucumber.version>5.4.1</cucumber.version>-->
-        <cucumber.version>4.3.0</cucumber.version>
+        <cucumber.version>5.6.0</cucumber.version>
         <!--ОТЧЕТ ALLURE-->
         <!--        <allure.version>2.11.0</allure.version>-->
         <allure.version>2.13.5</allure.version>
         <!--LOMBOK-->
-        <lombok.version>1.18.10</lombok.version>
+        <lombok.version>1.18.12</lombok.version>
         <!--JACKSON-->
-        <jackson.version>2.10.1</jackson.version>
+        <jackson.version>2.11.2</jackson.version>
         <!--HAMCREST-->
-        <hamcrest.version>2.1</hamcrest.version>
+        <hamcrest.version>2.2</hamcrest.version>
         <!--LOG-->
-        <logging.version>2.11.2</logging.version>
+        <logging.version>2.13.3</logging.version>
         <!--ВСПОМОГАТЕЛЬНЫЕ БИБЛИОТЕКИ-->
-        <reflections.version>0.9.10</reflections.version>
-        <guava.version>23.0</guava.version>
+        <reflections.version>0.9.12</reflections.version>
+        <guava.version>29.0-jre</guava.version>
         <jsonpath.version>2.4.0</jsonpath.version>
         <aspectj.version>1.9.4</aspectj.version>
     </properties>
@@ -85,7 +85,7 @@
         <!--CUCUMBER-->
         <dependency>
             <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-java8</artifactId>
+            <artifactId>cucumber-java</artifactId>
             <version>${cucumber.version}</version>
         </dependency>
         <dependency>
@@ -101,7 +101,7 @@
         <!--ОТЧЕТ ALLURE-->
         <dependency>
             <groupId>io.qameta.allure</groupId>
-            <artifactId>allure-cucumber4-jvm</artifactId>
+            <artifactId>allure-cucumber5-jvm</artifactId>
             <version>${allure.version}</version>
         </dependency>
         <dependency>
@@ -160,7 +160,7 @@
         <dependency>
             <groupId>com.googlecode.json-simple</groupId>
             <artifactId>json-simple</artifactId>
-            <version>1.1</version>
+            <version>1.1.1</version>
         </dependency>
         <dependency>
             <groupId>com.mashape.unirest</groupId>
@@ -193,7 +193,7 @@
         <dependency>
             <groupId>net.andreinc.mockneat</groupId>
             <artifactId>mockneat</artifactId>
-            <version>0.3.7</version>
+            <version>0.3.8</version>
         </dependency>
         <!--ПРОКСИРОВАНИЕ-->
         <dependency>
@@ -201,11 +201,12 @@
             <artifactId>mitmproxy-java</artifactId>
             <version>2.0.1</version>
         </dependency>
+
         <!--ПАРАЛЛЕЛЬНЫЕ СЦЕНАРИИ-->
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            <version>6.14.2</version>
+            <version>7.3.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>

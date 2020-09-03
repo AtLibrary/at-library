@@ -1,17 +1,18 @@
 package ru.at.library.core;
 
-import cucumber.api.CucumberOptions;
-import cucumber.api.junit.Cucumber;
-import cucumber.api.testng.AbstractTestNGCucumberTests;
+import io.cucumber.junit.Cucumber;
+import io.cucumber.testng.AbstractTestNGCucumberTests;
+import io.cucumber.testng.CucumberOptions;
 import org.junit.runner.RunWith;
 import org.testng.annotations.DataProvider;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
+        strict = true,
         monochrome = true,
-        plugin = {"io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm", "pretty"},
-        tags = "@web-check-steps",
-        features = "src/test/resources/features",
+        plugin = {"io.qameta.allure.cucumber5jvm.AllureCucumber5Jvm", "pretty"},
+        features = {"src/test/resources/features"},
+        tags = {"@web-action-steps"},
         glue = {"ru"}
 )
 public class RunFeaturesTest extends AbstractTestNGCucumberTests {

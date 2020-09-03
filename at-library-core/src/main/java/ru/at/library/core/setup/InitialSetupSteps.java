@@ -12,9 +12,9 @@
 package ru.at.library.core.setup;
 
 import com.codeborne.selenide.Selenide;
-import cucumber.api.Scenario;
-import cucumber.api.java.After;
-import cucumber.api.java.Before;
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
+import io.cucumber.java.Scenario;
 import io.qameta.allure.Attachment;
 import io.restassured.RestAssured;
 import lombok.experimental.Delegate;

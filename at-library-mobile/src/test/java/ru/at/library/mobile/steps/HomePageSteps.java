@@ -1,14 +1,14 @@
 package ru.at.library.mobile.steps;
 
-import cucumber.api.java.ru.И;
+import io.cucumber.java.ru.И;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import ru.at.library.core.cucumber.api.CoreScenario;
 import ru.at.library.mobile.page.HomePage;
+import ru.at.library.core.cucumber.api.CoreScenario;
 
-import static ru.at.library.core.steps.OtherSteps.getPropertyOrStringVariableOrValue;
 import static ru.at.library.mobile.utils.MobileTestConfig.driverWait;
 import static ru.at.library.mobile.utils.MobileTestConfig.getWebElementInCurrentPage;
+import static ru.at.library.core.steps.OtherSteps.getPropertyOrStringVariableOrValue;
 
 public class HomePageSteps {
     private CoreScenario coreScenario = CoreScenario.getInstance();

@@ -1,6 +1,6 @@
 package ru.at.library.core.allure;
 
-import cucumber.api.java.ru.И;
+import io.cucumber.java.ru.И;
 import io.qameta.allure.Allure;
 import io.qameta.allure.AllureLifecycle;
 import io.qameta.allure.model.Parameter;
@@ -31,7 +31,7 @@ public class StepsAspects {
                 }
             };
 
-    @Pointcut("@annotation(cucumber.api.java.ru.И)")
+    @Pointcut("@annotation(io.cucumber.java.ru.И)")
     public void withStepAnnotation() {
         //pointcut body, should be empty
     }

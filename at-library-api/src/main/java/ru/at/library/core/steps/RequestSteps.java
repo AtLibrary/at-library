@@ -2,8 +2,8 @@ package ru.at.library.core.steps;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
-import cucumber.api.java.ru.И;
 import io.cucumber.datatable.DataTable;
+import io.cucumber.java.ru.И;
 import io.restassured.RestAssured;
 import io.restassured.config.HttpClientConfig;
 import io.restassured.config.JsonConfig;

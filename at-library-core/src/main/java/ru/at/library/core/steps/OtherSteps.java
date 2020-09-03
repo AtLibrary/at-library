@@ -1,8 +1,9 @@
 package ru.at.library.core.steps;
 
-import cucumber.api.java.ru.И;
-import cucumber.api.java.ru.То;
 import io.cucumber.datatable.DataTable;
+import io.cucumber.java.PendingException;
+import io.cucumber.java.ru.И;
+import io.cucumber.java.ru.То;
 import lombok.extern.log4j.Log4j2;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
@@ -390,7 +391,7 @@ public class OtherSteps {
      */
     @И("^ручной тест$")
     public void manualTest() {
-        throw new cucumber.api.PendingException("написание автотеста в работе");
+        throw new PendingException("написание автотеста в работе");
     }
 
     /**
@@ -398,7 +399,7 @@ public class OtherSteps {
      */
     @И("^написание автотеста в работе$")
     public void pendingException() {
-        throw new cucumber.api.PendingException("написание автотеста в работе");
+        throw new PendingException("написание автотеста в работе");
     }
 
     /**
@@ -406,7 +407,7 @@ public class OtherSteps {
      */
     @И("^написание автотеста в работе. Планируемая дата: \"([^\"]*)\"$")
     public void pendingException(String date) {
-        throw new cucumber.api.PendingException("написание автотеста в работе. Планируемая дата: " + date);
+        throw new PendingException("написание автотеста в работе. Планируемая дата: " + date);
     }
 
     /**
@@ -414,7 +415,7 @@ public class OtherSteps {
      */
     @И("^проблема с поиском локатора: \"([^\"]*)\"$")
     public void pending(String date) {
-        throw new cucumber.api.PendingException("написание автотеста в работе. Планируемая дата: " + date);
+        throw new PendingException("написание автотеста в работе. Планируемая дата: " + date);
     }
 
     /**
@@ -422,7 +423,7 @@ public class OtherSteps {
      */
     @И("^автотест реализован на старом фреймворке$")
     public void oldFramework() {
-        throw new cucumber.api.PendingException("автотест реализован на старом фреймворке");
+        throw new PendingException("автотест реализован на старом фреймворке");
     }
 
     /**
@@ -430,6 +431,6 @@ public class OtherSteps {
      */
     @И("^не актуальный тест в тестовой моделе")
     public void notActual() {
-        throw new cucumber.api.PendingException("не актуальный тест в тестовой моделе");
+        throw new PendingException("не актуальный тест в тестовой моделе");
     }
 }

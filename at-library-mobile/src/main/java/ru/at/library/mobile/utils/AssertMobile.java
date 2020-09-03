@@ -53,6 +53,6 @@ public class AssertMobile {
 
     private static void screenshot() {
         final byte[] screenshot = ((TakesScreenshot) getWebDriver()).getScreenshotAs(OutputType.BYTES);
-        CoreScenario.getInstance().getScenario().embed(screenshot, "image/png");
+        CoreScenario.getInstance().getScenario().embed(screenshot, "image/png", "screenshot name here");
     }
 }

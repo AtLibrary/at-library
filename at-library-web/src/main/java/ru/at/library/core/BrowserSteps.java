@@ -14,7 +14,7 @@ package ru.at.library.core;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
-import cucumber.api.java.ru.И;
+import io.cucumber.java.ru.И;
 import lombok.extern.log4j.Log4j2;
 import org.hamcrest.Matchers;
 import org.openqa.selenium.*;
@@ -302,7 +302,7 @@ public class BrowserSteps {
     @И("^снят скриншот текущей страницы$")
     public synchronized static void takeScreenshot() {
         final byte[] screenshot = ((TakesScreenshot) getWebDriver()).getScreenshotAs(OutputType.BYTES);
-        CoreScenario.getInstance().getScenario().embed(screenshot, "image/png");
+        CoreScenario.getInstance().getScenario().embed(screenshot, "image/png", "screenshot name here");
     }
 
     /**

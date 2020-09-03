@@ -11,7 +11,7 @@
  */
 package ru.at.library.core.cucumber.api;
 
-import cucumber.api.Scenario;
+import io.cucumber.java.Scenario;
 import lombok.extern.slf4j.Slf4j;
 import ru.at.library.core.cucumber.ScopedVariables;
 
