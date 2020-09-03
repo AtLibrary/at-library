@@ -41,6 +41,12 @@ public class WebActionSteps {
     private CoreScenario coreScenario = CoreScenario.getInstance();
 
     /**
+     * -----------------------------------------------------------------------------------------------------------------
+     * ------------------------------------------Проверка (не)загрузки страниц------------------------------------------
+     * -----------------------------------------------------------------------------------------------------------------
+     */
+
+    /**
      * Проверка того, что все элементы, которые описаны в классе страницы с аннотацией @Name,
      * но без аннотации @Optional появились на странице
      * в течение WAITING_APPEAR_TIMEOUT, которое равно значению свойства "waitingAppearTimeout"
@@ -73,6 +79,12 @@ public class WebActionSteps {
             coreScenario.getCurrentPage().disappeared();
         }
     }
+
+    /**
+     * -----------------------------------------------------------------------------------------------------------------
+     * --------------------------------------Переход на страницу (в новой вкладке)--------------------------------------
+     * -----------------------------------------------------------------------------------------------------------------
+     */
 
     /**
      * Выполняется переход по заданной ссылке.
@@ -114,6 +126,12 @@ public class WebActionSteps {
     }
 
     /**
+     * -----------------------------------------------------------------------------------------------------------------
+     * -------------------------------------------Нажатие (ховер) на элемент--------------------------------------------
+     * -----------------------------------------------------------------------------------------------------------------
+     */
+
+    /**
      * На странице происходит click по заданному элементу
      *
      * @param elementName название элемента
@@ -126,7 +144,7 @@ public class WebActionSteps {
 
     /**
      * На странице происходит click по заданному элементу
-     * Если элемент Displayed то будет попытка click по родительскому элементу
+     * Если элемент !Displayed то будет попытка click по родительскому элементу
      *
      * @param elementName название элемента
      */
@@ -163,6 +181,33 @@ public class WebActionSteps {
         SelenideElement field = coreScenario.getCurrentPage().getElement(elementName);
         field.hover();
     }
+
+    /**
+     * Нажатие на элемент по его тексту (в приоритете: из property, из переменной сценария, значение аргумента)
+     */
+    @И("^выполнено нажатие на элемент с текстом \"([^\"]*)\"$")
+    public void findElement(String text) {
+        $(By.xpath(getTranslateNormalizeSpaceText(getPropertyOrStringVariableOrValue(text)))).click();
+    }
+
+    /**
+     * Клик по заданному элементу в блоке
+     *
+     * @param elementName имя элемента
+     * @param blockName   имя блока
+     */
+    @И("^выполнено нажатие на (?:кнопку|ссылку|поле|чекбокс|радиокнопу|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\"$")
+    public void clickOnElementInBlock(String elementName, String blockName) {
+        CorePage currentPage = coreScenario.getCurrentPage();
+        coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName).click();
+        coreScenario.setCurrentPage(currentPage);
+    }
+
+    /**
+     * -----------------------------------------------------------------------------------------------------------------
+     * -------------------------------------------Установка значения в поле---------------------------------------------
+     * -----------------------------------------------------------------------------------------------------------------
+     */
 
     /**
      * Устанавливается значение (в приоритете: из property, из переменной сценария, значение аргумента) в заданное поле.
@@ -211,7 +256,6 @@ public class WebActionSteps {
         sleep(200);
     }
 
-
     /**
      * Добавление строки (в приоритете: из property, из переменной сценария, значение аргумента) в поле к уже заполненой строке
      */
@@ -226,14 +270,6 @@ public class WebActionSteps {
         }
         field.setValue("");
         field.setValue(oldValue + value);
-    }
-
-    /**
-     * Нажатие на элемент по его тексту (в приоритете: из property, из переменной сценария, значение аргумента)
-     */
-    @И("^выполнено нажатие на элемент с текстом \"([^\"]*)\"$")
-    public void findElement(String text) {
-        $(By.xpath(getTranslateNormalizeSpaceText(getPropertyOrStringVariableOrValue(text)))).click();
     }
 
     /**
@@ -290,7 +326,6 @@ public class WebActionSteps {
         }
     }
 
-
     /**
      * Ввод в поле случайной последовательности латинских или кириллических букв задаваемой длины
      */
@@ -299,8 +334,10 @@ public class WebActionSteps {
     public void setRandomCharSequence(String elementName, String seqLengthString, String lang) {
         int seqLength = Integer.parseInt(seqLengthString);
         SelenideElement valueInput = coreScenario.getCurrentPage().getElement(elementName);
-        if (lang.equals("кириллице")) lang = "ru";
-        else lang = "en";
+        if (lang.equals("кириллице"))
+            lang = "ru";
+        else
+            lang = "en";
         String charSeq = getRandCharSequence(seqLength, lang);
         valueInput.setValue(charSeq);
         log.trace("Строка случайных символов равна :" + charSeq);
@@ -314,8 +351,10 @@ public class WebActionSteps {
     public void setRandomCharSequenceAndSaveToVar(String elementName, String seqLengthString, String lang, String varName) {
         int seqLength = Integer.parseInt(seqLengthString);
         SelenideElement valueInput = coreScenario.getCurrentPage().getElement(elementName);
-        if (lang.equals("кириллице")) lang = "ru";
-        else lang = "en";
+        if (lang.equals("кириллице"))
+            lang = "ru";
+        else
+            lang = "en";
         String charSeq = getRandCharSequence(seqLength, lang);
         valueInput.setValue(charSeq);
         coreScenario.setVar(varName, charSeq);
@@ -340,13 +379,26 @@ public class WebActionSteps {
      */
     @Deprecated
     @И("^в поле \"([^\"]*)\" введено случайное число из (\\d+) (?:цифр|цифры) и сохранено в переменную \"([^\"]*)\"$")
-    public void inputAndSetRandomNumSequence(String elementName, String seqLengthString, String varName) {
-        String value = inputRandomNumSequence(elementName, seqLengthString);
+    public void inputAndSetRandomNumSequence(String elementName, int seqLengthString, String varName) {
+        String value = inputRandomNumSequence(elementName, String.valueOf(seqLengthString));
         coreScenario.setVar(varName, value);
         log.trace(String.format("В поле [%s] введено значение [%s] и сохранено в переменную [%s]",
                 elementName, value, varName));
     }
 
+    /**
+     * -----------------------------------------------------------------------------------------------------------------
+     * ------------------------------------------Скролл страницы до элемента--------------------------------------------
+     * -----------------------------------------------------------------------------------------------------------------
+     */
+
+    /**
+     * ------------------------------------------------------------------------------------------------------
+     * ------------------------------------------------------------------------------------------------------
+     * ----------------------------------------TODO скролл в iframe------------------------------------------
+     * ------------------------------------------------------------------------------------------------------
+     * ------------------------------------------------------------------------------------------------------
+     */
 
     /**
      * Скроллит экран до нужного элемента, имеющегося на странице, но видимого только в нижней/верхней части страницы.
@@ -380,20 +432,6 @@ public class WebActionSteps {
     public void scrollWhileElemWithTextNotFoundOnPage(String expectedValue) {
         SelenideElement el = $(By.xpath(getTranslateNormalizeSpaceText(getPropertyOrStringVariableOrValue(expectedValue))));
         ((JavascriptExecutor) WebDriverRunner.getWebDriver()).executeScript("arguments[0].scrollIntoView();", el);
-        el.click();
-    }
-
-    /**
-     * Клик по заданному элементу в блоке
-     *
-     * @param elementName имя элемента
-     * @param blockName   имя блока
-     */
-    @И("^выполнено нажатие на (?:кнопку|ссылку|поле|чекбокс|радиокнопу|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\"$")
-    public void clickOnElementInBlock(String elementName, String blockName) {
-        CorePage currentPage = coreScenario.getCurrentPage();
-        coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName).click();
-        coreScenario.setCurrentPage(currentPage);
     }
 
 }

@@ -128,25 +128,6 @@ public class BrowserSteps {
         assertThat("Текущий URL совпадает с ожидаемым", currentUrl, Matchers.not(expectedURL));
     }
 
-    private String formALinkExpectedURL(String hardcodeUrl) {
-        String expectedURL;
-
-        hardcodeUrl = getPropertyOrValue(hardcodeUrl);
-        String propertyUrl = getPropertyOrValue(hardcodeUrl);
-        if (!propertyUrl.contains("http")) {
-            propertyUrl = Configuration.baseUrl + propertyUrl;
-        }
-        String variableUrl = loadValueFromFileOrVariableOrDefault(hardcodeUrl);
-
-        if (variableUrl.contains("http")) {
-            expectedURL = variableUrl;
-        } else {
-            expectedURL = propertyUrl;
-        }
-
-        return expectedURL;
-    }
-
     /**
      * Переключение на следующую вкладку браузера
      */
@@ -198,7 +179,7 @@ public class BrowserSteps {
     }
 
     /**
-     * Производится закрытие текущей вкладки и возвращает на первую
+     * Производится нажатие назад в браузере
      */
     @И("^нажатие кнопки назад в браузере$")
     public void back() {
@@ -218,6 +199,33 @@ public class BrowserSteps {
         }catch (Exception exception){
             exception.printStackTrace();
             checkPageTitle(title);
+        }
+    }
+
+    /**
+     * Переключение на фрейм с именем (property/var/hardcode)
+     *
+     * @param frameName имя/id фрейма
+     */
+    @И("^выполнено переключение на фрейм с (?:именем|id) \"([^\"]*)\"$")
+    public void switchToFrameWithName(String frameName) {
+        try {
+            switchTo().frame(getPropertyOrStringVariableOrValue(frameName));
+        }catch (Exception exception){
+            exception.printStackTrace();
+        }
+    }
+
+    /**
+     * Переключение на основной фрейм страницы
+     */
+    @И("^выполнено переключение основной на фрейм страницы$")
+    public void switchToDefaultFrame() {
+        try {
+            switchTo().defaultContent();
+
+        }catch (Exception exception){
+            exception.printStackTrace();
         }
     }
 
@@ -410,5 +418,24 @@ public class BrowserSteps {
         windowHandles.remove(currentWindowHandle);
 
         return windowHandles.iterator().next();
+    }
+
+    private String formALinkExpectedURL(String hardcodeUrl) {
+        String expectedURL;
+
+        hardcodeUrl = getPropertyOrValue(hardcodeUrl);
+        String propertyUrl = getPropertyOrValue(hardcodeUrl);
+        if (!propertyUrl.contains("http")) {
+            propertyUrl = Configuration.baseUrl + propertyUrl;
+        }
+        String variableUrl = loadValueFromFileOrVariableOrDefault(hardcodeUrl);
+
+        if (variableUrl.contains("http")) {
+            expectedURL = variableUrl;
+        } else {
+            expectedURL = propertyUrl;
+        }
+
+        return expectedURL;
     }
 }
