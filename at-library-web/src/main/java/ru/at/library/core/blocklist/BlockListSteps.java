@@ -19,7 +19,7 @@ import static ru.at.library.core.steps.OtherSteps.isTextMatches;
 @Log4j2
 public class BlockListSteps {
 
-    private final CoreScenario coreScenario = CoreScenario.getInstance();
+    private CoreScenario coreScenario = CoreScenario.getInstance();
 
 
     @И("список блоков {string} отображается на странице")

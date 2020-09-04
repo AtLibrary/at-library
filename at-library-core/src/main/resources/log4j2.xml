@@ -11,6 +11,7 @@
     <Appenders>
         <Console name="Console">
             <PatternLayout pattern="${logPatternConsole}"/>
+            <RegexFilter regex="Could not ((find parameter (string|int))|(process empty pattern))" onMatch="DENY" onMismatch="ACCEPT"/>
         </Console>
         <RollingRandomAccessFile name="File" fileName="${filename}"
                                  filePattern="logs/%d{yyyy-MM-dd}-%i.test-ef10-bms.log.gz">
@@ -19,6 +20,7 @@
                 <TimeBasedTriggeringPolicy/>
                 <OnStartupTriggeringPolicy/>
             </Policies>
+            <RegexFilter regex="Could not ((find parameter (string|int))|(process empty pattern))" onMatch="DENY" onMismatch="ACCEPT"/>
         </RollingRandomAccessFile>
     </Appenders>
 

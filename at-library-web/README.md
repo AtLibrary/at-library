@@ -116,7 +116,7 @@ public class BrokerDemoPageSteps {
 ============================
 Данные строки позволяют по имени элемента найти его в карте элементов текущей страницы.
 
-```java_holder_method_tree
+```java
 brokerDemoPage.getElement("ФИО").sendKeys(fio);
 brokerDemoPage.getElement("Номер телефона").sendKeys(password);
 brokerDemoPage.getElement("Email").sendKeys(email);
@@ -130,7 +130,7 @@ brokerDemoPage.getElement("Открыть счет").click();
 Реализована возможность описывать блоки на странице (Page Element)
 
 Например:
-```java_holder_method_tree
+```java
 @FindBy(className = "header")
 @Name("Шапка страницы")
 public HeaderBlock header;

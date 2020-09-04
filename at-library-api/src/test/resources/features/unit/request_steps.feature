@@ -11,12 +11,12 @@
 
 ####################################################################################
 
-  Сценарий: выполнен POST запрос на URL "([^"]+)" с headers и parameters из таблицы. Полученный ответ сохранен в переменную "([^"]+)"
-    Когда выполнен POST запрос на URL "url.pet" с headers и parameters из таблицы. Полученный ответ сохранен в переменную "response"
-      | HEADER | accept       | application/json |
-      | HEADER | Content-Type | application/json |
-      | BODY   | json         | json.post.pet    |
-    Тогда в ответе "response" statusCode: 200
+#  Сценарий: выполнен POST запрос на URL "([^"]+)" с headers и parameters из таблицы. Полученный ответ сохранен в переменную "([^"]+)"
+#    Когда выполнен POST запрос на URL "url.pet" с headers и parameters из таблицы. Полученный ответ сохранен в переменную "response"
+#      | HEADER | accept       | application/json |
+#      | HEADER | Content-Type | application/json |
+#      | BODY   | json         | json.post.pet    |
+#    Тогда в ответе "response" statusCode: 200
 
 
 #  Сценарий: выполнен GET запрос на URL "([^"]+)" с headers и parameters из таблицы. Полученный ответ сохранен в переменную "([^"]+)"

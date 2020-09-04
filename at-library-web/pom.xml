@@ -49,7 +49,7 @@
                         </property>
                         <property>
                             <name>dataproviderthreadcount</name>
-                            <value>6</value>
+                            <value>5</value>
                         </property>
                     </properties>
                     <perCoreThreadCount>false</perCoreThreadCount>

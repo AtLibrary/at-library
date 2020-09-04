@@ -13,17 +13,17 @@ import static ru.at.library.core.core.helpers.Utils.scenarioID;
 
 @Log4j2
 public class InitialDriver {
-    /*
+    /**
      * Создание WebDriver
      */
     public void startUITest(Scenario scenario) {
 
-        /*
+        /**
          * Создает настойки прокси для запуска драйвера
          */
         Proxy proxy = createProxy();
 
-        /*
+        /**
          * Уведомление о месте запуска тестов
          */
         if (Strings.isNullOrEmpty(Configuration.remote)) {

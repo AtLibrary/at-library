@@ -12,7 +12,7 @@ import org.testng.annotations.DataProvider;
         monochrome = true,
         plugin = {"io.qameta.allure.cucumber5jvm.AllureCucumber5Jvm", "pretty"},
         features = {"src/test/resources/features"},
-        tags = {"@Google"},
+        tags = {"@web-action-steps or @web-check-steps"},
         glue = {"ru"}
 )
 public class RunFeaturesTest extends AbstractTestNGCucumberTests {
