@@ -78,9 +78,7 @@ public class InitialSetupSteps {
         /**
          * Если сценарий содержит тег @web" то будет создан WebDriver
          */
-        if (hasWebDriver(scenario)) {
-            new InitialDriver().startUITest(scenario);
-        }
+        new InitialDriver().startUITest(scenario);
 
         /**
          * Создает окружение(среду) для запуска сценария
