@@ -5,7 +5,7 @@ import ru.at.library.core.WebActionSteps;
 
 public class GoogleSteps {
 
-    @И("создание пользователя с ФИО: \"([^\"]*)\" телефон: \"([^\"]*)\" email: \"([^\"]*)\"")
+    @И("создание пользователя с ФИО: {string} телефон: {string} email: {string}")
     public void loginSystem(String fio, String password, String email) {
         WebActionSteps webActionSteps = new WebActionSteps();
         webActionSteps.loadPage("BCS demo аккаунт");

@@ -53,7 +53,7 @@ public class BrowserSteps {
      *                при этом все ключи переменных в фигурных скобках
      *                меняются на их значения из хранилища coreScenario
      */
-    @И("^совершен переход по ссылке \"([^\"]*)\"$")
+    @И("совершен переход по ссылке {string}")
     public void openUrl(String address) {
         String url = resolveVars(getPropertyOrStringVariableOrValue(address));
         open(url);
@@ -68,7 +68,7 @@ public class BrowserSteps {
      *                при этом все ключи переменных в фигурных скобках
      *                меняются на их значения из хранилища coreScenario
      */
-    @И("^совершен переход по ссылке \"([^\"]*)\" в новой вкладке$")
+    @И("совершен переход по ссылке {string} в новой вкладке")
     public void openUrlNewTab(String address) {
         String url = resolveVars(getPropertyOrStringVariableOrValue(address));
 
@@ -85,7 +85,7 @@ public class BrowserSteps {
      * @param hardcodeUrl (берется из property / переменной, если такая переменная не найдена,
      *                    то берется переданное значение)
      */
-    @И("^текущий URL равен \"([^\"]*)\"$")
+    @И("текущий URL равен {string}")
     public void checkCurrentURL(String hardcodeUrl) {
         String currentUrl = url();
         String expectedURL = formALinkExpectedURL(hardcodeUrl);
@@ -99,7 +99,7 @@ public class BrowserSteps {
      * @param hardcodeUrl (берется из property / переменной, если такая переменная не найдена,
      *                    то берется переданное значение)
      */
-    @И("^текущий URL содержит \"([^\"]*)\"$")
+    @И("текущий URL содержит {string}")
     public void checkContainsStringURL(String hardcodeUrl) {
         String currentUrl = url();
         String expectedURL = formALinkExpectedURL(hardcodeUrl);
@@ -113,7 +113,7 @@ public class BrowserSteps {
      * @param hardcodeUrl (берется из property / переменной, если такая переменная не найдена,
      *                    то берется переданное значение)
      */
-    @И("^текущий URL не равен \"([^\"]*)\"$")
+    @И("текущий URL не равен {string}")
     public void checkCurrentURLIsNotEquals(String hardcodeUrl) {
         String currentUrl = url();
         String expectedURL = formALinkExpectedURL(hardcodeUrl);
@@ -131,7 +131,7 @@ public class BrowserSteps {
     /**
      * Переключение на следующую вкладку браузера
      */
-    @И("^выполнено переключение на следующую вкладку$")
+    @И("выполнено переключение на следующую вкладку")
     public void switchToTheNextTab() {
         String nextWindowHandle = nextWindowHandle();
         getWebDriver().switchTo().window(nextWindowHandle);
@@ -141,7 +141,7 @@ public class BrowserSteps {
     /**
      * Выполняется обновление страницы
      */
-    @И("^выполнено обновление текущей страницы$")
+    @И("выполнено обновление текущей страницы")
     public void refreshPage() {
         refresh();
     }
@@ -149,7 +149,7 @@ public class BrowserSteps {
     /**
      * Выполняется обновление страницы
      */
-    @И("^выполнено обновление текущей страницы каждые \"([^\"]*)\" секунд в течении \"([^\"]*)\" секунд$")
+    @И("выполнено обновление текущей страницы каждые {string} секунд в течении {string} секунд")
     public void refreshPageParam(String secondString, String allTimeSecondString) {
         int second = Integer.parseInt(secondString);
         int allTimeSecond = Integer.parseInt(allTimeSecondString);
@@ -162,7 +162,7 @@ public class BrowserSteps {
     /**
      * Производится закрытие текущей вкладки и возвращает на первую
      */
-    @И("^выполнено закрытие текущей вкладки$")
+    @И("выполнено закрытие текущей вкладки")
     public void closeCurrentTab() {
         getWebDriver().close();
         if (WebDriverRunner.getWebDriver().getWindowHandles().size() > 0) {
@@ -173,7 +173,7 @@ public class BrowserSteps {
     /**
      * Производится нажатие кнопки вперед в браузере
      */
-    @И("^нажатие кнопки вперед в браузере$")
+    @И("нажатие кнопки вперед в браузере")
     public void forward() {
         WebDriverRunner.getWebDriver().navigate().forward();
     }
@@ -181,7 +181,7 @@ public class BrowserSteps {
     /**
      * Производится нажатие назад в браузере
      */
-    @И("^нажатие кнопки назад в браузере$")
+    @И("нажатие кнопки назад в браузере")
     public void back() {
         WebDriverRunner.getWebDriver().navigate().back();
     }
@@ -191,7 +191,7 @@ public class BrowserSteps {
      *
      * @param title заголовок вкладки
      */
-    @И("^выполнено переключение на вкладку с заголовком \"([^\"]*)\"$")
+    @И("выполнено переключение на вкладку с заголовком {string}")
     public void switchToTheTabWithTitle(String title) {
         title = getPropertyOrStringVariableOrValue(title);
         try {
@@ -207,7 +207,7 @@ public class BrowserSteps {
      *
      * @param frameName имя/id фрейма
      */
-    @И("^выполнено переключение на фрейм с (?:именем|id) \"([^\"]*)\"$")
+    @И("выполнено переключение на фрейм с именем/id {string}")
     public void switchToFrameWithName(String frameName) {
         try {
             switchTo().frame(getPropertyOrStringVariableOrValue(frameName));
@@ -219,7 +219,7 @@ public class BrowserSteps {
     /**
      * Переключение на основной фрейм страницы
      */
-    @И("^выполнено переключение основной на фрейм страницы$")
+    @И("выполнено переключение основной на фрейм страницы")
     public void switchToDefaultFrame() {
         try {
             switchTo().defaultContent();
@@ -235,7 +235,7 @@ public class BrowserSteps {
      *
      * @param expectedTitle ожидаемый заголовок текущей вкладки
      */
-    @И("^заголовок страницы равен \"([^\"]*)\"$")
+    @И("заголовок страницы равен {string}")
     public void checkPageTitle(String expectedTitle) {
         expectedTitle = getPropertyOrStringVariableOrValue(expectedTitle);
         String actualTitle = "";
@@ -257,7 +257,7 @@ public class BrowserSteps {
      *
      * @param variableName имя переменной
      */
-    @И("^заголовок страницы сохранен в переменную \"([^\"]*)\"$")
+    @И("заголовок страницы сохранен в переменную {string}")
     public void savePageTitleToVariable(String variableName) {
         String titleName = title();
         coreScenario.setVar(variableName, titleName);
@@ -270,7 +270,7 @@ public class BrowserSteps {
      * @param widthString  ширина
      * @param heightString высота
      */
-    @И("^установлено разрешение экрана \"([^\"]*)\" х \"([^\"]*)\"$")
+    @И("установлено разрешение экрана {string} х {string}")
     public void setBrowserWindowSize(String widthString, String heightString) {
         int width = Integer.parseInt(widthString);
         int height = Integer.parseInt(heightString);
@@ -281,7 +281,7 @@ public class BrowserSteps {
     /**
      * Разворачивает окно с браузером на весь экран
      */
-    @И("^окно развернуто на весь экран$")
+    @И("окно развернуто на весь экран")
     public void expandWindowToFullScreen() {
         getWebDriver().manage().window().maximize();
     }
@@ -289,7 +289,7 @@ public class BrowserSteps {
     /**
      * Выполняется переход в конец страницы
      */
-    @И("^совершен переход в конец страницы$")
+    @И("совершен переход в конец страницы")
     public void scrollDown() {
         Actions actions = new Actions(getWebDriver());
         actions.keyDown(Keys.CONTROL).sendKeys(Keys.END).build().perform();
@@ -299,7 +299,7 @@ public class BrowserSteps {
     /**
      * Метод осуществляет снятие скриншота и прикрепление его к cucumber отчету.
      */
-    @И("^снят скриншот текущей страницы$")
+    @И("снят скриншот текущей страницы")
     public synchronized static void takeScreenshot() {
         final byte[] screenshot = ((TakesScreenshot) getWebDriver()).getScreenshotAs(OutputType.BYTES);
         CoreScenario.getInstance().getScenario().embed(screenshot, "image/png", "screenshot name here");
@@ -308,7 +308,7 @@ public class BrowserSteps {
     /**
      * Удалить все cookies
      */
-    @И("^cookies приложения очищены$")
+    @И("cookies приложения очищены")
     public void deleteCookies() {
         int sleepTime = 100;
         for (int time = 0; time < Configuration.timeout; time += sleepTime) {
@@ -328,7 +328,7 @@ public class BrowserSteps {
      * @param cookieName   имя cookie
      * @param variableName имя переменной
      */
-    @И("^содержимое cookie с именем \"([^\"]*)\" сохранена в переменную \"([^\"]*)\"$")
+    @И("содержимое cookie с именем {string} сохранена в переменную {string}")
     public void saveCookieToVar(String cookieName, String variableName) {
         int sleepTime = 100;
         for (int time = 0; time < Configuration.timeout; time += sleepTime) {
@@ -349,7 +349,7 @@ public class BrowserSteps {
      * @param cookieName          имя cookie
      * @param expectedCookieValue предполагаемое содержимое cookie
      */
-    @И("^содержимое cookie с именем \"([^\"]*)\" равно \"([^\"]*)\"$")
+    @И("содержимое cookie с именем {string} равно {string}")
     public void checkValueCookie(String cookieName, String expectedCookieValue) {
         cookieName = getPropertyOrStringVariableOrValue(cookieName);
         expectedCookieValue = getPropertyOrStringVariableOrValue(expectedCookieValue);
@@ -372,7 +372,7 @@ public class BrowserSteps {
      *
      * @param variableName имя переменной
      */
-    @И("^cookies сохранены в переменную \"([^\"]*)\"$")
+    @И("cookies сохранены в переменную {string}")
     public void saveAllCookies(String variableName) {
         coreScenario.setVar(
                 variableName,
@@ -387,7 +387,7 @@ public class BrowserSteps {
      * @param cookieName  имя cookie
      * @param cookieValue значение cookie
      */
-    @И("^добавлена cookie с именем \"([^\"]*)\" и значением \"([^\"]*)\"$")
+    @И("добавлена cookie с именем {string} и значением {string}")
     public void replaceCookie(String cookieName, String cookieValue) {
         String nameCookie = resolveVars(cookieName);
         String valueCookie = resolveVars(cookieValue);
@@ -399,7 +399,7 @@ public class BrowserSteps {
      *
      * @param cookieName имя cookie
      */
-    @И("^на странице нет cookie с именем \"([^\"]*)\"$")
+    @И("на странице нет cookie с именем {string}")
     public void notCookie(String cookieName) {
         int sleepTime = 100;
         Cookie cookie = null;

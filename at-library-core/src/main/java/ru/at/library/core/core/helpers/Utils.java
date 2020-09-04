@@ -2,6 +2,7 @@ package ru.at.library.core.core.helpers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import groovy.util.XmlParser;
+import io.cucumber.java.Scenario;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -169,6 +170,11 @@ public class Utils {
         } catch (UnsupportedEncodingException e) {
             throw new UnsupportedOperationException(e);
         }
+    }
+
+    public static String scenarioID(Scenario scenario) {
+        String fullID = scenario.getId();
+        return fullID.substring(fullID.lastIndexOf('/') + 1);
     }
 
 }

@@ -13,7 +13,7 @@ import static ru.at.library.core.steps.OtherSteps.getPropertyOrStringVariableOrV
 public class HomePageSteps {
     private CoreScenario coreScenario = CoreScenario.getInstance();
 
-    @И("выбор всех товаров и проверка обшей суммы: \"([^\"]*)\"")
+    @И("выбор всех товаров и проверка обшей суммы: {string}")
     public void loginSystem(String money) {
         money = getPropertyOrStringVariableOrValue(money);
         HomePage homePage =

@@ -40,7 +40,7 @@ public class ProxySteps {
      * @param proxyHost адрес proxy, например: s-nsk-proxy-01.global
      * @param proxyPort порт proxy, например: 8080
      */
-    @И("^используется proxy: \"([^\"]+)\" port: \"([^\"]+)\"$")
+    @И("используется proxy: {string} port: {string}")
     public void turnOnProxy(String proxyHost, String proxyPort) {
         if (useProxySteps) {
             proxyHost = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(proxyHost);
@@ -59,7 +59,7 @@ public class ProxySteps {
      * Выключить использование прокси
      * Не работает для запуска на selenoid
      */
-    @И("^выключено использование proxy$")
+    @И("выключено использование proxy")
     public void turnOffProxy() {
         if (useProxySteps) {
             System.clearProperty("http.proxyHost");
@@ -74,7 +74,7 @@ public class ProxySteps {
     /**
      * Найти http-запрос через прокси
      */
-    @И("^через прокси отправлен запрос \"([^\"]+)\"$")
+    @И("через прокси отправлен запрос {string}")
     public void findRequestOnProxy(String url) {
         url = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(url);
         RestAssured.config =

@@ -65,7 +65,7 @@ public class VerificationSteps {
      *                                 и из хранилища переменных из CoreScenario.
      *                                 Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
-    @И("^значения в \"([^\"]+)\" проверены ((?:|без учета регистра ))по таблице:$")
+    @И("значения в {string} проверены ((?:|без учета регистра ))по таблице:")
     public void checkFormattedData(String checkingValuePath, String caseInsensitiveIndicator, DataTable dataTable) {
         checkFormattedData(null, checkingValuePath, !caseInsensitiveIndicator.isEmpty(), dataTable);
     }
@@ -83,7 +83,7 @@ public class VerificationSteps {
      *                                 и из хранилища переменных из CoreScenario.
      *                                 Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
-    @И("^значения в ((?:XML|JSON|PARAMS)) \"([^\"]+)\" проверены ((?:|без учета регистра ))по таблице:$")
+    @И("значения в ((?:XML|JSON|PARAMS)) {string} проверены ((?:|без учета регистра ))по таблице:")
     public void checkFormattedData(TextFormat checkingValueType, String checkingValuePath, String caseInsensitiveIndicator, DataTable dataTable) {
         checkFormattedData(checkingValueType, checkingValuePath, !caseInsensitiveIndicator.isEmpty(), dataTable);
     }
@@ -99,7 +99,7 @@ public class VerificationSteps {
      *                                 и из хранилища переменных из CoreScenario.
      *                                 Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
-    @И("^значения в нём проверены ((?:|без учета регистра ))по таблице:$")
+    @И("значения в нём проверены ((?:|без учета регистра ))по таблице:")
     public void checkFormattedData(String caseInsensitiveIndicator, DataTable dataTable) {
         checkFormattedData(null, null, !caseInsensitiveIndicator.isEmpty(), dataTable);
     }
@@ -159,7 +159,7 @@ public class VerificationSteps {
      *                            и из хранилища переменных из CoreScenario.
      *                            Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
-    @И("^значения из \"([^\"]+)\" сохранены в переменные по таблице:$")
+    @И("значения из {string} сохранены в переменные по таблице:")
     public void saveValuesFromFormattedData(String processingValuePath, DataTable dataTable) {
         saveValuesFromFormattedData(null, processingValuePath, dataTable);
     }
@@ -173,7 +173,7 @@ public class VerificationSteps {
      *                  и из хранилища переменных из CoreScenario.
      *                  Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
-    @И("^значения из него сохранены в переменные по таблице:$")
+    @И("значения из него сохранены в переменные по таблице:")
     public void saveValuesFromFormattedData(DataTable dataTable) {
         saveValuesFromFormattedData(null, null, dataTable);
     }
@@ -189,7 +189,7 @@ public class VerificationSteps {
      *                            и из хранилища переменных из CoreScenario.
      *                            Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
-    @И("^значения из ((?:XML|JSON|PARAMS)) \"([^\"]+)\" сохранены в переменные по таблице:$")
+    @И("значения из ((?:XML|JSON|PARAMS)) {string} сохранены в переменные по таблице:")
     public void saveValuesFromFormattedData(TextFormat processingValueType, String processingValuePath, DataTable dataTable) {
 //        if (processingValuePath == null) {
 //            processingValuePath = String.valueOf(coreScenario.getVar(CoreScenario.CURRENT));

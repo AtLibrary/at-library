@@ -1,6 +1,7 @@
 package ru.at.library.core.steps;
 
 import io.cucumber.datatable.DataTable;
+import io.cucumber.java.ParameterType;
 import io.cucumber.java.PendingException;
 import io.cucumber.java.ru.И;
 import io.cucumber.java.ru.То;
@@ -38,10 +39,15 @@ public class OtherSteps {
 
     private static CoreScenario coreScenario = CoreScenario.getInstance();
 
+    @ParameterType("больше|меньше|равна")
+    public String gteCompare(String condition) {
+        return condition;
+    }
+
     /**
      * Локальное перемещение файла
      */
-    @И("^перемещещие файла из \"([^\"]*)\" в \"([^\"]*)\"$")
+    @И("перемещещие файла из {string} в {string}")
     public static void localMoveFiles(String pathFile, String pathMoveFile) throws IOException {
         pathFile = loadValueFromFileOrPropertyOrVariableOrDefault(pathFile);
         pathFile = loadValueFromFileOrVariableOrDefault(pathFile);
@@ -186,8 +192,8 @@ public class OtherSteps {
      * @param variableName имя переменной
      * @param value        значение переменной
      */
-    @То("^установлено значение переменной \"([^\"]*)\" равным$")
-    @И("^установлено значение переменной \"([^\"]*)\" равным \"(.*)\"$")
+    @То("установлено значение переменной {string} равным")
+    @И("установлено значение переменной {string} равным \"{}\"")
     public void setVariable(String variableName, String value) {
         value = getPropertyOrValue(value);
         coreScenario.setVar(variableName, value);
@@ -199,7 +205,7 @@ public class OtherSteps {
      * @param firstVariableName  первая переменная
      * @param secondVariableName вторая переменная
      */
-    @И("^значения в переменных \"([^\"]*)\" и \"([^\"]*)\" совпадают$")
+    @И("значения в переменных {string} и {string} совпадают")
     public void compareTwoVariables(String firstVariableName, String secondVariableName) {
         String firstValueToCompare = coreScenario.getVar(firstVariableName).toString();
         String secondValueToCompare = coreScenario.getVar(secondVariableName).toString();
@@ -213,7 +219,7 @@ public class OtherSteps {
      * @param firstVariableName  первая переменная
      * @param secondVariableName вторая переменная
      */
-    @И("^значения в переменных \"([^\"]*)\" и \"([^\"]*)\" не совпадают$")
+    @И("значения в переменных {string} и {string} не совпадают")
     public void checkingTwoVariablesAreNotEquals(String firstVariableName, String secondVariableName) {
         String firstValueToCompare = coreScenario.getVar(firstVariableName).toString();
         String secondValueToCompare = coreScenario.getVar(secondVariableName).toString();
@@ -227,8 +233,8 @@ public class OtherSteps {
      * @param variableName          переменная
      * @param expectedValueVariable ожидаемое содержимое
      */
-    @То("^значение переменной \"([^\"]*)\" равно$")
-    @И("^значение переменной \"([^\"]*)\" равно \"([^\"]*)\"$")
+    @То("значение переменной {string} равно")
+    @И("значение переменной {string} равно {string}")
     public void checkVariable(String variableName, String expectedValueVariable) {
         String valueVariable = coreScenario.getVar(variableName).toString();
         expectedValueVariable = loadValueFromFileOrPropertyOrVariableOrDefault(expectedValueVariable);
@@ -244,7 +250,7 @@ public class OtherSteps {
      *                   OR string.equals("string")
      *                   Любое Java-выражение, возвращающие boolean
      */
-    @И("^верно, что \"([^\"]*)\"$")
+    @И("верно, что {string}")
     public void expressionExpression(String expression) {
         coreScenario.getVars().evaluate("assert(" + expression + ")");
     }
@@ -257,7 +263,7 @@ public class OtherSteps {
      *                             Значение заданной переменной из application.properties сохраняется в переменную в coreScenario
      *                             для дальнейшего использования
      */
-    @И("^сохранено значение \"([^\"]*)\" из property файла в переменную \"([^\"]*)\"$")
+    @И("сохранено значение {string} из property файла в переменную {string}")
     public void saveValueToVar(String propertyVariableName, String variableName) {
         propertyVariableName = loadProperty(propertyVariableName);
         coreScenario.setVar(variableName, propertyVariableName);
@@ -267,7 +273,7 @@ public class OtherSteps {
     /**
      * Проверка совпадения значения из переменной и значения из property
      */
-    @И("^значения из переменной \"([^\"]*)\" и из property файла \"([^\"]*)\" совпадают$")
+    @И("значения из переменной {string} и из property файла {string} совпадают")
     public void checkIfValueFromVariableEqualPropertyVariable(String envVarible, String propertyVariable) {
         assertThat("Переменные " + envVarible + " и " + propertyVariable + " не совпадают",
                 (String) coreScenario.getVar(envVarible), equalToIgnoringCase(loadProperty(propertyVariable)));
@@ -276,7 +282,7 @@ public class OtherSteps {
     /**
      * Выполняется чтение файла с шаблоном и заполнение его значениями из таблицы
      */
-    @И("^шаблон \"([^\"]*)\" заполнен данными из таблицы и сохранён в переменную \"([^\"]*)\"$")
+    @И("шаблон {string} заполнен данными из таблицы и сохранён в переменную {string}")
     public void fillTemplate(String templateName, String varName, DataTable table) {
         String template = getPropertyOrValue(templateName);
         template = loadValueFromFileOrVariableOrDefault(template);
@@ -299,7 +305,7 @@ public class OtherSteps {
     /**
      * Валидация что текст является email-ом
      */
-    @И("^значение переменной \"([^\"]*)\" является email-ом$")
+    @И("значение переменной {string} является email-ом")
     public void checkEmail(String variableName) throws AddressException {
         String valueVariable = coreScenario.getVar(variableName).toString();
         new InternetAddress(valueVariable)
@@ -309,7 +315,7 @@ public class OtherSteps {
     /**
      * Валидация что текст является email-ом
      */
-    @И("^длина строки переменной \"([^\"]*)\" ((?:больше|меньше|равна)) (\\d+)$")
+    @И("длина строки переменной {string} {gteCompare} {int}")
     public void checkEmail(String variableName, String condition, int expectedLength) throws AddressException {
         int actualLength = coreScenario.getVar(variableName).toString().length();
         switch (condition) {
@@ -334,7 +340,7 @@ public class OtherSteps {
      * @param variableName имя переменной
      * @param dateFormat   формат даты
      */
-    @И("^установлено значение переменной \"([^\"]*)\" с текущей датой в формате \"([^\"]*)\"$")
+    @И("установлено значение переменной {string} с текущей датой в формате {string}")
     public void setCurrentDate(String variableName, String dateFormat) {
         long date = System.currentTimeMillis();
         setDate(date, variableName, dateFormat);
@@ -346,7 +352,7 @@ public class OtherSteps {
      * @param variableName имя переменной
      * @param dateFormat   формат даты
      */
-    @И("^установлено значение переменной \"([^\"]*)\" с текущей датой минус (\\d+) (?:час|часов) в формате \"([^\"]*)\"$")
+    @И("установлено значение переменной {string} с текущей датой минус {int} час/часов в формате {string}")
     public void setMinusDate(String variableName, int hour, String dateFormat) {
         long time = new Date(System.currentTimeMillis() - hour * 1000 * 3600).getTime();
         setDate(time, variableName, dateFormat);
@@ -358,7 +364,7 @@ public class OtherSteps {
      * @param variableName имя переменной
      * @param dateFormat   формат даты
      */
-    @И("^установлено значение переменной \"([^\"]*)\" с текущей датой плюс (\\d+) (?:час|часов) в формате \"([^\"]*)\"$")
+    @И("установлено значение переменной {string} с текущей датой плюс {int} час/часов в формате {string}")
     public void setPlusDate(String variableName, int hour, String dateFormat) {
         long time = new Date(System.currentTimeMillis() + hour * 1000 * 3600).getTime();
         setDate(time, variableName, dateFormat);
@@ -381,7 +387,7 @@ public class OtherSteps {
      *
      * @param seconds секунд
      */
-    @И("^выполнено ожидание в течение (\\d+) (?:секунд|секунды)")
+    @И("выполнено ожидание в течение {int} секунд/секунды")
     public void waitForSeconds(long seconds) {
         sleep(1000 * seconds);
     }
@@ -389,7 +395,7 @@ public class OtherSteps {
     /**
      * Написание автотеста в работе
      */
-    @И("^ручной тест$")
+    @И("ручной тест")
     public void manualTest() {
         throw new PendingException("написание автотеста в работе");
     }
@@ -397,7 +403,7 @@ public class OtherSteps {
     /**
      * Написание автотеста в работе
      */
-    @И("^написание автотеста в работе$")
+    @И("написание автотеста в работе")
     public void pendingException() {
         throw new PendingException("написание автотеста в работе");
     }
@@ -405,7 +411,7 @@ public class OtherSteps {
     /**
      * Написание автотеста в работе
      */
-    @И("^написание автотеста в работе. Планируемая дата: \"([^\"]*)\"$")
+    @И("написание автотеста в работе. Планируемая дата: {string}")
     public void pendingException(String date) {
         throw new PendingException("написание автотеста в работе. Планируемая дата: " + date);
     }
@@ -413,7 +419,7 @@ public class OtherSteps {
     /**
      * Написание автотеста в работе
      */
-    @И("^проблема с поиском локатора: \"([^\"]*)\"$")
+    @И("проблема с поиском локатора: {string}")
     public void pending(String date) {
         throw new PendingException("написание автотеста в работе. Планируемая дата: " + date);
     }
@@ -421,7 +427,7 @@ public class OtherSteps {
     /**
      * Автотест реализован на старом фреймворке
      */
-    @И("^автотест реализован на старом фреймворке$")
+    @И("автотест реализован на старом фреймворке")
     public void oldFramework() {
         throw new PendingException("автотест реализован на старом фреймворке");
     }
@@ -429,7 +435,7 @@ public class OtherSteps {
     /**
      * Автотест реализован на старом фреймворке
      */
-    @И("^не актуальный тест в тестовой моделе")
+    @И("не актуальный тест в тестовой моделе")
     public void notActual() {
         throw new PendingException("не актуальный тест в тестовой моделе");
     }

@@ -22,7 +22,7 @@ public class BlockListSteps {
     private final CoreScenario coreScenario = CoreScenario.getInstance();
 
 
-    @И("^список блоков \"([^\"]*)\" отображается на странице$")
+    @И("список блоков {string} отображается на странице")
     public void listBlockVisible(String listName) {
         List<CorePage> blocksList = coreScenario.getCurrentPage().getBlocksList(listName);
         blocksList.get(0).ieAppeared();
@@ -31,7 +31,7 @@ public class BlockListSteps {
     /**
      * Производится проверка соответствия числа элементов списка значению, указанному в шаге
      */
-    @И("^список блоков \"([^\"]*)\" состоит из (\\d+) блоков")
+    @И("список блоков {string} состоит из {int} блоков")
     public void listBlockSize(String listName, int quantity) {
         List<CorePage> blocksList = coreScenario.getCurrentPage().getBlocksList(listName);
         assertEquals(blocksList.size(), quantity);
@@ -40,7 +40,7 @@ public class BlockListSteps {
     /**
      * Производится проверка соответствия числа элементов списка значению, указанному в шаге
      */
-    @И("^список блоков \"([^\"]*)\" в блоке \"([^\"]*)\" состоит из (\\d+) блоков")
+    @И("список блоков {string} в блоке {string} состоит из {int} блоков")
     public void listBlockSize(String listName, String blockName, int quantity) {
         List<CorePage> blocksList =
                 coreScenario.getCurrentPage().getBlock(blockName).getBlocksList(listName);
@@ -48,7 +48,7 @@ public class BlockListSteps {
     }
 
 
-    @И("^в любом блоке в списке блоков \"([^\"]*)\" в элементе \"([^\"]*)\" текст равен \"([^\"]*)\"$")
+    @И("в любом блоке в списке блоков {string} в элементе {string} текст равен {string}")
     public void checkTextInAnyBlock(String listName, String elementName, String expectedText) {
         expectedText = getPropertyOrStringVariableOrValue(expectedText);
 
@@ -58,7 +58,7 @@ public class BlockListSteps {
     }
 
 
-    @И("^в любом блоке в списке блоков \"([^\"]*)\" в блоке \"([^\"]*)\" в элементе \"([^\"]*)\" текст равен \"([^\"]*)\"$")
+    @И("в любом блоке в списке блоков {string} в блоке {string} в элементе {string} текст равен {string}")
     public void checkTextInAnyBlock(String listName, String blockName, String elementName, String expectedText) {
         expectedText = getPropertyOrStringVariableOrValue(expectedText);
 
@@ -68,7 +68,7 @@ public class BlockListSteps {
     }
 
 
-    @И("^в каждом блоке в списке блоков \"([^\"]*)\" в блоке \"([^\"]*)\" в элементе \"([^\"]*)\" текст в формате \"([^\"]*)\"$")
+    @И("в каждом блоке в списке блоков {string} в блоке {string} в элементе {string} текст в формате {string}")
     public void checkTextInAnyBlockMatches(String listName, String blockName, String elementName, String regExp) {
         regExp = getPropertyOrStringVariableOrValue(regExp);
         List<CorePage> blocksList =
@@ -80,7 +80,7 @@ public class BlockListSteps {
         }
     }
 
-    @И("^в каждом блоке в списке блоков \"([^\"]*)\" в блоке \"([^\"]*)\" элемент \"([^\"]*)\" отображается на странице$")
+    @И("в каждом блоке в списке блоков {string} в блоке {string} элемент {string} отображается на странице")
     public void elementVisibleAnyBlock(String listName, String blockName, String elementName) {
         List<CorePage> blocksList = coreScenario.getCurrentPage().getBlock(blockName).getBlocksList(listName);
 
@@ -89,7 +89,7 @@ public class BlockListSteps {
         }
     }
 
-    @И("^выполнено нажатие на кнопку \"([^\"]*)\" в списке блоков \"([^\"]*)\" в блоке \"([^\"]*)\"$")
+    @И("выполнено нажатие на кнопку {string} в списке блоков {string} в блоке {string}")
     public void clickButtonInBlock(String elementName, String listName, String blockName) {
         List<CorePage> blocksList = coreScenario.getCurrentPage().getBlock(blockName).getBlocksList(listName);
         blocksList.get(0).getElement(elementName)
@@ -97,7 +97,7 @@ public class BlockListSteps {
                 .click();
     }
 
-    @И("^выполнено нажатие на кнопку \"([^\"]*)\" в списке блоков \"([^\"]*)\" где в элементе \"([^\"]*)\" текст равен \"([^\"]*)\" в блоке \"([^\"]*)\"$")
+    @И("выполнено нажатие на кнопку {string} в списке блоков {string} где в элементе {string} текст равен {string} в блоке {string}")
     public void clickButtonInBlockWhereTextEquals(String elementNameClick, String listName, String elementNameText, String expectedText, String blockName) {
         List<CorePage> blocksList = coreScenario.getCurrentPage().getBlock(blockName).getBlocksList(listName);
         CorePage corePageByTextInElement = findCorePageByTextInElement(blocksList, elementNameText, expectedText);
@@ -108,7 +108,7 @@ public class BlockListSteps {
     }
 
 
-    @И("^элемент \"([^\"]*)\" отображается на странице в списке блоков \"([^\"]*)\" где в элементе \"([^\"]*)\" текст равен \"([^\"]*)\" в блоке \"([^\"]*)\"$")
+    @И("элемент {string} отображается на странице в списке блоков {string} где в элементе {string} текст равен {string} в блоке {string}")
     public void visibleElementBlockWhereTextEquals(String elementNameClick, String listName, String elementNameText, String expectedText, String blockName) {
         List<CorePage> blocksList = coreScenario.getCurrentPage().getBlock(blockName).getBlocksList(listName);
         CorePage corePageByTextInElement = findCorePageByTextInElement(blocksList, elementNameText, expectedText);
@@ -117,7 +117,7 @@ public class BlockListSteps {
         element.shouldHave(Condition.visible);
     }
 
-    @И("^текст в элементе \"([^\"]*)\" равен формату \"([^\"]*)\" в списке блоков \"([^\"]*)\" где в элементе \"([^\"]*)\" текст равен \"([^\"]*)\" в блоке \"([^\"]*)\"$")
+    @И("текст в элементе {string} равен формату {string} в списке блоков {string} где в элементе {string} текст равен {string} в блоке {string}")
     public void checkTextInAnyBlockMatches(String elementNameClick, String regExp, String listName, String elementNameText, String expectedText, String blockName) {
         List<CorePage> blocksList = coreScenario.getCurrentPage().getBlock(blockName).getBlocksList(listName);
         CorePage corePageByTextInElement = findCorePageByTextInElement(blocksList, elementNameText, expectedText);
@@ -126,7 +126,7 @@ public class BlockListSteps {
         checkTextMatches(element, regExp);
     }
 
-    @И("^текст в элементе \"([^\"]*)\" равен формату \"([^\"]*)\" в списке блоков \"([^\"]*)\" где в элементе \"([^\"]*)\" текст равен \"([^\"]*)\"$")
+    @И("текст в элементе {string} равен формату {string} в списке блоков {string} где в элементе {string} текст равен {string}")
     public void checkTextInAnyBlockMatches(String elementNameClick, String regExp, String listName, String elementNameText, String expectedText) {
         List<CorePage> blocksList = coreScenario.getCurrentPage().getBlocksList(listName);
         CorePage corePageByTextInElement = findCorePageByTextInElement(blocksList, elementNameText, expectedText);

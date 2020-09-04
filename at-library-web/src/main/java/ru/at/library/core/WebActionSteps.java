@@ -52,9 +52,9 @@ public class WebActionSteps {
      * в течение WAITING_APPEAR_TIMEOUT, которое равно значению свойства "waitingAppearTimeout"
      * из application.properties. Если свойство не найдено, время таймаута равно 8 секундам
      *
-     * @param nameOfPage название страница|блок|форма|вкладка
+     * @param nameOfPage название страница/блок/форма/вкладка
      */
-    @И("^(?:страница|блок|форма|вкладка) \"([^\"]*)\" (?:загрузилась|загрузился)$")
+    @И("страница/блок/форма/вкладка {string} загрузилась/загрузился")
     public void loadPage(String nameOfPage) {
         coreScenario.setCurrentPage(coreScenario.getPage(nameOfPage));
         if (isIE()) {
@@ -68,9 +68,9 @@ public class WebActionSteps {
      * Проверка того, что все элементы, которые описаны в классе страницы с аннотацией @Name,
      * но без аннотации @Optional, не появились на странице
      *
-     * @param nameOfPage название страница|блок|форма|вкладка
+     * @param nameOfPage название страница/блок/форма/вкладка
      */
-    @И("^(?:страница|блок|форма|вкладка) \"([^\"]*)\" не (?:загрузилась|загрузился)$")
+    @И("страница/блок/форма/вкладка {string} не загрузилась/загрузился")
     public void loadPageFailed(String nameOfPage) {
         coreScenario.setCurrentPage(coreScenario.getPage(nameOfPage));
         if (isIE()) {
@@ -91,7 +91,7 @@ public class WebActionSteps {
      * Шаг содержит проверку, что после перехода загружена заданная страница.
      * Ссылка может передаваться как строка, так и как ключ из application.properties
      */
-    @И("^совершен переход на страницу \"([^\"]*)\" по ссылке \"([^\"]*)\"$")
+    @И("совершен переход на страницу {string} по ссылке {string}")
     public void goToSelectedPageByLink(String pageName, String urlOrName) {
         String url = resolveVars(getPropertyOrStringVariableOrValue(urlOrName));
         log.trace(" url = " + url);
@@ -104,7 +104,7 @@ public class WebActionSteps {
      * Шаг содержит проверку, что после перехода загружена заданная страница.
      * Ссылка может передаваться как строка, так и как ключ из application.properties
      */
-    @И("^совершен переход на страницу \"([^\"]*)\" в новой вкладке по ссылке \"([^\"]*)\"$")
+    @И("совершен переход на страницу {string} в новой вкладке по ссылке {string}")
     public void goToSelectedPageByLinkNewTab(String pageName, String urlOrName) {
         String url = resolveVars(getPropertyOrStringVariableOrValue(urlOrName));
         log.trace(" url = " + url);
@@ -118,7 +118,7 @@ public class WebActionSteps {
     /**
      * Переход на страницу по клику и проверка, что страница загружена
      */
-    @И("^выполнен переход на страницу \"([^\"]*)\" после нажатия на (?:кнопку|ссылку|поле|чекбокс|радиокнопу|текст|элемент) \"([^\"]*)\"$")
+    @И("выполнен переход на страницу {string} после нажатия на кнопку/ссылку/поле/чекбокс/радиокнопу/текст/элемент {string}")
     public void urlClickAndCheckRedirection(String pageName, String elementName) {
         coreScenario.getCurrentPage().getElement(elementName).click();
         loadPage(pageName);
@@ -136,7 +136,7 @@ public class WebActionSteps {
      *
      * @param elementName название элемента
      */
-    @И("^выполнено нажатие на (?:кнопку|ссылку|поле|чекбокс|радиокнопу|текст|элемент) \"([^\"]*)\"$")
+    @И("выполнено нажатие на кнопку/ссылку/поле/чекбокс/радиокнопу/текст/элемент {string}")
     public void clickOnElement(String elementName) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
         element.click();
@@ -148,7 +148,7 @@ public class WebActionSteps {
      *
      * @param elementName название элемента
      */
-    @И("^выполнено умное нажатие на (?:кнопку|ссылку|поле|чекбокс|радиокнопу|текст|элемент) \"([^\"]*)\"$")
+    @И("выполнено умное нажатие на кнопку/ссылку/поле/чекбокс/радиокнопу/текст/элемент {string}")
     public void clickElementOrParent(String elementName) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
         try {
@@ -164,7 +164,7 @@ public class WebActionSteps {
      * @param elementName название элемента
      */
 
-    @И("^выполнено нажатие c ховером на (?:кнопку|ссылку|поле|чекбокс|радиокнопу|текст|элемент) \"([^\"]*)\"$")
+    @И("выполнено нажатие c ховером на кнопку/ссылку/поле/чекбокс/радиокнопу/текст/элемент {string}")
     public void clickOnElementWithHover(String elementName) {
         CorePage currentPage = coreScenario.getCurrentPage();
         SelenideElement element = currentPage.getElement(elementName);
@@ -176,7 +176,7 @@ public class WebActionSteps {
     /**
      * Выполняется наведение курсора на элемент
      */
-    @И("^выполнен ховер на (?:кнопку|ссылку|поле|чекбокс|радиокнопу|текст|элемент) \"([^\"]*)\"$")
+    @И("выполнен ховер на кнопку/ссылку/поле/чекбокс/радиокнопу/текст/элемент {string}")
     public void elementHover(String elementName) {
         SelenideElement field = coreScenario.getCurrentPage().getElement(elementName);
         field.hover();
@@ -185,7 +185,7 @@ public class WebActionSteps {
     /**
      * Нажатие на элемент по его тексту (в приоритете: из property, из переменной сценария, значение аргумента)
      */
-    @И("^выполнено нажатие на элемент с текстом \"([^\"]*)\"$")
+    @И("выполнено нажатие на элемент с текстом {string}")
     public void findElement(String text) {
         $(By.xpath(getTranslateNormalizeSpaceText(getPropertyOrStringVariableOrValue(text)))).click();
     }
@@ -196,7 +196,7 @@ public class WebActionSteps {
      * @param elementName имя элемента
      * @param blockName   имя блока
      */
-    @И("^выполнено нажатие на (?:кнопку|ссылку|поле|чекбокс|радиокнопу|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\"$")
+    @И("выполнено нажатие на кнопку/ссылку/поле/чекбокс/радиокнопу/текст/элемент {string} в блоке {string}")
     public void clickOnElementInBlock(String elementName, String blockName) {
         CorePage currentPage = coreScenario.getCurrentPage();
         coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName).click();
@@ -215,8 +215,8 @@ public class WebActionSteps {
      *
      * @return
      */
-    @То("^в поле \"([^\"]*)\" введено значение$")
-    @И("^в поле \"([^\"]*)\" введено значение \"([^\"]*)\"$")
+    @То("в поле {string} введено значение")
+    @И("в поле {string} введено значение {string}")
     public String setFieldValue(String elementName, String value) {
         value = getPropertyOrStringVariableOrValue(value);
         SelenideElement valueInput = coreScenario.getCurrentPage().getElement(elementName);
@@ -228,8 +228,8 @@ public class WebActionSteps {
      * Набирается значение посимвольно (в приоритете: из property, из переменной сценария, значение аргумента) в заданное поле.
      * Перед использованием поле очищается
      */
-    @То("^в поле \"([^\"]*)\" посимвольно набирается значение$")
-    @И("^в поле \"([^\"]*)\" посимвольно набирается значение \"([^\"]*)\"$")
+    @То("в поле {string} посимвольно набирается значение")
+    @И("в поле {string} посимвольно набирается значение {string}")
     public void sendKeysCharacterByCharacter(String elementName, String value) {
         value = getPropertyOrStringVariableOrValue(value);
         SelenideElement valueInput = coreScenario.getCurrentPage().getElement(elementName);
@@ -259,8 +259,8 @@ public class WebActionSteps {
     /**
      * Добавление строки (в приоритете: из property, из переменной сценария, значение аргумента) в поле к уже заполненой строке
      */
-    @То("^в (?:поле|элемент) \"([^\"]*)\" дописывается значение$")
-    @И("^в (?:поле|элемент) \"([^\"]*)\" дописывается значение \"([^\"]*)\"$")
+    @То("в поле/элемент {string} дописывается значение")
+    @И("в поле/элемент {string} дописывается значение {string}")
     public void addValue(String elementName, String value) {
         value = getPropertyOrStringVariableOrValue(value);
         SelenideElement field = coreScenario.getCurrentPage().getElement(elementName);
@@ -276,7 +276,7 @@ public class WebActionSteps {
      * Ввод в поле текущей даты в заданном формате
      * При неверном формате, используется dd.MM.yyyy
      */
-    @И("^(?:поле|элемент) \"([^\"]*)\" заполняется текущей датой в формате \"([^\"]*)\"$")
+    @И("поле/элемент {string} заполняется текущей датой в формате {string}")
     public void currentDate(String fieldName, String dateFormat) {
         long date = System.currentTimeMillis();
         String currentStringDate;
@@ -296,7 +296,7 @@ public class WebActionSteps {
      * Ввод в поле указанного текста (в приоритете: из property, из переменной сценария, значение аргумента),
      * используя буфер обмена и клавиши SHIFT + INSERT
      */
-    @И("^вставлено значение \"([^\"]*)\" в (?:поле|элемент) \"([^\"]*)\" с помощью горячих клавиш$")
+    @И("вставлено значение {string} в поле/элемент {string} с помощью горячих клавиш")
     public void pasteValueToTextField(String value, String fieldName) {
         value = getPropertyOrStringVariableOrValue(value);
         ClipboardOwner clipboardOwner = (clipboard, contents) -> {
@@ -310,7 +310,7 @@ public class WebActionSteps {
     /**
      * Очищается заданное поле
      */
-    @И("^очищено поле \"([^\"]*)\"$")
+    @И("очищено поле {string}")
     public void cleanField(String nameOfField) {
         SelenideElement valueInput = coreScenario.getCurrentPage().getElement(nameOfField);
         valueInput.clear();
@@ -330,14 +330,9 @@ public class WebActionSteps {
      * Ввод в поле случайной последовательности латинских или кириллических букв задаваемой длины
      */
     @Deprecated
-    @И("^в поле \"([^\"]*)\" введено \"([^\"]*)\" случайных символов на (кириллице|латинице)$")
-    public void setRandomCharSequence(String elementName, String seqLengthString, String lang) {
-        int seqLength = Integer.parseInt(seqLengthString);
+    @И("в поле {string} введено {int} случайных символов на {lang}")
+    public void setRandomCharSequence(String elementName, int seqLength, String lang) {
         SelenideElement valueInput = coreScenario.getCurrentPage().getElement(elementName);
-        if (lang.equals("кириллице"))
-            lang = "ru";
-        else
-            lang = "en";
         String charSeq = getRandCharSequence(seqLength, lang);
         valueInput.setValue(charSeq);
         log.trace("Строка случайных символов равна :" + charSeq);
@@ -347,14 +342,9 @@ public class WebActionSteps {
      * Ввод в поле случайной последовательности латинских или кириллических букв задаваемой длины и сохранение этого значения в переменную
      */
     @Deprecated
-    @И("^в поле \"([^\"]*)\" введено \"([^\"]*)\" случайных символов на (кириллице|латинице) и сохранено в переменную \"([^\"]*)\"$")
-    public void setRandomCharSequenceAndSaveToVar(String elementName, String seqLengthString, String lang, String varName) {
-        int seqLength = Integer.parseInt(seqLengthString);
+    @И("в поле {string} введено {int} случайных символов на {lang} и сохранено в переменную {string}")
+    public void setRandomCharSequenceAndSaveToVar(String elementName, int seqLength, String lang, String varName) {
         SelenideElement valueInput = coreScenario.getCurrentPage().getElement(elementName);
-        if (lang.equals("кириллице"))
-            lang = "ru";
-        else
-            lang = "en";
         String charSeq = getRandCharSequence(seqLength, lang);
         valueInput.setValue(charSeq);
         coreScenario.setVar(varName, charSeq);
@@ -367,7 +357,7 @@ public class WebActionSteps {
      * @return сгенерированное число
      */
     @Deprecated
-    @И("^в поле \"([^\"]*)\" введено случайное число из \"([^\"]*)\" (?:цифр|цифры)$")
+    @И("в поле {string} введено случайное число из {string} цифр/цифры")
     public String inputRandomNumSequence(String elementName, String seqLengthString) {
         int seqLength = Integer.parseInt(seqLengthString);
         String numSeq = RandomStringUtils.randomNumeric(seqLength);
@@ -378,7 +368,7 @@ public class WebActionSteps {
      * Ввод в поле случайной последовательности цифр задаваемой длины и сохранение этого значения в переменную
      */
     @Deprecated
-    @И("^в поле \"([^\"]*)\" введено случайное число из (\\d+) (?:цифр|цифры) и сохранено в переменную \"([^\"]*)\"$")
+    @И("в поле {string} введено случайное число из {int} цифр/цифры и сохранено в переменную {string}")
     public void inputAndSetRandomNumSequence(String elementName, int seqLengthString, String varName) {
         String value = inputRandomNumSequence(elementName, String.valueOf(seqLengthString));
         coreScenario.setVar(varName, value);
@@ -404,7 +394,7 @@ public class WebActionSteps {
      * Скроллит экран до нужного элемента, имеющегося на странице, но видимого только в нижней/верхней части страницы.
      */
     @Deprecated
-    @И("^страница прокручена до элемента \"([^\"]*)\"")
+    @И("страница прокручена до элемента {string}")
     public void scrollPageToElement(String elementName) {
         coreScenario.getCurrentPage().getElement(elementName).scrollTo();
     }
@@ -414,7 +404,7 @@ public class WebActionSteps {
      * Скроллит страницу вниз до появления элемента каждую секунду.
      * Если достигнут футер страницы и элемент не найден - выбрасывается exception.
      */
-    @И("^страница прокручена до появления элемента \"([^\"]*)\"$")
+    @И("страница прокручена до появления элемента {string}")
     public void scrollWhileElemNotFoundOnPage(String elementName) {
         do {
             SelenideElement el = coreScenario.getCurrentPage().getElement(elementName);
@@ -428,7 +418,7 @@ public class WebActionSteps {
      * Скроллит страницу вниз до появления элемента с текстом из property файла, из переменной сценария или указанному в шаге каждую секунду.
      * Если достигнут футер страницы и элемент не найден - выбрасывается exception.
      */
-    @И("^страница прокручена до появления элемента с текстом \"([^\"]*)\"$")
+    @И("страница прокручена до появления элемента с текстом {string}")
     public void scrollWhileElemWithTextNotFoundOnPage(String expectedValue) {
         SelenideElement el = $(By.xpath(getTranslateNormalizeSpaceText(getPropertyOrStringVariableOrValue(expectedValue))));
         ((JavascriptExecutor) WebDriverRunner.getWebDriver()).executeScript("arguments[0].scrollIntoView();", el);

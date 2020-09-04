@@ -31,7 +31,7 @@ public class JsonVerificationSteps {
      * @param variableName переменная для сохраняения заполненного json
      */
     //TODO проверить работу c XML
-    @И("заполняю ([^\"]*)-шаблон \"([^\"]*)\" данными из таблицы и сохраняю в переменную \"([^\"]*)\"")
+    @И("заполняю ([^\"]*)-шаблон {string} данными из таблицы и сохраняю в переменную {string}")
     public void iFillInTheJsonTypeDataFromTheTableSafeguardTheVariable(String type, String pathExpectedJson, String variableName, DataTable dataTable) {
         String jsonPath = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(pathExpectedJson);
         String fileExample = PropertyLoader.loadValueFromFileOrVariableOrDefault(jsonPath);
@@ -69,7 +69,7 @@ public class JsonVerificationSteps {
      *                        Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
     @Deprecated
-    @И("^в ((?:json|xml)) ответа \"([^\"]*)\" значения равны значениям из таблицы$")
+    @И("в ((?:json|xml)) ответа {string} значения равны значениям из таблицы")
     public void checkValuesBodyValueCaseSensitive(String typeContentBody, String valueToFind, DataTable dataTable) {
         this.checkValuesBody(typeContentBody, valueToFind, false, dataTable);
     }
@@ -84,7 +84,7 @@ public class JsonVerificationSteps {
      *                        Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
     @Deprecated
-    @И("^в ((?:json|xml)) ответа \"([^\"]*)\" значения равны, без учета регистра, значениям из таблицы$")
+    @И("в ((?:json|xml)) ответа {string} значения равны, без учета регистра, значениям из таблицы")
     public void checkValuesBodyValueCaseInsensitive(String typeContentBody, String valueToFind, DataTable dataTable) {
         this.checkValuesBody(typeContentBody, valueToFind, true, dataTable);
     }
@@ -131,7 +131,7 @@ public class JsonVerificationSteps {
      *                        и из хранилища переменных из CoreScenario.
      *                        Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
-    @И("^значения из ((?:json|xml)) ответа \"([^\"]*)\", найденные по jsonpath из таблицы, сохранены в переменные$")
+    @И("значения из ((?:json|xml)) ответа {string}, найденные по jsonpath из таблицы, сохранены в переменные")
     public void getValuesFromBodyAsString(String typeContentBody, String valueToFind, DataTable dataTable) {
         Response response = (Response) CoreScenario.getInstance().getVar(valueToFind);
 
@@ -167,7 +167,7 @@ public class JsonVerificationSteps {
      *                    Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
     @Deprecated
-    @И("^значения из json \"([^\"]*)\", найденные по jsonpath из таблицы, сохранены в переменные$")
+    @И("значения из json {string}, найденные по jsonpath из таблицы, сохранены в переменные")
     public void getValuesFromJsonAsString(String valueToFind, DataTable dataTable) throws ParseException {
         String jsonString = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(valueToFind);
         JSONParser parser = new JSONParser();
@@ -188,7 +188,7 @@ public class JsonVerificationSteps {
      * Проверка json
      */
     @Deprecated
-    @И("^в json \"([^\"]*)\" значения равны(|, без учета регистра,) значениям из таблицы$")
+    @И("в json {string} значения равны(|, без учета регистра,) значениям из таблицы")
     public void checkJson(String pathExpectedJson, String textRegister, DataTable dataTable) throws ParseException {
         String jsonString = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(pathExpectedJson);
         JSONParser parser = new JSONParser();
@@ -218,7 +218,7 @@ public class JsonVerificationSteps {
      * Проверка json
      */
     @Deprecated
-    @И("^в json \"([^\"]*)\" значения соответствуют шаблонам из таблицы$")
+    @И("в json {string} значения соответствуют шаблонам из таблицы")
     public void checkJsonByRegex(String pathExpectedJson, DataTable dataTable) throws ParseException {
         String jsonString = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(pathExpectedJson);
         JSONParser parser = new JSONParser();
@@ -245,7 +245,7 @@ public class JsonVerificationSteps {
      * @param nameResponseTwo имя второго ответа ответа
      * @param dataTable       список jsonpath ключей
      */
-    @И("^значения найденные по jsonPath из json ответа \"([^\"]*)\" равны значениям из json ответа \"([^\"]*)\"$")
+    @И("значения найденные по jsonPath из json ответа {string} равны значениям из json ответа {string}")
     public void valuesFoundByPathEqual(String nameResponseOne, String nameResponseTwo, DataTable dataTable) {
         Response response1 = (Response) CoreScenario.getInstance().getVar(nameResponseOne);
         Response response2 = (Response) CoreScenario.getInstance().getVar(nameResponseTwo);
@@ -283,7 +283,7 @@ public class JsonVerificationSteps {
      * @param variableName     переменная в которой сохранен Response
      * @param pathExpectedJson путь к json файлу
      */
-    @И("^json в ответе \"([^\"]*)\" равен json: \"([^\"]*)\"")
+    @И("json в ответе {string} равен json: {string}")
     public void checkResponseJson(String variableName, String pathExpectedJson) {
         String json = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(pathExpectedJson);
         json = ScopedVariables.resolveJsonVars(json);
@@ -300,7 +300,7 @@ public class JsonVerificationSteps {
      * @param variableName       переменная в которой сохранен Response
      * @param expectedJsonSchema путь до .json файла со схемой
      */
-    @И("^ответ \"([^\"]*)\" соответсвует json схеме: \"([^\"]*)\"$")
+    @И("ответ {string} соответсвует json схеме: {string}")
     public void verifyingResponseMatchesJsonScheme(String variableName, String expectedJsonSchema) {
         Response response = (Response) CoreScenario.getInstance().getVar(variableName);
         expectedJsonSchema =

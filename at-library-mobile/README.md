@@ -100,7 +100,7 @@ public class HomePage extends CorePage {
 public class HomePageSteps {
     private CoreScenario coreScenario = CoreScenario.getInstance();
 
-    @И("выбор всех товаров и проверка обшей суммы: \"([^\"]*)\"")
+    @И("выбор всех товаров и проверка обшей суммы: {string}")
     public void loginSystem(String money) {
         money = getPropertyOrStringVariableOrValue(money);
         HomePage homePage =
@@ -134,7 +134,7 @@ public class HomePageSteps {
 ============================
 Данные строки позволяют по имени элемента найти его в карте элементов текущей экрана.
 
-```java
+```java_holder_method_tree
 homePage.getElement("iphone").click();
 homePage.getElement("mouse").click();
 homePage.getElement("ps4").click();
@@ -150,7 +150,7 @@ homePage.getElement("money").shouldHave(Condition.exactText(money));
 Реализована возможность описывать блоки на экране (Page Element)
 
 Например:
-```java
+```java_holder_method_tree
 @FindBy(className = "header")
 @Name("Шапка экрана")
 public HeaderBlock header;

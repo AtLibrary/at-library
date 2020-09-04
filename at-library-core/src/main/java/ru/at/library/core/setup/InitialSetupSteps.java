@@ -31,6 +31,7 @@ import java.util.logging.Level;
 import static com.codeborne.selenide.Configuration.baseUrl;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static ru.at.library.core.core.helpers.PropertyLoader.tryLoadProperty;
+import static ru.at.library.core.core.helpers.Utils.scenarioID;
 
 /**
  * Начальная настройка
@@ -70,7 +71,7 @@ public class InitialSetupSteps {
     public void beforeEachTest(Scenario scenario) throws MalformedURLException {
         scenarioNumber++;
 
-        log.info(String.format("%s: старт сценария %d с именем [%s]", scenario.getId(), scenarioNumber, scenario.getName()));
+        log.info(String.format("%s: старт сценария %d с именем [%s]", scenarioID(scenario), scenarioNumber, scenario.getName()));
 
         RestAssured.baseURI = System.getProperty("baseURI", tryLoadProperty("baseURI"));
         baseUrl = System.getProperty("baseURI", tryLoadProperty("baseURI"));
@@ -78,9 +79,10 @@ public class InitialSetupSteps {
         /**
          * Если сценарий содержит тег @web" то будет создан WebDriver
          */
-        if (hasWebDriver(scenario)) {
-            new InitialDriver().startUITest(scenario);
-        }
+//        if (hasWebDriver(scenario)) {
+//            new InitialDriver().startUITest(scenario);
+//        }
+        new InitialDriver().startUITest(scenario);
 
         /**
          * Создает окружение(среду) для запуска сценария
@@ -98,15 +100,15 @@ public class InitialSetupSteps {
      */
     @After(order = 0)
     public void afterEachTest(Scenario scenario) {
-        log.info(String.format("%s: завершение сценария с именем [%s]", scenario.getId(), scenario.getName()));
-        if (hasWebDriver(scenario)) {
+        log.info(String.format("%s: завершение сценария с именем [%s]", scenarioID(scenario), scenario.getName()));
+        //if (hasWebDriver(scenario)) {
             try {
                 getWebDriver().quit();
-                log.info(String.format("%s: драйвер успешно остановлен", scenario.getId()));
+                log.info(String.format("%s: драйвер успешно остановлен", scenarioID(scenario)));
             } catch (IllegalStateException ex) {
-                log.warn(String.format("%s: Использовался метод getWebDriver().quit(), но браузер не был запущен", scenario.getId()));
+                log.warn(String.format("%s: Использовался метод getWebDriver().quit(), но браузер не был запущен", scenarioID(scenario)));
             }
-        }
+        //}
     }
 
     private boolean hasWebDriver(Scenario scenario) {

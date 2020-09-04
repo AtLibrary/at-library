@@ -47,16 +47,16 @@ import static ru.at.library.core.steps.OtherSteps.*;
  */
 
 @Log4j2
-public class MobileActionSteps {
+public class MobileActionSteps  {
 
     private CoreScenario coreScenario = CoreScenario.getInstance();
 
     /**
-     * На экране происходит click по заданному элементу, проверяя наличие кнопки|поля|блока на текущей странице
+     * На экране происходит click по заданному элементу, проверяя наличие кнопки/поля/блока на текущей странице
      *
-     * @param elementName название кнопки|поля|блока
+     * @param elementName название кнопки/поля/блока
      */
-    @И("^выполнено нажатие на (?:кнопку|ссылку|поле|блок|чекбокс|радиокнопку|текст|элемент) \"([^\"]+)\" если отображается$")
+    @И("выполнено нажатие на кнопку/ссылку/поле/блок/чекбокс/радиокнопку/текст/элемент {string} если отображается")
     public void clickOnElementIfDisplayed(String elementName) {
         if (MobileTestConfig.isDisplayedSelenideElementInCurrentPage(elementName)) {
             clickOnElement(elementName);
@@ -66,9 +66,9 @@ public class MobileActionSteps {
     /**
      * На экране происходит click по заданному элементу
      *
-     * @param elementName название кнопки|поля|блока
+     * @param elementName название кнопки/поля/блока
      */
-    @И("^выполнено нажатие на (?:кнопку|ссылку|поле|блок|чекбокс|радиокнопку|текст|элемент) \"([^\"]+)\"$")
+    @И("выполнено нажатие на кнопку/ссылку/поле/блок/чекбокс/радиокнопку/текст/элемент {string}")
     public void clickOnElement(String elementName) {
         WebElement element = MobileTestConfig.getWebElementInCurrentPage(elementName);
         MobileTestConfig.driverWait().until(ExpectedConditions.elementToBeClickable(element));
@@ -78,9 +78,9 @@ public class MobileActionSteps {
     /**
      * На экране происходит click по заданному элементу с указанием %% по высоте и ширине элемента
      *
-     * @param elementName название кнопки|поля|блока
+     * @param elementName название кнопки/поля/блока
      */
-    @И("^выполнено нажатие на (?:кнопку|ссылку|поле|блок|чекбокс|радиокнопку|текст|элемент) \"([^\"]+)\" (\\d+)% по высоте, (\\d+)% по ширине$")
+    @И("выполнено нажатие на кнопку/ссылку/поле/блок/чекбокс/радиокнопку/текст/элемент {string} {int}% по высоте, {int}% по ширине")
     public void clickOnElementByPercents(String elementName, Integer heightPercent, Integer widthPercent) {
         WebElement element = MobileTestConfig.getWebElementInCurrentPage(elementName);
         MobileTestConfig.driverWait().until(ExpectedConditions.elementToBeClickable(element));
@@ -93,9 +93,9 @@ public class MobileActionSteps {
 
     /**
      * Нажатие на элемент по его тексту (в приоритете: из property, из переменной сценария, значение аргумента),
-     * проверяя наличие кнопки|поля|блока на текущей странице
+     * проверяя наличие кнопки/поля/блока на текущей странице
      */
-    @И("^выполнено нажатие на (?:кнопку|ссылку|поле|блок|чекбокс|радиокнопку|текст|элемент) с текстом \"([^\"]+)\" если отображается$")
+    @И("выполнено нажатие на кнопку/ссылку/поле/блок/чекбокс/радиокнопку/текст/элемент с текстом {string} если отображается")
     public void findElementIfDisplayed(String text) {
         if (MobileTestConfig.isDisplayedSelenideElementInCurrentPage(text)) {
             findElement(text);
@@ -105,7 +105,7 @@ public class MobileActionSteps {
     /**
      * Нажатие на элемент по его тексту (в приоритете: из property, из переменной сценария, значение аргумента)
      */
-    @И("^выполнено нажатие на (?:кнопку|ссылку|поле|блок|чекбокс|радиокнопку|текст|элемент) с текстом \"([^\"]+)\"$")
+    @И("выполнено нажатие на кнопку/ссылку/поле/блок/чекбокс/радиокнопку/текст/элемент с текстом {string}")
     public void findElement(String text) {
         By xpath = By.xpath(getTranslateNormalizeSpaceText(getPropertyOrStringVariableOrValue(text)));
         WebElement element = WebDriverRunner.getWebDriver().findElement(xpath);
@@ -119,7 +119,7 @@ public class MobileActionSteps {
      * Селектор кнопки должны быть строго на input элемента
      * Можно указать путь до файла. Например, src/test/resources/example.pdf
      */
-    @И("^выполнено нажатие на кнопку \"([^\"]+)\" и загружен файл \"([^\"]+)\"$")
+    @И("выполнено нажатие на кнопку {string} и загружен файл {string}")
     public void clickOnButtonAndUploadFile(String buttonName, String fileName) {
         String file = loadValueFromFileOrPropertyOrVariableOrDefault(fileName);
         File attachmentFile = new File(file);
@@ -132,7 +132,7 @@ public class MobileActionSteps {
      * @param elementName имя элемента
      * @param blockName   имя блока
      */
-    @И("^выполнено нажатие на (?:кнопку|ссылку|поле|блок|чекбокс|радиокнопку|текст|элемент) \"([^\"]+)\" в блоке \"([^\"]+)\"$")
+    @И("выполнено нажатие на кнопку/ссылку/поле/блок/чекбокс/радиокнопку/текст/элемент {string} в блоке {string}")
     public void clickOnElementInBlock(String elementName, String blockName) {
         WebElement element = MobileTestConfig.getWebElementInBlockCurrentPage(blockName, elementName);
         MobileTestConfig.driverWait().until(ExpectedConditions.elementToBeClickable(element));
@@ -143,8 +143,8 @@ public class MobileActionSteps {
      * Устанавливается значение (в приоритете: из property, из переменной сценария, значение аргумента) в заданное поле.
      * Перед использованием поле нужно очистить
      */
-    @То("^в поле \"([^\"]+)\" введено значение$")
-    @И("^в поле \"([^\"]+)\" введено значение \"(.*)\"$")
+    @То("в поле {string} введено значение")
+    @И("в поле {string} введено значение {}")
     public void setFieldValue(String elementName, String value) {
         value = getPropertyOrStringVariableOrValue(value);
         WebElement element = MobileTestConfig.getWebElementInCurrentPage(elementName);
@@ -157,8 +157,8 @@ public class MobileActionSteps {
     /**
      * Добавление строки (в приоритете: из property, из переменной сценария, значение аргумента) в поле к уже заполненой строке
      */
-    @То("^в поле \"([^\"]+)\" дописывается значение$")
-    @И("^в поле \"([^\"]+)\" дописывается значение \"(.*)\"$")
+    @То("в поле {string} дописывается значение")
+    @И("в поле {string} дописывается значение {}")
     public void addValue(String elementName, String value) {
         value = getPropertyOrStringVariableOrValue(value);
         WebElement element = MobileTestConfig.getWebElementInCurrentPage(elementName);
@@ -169,7 +169,7 @@ public class MobileActionSteps {
      * Ввод в поле текущей даты в заданном формате
      * При неверном формате, используется dd.MM.yyyy
      */
-    @И("^поле \"([^\"]+)\" заполняется текущей датой в формате \"([^\"]+)\"$")
+    @И("поле {string} заполняется текущей датой в формате {string}")
     public void currentDate(String elementName, String dateFormat) {
         long date = System.currentTimeMillis();
         String currentStringDate;
@@ -190,7 +190,7 @@ public class MobileActionSteps {
     /**
      * Ввод в поле случайной последовательности латинских или кириллических букв задаваемой длины
      */
-    @И("^в поле \"([^\"]+)\" введено (\\d+) случайных символов на (кириллице|латинице)$")
+    @И("в поле {string} введено {int} случайных символов на {lang}")
     public void setRandomCharSequence(String elementName, int seqLength, String lang) {
         WebElement element = MobileTestConfig.getWebElementInCurrentPage(elementName);
         cleanField(elementName);
@@ -205,7 +205,7 @@ public class MobileActionSteps {
     /**
      * Ввод в поле случайной последовательности латинских или кириллических букв задаваемой длины и сохранение этого значения в переменную
      */
-    @И("^в поле \"([^\"]+)\" введено (\\d+) случайных символов на (кириллице|латинице) и сохранено в переменную \"([^\"]+)\"$")
+    @И("в поле {string} введено {int} случайных символов на {lang} и сохранено в переменную {string}")
     public void setRandomCharSequenceAndSaveToVar(String elementName, int seqLength, String lang, String varName) {
         WebElement element = MobileTestConfig.getWebElementInCurrentPage(elementName);
         cleanField(elementName);
@@ -221,7 +221,7 @@ public class MobileActionSteps {
     /**
      * Ввод в поле случайной последовательности цифр задаваемой длины
      */
-    @И("^в поле \"([^\"]+)\" введено случайное число из (\\d+) (?:цифр|цифры)$")
+    @И("в поле {string} введено случайное число из {int} цифр/цифры")
     public void inputRandomNumSequence(String elementName, int seqLength) {
         WebElement element = MobileTestConfig.getWebElementInCurrentPage(elementName);
         cleanField(elementName);
@@ -233,12 +233,11 @@ public class MobileActionSteps {
     /**
      * Ввод в поле случайной последовательности цифр задаваемой длины и сохранение этого значения в переменную
      */
-    @И("^в поле \"([^\"]+)\" введено случайное число из (\\d+) (?:цифр|цифры) и сохранено в переменную \"([^\"]+)\"$")
+    @И("в поле {string} введено случайное число из {int} цифр/цифры и сохранено в переменную {string}")
     public void inputAndSetRandomNumSequence(String elementName, int seqLength, String varName) {
         WebElement element = MobileTestConfig.getWebElementInCurrentPage(elementName);
         cleanField(elementName);
         String numSeq = RandomStringUtils.randomNumeric(seqLength);
-
         element.sendKeys(numSeq);
         coreScenario.setVar(varName, numSeq);
         log.trace(String.format("В поле [%s] введено значение [%s] и сохранено в переменную [%s]",
@@ -248,7 +247,7 @@ public class MobileActionSteps {
     /**
      * Очищается заданное поле
      */
-    @И("^очищено поле \"([^\"]+)\"$")
+    @И("очищено поле {string}")
     public void cleanField(String elementName) {
         WebElement element = MobileTestConfig.getWebElementInCurrentPage(elementName);
         MobileTestConfig.driverWait().until(ExpectedConditions.elementToBeClickable(element));
@@ -258,7 +257,7 @@ public class MobileActionSteps {
     /**
      * Свайп на экране мобильного устройства
      */
-    @И("^выполнен свайп \"(UP|DOWN|LEFT|RIGHT)\"(?: (\\d+)-(\\d+)%%|)(?: по (\\d+)%|)$")
+    @И("выполнен свайп \"(UP|DOWN|LEFT|RIGHT)\"(?: {int}-{int}%%|)(?: по {int}%|)")
     public void swipe(String direction, Integer startPercent, Integer endPercent, Integer otherAxisPercent) {
         if (startPercent != null && endPercent != null) {
             if ((direction.equals("UP") || direction.equals("LEFT")) && startPercent < endPercent ||
@@ -283,7 +282,7 @@ public class MobileActionSteps {
     /**
      * Скроллит экран до нужного элемента, имеющегося на экране, но видимого только в нижней/верхней части экрана.
      */
-    @И("^экран свайпается \"(UP|DOWN|LEFT|RIGHT)\" до элемента \"([^\"]+)\"")
+    @И("экран свайпается \"(UP|DOWN|LEFT|RIGHT)\" до элемента {string}")
     public void scrollPageToElement(String direction, String elementName) {
         //TODO  разобраться
 //        String platform = AtCoreConfig.platformName.toLowerCase();

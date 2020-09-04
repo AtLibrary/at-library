@@ -37,7 +37,7 @@ public class WebListInBlockSteps {
      *
      * @param listName название элемента
      */
-    @И("^список элементов \"([^\"]*)\" в блоке \"([^\"]*)\" отображается на странице$")
+    @И("список элементов {string} в блоке {string} отображается на странице")
     public void listIsPresentedOnPage(String listName, String blockName) {
         ElementsCollection elements = coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName);
         elements.first().shouldHave(visible);
@@ -46,7 +46,7 @@ public class WebListInBlockSteps {
     /**
      *
      */
-    @И("список элементов \"([^\"]*)\" в блоке \"([^\"]*)\" включает в себя список из таблицы$")
+    @И("список элементов {string} в блоке {string} включает в себя список из таблицы")
     public void checkIfListConsistsOfTableElements(String listName, List<String> textTable, String blockName) {
         textTable = getPropertyOrStringVariableOrValue(textTable);
         ElementsCollection elements = coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName);
@@ -60,7 +60,7 @@ public class WebListInBlockSteps {
      * перечисленных в таблице
      * Для получения текста из элементов списка используется метод innerText()
      */
-    @И("^список элементов \"([^\"]*)\" в блоке \"([^\"]*)\" равен списку из таблицы$")
+    @И("список элементов {string} в блоке {string} равен списку из таблицы")
     public void checkIfListInnerTextConsistsOfTableElements(String listName, List<String> textTable, String blockName) {
         textTable = getPropertyOrStringVariableOrValue(textTable);
         ElementsCollection elements = coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName);
@@ -71,7 +71,7 @@ public class WebListInBlockSteps {
      * Выбор из списка со страницы элемента с заданным значением
      * (в приоритете: из property, из переменной сценария, значение аргумента)
      */
-    @И("^нажатие на элемент с (?:текстом|значением) \"([^\"]*)\" в списке \"([^\"]*)\" в блоке \"([^\"]*)\"$")
+    @И("нажатие на элемент с текстом/значением {string} в списке {string} в блоке {string}")
     public void checkIfSelectedListElementMatchesValue(String expectedValue, String listName, String blockName) {
         final String value = getPropertyOrStringVariableOrValue(expectedValue);
         CorePage page = coreScenario.getCurrentPage().getBlock(blockName);
@@ -84,7 +84,7 @@ public class WebListInBlockSteps {
      * (в приоритете: из property, из переменной сценария, значение аргумента)
      * Не чувствителен к регистру
      */
-    @И("^нажатие на элемент содержащий (?:текст|значение) \"([^\"]*)\" в списке \"([^\"]*)\" в блоке \"([^\"]*)\"$")
+    @И("нажатие на элемент содержащий текст/значение {string} в списке {string} в блоке {string}")
     public void selectElementInListIfFoundByText(String expectedValue, String listName, String blockName) {
         final String value = getPropertyOrStringVariableOrValue(expectedValue);
         CorePage page = coreScenario.getCurrentPage().getBlock(blockName);
@@ -98,7 +98,7 @@ public class WebListInBlockSteps {
      *
      * @param listName название элемента
      */
-    @И("^список элементов \"([^\"]*)\" в блоке \"([^\"]*)\" не отображается на странице$")
+    @И("список элементов {string} в блоке {string} не отображается на странице")
     public void listIsNotPresentedOnPage(String listName, String blockName) {
         ElementsCollection elements = coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName);
         elements.first().shouldHave(not(visible));
@@ -108,7 +108,7 @@ public class WebListInBlockSteps {
      * Выбор n-го элемента из списка со страницы
      * Нумерация элементов начинается с 1
      */
-    @И("^нажатие на \"(\\d+)\" элемент в списке \"([^\"]*)\" в блоке \"([^\"]*)\"$")
+    @И("нажатие на \"{int}\" элемент в списке {string} в блоке {string}")
     public void selectElementNumberFromList(int number, String listName, String blockName) {
         coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName)
                 .get(number - 1).click();
@@ -119,7 +119,7 @@ public class WebListInBlockSteps {
      *
      * @return
      */
-    @И("^нажатие на случайный элемент в списке \"([^\"]*)\" в блоке \"([^\"]*)\"$")
+    @И("нажатие на случайный элемент в списке {string} в блоке {string}")
     public SelenideElement selectRandomElementFromList(String listName, String blockName) {
         ElementsCollection listOfElementsFromPage = coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName);
         listOfElementsFromPage = listOfElementsFromPage.filter(visible);
@@ -132,7 +132,7 @@ public class WebListInBlockSteps {
     /**
      * Выбор из списка со страницы любого случайного элемента и сохранение его значения в переменную
      */
-    @И("^выбран любой элемент из списка \"([^\"]*)\" и его значение сохранено в переменную \"([^\"]*)\" в блоке \"([^\"]*)\"$")
+    @И("выбран любой элемент из списка {string} и его значение сохранено в переменную {string} в блоке {string}")
     public void selectRandomElementFromListAndSaveVar(String listName, String varName, String blockName) {
         String text = selectRandomElementFromList(listName, blockName).getText();
         coreScenario.setVar(varName, text);
@@ -143,7 +143,7 @@ public class WebListInBlockSteps {
     /**
      * Проверка текста в элементе списка
      */
-    @И("^текст в \"(\\d+)\" элементе списка \"([^\"]*)\" в блоке \"([^\"]*)\" равен тексту \"([^\"]*)\"$")
+    @И("текст в \"{int}\" элементе списка {string} в блоке {string} равен тексту {string}")
     public void checkTextElementInListElement(int number, String listName, String blockName, String expectedValue) {
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
         coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName)
@@ -153,7 +153,7 @@ public class WebListInBlockSteps {
     /**
      * Проверка, что каждый элемент списка содержит ожидаемый текст
      */
-    @И("^список элементов \"([^\"]*)\" в блоке \"([^\"]*)\" содержит элемент с текстом \"([^\"]*)\"$")
+    @И("список элементов {string} в блоке {string} содержит элемент с текстом {string}")
     public void checkListElementsContainsText(String listName, String blockName, String expectedValue) {
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
         ElementsCollection elements = coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName);
@@ -163,7 +163,7 @@ public class WebListInBlockSteps {
     /**
      * Проверка, что каждый элемент списка не содержит ожидаемый текст
      */
-    @И("^список элементов \"([^\"]*)\" в блоке \"([^\"]*)\" не содержит элемент с текстом \"([^\"]*)\"$")
+    @И("список элементов {string} в блоке {string} не содержит элемент с текстом {string}")
     public void checkListElementsNotContainsText(String listName, String blockName, String expectedValue) {
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
         ElementsCollection elements = coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName);
@@ -174,7 +174,7 @@ public class WebListInBlockSteps {
     /**
      * Производится проверка соответствия числа элементов списка значению, указанному в шаге
      */
-    @И("^список элементов \"([^\"]*)\" в блоке \"([^\"]*)\" состоит из \"([^\"]*)\" элементов")
+    @И("список элементов {string} в блоке {string} состоит из {string} элементов")
     public void listContainsNumberOfElements(String listName, String blockName, String quantity) {
         int numberOfElements = Integer.parseInt(getPropertyOrStringVariableOrValue(quantity));
         coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName)
@@ -185,7 +185,7 @@ public class WebListInBlockSteps {
     /**
      * Производится сопоставление числа элементов списка и значения, указанного в шаге
      */
-    @И("^в списке элементов \"([^\"]*)\" в блоке \"([^\"]*)\" содержится (более|менее) (\\d+) (?:элементов|элемента)")
+    @И("в списке элементов {string} в блоке {string} содержится (более/менее) {int} элементов/элемента")
     public void listContainsMoreOrLessElements(String listName, String blockName, String moreOrLess, int quantity) {
         ElementsCollection listOfElementsFromPage = coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName);
         if ("более".equals(moreOrLess)) {

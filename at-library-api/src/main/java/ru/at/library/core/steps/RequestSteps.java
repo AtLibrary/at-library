@@ -39,7 +39,7 @@ import static org.hamcrest.Matchers.is;
 public class RequestSteps {
 
     private static final int DEFAULT_TIMEOUT = PropertyLoader.loadPropertyInt("http.timeout", 10);
-    private static final String REQUEST_URL = "выполнен ((?:GET|PUT|POST|DELETE|HEAD|TRACE|OPTIONS|PATCH)) запрос на URL \"([^\"]+)\"";
+    private static final String REQUEST_URL = "выполнен ((?:GET|PUT|POST|DELETE|HEAD|TRACE|OPTIONS|PATCH)) запрос на URL {string}";
     public static int requestRetries = Integer.parseInt(getProperty("request.retries", "1"));
     @Getter
     private static RequestSteps instance = new RequestSteps();
@@ -53,7 +53,7 @@ public class RequestSteps {
      * @param address              url запроса (можно задать как напрямую в шаге, так и указав в application.properties)
      * @param responseNameVariable имя переменной в которую сохраняется ответ
      */
-    @И("^" + REQUEST_URL + ". Полученный ответ сохранен в переменную \"([^\"]+)\"$")
+    @И(REQUEST_URL + ". Полученный ответ сохранен в переменную {string}")
     public void sendHttpRequestWithoutParams(String method,
                                              String address,
                                              String responseNameVariable) {
@@ -72,7 +72,7 @@ public class RequestSteps {
      *                             и из хранилища переменных из CoreScenario.
      *                             Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
-    @И("^" + REQUEST_URL + " с headers и parameters из таблицы. Полученный ответ сохранен в переменную \"([^\"]+)\"$")
+    @И(REQUEST_URL + " с headers и parameters из таблицы. Полученный ответ сохранен в переменную {string}")
     public void sendHttpRequestSaveResponse(String method,
                                             String address,
                                             String responseNameVariable,
@@ -92,7 +92,7 @@ public class RequestSteps {
      *                           и из хранилища переменных из CoreScenario.
      *                           Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
-    @И("^" + REQUEST_URL + " с headers и parameters из таблицы. Ожидается код ответа: (\\d+)$")
+    @И(REQUEST_URL + " с headers и parameters из таблицы. Ожидается код ответа: {int}")
     public void sendHttpRequestCheckResponseCode(String method,
                                                  String address,
                                                  int expectedStatusCode,
@@ -113,7 +113,7 @@ public class RequestSteps {
      *                             и из хранилища переменных из CoreScenario.
      *                             Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
-    @И("^" + REQUEST_URL + " с headers и parameters из таблицы. Ожидается код ответа: (\\d+) Полученный ответ сохранен в переменную \"([^\"]+)\"$")
+    @И(REQUEST_URL + " с headers и parameters из таблицы. Ожидается код ответа: {int} Полученный ответ сохранен в переменную {string}")
     public void sendHttpRequestSaveResponseCheckResponseCode(String method,
                                                              String address,
                                                              int expectedStatusCode,
@@ -133,7 +133,7 @@ public class RequestSteps {
      * @param expectedStatusCode   ожидаемый код ответа
      * @param responseNameVariable имя переменной в которую сохраняется ответ
      */
-    @И("^" + REQUEST_URL + ". Ожидается код ответа: (\\d+) Полученный ответ сохранен в переменную \"([^\"]+)\"$")
+    @И(REQUEST_URL + ". Ожидается код ответа: {int} Полученный ответ сохранен в переменную {string}")
     public void sendHttpRequestSaveResponseCheckResponseCode(String method,
                                                              String address,
                                                              int expectedStatusCode,
@@ -155,7 +155,7 @@ public class RequestSteps {
      * @param expectedStatusCode   ожидаемый код ответа
      * @param responseNameVariable имя переменной в которую сохраняется ответ
      */
-    @И("^в течение (\\d+) секунд каждую (\\d+) " + REQUEST_URL + ". Ожидается код ответа: (\\d+). Полученный ответ сохранен в переменную \"([^\"]+)\"$")
+    @И("в течение {int} секунд каждую {int} " + REQUEST_URL + ". Ожидается код ответа: {int}. Полученный ответ сохранен в переменную {string}")
     public void sendHttpRequestPeriodicallySaveResponseCheckResponseCode(int timeoutSec,
                                                                          int periodSec,
                                                                          String method,
@@ -183,7 +183,7 @@ public class RequestSteps {
      *                             и из хранилища переменных из CoreScenario.
      *                             Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
-    @И("^в течение (\\d+) секунд каждую (\\d+) " + REQUEST_URL + " с параметрами из таблицы. Ожидается код ответа: (\\d+). Полученный ответ сохранен в переменную \"([^\"]+)\"$")
+    @И("в течение {int} секунд каждую {int} " + REQUEST_URL + " с параметрами из таблицы. Ожидается код ответа: {int}. Полученный ответ сохранен в переменную {string}")
     public void sendHttpRequestPeriodicallySaveResponseCheckResponseCode(int timeoutSec,
                                                                          int periodSec,
                                                                          String method,
@@ -222,7 +222,7 @@ public class RequestSteps {
      *                             и из хранилища переменных из CoreScenario.
      *                             Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
-    @И("^в течение (\\d+) секунд каждую (\\d+) " + REQUEST_URL + " с параметрами из таблицы. Ожидается код ответа: (\\d+) с параметрами из таблицы. Полученный ответ сохранен в переменную \"([^\"]+)\"$")
+    @И("в течение {int} секунд каждую {int} " + REQUEST_URL + " с параметрами из таблицы. Ожидается код ответа: {int} с параметрами из таблицы. Полученный ответ сохранен в переменную {string}")
     public void sendHttpRequestPeriodicallySaveResponseCheckResponseParams(int timeoutSec,
                                                                            int periodSec,
                                                                            String method,

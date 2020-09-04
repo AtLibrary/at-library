@@ -48,9 +48,9 @@ public class MobileCheckSteps {
      * в течение WAITING_APPEAR_TIMEOUT, которое равно значению свойства "waitingAppearTimeout"
      * из application.properties. Если свойство не найдено, время таймаута равно 8 секундам
      *
-     * @param nameOfPage название экран|блок|форма
+     * @param nameOfPage название экран/блок/форма
      */
-    @И("^(?:экран|блок|форма|вкладка) \"([^\"]*)\" (?:загрузилась|загрузился)$")
+    @И("экран/блок/форма/вкладка {string} загрузилась/загрузился")
     public void loadPage(String nameOfPage) {
         coreScenario.setCurrentPage(coreScenario.getPage(nameOfPage));
         coreScenario.getCurrentPage().appeared();
@@ -63,9 +63,9 @@ public class MobileCheckSteps {
      * В случае, если свойство "waitingCustomElementsTimeout" в application.properties не задано,
      * таймаут равен 10 секундам
      *
-     * @param elementName название кнопки|поля|блока
+     * @param elementName название кнопки/поля/блока
      */
-    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" отображается на экране$")
+    @И("кнопка/ссылка/поле/чекбокс/радиокнопка/текст/элемент {string} отображается на экране")
     public void elemIsPresentedOnPage(String elementName) {
         WebElement element = MobileTestConfig.getWebElementInCurrentPage(elementName);
         AssertMobile.display(element, true, MobileTestConfig.DEFAULT_TIMEOUT);
@@ -75,10 +75,10 @@ public class MobileCheckSteps {
      * Проверка появления элемента(не списка) на экране в течение
      * заданного количества секунд
      *
-     * @param elementName название кнопки|поля|блока
+     * @param elementName название кнопки/поля/блока
      * @param seconds     количество секунд
      */
-    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" отобразился на экране в течение (\\d+) (?:секунд|секунды)")
+    @И("кнопка/ссылка/поле/чекбокс/радиокнопка/текст/элемент {string} отобразился на экране в течение {int} секунд/секунды")
     public void testElementAppeared(String elementName, int seconds) {
         WebElement element = MobileTestConfig.getWebElementInCurrentPage(elementName);
         AssertMobile.display(element, true, seconds);
@@ -89,9 +89,9 @@ public class MobileCheckSteps {
      * В случае, если свойство "waitingCustomElementsTimeout" в application.properties не задано,
      * таймаут равен 10 секундам
      *
-     * @param elementName название кнопки|поля|блока
+     * @param elementName название кнопки/поля/блока
      */
-    @И("^ожидается исчезновение (?:кнопки|ссылки|поля|блока|чекбокса|радиокнопки|текста|элемента) \"([^\"]*)\"")
+    @И("ожидается исчезновение кнопки/ссылки/поля/блока/чекбокса/радиокнопки/текста/элемента {string}")
     public void elemDisappered(String elementName) {
         WebElement element = MobileTestConfig.getWebElementInCurrentPage(elementName);
         AssertMobile.display(element, false, MobileTestConfig.DEFAULT_TIMEOUT);
@@ -100,8 +100,8 @@ public class MobileCheckSteps {
     /**
      * Проверка, что значение в поле равно значению, указанному в шаге (в приоритете: из property, из переменной сценария, значение аргумента)
      */
-    @То("^значение (?:поля|элемента|текста) \"([^\"]*)\" равно$")
-    @И("^значение (?:поля|элемента|текста) \"([^\"]*)\" равно \"(.*)\"$")
+    @То("значение поля/элемента/текста {string} равно")
+    @И("значение поля/элемента/текста {string} равно {}")
     public void compareValInFieldAndFromStep(String elementName, String expectedValue) {
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
         WebElement element = MobileTestConfig.getWebElementInCurrentPage(elementName);
@@ -111,7 +111,7 @@ public class MobileCheckSteps {
     /**
      * Проверка, что поле для ввода пусто
      */
-    @И("^поле \"([^\"]*)\" пусто$")
+    @И("поле {string} пусто")
     public void fieldInputIsEmpty(String elementName) {
         String expectedValue = "";
         compareValInFieldAndFromStep(elementName, expectedValue);
@@ -120,7 +120,7 @@ public class MobileCheckSteps {
     /**
      * Сохранение значения элемента в переменную
      */
-    @И("^значение (?:поля|элемента|текста)  \"([^\"]*)\" сохранено в переменную \"([^\"]*)\"$")
+    @И("значение поля/элемента/текста  {string} сохранено в переменную {string}")
     public void storeElementValueInVariable(String elementName, String variableName) {
         WebElement element = MobileTestConfig.getWebElementInCurrentPage(elementName);
         String elementText = element.getText();
@@ -131,7 +131,7 @@ public class MobileCheckSteps {
     /**
      * Проверка, что элемент на экране кликабелен
      */
-    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" кликабельна$")
+    @И("кнопка/ссылка/поле/чекбокс/радиокнопка/текст/элемент {string} кликабельна")
     public void clickableField(String elementName) {
         WebElement element = MobileTestConfig.getWebElementInCurrentPage(elementName);
         MobileTestConfig.driverWait().until(elementToBeClickable(element));
@@ -140,7 +140,7 @@ public class MobileCheckSteps {
     /**
      * Проверка, что элемент на экране кликабелен
      */
-    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" кликабельнов течение (\\d+) (?:секунд|секунды)$")
+    @И("кнопка/ссылка/поле/чекбокс/радиокнопка/текст/элемент {string} кликабельнов течение {int} секунд/секунды")
     public void clickableField(String elementName, int second) {
         WebElement element = MobileTestConfig.getWebElementInCurrentPage(elementName);
         MobileTestConfig.driverWait(second).until(elementToBeClickable(element));
@@ -149,7 +149,7 @@ public class MobileCheckSteps {
     /**
      * Проверка, что кнопка/ссылка недоступна для нажатия
      */
-    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" недоступна для нажатия$")
+    @И("кнопка/ссылка/поле/чекбокс/радиокнопка/текст/элемент {string} недоступна для нажатия")
     public void buttonIsNotActive(String elementName) {
         WebElement element = MobileTestConfig.getWebElementInCurrentPage(elementName);
         MobileTestConfig.driverWait().until(not(elementToBeClickable(element)));
@@ -158,7 +158,7 @@ public class MobileCheckSteps {
     /**
      * Проверка, что радиокнопка выбрана
      */
-    @И("^радиокнопка \"([^\"]*)\" выбрана$")
+    @И("радиокнопка {string} выбрана")
     public void radioButtonIsSelected(String elementName) {
         WebElement element = MobileTestConfig.getWebElementInCurrentPage(elementName);
         MobileTestConfig.driverWait().until(not(elementSelectionStateToBe(element, true)));
@@ -167,7 +167,7 @@ public class MobileCheckSteps {
     /**
      * Проверка, что радиокнопка не выбрана
      */
-    @И("^радиокнопка \"([^\"]*)\" не выбрана$")
+    @И("радиокнопка {string} не выбрана")
     public void radioButtonIsNotSelected(String elementName) {
         WebElement element = MobileTestConfig.getWebElementInCurrentPage(elementName);
         MobileTestConfig.driverWait().until(not(elementSelectionStateToBe(element, false)));
@@ -176,7 +176,7 @@ public class MobileCheckSteps {
     /**
      * Проверка, что поле нередактируемо
      */
-    @И("^(?:поле|элемент) \"([^\"]*)\" (?:недоступно|недоступен) для редактирования$")
+    @И("поле/элемент {string} недоступно/недоступен для редактирования")
     public void fieldIsDisable(String elementName) {
         WebElement element = MobileTestConfig.getWebElementInCurrentPage(elementName);
         assertTrue(String.format("Элемент [%s] доступен для редактирования", elementName), element.isDisplayed());
@@ -185,7 +185,7 @@ public class MobileCheckSteps {
     /**
      * Производится проверка количества символов в поле со значением, указанным в шаге
      */
-    @И("^в поле \"([^\"]*)\" содержится (\\d+) символов$")
+    @И("в поле {string} содержится {int} символов")
     public void checkFieldSymbolsCount(String elementName, int num) {
         int length = MobileTestConfig.getWebElementInCurrentPage(elementName).getText().length();
         assertEquals(String.format("Неверное количество символов. Ожидаемый результат: %s, текущий результат: %s", num, length), num, length);
@@ -198,7 +198,7 @@ public class MobileCheckSteps {
      * @param blockName    имя блока
      * @param variableName имя переменной
      */
-    @И("^значение (?:элемента|поля|текста) \"([^\"]*)\" в блоке \"([^\"]*)\" сохранено в переменную \"([^\"]*)\"$")
+    @И("значение элемента/поля/текста {string} в блоке {string} сохранено в переменную {string}")
     public void saveTextElementInBlock(String elementName, String blockName, String variableName) {
         WebElement element = MobileTestConfig.getWebElementInBlockCurrentPage(blockName, elementName);
         MobileTestConfig.driverWait().until(ExpectedConditions.visibilityOf(element));
@@ -216,7 +216,7 @@ public class MobileCheckSteps {
      * @param blockName     имя блока
      * @param expectedValue имя переменной
      */
-    @И("^значение (?:поля|элемента|текста) \"([^\"]*)\" в блоке \"([^\"]*)\" совпадает со значением из переменной \"([^\"]*)\"$")
+    @И("значение поля/элемента/текста {string} в блоке {string} совпадает со значением из переменной {string}")
     public void compareFieldAndVariable(String elementName, String blockName, String expectedValue) {
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
         WebElement element = MobileTestConfig.getWebElementInBlockCurrentPage(blockName, elementName);

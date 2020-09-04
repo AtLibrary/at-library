@@ -24,7 +24,7 @@ public class OtherSteps {
     /**
      * Эмулирует нажатие клавиш на клавиатуре
      */
-    @И("^выполнено нажатие на клавиатуре \"([^\"]*)\"$")
+    @И("выполнено нажатие на клавиатуре {string}")
     public void pushButtonOnKeyboard(String buttonName) {
         switchTo().activeElement()
                 .sendKeys(getKeyOrCharacter(buttonName));
@@ -39,7 +39,7 @@ public class OtherSteps {
      *                 | CONTROL |
      *                 | a       |
      */
-    @И("^выполнено нажатие на сочетание клавиш из таблицы$")
+    @И("выполнено нажатие на сочетание клавиш из таблицы")
     public void pressKeyCombination(List<String> keyNames) {
         Iterable<CharSequence> listKeys = keyNames.stream()
                 .map(this::getKeyOrCharacter)
@@ -53,7 +53,7 @@ public class OtherSteps {
      * Выполняется запуск js-скрипта с указанием в js.executeScript его логики
      * Скрипт можно передать как аргумент метода или значение из application.properties
      */
-    @И("^выполнен js-скрипт \"([^\"]*)\"")
+    @И("выполнен js-скрипт {string}")
     public void executeJsScript(String scriptName) {
         String content = loadValueFromFileOrPropertyOrVariableOrDefault(scriptName);
         Selenide.executeJavaScript(content);
@@ -65,7 +65,7 @@ public class OtherSteps {
      * Поиск осуществляется по содержанию ожидаемого текста в названии файла. Можно передавать регулярное выражение.
      * После выполнения проверки файл удаляется
      */
-    @И("^файл по пути \"([^\"]*)\" выгрузился в поле \"([^\"]*)\"$")
+    @И("файл по пути {string} выгрузился в поле {string}")
     public void uploadFile(String path, String fieldName) {
         coreScenario.getCurrentPage()
                 .getElement(fieldName)
@@ -77,7 +77,7 @@ public class OtherSteps {
      * Селектор кнопки должны быть строго на input элемента
      * Можно указать путь до файла. Например, src/test/resources/example.pdf
      */
-    @И("^выполнено нажатие на кнопку \"([^\"]*)\" и загружен файл \"([^\"]*)\"$")
+    @И("выполнено нажатие на кнопку {string} и загружен файл {string}")
     public void clickOnButtonAndUploadFile(String buttonName, String fileName) {
         String file = loadValueFromFileOrPropertyOrVariableOrDefault(fileName);
         File attachmentFile = new File(file);
@@ -89,7 +89,7 @@ public class OtherSteps {
      * Поиск осуществляется по содержанию ожидаемого текста в названии файла. Можно передавать регулярное выражение.
      * После выполнения проверки файл удаляется
      */
-    @И("^файл \"([^\"]*)\" загрузился в папку /Downloads$")
+    @И("файл {string} загрузился в папку /Downloads")
     public void testFileDownloaded(String fileName) {
         File downloads = getDownloadsDir();
         File[] expectedFiles = downloads.listFiles((files, file) -> file.contains(fileName));
@@ -105,7 +105,7 @@ public class OtherSteps {
      * -input
      * -textarea
      */
-    @И("^открыта read-only форма$")
+    @И("открыта read-only форма")
     public void openReadOnlyForm() {
         int inputsCount = getDisplayedElementsByCss("input").size();
         assertTrue("Форма не read-only. Количество input-полей: " + inputsCount, inputsCount == 0);

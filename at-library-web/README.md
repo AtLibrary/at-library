@@ -82,7 +82,7 @@ public class BrokerDemoPageSteps {
     
     private CoreScenario coreScenario = CoreScenario.getInstance();
 
-    @И("создание пользователя с ФИО: \"([^\"]*)\" телефон: \"([^\"]*)\" email: \"([^\"]*)\"")
+    @И("создание пользователя с ФИО: {string} телефон: {string} email: {string}")
     public void loginSystem(String fio, String password, String email) {
         fio = getPropertyOrStringVariableOrValue(fio);
         password = getPropertyOrStringVariableOrValue(password);
@@ -116,7 +116,7 @@ public class BrokerDemoPageSteps {
 ============================
 Данные строки позволяют по имени элемента найти его в карте элементов текущей страницы.
 
-```java
+```java_holder_method_tree
 brokerDemoPage.getElement("ФИО").sendKeys(fio);
 brokerDemoPage.getElement("Номер телефона").sendKeys(password);
 brokerDemoPage.getElement("Email").sendKeys(email);
@@ -130,7 +130,7 @@ brokerDemoPage.getElement("Открыть счет").click();
 Реализована возможность описывать блоки на странице (Page Element)
 
 Например:
-```java
+```java_holder_method_tree
 @FindBy(className = "header")
 @Name("Шапка страницы")
 public HeaderBlock header;

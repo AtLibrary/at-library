@@ -23,7 +23,7 @@ public class JsonArrayVerificationSteps {
      * @param key          jsonPath поиска массива
      * @param value        ожидаемое значение
      */
-    @И("^в ответе \"([^\"]*)\" по ключу: \"([^\"]*)\" массив содержит \"([^\"]*)\"$")
+    @И("в ответе {string} по ключу: {string} массив содержит {string}")
     public void checkArrayHasItem(String responseName, String key, String value) {
         value = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(value);
         Response response = (Response) CoreScenario.getInstance().getVar(responseName);
@@ -39,7 +39,7 @@ public class JsonArrayVerificationSteps {
      * @param jsonPath     jsonPath поиска массива
      * @param value        ожидаемое значение
      */
-    @И("^в ответе \"([^\"]*)\" по ключу: \"([^\"]*)\" весь массив соотвествует \"([^\"]*)\"$")
+    @И("в ответе {string} по ключу: {string} весь массив соотвествует {string}")
     public void checkArrayEqualAllItem(String responseName, String jsonPath, String value) {
         value = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(value);
         Response response = (Response) CoreScenario.getInstance().getVar(responseName);
@@ -64,7 +64,7 @@ public class JsonArrayVerificationSteps {
      * @param jsonPath     jsonPath поиска массива
      * @param value        ожидаемая часть значения
      */
-    @И("^в ответе \"([^\"]*)\" по ключу: \"([^\"]*)\" весь массив частично соотвествует \"([^\"]*)\"$")
+    @И("в ответе {string} по ключу: {string} весь массив частично соотвествует {string}")
     public void checkArrayContainsAllItem(String responseName, String jsonPath, String value) {
         value = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(value);
         Response response = (Response) CoreScenario.getInstance().getVar(responseName);
@@ -90,7 +90,7 @@ public class JsonArrayVerificationSteps {
      * @param valueStart   ожидаемое начало периода
      * @param valueEnd     ожидаемый конец периода
      */
-    @И("^в ответе \"([^\"]*)\" по ключу: \"([^\"]*)\" весь массив соответствуют периоду между \"([^\"]*)\" и \"([^\"]*)\" в формате \"([^\"]*)\"$")
+    @И("в ответе {string} по ключу: {string} весь массив соответствуют периоду между {string} и {string} в формате {string}")
     public void checkArrayContainsDataBetweenDatesAllItem(String responseName, String jsonPath, String valueStart,
                                                           String valueEnd, String format) {
         valueStart = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(valueStart);
@@ -122,7 +122,7 @@ public class JsonArrayVerificationSteps {
      * @param responseName переменная в которой сохранен Response
      * @param jsonPath     jsonPath поиска массива
      */
-    @И("^в ответе \"([^\"]*)\" по ключу: \"([^\"]*)\" элементы отсортированы по возрастанию")
+    @И("в ответе {string} по ключу: {string} элементы отсортированы по возрастанию")
     public void checkSortElementOrder(String responseName, String jsonPath) {
         Response response = (Response) CoreScenario.getInstance().getVar(responseName);
 
@@ -142,7 +142,7 @@ public class JsonArrayVerificationSteps {
      * @param responseName переменная в которой сохранен Response
      * @param jsonPath     jsonPath поиска массива
      */
-    @И("^в ответе \"([^\"]*)\" по ключу: \"([^\"]*)\" элементы отсортированы по убыванию")
+    @И("в ответе {string} по ключу: {string} элементы отсортированы по убыванию")
     public void checkSortDescElementOrder(String responseName, String jsonPath) {
         Response response = (Response) CoreScenario.getInstance().getVar(responseName);
 
@@ -163,7 +163,7 @@ public class JsonArrayVerificationSteps {
      * @param jsonPath     jsonPath поиска массива
      * @param value        size
      */
-    @И("^в ответе \"([^\"]*)\" по ключу: \"([^\"]*)\" размер массива \"([^\"]*)\"$")
+    @И("в ответе {string} по ключу: {string} размер массива {string}")
     public void checkArraySize(String responseName, String jsonPath, String value) {
         value = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(value);
         Response response = (Response) CoreScenario.getInstance().getVar(responseName);
