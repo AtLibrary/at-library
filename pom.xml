@@ -31,6 +31,7 @@
         <!--ОТЧЕТ ALLURE-->
         <!--        <allure.version>2.11.0</allure.version>-->
         <allure.version>2.13.5</allure.version>
+        <allure-maven.version>2.10.0</allure-maven.version>
         <!--LOMBOK-->
         <lombok.version>1.18.12</lombok.version>
         <!--JACKSON-->
@@ -43,7 +44,12 @@
         <reflections.version>0.9.12</reflections.version>
         <guava.version>29.0-jre</guava.version>
         <jsonpath.version>2.4.0</jsonpath.version>
-        <aspectj.version>1.9.4</aspectj.version>
+        <aspectj.version>1.9.6</aspectj.version>
+
+        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+        <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
+        <maven-javadoc-plugin.version>3.2.0</maven-javadoc-plugin.version>
+        <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
     </properties>
 
     <repositories>
@@ -222,7 +228,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
+                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
                     <encoding>UTF-8</encoding>
                     <source>1.8</source>
@@ -232,7 +238,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>3.0.1</version>
+                <version>${maven-source-plugin.version}</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
@@ -245,7 +251,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.0.1</version>
+                <version>${maven-javadoc-plugin.version}</version>
                 <executions>
                     <execution>
                         <id>attach-resource-bundle</id>
