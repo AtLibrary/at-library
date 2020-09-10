@@ -36,7 +36,7 @@ import java.util.Properties;
 @Log4j2
 public class PropertyLoader {
 
-    private static final String PROPERTIES_FILE = "/" + System.getProperty("properties", "application.properties");
+    public static final String PROPERTIES_FILE = "/" + System.getProperty("properties", "application.properties");
     private static final Properties PROPERTIES = getPropertiesInstance();
     private static final Properties PROFILE_PROPERTIES = getProfilePropertiesInstance();
 

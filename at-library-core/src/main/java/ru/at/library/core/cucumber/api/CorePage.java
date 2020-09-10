@@ -20,7 +20,6 @@ import org.openqa.selenium.support.FindBy;
 import ru.at.library.core.cucumber.annotations.Hidden;
 import ru.at.library.core.cucumber.annotations.Name;
 import ru.at.library.core.cucumber.utils.Reflection;
-import ru.at.library.core.setup.AtCoreConfig;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
@@ -33,12 +32,15 @@ import static com.codeborne.selenide.Selenide.$$;
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
+import static ru.at.library.core.core.helpers.PropertyLoader.tryLoadProperty;
 
 /**
  * Класс для реализации паттерна PageObject
  */
 @Slf4j
 public abstract class CorePage extends ElementsContainer {
+
+    public static boolean isAppeared = Boolean.parseBoolean(tryLoadProperty("isAppeared"));
 
     /**
      * Список всех элементов страницы
@@ -171,7 +173,7 @@ public abstract class CorePage extends ElementsContainer {
      * Ex: CorePage.appeared().doSomething();
      */
     public final CorePage appeared() {
-        if (AtCoreConfig.isAppeared) {
+        if (isAppeared) {
             isAppeared();
         }
         return this;
@@ -223,7 +225,7 @@ public abstract class CorePage extends ElementsContainer {
      * Используется при работе с IE
      */
     public final CorePage ieAppeared() {
-        if (AtCoreConfig.isAppeared) {
+        if (isAppeared) {
             isAppearedInIe();
         }
         return this;
