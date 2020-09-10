@@ -1,5 +1,6 @@
 at-library
 =========================
+[![](https://jitpack.io/v/Antonppavlov/at-library.svg)](https://jitpack.io/#Antonppavlov/at-library)
 
 BDD библиотека
 =======================
