@@ -8,6 +8,8 @@ import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
 import ru.at.library.core.cucumber.api.CoreScenario;
 
+import java.time.LocalTime;
+
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverRunner.isIE;
@@ -104,16 +106,18 @@ public class WebCheckSteps {
     }
 
     /**
-     *
      * @param elementName название
      * @param seconds     количество секунд
      */
-    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" не отобразится на странице в течение (\\d+) (?:секунд|секунды)")
+    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" не (?:отобразится|отображается) на странице в течение (\\d+) (?:секунд|секунды)")
     public void elementHiddenSecond(String elementName, int seconds) {
         SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
-        for (int i = 0; i < seconds * 2; ++i) {
-            element.waitUntil(hidden,0);
-            sleep(500);
+        int time = LocalTime.now().toSecondOfDay() + seconds;
+
+        int timeout = 200;
+        while (time > LocalTime.now().toSecondOfDay()) {
+            element.shouldHave(hidden);
+            sleep(timeout);
         }
     }
 
@@ -373,9 +377,12 @@ public class WebCheckSteps {
     @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" не отображается на странице в течение (\\d+) (?:секунд|секунды)")
     public void elementHiddenSecond(String elementName, String blockName, int seconds) {
         SelenideElement element = coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName);
-        for (int i = 0; i < seconds * 2; ++i) {
-            element.waitUntil(hidden,0);
-            sleep(500);
+        int time = LocalTime.now().toSecondOfDay() + seconds;
+
+        int timeout = 200;
+        while (time > LocalTime.now().toSecondOfDay()) {
+            element.shouldHave(hidden);
+            sleep(timeout);
         }
     }
 
@@ -441,9 +448,12 @@ public class WebCheckSteps {
     @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" (?:недоступна|недоступно|недоступен) для (?:нажатия|редактирования) в течение (\\d+) (?:секунд|секунды)$")
     public void buttonIsNotActive(String elementName, String blockName, int second) {
         SelenideElement element = coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName);
-        for (int i = 0; i < second * 2; ++i) {
-            element.waitUntil(disabled,0);
-            sleep(500);
+        int time = LocalTime.now().toSecondOfDay() + second;
+
+        int timeout = 200;
+        while (time > LocalTime.now().toSecondOfDay()) {
+            element.shouldHave(disabled);
+            sleep(timeout);
         }
     }
 
