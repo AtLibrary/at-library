@@ -20,7 +20,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!--WEB ТЕСТИРОВАНИЕ-->
         <selenide.version>5.14.0</selenide.version>
-        <!--        <selenide.version>5.2.7</selenide.version>-->
+<!--        <selenide.version>5.2.7</selenide.version>-->
         <!--API ТЕСТИРОВАНИЕ-->
         <rest-assured.version>3.3.0</rest-assured.version>
         <!--MOBILE ТЕСТИРОВАНИЕ-->
@@ -29,7 +29,7 @@
         <!--        <cucumber.version>5.4.1</cucumber.version>-->
         <cucumber.version>4.3.0</cucumber.version>
         <!--ОТЧЕТ ALLURE-->
-        <!--        <allure.version>2.11.0</allure.version>-->
+<!--        <allure.version>2.11.0</allure.version>-->
         <allure.version>2.13.5</allure.version>
         <!--LOMBOK-->
         <lombok.version>1.18.10</lombok.version>
@@ -200,19 +200,6 @@
             <groupId>io.appium</groupId>
             <artifactId>mitmproxy-java</artifactId>
             <version>2.0.1</version>
-        </dependency>
-        <!--ПАРАЛЛЕЛЬНЫЕ СЦЕНАРИИ-->
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>6.14.2</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-testng</artifactId>
-            <version>${cucumber.version}</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 
