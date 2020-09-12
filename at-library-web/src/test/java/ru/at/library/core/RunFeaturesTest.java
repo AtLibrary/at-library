@@ -7,10 +7,11 @@ import org.junit.runner.RunWith;
 import org.testng.annotations.DataProvider;
 
 @RunWith(Cucumber.class)
+//@Listeners({ SoftAsserts.class})
 @CucumberOptions(
         monochrome = true,
         plugin = {"io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm", "pretty"},
-        tags = "@web-check-steps",
+        tags = "@test",
         features = "src/test/resources/features",
         glue = {"ru"}
 )

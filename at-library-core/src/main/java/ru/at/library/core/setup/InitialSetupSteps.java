@@ -74,7 +74,7 @@ public class InitialSetupSteps {
 
         RestAssured.baseURI = System.getProperty("baseURI", tryLoadProperty("baseURI"));
         baseUrl = System.getProperty("baseURI", tryLoadProperty("baseURI"));
-
+        //Configuration.assertionMode = AssertionMode.SOFT;
         /**
          * Если сценарий содержит тег @web" то будет создан WebDriver
          */
