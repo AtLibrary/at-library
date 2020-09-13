@@ -14,7 +14,7 @@ public class GooglePage extends CorePage {
     public SelenideElement searchInput;
 
     @Name("Кнопка Меню")
-    @FindBy(css = "a[class=\"gb_D gb_Ac\"]")
+    @FindBy(css = "a[role=\"button\"][href*=\"products\"]")
     public SelenideElement menuBtn;
 
     @Optional

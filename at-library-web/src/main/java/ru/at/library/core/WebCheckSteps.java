@@ -8,10 +8,14 @@ import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
 import ru.at.library.core.cucumber.api.CoreScenario;
 
+import java.time.LocalTime;
+
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverRunner.isIE;
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 import static ru.at.library.core.steps.OtherSteps.getPropertyOrStringVariableOrValue;
 import static ru.at.library.core.steps.OtherSteps.getTranslateNormalizeSpaceText;
 
@@ -73,7 +77,7 @@ public class WebCheckSteps {
      */
     @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" отображается на странице$")
     public void elementAppeared(String elementName) {
-        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
+        SelenideElement element = getPageElement(elementName);
         element.shouldHave(appear);
     }
 
@@ -86,7 +90,7 @@ public class WebCheckSteps {
      */
     @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" отобразится на странице в течение (\\d+) (?:секунд|секунды)")
     public void elementAppearedSecond(String elementName, int seconds) {
-        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
+        SelenideElement element = getPageElement(elementName);
         element.waitUntil(appear, seconds * 1000);
     }
 
@@ -99,21 +103,23 @@ public class WebCheckSteps {
      */
     @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" не отображается на странице$")
     public void elementHidden(String elementName) {
-        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
+        SelenideElement element = getPageElement(elementName);
         element.shouldHave(hidden);
     }
 
     /**
-     *
      * @param elementName название
      * @param seconds     количество секунд
      */
-    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" не отобразится на странице в течение (\\d+) (?:секунд|секунды)")
+    @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" не (?:отобразится|отображается) на странице в течение (\\d+) (?:секунд|секунды)")
     public void elementHiddenSecond(String elementName, int seconds) {
-        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
-        for (int i = 0; i < seconds * 2; ++i) {
-            element.waitUntil(hidden,0);
-            sleep(500);
+        SelenideElement element = getPageElement(elementName);
+        int time = LocalTime.now().toSecondOfDay() + seconds;
+
+        int timeout = 200;
+        while (time > LocalTime.now().toSecondOfDay()) {
+            element.waitUntil(hidden, 0); // element.shouldHave(hidden);
+            sleep(timeout);
         }
     }
 
@@ -148,7 +154,7 @@ public class WebCheckSteps {
      */
     @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" (?:доступна|доступен) для нажатия$")
     public void clickableField(String elementName) {
-        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
+        SelenideElement element = getPageElement(elementName);
         element.shouldHave(enabled);
     }
 
@@ -157,7 +163,7 @@ public class WebCheckSteps {
      */
     @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" (?:доступна|доступен) для нажатия в течение (\\d+) (?:секунд|секунды)$")
     public void clickableField(String elementName, int second) {
-        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
+        SelenideElement element = getPageElement(elementName);
         element.waitUntil(enabled, second * 1000);
     }
 
@@ -166,7 +172,7 @@ public class WebCheckSteps {
      */
     @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" (?:недоступна|недоступен) для нажатия$")
     public void buttonIsNotActive(String elementName) {
-        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
+        SelenideElement element = getPageElement(elementName);
         element.shouldHave(disabled);
     }
 
@@ -179,7 +185,7 @@ public class WebCheckSteps {
      */
     @И("^поле \"([^\"]*)\" пусто$")
     public void fieldInputIsEmpty(String elementName) {
-        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
+        SelenideElement element = getPageElement(elementName);
         element.shouldHave(empty);
     }
 
@@ -198,7 +204,7 @@ public class WebCheckSteps {
      */
     @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" содержит атрибут \"([^\"]*)\" со значением \"([^\"]*)\"$")
     public void checkElemContainsAtrWithValue(String elementName, String attribute, String expectedAttributeValue) {
-        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
+        SelenideElement element = getPageElement(elementName);
         expectedAttributeValue = getPropertyOrStringVariableOrValue(expectedAttributeValue);
         element.shouldHave(attribute(attribute, expectedAttributeValue));
     }
@@ -208,7 +214,7 @@ public class WebCheckSteps {
      */
     @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" содержит css \"([^\"]*)\" со значением \"([^\"]*)\"$")
     public void checkCssInElement(String elementName, String cssName, String cssValue) {
-        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
+        SelenideElement element = getPageElement(elementName);
         cssName = getPropertyOrStringVariableOrValue(cssName);
         cssValue = getPropertyOrStringVariableOrValue(cssValue);
         element.shouldHave(cssValue(cssName, cssValue));
@@ -222,7 +228,7 @@ public class WebCheckSteps {
     @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" содержит текст \"([^\"]*)\"$")
     @А("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" содержит текст")
     public void testFieldContainsInnerText(String elementName, String expectedValue) {
-        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
+        SelenideElement element = getPageElement(elementName);
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
         element.shouldHave(
                 or("Текст элемента содержит",
@@ -238,7 +244,7 @@ public class WebCheckSteps {
     @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" не содержит текст \"([^\"]*)\"$")
     @А("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" не содержит текст")
     public void testFieldNotContainsInnerText(String elementName, String expectedValue) {
-        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
+        SelenideElement element = getPageElement(elementName);
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
         element.shouldHave(
                 and("Текст элемента не содержит",
@@ -253,7 +259,7 @@ public class WebCheckSteps {
     @И("^текст (?:кнопки|ссылки|поля|чекбокса|радиокнопки|текста|элемента) \"([^\"]*)\" равен \"([^\"]*)\"$")
     @А("^текст (?:кнопки|ссылки|поля|чекбокса|радиокнопки|текста|элемента) \"([^\"]*)\" равен$")
     public void compareValInFieldAndFromStep(String elementName, String expectedValue) {
-        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
+        SelenideElement element = getPageElement(elementName);
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
         element.shouldHave(
                 or("Текст элемента равен",
@@ -266,15 +272,15 @@ public class WebCheckSteps {
      */
     @И("^в (?:кнопке|ссылке|поле|чекбоксе|радиокнопке|тексте|элементе) \"([^\"]*)\" содержится (\\d+) символов$")
     public void checkFieldSymbolsCount(String elementName, int num) {
-        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
+        SelenideElement element = getPageElement(elementName);
         element.should(visible);
         int length;
-        if (element.getTagName().equalsIgnoreCase("input")) {
+        if (element.getTagName().equals("input")) {
             length = element.getAttribute("value").length();
         } else {
             length = element.getText().length();
         }
-        assertEquals(String.format("Неверное количество символов. Ожидаемый результат: %s, текущий результат: %s", num, length), num, length);
+        assertThat(String.format("Неверное количество символов. Ожидаемый результат: %s, текущий результат: %s", num, length), length, is(equalTo(num)));
     }
 
     /**
@@ -286,7 +292,7 @@ public class WebCheckSteps {
      */
     @И("^радиокнопка \"([^\"]*)\" выбрана$")
     public void radioButtonIsSelected(String elementName) {
-        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
+        SelenideElement element = getPageElement(elementName);
         element.shouldHave(selected);
     }
 
@@ -295,7 +301,7 @@ public class WebCheckSteps {
      */
     @И("^радиокнопка \"([^\"]*)\" не выбрана")
     public void radioButtonIsNotSelected(String elementName) {
-        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
+        SelenideElement element = getPageElement(elementName);
         element.shouldHave(not(selected));
     }
 
@@ -304,7 +310,7 @@ public class WebCheckSteps {
      */
     @И("^чекбокс \"([^\"]*)\" выбран$")
     public void checkBoxIsChecked(String elementName) {
-        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
+        SelenideElement element = getPageElement(elementName);
         element.shouldHave(checked);
     }
 
@@ -313,7 +319,7 @@ public class WebCheckSteps {
      */
     @И("^чекбокс \"([^\"]*)\" не выбран$")
     public void checkBoxIsNotChecked(String elementName) {
-        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
+        SelenideElement element = getPageElement(elementName);
         element.shouldHave(not(checked));
     }
 
@@ -335,7 +341,7 @@ public class WebCheckSteps {
      */
     @А("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" отображается на странице")
     public void elementAppeared(String elementName, String blockName) {
-        SelenideElement element = coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName);
+        SelenideElement element = getBlockElement(blockName, elementName);
         element.shouldHave(appear);
     }
 
@@ -348,7 +354,7 @@ public class WebCheckSteps {
      */
     @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" отображается на странице в течение (\\d+) (?:секунд|секунды)")
     public void elementAppearedSecond(String elementName, String blockName, int seconds) {
-        SelenideElement element = coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName);
+        SelenideElement element = getBlockElement(blockName, elementName);
         element.waitUntil(appear, seconds * 1000);
     }
 
@@ -359,7 +365,7 @@ public class WebCheckSteps {
      */
     @А("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" не отображается на странице")
     public void elementHidden(String elementName, String blockName) {
-        SelenideElement element = coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName);
+        SelenideElement element = getBlockElement(blockName, elementName);
         element.shouldHave(hidden);
     }
 
@@ -372,10 +378,13 @@ public class WebCheckSteps {
      */
     @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" не отображается на странице в течение (\\d+) (?:секунд|секунды)")
     public void elementHiddenSecond(String elementName, String blockName, int seconds) {
-        SelenideElement element = coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName);
-        for (int i = 0; i < seconds * 2; ++i) {
-            element.waitUntil(hidden,0);
-            sleep(500);
+        SelenideElement element = getBlockElement(blockName, elementName);
+        int time = LocalTime.now().toSecondOfDay() + seconds;
+
+        int timeout = 200;
+        while (time > LocalTime.now().toSecondOfDay()) {
+            element.waitUntil(hidden,0); // element.shouldHave(hidden);
+            sleep(timeout);
         }
     }
 
@@ -388,7 +397,7 @@ public class WebCheckSteps {
      */
     @И("^ожидается исчезновение (?:кнопки|ссылки|поля|чекбокса|радиокнопки|текста|элемента) \"([^\"]*)\" в блоке \"([^\"]*)\"")
     public void elemDisappears(String elementName, String blockName) {
-        SelenideElement element = coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName);
+        SelenideElement element = getBlockElement(blockName, elementName);
         element.shouldHave(disappears);
     }
 
@@ -400,7 +409,7 @@ public class WebCheckSteps {
      */
     @И("^ожидается исчезновение (?:кнопки|ссылки|поля|чекбокса|радиокнопки|текста|элемента) \"([^\"]*)\" в блоке \"([^\"]*)\" в течение (\\d+) (?:секунд|секунды)")
     public void elemDisappears(String elementName, String blockName, int seconds) {
-        SelenideElement element = coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName);
+        SelenideElement element = getBlockElement(blockName, elementName);
         element.waitUntil(disappears, seconds * 1000);
     }
 
@@ -413,7 +422,7 @@ public class WebCheckSteps {
      */
     @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" (?:доступна|доступно|доступен) для нажатия")
     public void clickableField(String elementName, String blockName) {
-        SelenideElement element = coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName);
+        SelenideElement element = getBlockElement(blockName, elementName);
         element.shouldHave(enabled);
     }
 
@@ -422,7 +431,7 @@ public class WebCheckSteps {
      */
     @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" (?:доступна|доступно|доступен) для нажатия в течение (\\d+) (?:секунд|секунды)$")
     public void clickableField(String elementName, String blockName, int second) {
-        SelenideElement element = coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName);
+        SelenideElement element = getBlockElement(blockName, elementName);
         element.waitUntil(enabled, second * 1000);
     }
 
@@ -431,7 +440,7 @@ public class WebCheckSteps {
      */
     @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" (?:недоступна|недоступно|недоступен) для (?:нажатия|редактирования)$")
     public void buttonIsNotActive(String elementName, String blockName) {
-        SelenideElement element = coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName);
+        SelenideElement element = getBlockElement(blockName, elementName);
         element.shouldHave(disabled);
     }
 
@@ -440,10 +449,13 @@ public class WebCheckSteps {
      */
     @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" (?:недоступна|недоступно|недоступен) для (?:нажатия|редактирования) в течение (\\d+) (?:секунд|секунды)$")
     public void buttonIsNotActive(String elementName, String blockName, int second) {
-        SelenideElement element = coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName);
-        for (int i = 0; i < second * 2; ++i) {
-            element.waitUntil(disabled,0);
-            sleep(500);
+        SelenideElement element = getBlockElement(blockName, elementName);
+        int time = LocalTime.now().toSecondOfDay() + second;
+
+        int timeout = 200;
+        while (time > LocalTime.now().toSecondOfDay()) {
+            element.waitUntil(disabled, 0); // element.shouldHave(disabled);
+            sleep(timeout);
         }
     }
 
@@ -456,7 +468,7 @@ public class WebCheckSteps {
      */
     @И("^поле \"([^\"]*)\" в блоке \"([^\"]*)\" пусто$")
     public void fieldInputIsEmpty(String elementName, String blockName) {
-        SelenideElement element = coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName);
+        SelenideElement element = getBlockElement(blockName, elementName);
         element.shouldHave(empty);
     }
 
@@ -475,7 +487,7 @@ public class WebCheckSteps {
      */
     @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" содержит атрибут \"([^\"]*)\" со значением \"([^\"]*)\"$")
     public void checkElemContainsAtrWithValue(String elementName, String blockName, String attribute, String expectedAttributeValue) {
-        SelenideElement element = coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName);
+        SelenideElement element = getBlockElement(blockName, elementName);
         expectedAttributeValue = getPropertyOrStringVariableOrValue(expectedAttributeValue);
         element.shouldHave(attribute(attribute, expectedAttributeValue));
     }
@@ -485,7 +497,7 @@ public class WebCheckSteps {
      */
     @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" содержит css \"([^\"]*)\" со значением \"([^\"]*)\"$")
     public void checkCssInElement(String elementName, String blockName, String cssName, String cssValue) {
-        SelenideElement element = coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName);
+        SelenideElement element = getBlockElement(blockName, elementName);
         cssName = getPropertyOrStringVariableOrValue(cssName);
         cssValue = getPropertyOrStringVariableOrValue(cssValue);
         element.shouldHave(cssValue(cssName, cssValue));
@@ -499,7 +511,7 @@ public class WebCheckSteps {
     @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" содержит текст \"([^\"]*)\"$")
     @А("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" содержит текст")
     public void testFieldContainsInnerText(String elementName, String blockName, String expectedValue) {
-        SelenideElement element = coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName);
+        SelenideElement element = getBlockElement(blockName, elementName);
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
         element.shouldHave(
                 or("Текст элемента содержит",
@@ -515,7 +527,7 @@ public class WebCheckSteps {
     @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" не содержит текст \"([^\"]*)\"$")
     @А("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" не содержит текст")
     public void testFieldNotContainsInnerText(String elementName, String blockName, String expectedValue) {
-        SelenideElement element = coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName);
+        SelenideElement element = getBlockElement(blockName, elementName);
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
         element.shouldHave(
                 and("Текст элемента не содержит",
@@ -531,7 +543,7 @@ public class WebCheckSteps {
     @И("^текст (?:кнопки|ссылки|поля|чекбокса|радиокнопки|текста|элемента) \"([^\"]*)\" в блоке \"([^\"]*)\" равен \"([^\"]*)\"$")
     @А("^текст (?:кнопки|ссылки|поля|чекбокса|радиокнопки|текста|элемента) \"([^\"]*)\" в блоке \"([^\"]*)\" равен$")
     public void compareValInFieldAndFromStep(String elementName, String blockName, String expectedValue) {
-        SelenideElement element = coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName);
+        SelenideElement element = getBlockElement(blockName, elementName);
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
         element.shouldHave(
                 or("Текст элемента равен",
@@ -542,9 +554,9 @@ public class WebCheckSteps {
     /**
      * Производится проверка количества символов в поле со значением, указанным в шаге
      */
-    @И("^текст (?:кнопки|ссылки|поля|чекбокса|радиокнопки|текста|элемента) \"([^\"]*)\" в блоке \"([^\"]*)\" содержит (\\d+) символов$")
+    @И("^текст (?:кнопки|ссылки|поля|чекбокса|радиокнопки|текста|элемента) \"([^\"]*)\" в блоке \"([^\"]*)\" содержит (\\d+) (?:символов|символа)$")
     public void checkFieldSymbolsCount(String elementName, String blockName, int num) {
-        SelenideElement element = coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName);
+        SelenideElement element = getBlockElement(blockName, elementName);
 
         int lengthText = element.getText().length();
         int lengthValue = element.getValue().length();
@@ -558,7 +570,7 @@ public class WebCheckSteps {
         }
 
         BrowserSteps.takeScreenshot();
-        assertEquals(String.format("Неверное количество символов. Ожидаемый результат: %s, текущий результат: %s", num, lengthText), num, lengthText);
+        assertThat(String.format("Неверное количество символов. Ожидаемый результат: %s, текущий результат: %s", num, lengthText), lengthText, is(equalTo(num)));
     }
 
     /**
@@ -570,7 +582,7 @@ public class WebCheckSteps {
      */
     @И("^(?:кнопка|ссылка|поле|радиокнопка|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" (?:выбрана|выбрано|выбран)$")
     public void radioButtonIsSelected(String elementName, String blockName) {
-        SelenideElement element = coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName);
+        SelenideElement element = getBlockElement(blockName, elementName);
         element.shouldHave(selected);
     }
 
@@ -579,7 +591,7 @@ public class WebCheckSteps {
      */
     @И("^(?:кнопка|ссылка|поле|радиокнопка|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" не (?:выбрана|выбрано|выбран)$")
     public void radioButtonIsNotSelected(String elementName, String blockName) {
-        SelenideElement element = coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName);
+        SelenideElement element = getBlockElement(blockName, elementName);
         element.shouldHave(not(selected));
     }
 
@@ -588,7 +600,7 @@ public class WebCheckSteps {
      */
     @И("^чекбокс \"([^\"]*)\" в блоке \"([^\"]*)\" выбран$")
     public void checkBoxIsChecked(String elementName, String blockName) {
-        SelenideElement element = coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName);
+        SelenideElement element = getBlockElement(blockName, elementName);
         element.shouldHave(checked);
     }
 
@@ -597,7 +609,7 @@ public class WebCheckSteps {
      */
     @И("^чекбокс \"([^\"]*)\" в блоке \"([^\"]*)\" не выбран$")
     public void checkBoxIsNotChecked(String elementName, String blockName) {
-        SelenideElement element = coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName);
+        SelenideElement element = getBlockElement(blockName, elementName);
         element.shouldHave(not(checked));
     }
 
@@ -606,6 +618,14 @@ public class WebCheckSteps {
      * ---------------------------------------------Вспомогательные методы----------------------------------------------
      * -----------------------------------------------------------------------------------------------------------------
      */
+
+    private SelenideElement getPageElement(String elementName) {
+        return coreScenario.getCurrentPage().getElement(elementName);
+    }
+
+    private SelenideElement getBlockElement(String blockName, String elementName) {
+        return coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName);
+    }
 
     /**
      * Проверка появления элемента(не списка) в видимой части браузера
@@ -630,9 +650,9 @@ public class WebCheckSteps {
                 && winRightBound >= elementRightBound
                 && winLowerBound >= elementLowerBound;
 
-        assertEquals(String.format("Элемент вне видимой части браузера. Видимая область: %d %d %d %d Координаты элемента: %d %d %d %d",
+        assertThat(String.format("Элемент вне видимой части браузера. Видимая область: %d %d %d %d Координаты элемента: %d %d %d %d",
                 winLeftBound, winUpperBound, winRightBound, winLowerBound, elementLeftBound, elementUpperBound, elementRightBound, elementLowerBound),
-                true, inBounds);
+                inBounds, is(equalTo(true)));
     }
 
 }

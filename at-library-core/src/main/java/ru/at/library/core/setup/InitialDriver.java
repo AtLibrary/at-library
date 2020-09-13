@@ -9,6 +9,7 @@ import org.openqa.selenium.Proxy;
 import org.openqa.selenium.remote.CapabilityType;
 
 import static com.codeborne.selenide.Configuration.browser;
+import static ru.at.library.core.core.helpers.Utils.scenarioID;
 
 @Log4j2
 public class InitialDriver {
@@ -33,18 +34,17 @@ public class InitialDriver {
     }
 
     private void initLocalStart(Proxy proxy, Scenario scenario) {
-        log.info(String.format("%s: ОС: %s", scenario.getId(), System.getProperty("os.name")));
-        log.info(String.format("%s: локальный бразуер: %s", scenario.getId(), browser));
+        log.info(String.format("%s: ОС: %s", scenarioID(scenario), System.getProperty("os.name")));
+        log.info(String.format("%s: локальный бразуер: %s", scenarioID(scenario), browser));
         if (proxy != null) {
             WebDriverRunner.setProxy(proxy);
-            log.trace(String.format("%s: Проставлена прокси: %s", scenario.getId(), proxy));
+            log.trace(String.format("%s: Проставлена прокси: %s", scenarioID(scenario), proxy));
         }
-
     }
 
     private void initRemoteStart(Proxy proxy, Scenario scenario) {
-        log.info(String.format("%s: удаленная машина: %s", scenario.getId(), Configuration.remote));
-        log.info(String.format("%s: браузер: %s", scenario.getId(), browser));
+        log.info(String.format("%s: удаленная машина: %s", scenarioID(scenario), Configuration.remote));
+        log.info(String.format("%s: браузер: %s", scenarioID(scenario), browser));
 
         Configuration.browserCapabilities.setCapability("enableVNC", true);
         Configuration.browserCapabilities.setCapability("enableVideo", false);
@@ -52,7 +52,7 @@ public class InitialDriver {
 
         if (proxy != null) {
             Configuration.browserCapabilities.setCapability(CapabilityType.PROXY, proxy);
-            log.trace(String.format("%s: Проставлена прокси: %s", scenario.getId(), proxy));
+            log.trace(String.format("%s: Проставлена прокси: %s", scenarioID(scenario), proxy));
         }
     }
 

@@ -21,6 +21,12 @@ public class BlockListSteps {
 
     private final CoreScenario coreScenario = CoreScenario.getInstance();
 
+    /**
+     * -----------------------------------------------------------------------------------------------------------------
+     * -----------------------------------------------Проверки списка блоков------------------------------------------------
+     * -----------------------------------------------------------------------------------------------------------------
+     */
+
 
     @И("^список блоков \"([^\"]*)\" отображается на странице$")
     public void listBlockVisible(String listName) {
@@ -36,17 +42,6 @@ public class BlockListSteps {
         List<CorePage> blocksList = coreScenario.getCurrentPage().getBlocksList(listName);
         assertEquals(blocksList.size(), quantity);
     }
-
-    /**
-     * Производится проверка соответствия числа элементов списка значению, указанному в шаге
-     */
-    @И("^список блоков \"([^\"]*)\" в блоке \"([^\"]*)\" состоит из (\\d+) блоков")
-    public void listBlockSize(String listName, String blockName, int quantity) {
-        List<CorePage> blocksList =
-                coreScenario.getCurrentPage().getBlock(blockName).getBlocksList(listName);
-        assertEquals(blocksList.size(), quantity);
-    }
-
 
     @И("^в любом блоке в списке блоков \"([^\"]*)\" в элементе \"([^\"]*)\" текст равен \"([^\"]*)\"$")
     public void checkTextInAnyBlock(String listName, String elementName, String expectedText) {
@@ -67,6 +62,32 @@ public class BlockListSteps {
         findCorePageByTextContainInElement(blocksList, elementName, expectedText);
     }
 
+
+    @И("^текст в элементе \"([^\"]*)\" равен формату \"([^\"]*)\" в списке блоков \"([^\"]*)\" где в элементе \"([^\"]*)\" текст равен \"([^\"]*)\"$")
+    public void checkTextInAnyBlockMatches(String elementNameCheck, String regExp, String listName, String elementNameText, String expectedText) {
+        List<CorePage> blocksList = coreScenario.getCurrentPage().getBlocksList(listName);
+        CorePage corePageByTextInElement = findCorePageByTextInElement(blocksList, elementNameText, expectedText);
+
+        checkTextMatches(corePageByTextInElement, elementNameCheck, regExp);
+    }
+
+
+
+    /**
+     * -----------------------------------------------------------------------------------------------------------------
+     * -----------------------------------------------Проверки списка блоков в блоке------------------------------------------------
+     * -----------------------------------------------------------------------------------------------------------------
+     */
+
+    /**
+     * Производится проверка соответствия числа элементов списка значению, указанному в шаге
+     */
+    @И("^список блоков \"([^\"]*)\" в блоке \"([^\"]*)\" состоит из (\\d+) блоков")
+    public void listBlockSize(String listName, String blockName, int quantity) {
+        List<CorePage> blocksList =
+                coreScenario.getCurrentPage().getBlock(blockName).getBlocksList(listName);
+        assertEquals(blocksList.size(), quantity);
+    }
 
     @И("^в любом блоке в списке блоков \"([^\"]*)\" в блоке \"([^\"]*)\" в элементе \"([^\"]*)\" текст равен \"([^\"]*)\"$")
     public void checkTextInAnyBlock(String listName, String blockName, String elementName, String expectedText) {
@@ -116,7 +137,6 @@ public class BlockListSteps {
         element.click();
     }
 
-
     @И("^элемент \"([^\"]*)\" отображается на странице в списке блоков \"([^\"]*)\" где в элементе \"([^\"]*)\" текст равен \"([^\"]*)\" в блоке \"([^\"]*)\"$")
     public void visibleElementBlockWhereTextEquals(String elementNameClick, String listName, String elementNameText, String expectedText, String blockName) {
         List<CorePage> blocksList = coreScenario.getCurrentPage().getBlock(blockName).getBlocksList(listName);
@@ -131,16 +151,19 @@ public class BlockListSteps {
         List<CorePage> blocksList = coreScenario.getCurrentPage().getBlock(blockName).getBlocksList(listName);
         CorePage corePageByTextInElement = findCorePageByTextInElement(blocksList, elementNameText, expectedText);
 
-        checkTextMatches(corePageByTextInElement,elementNameCheck, regExp);
-    }
-
-    @И("^текст в элементе \"([^\"]*)\" равен формату \"([^\"]*)\" в списке блоков \"([^\"]*)\" где в элементе \"([^\"]*)\" текст равен \"([^\"]*)\"$")
-    public void checkTextInAnyBlockMatches(String elementNameCheck, String regExp, String listName, String elementNameText, String expectedText) {
-        List<CorePage> blocksList = coreScenario.getCurrentPage().getBlocksList(listName);
-        CorePage corePageByTextInElement = findCorePageByTextInElement(blocksList, elementNameText, expectedText);
-
         checkTextMatches(corePageByTextInElement, elementNameCheck, regExp);
     }
+
+
+
+
+
+    /**
+     * -----------------------------------------------------------------------------------------------------------------
+     * -----------------------------------------------Дополнительные методы---------------------------------------------
+     * -----------------------------------------------------------------------------------------------------------------
+     */
+
 
     @Step("Поиск блока в котором текст элемента '{elementName}' равен : '{expectedText}'")
     private CorePage findCorePageByTextInElement(List<CorePage> blocksList, String elementName, String expectedText) {
@@ -195,8 +218,9 @@ public class BlockListSteps {
     }
 
 
+
     @Step("Проверка что текст элемента '{elementName}' равен: '{expectedText}'")
-    private void checkText(CorePage block, String elementName,  String expectedText) {
+    private void checkText(CorePage block, String elementName, String expectedText) {
         SelenideElement element = block.getElement(elementName);
 
         element.shouldHave(Condition.or("проверка на текст",

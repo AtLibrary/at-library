@@ -115,7 +115,7 @@ public final class CoreScenario {
 //     * Выводит дополнительный информационный текст в отчет (уровень логирования INFO)
 //     */
 //    public void write(Object object) {
-//        if (AtCoreConfig.debugCore) {
+//        if (debugCore) {
 //            this.getEnvironment().write(object);
 //        }
 //    }

@@ -1,6 +1,7 @@
 package ru.at.library.core.core.helpers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import cucumber.api.Scenario;
 import groovy.util.XmlParser;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
@@ -169,6 +170,17 @@ public class Utils {
         } catch (UnsupportedEncodingException e) {
             throw new UnsupportedOperationException(e);
         }
+    }
+
+    /**
+     * Сокращенный вывод ID сценария
+     *
+     * @param   scenario сценарий
+     * @return  ID сценария в формате feature_file.feature:ID
+     */
+    public static String scenarioID(Scenario scenario) {
+        String fullID = scenario.getId();
+        return fullID.substring(fullID.lastIndexOf('/') + 1);
     }
 
 }
