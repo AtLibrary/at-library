@@ -116,7 +116,7 @@ public class WebCheckSteps {
 
         int timeout = 200;
         while (time > LocalTime.now().toSecondOfDay()) {
-            element.waitUntil(hidden, seconds);
+            element.waitUntil(hidden, seconds * 1000);
             sleep(timeout);
         }
     }
@@ -381,7 +381,7 @@ public class WebCheckSteps {
 
         int timeout = 200;
         while (time > LocalTime.now().toSecondOfDay()) {
-            element.waitUntil(hidden, seconds);
+            element.waitUntil(hidden, seconds * 1000);
             sleep(timeout);
         }
     }
