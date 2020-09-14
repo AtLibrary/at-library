@@ -116,7 +116,7 @@ public class WebCheckSteps {
 
         int timeout = 200;
         while (time > LocalTime.now().toSecondOfDay()) {
-            element.shouldHave(hidden);
+            element.waitUntil(hidden, seconds);
             sleep(timeout);
         }
     }
@@ -381,7 +381,7 @@ public class WebCheckSteps {
 
         int timeout = 200;
         while (time > LocalTime.now().toSecondOfDay()) {
-            element.shouldHave(hidden);
+            element.waitUntil(hidden, seconds);
             sleep(timeout);
         }
     }
