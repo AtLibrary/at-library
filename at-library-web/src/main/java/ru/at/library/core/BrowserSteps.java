@@ -82,28 +82,46 @@ public class BrowserSteps {
     /**
      * Проверка, что текущий URL совпадает с ожидаемым
      *
-     * @param hardcodeUrl (берется из property / переменной, если такая переменная не найдена,
+     * @param expectedURL (берется из property / переменной, если такая переменная не найдена,
      *                    то берется переданное значение)
      */
     @И("^текущий URL равен \"([^\"]*)\"$")
-    public void checkCurrentURL(String hardcodeUrl) {
-        String currentUrl = url();
-        String expectedURL = formALinkExpectedURL(hardcodeUrl);
+    public void checkCurrentURL(String expectedURL) {
+        expectedURL = formALinkExpectedURL(expectedURL);
+        String currentUrl = "";
+        int sleepTime = 100;
+        for (int time = 0; time < Configuration.timeout; time += sleepTime) {
+            currentUrl = url();
+            if (currentUrl.toLowerCase().equals(expectedURL.toLowerCase())) {
+                return;
+            }
+            sleep(sleepTime);
+        }
 
+        takeScreenshot();
         assertThat("Текущий URL не совпадает с ожидаемым", currentUrl, is(expectedURL));
     }
 
     /**
      * Проверка, что текущий URL содержит с ожидаемым
      *
-     * @param hardcodeUrl (берется из property / переменной, если такая переменная не найдена,
+     * @param expectedURL (берется из property / переменной, если такая переменная не найдена,
      *                    то берется переданное значение)
      */
     @И("^текущий URL содержит \"([^\"]*)\"$")
-    public void checkContainsStringURL(String hardcodeUrl) {
-        String currentUrl = url();
-        String expectedURL = formALinkExpectedURL(hardcodeUrl);
+    public void checkContainsStringURL(String expectedURL) {
+        expectedURL = formALinkExpectedURL(expectedURL);
+        String currentUrl = "";
+        int sleepTime = 100;
+        for (int time = 0; time < Configuration.timeout; time += sleepTime) {
+            currentUrl = url();
+            if (currentUrl.toLowerCase().contains(expectedURL.toLowerCase())) {
+                return;
+            }
+            sleep(sleepTime);
+        }
 
+        takeScreenshot();
         assertThat("Текущий URL не содержит ожидаемым", currentUrl, containsString(expectedURL));
     }
 
@@ -115,11 +133,12 @@ public class BrowserSteps {
      */
     @И("^текущий URL не равен \"([^\"]*)\"$")
     public void checkCurrentURLIsNotEquals(String hardcodeUrl) {
-        String currentUrl = url();
+        String currentUrl = "";
         String expectedURL = formALinkExpectedURL(hardcodeUrl);
         int sleepTime = 100;
 
         for (int time = 0; time < Configuration.timeout; time += sleepTime) {
+            currentUrl = url();
             if (currentUrl.equals(expectedURL)) {
                 sleep(sleepTime);
             }
