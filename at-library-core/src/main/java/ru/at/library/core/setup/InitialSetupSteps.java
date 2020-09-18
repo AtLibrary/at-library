@@ -96,7 +96,7 @@ public class InitialSetupSteps {
     @After(order = 0)
     public void afterEachTest(Scenario scenario) {
         log.info(String.format("%s: завершение сценария с именем [%s]", scenario.getId(), scenario.getName()));
-        if (tryLoadProperty("ENVIRONMENT") == null || tryLoadProperty("ENVIRONMENT").equals("dev")) {
+        if (!(tryLoadProperty("ENVIRONMENT") == null & tryLoadProperty("ENVIRONMENT").equals("prod"))) {
             try {
                 getWebDriver().quit();
                 log.info(String.format("%s: драйвер успешно остановлен", scenario.getId()));
