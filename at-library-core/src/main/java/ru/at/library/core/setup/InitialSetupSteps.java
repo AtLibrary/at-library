@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.logging.Level;
 
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
+import static ru.at.library.core.core.helpers.PropertyLoader.loadProperty;
 import static ru.at.library.core.core.helpers.PropertyLoader.tryLoadProperty;
 
 /**
@@ -96,7 +97,27 @@ public class InitialSetupSteps {
     @After(order = 0)
     public void afterEachTest(Scenario scenario) {
         log.info(String.format("%s: завершение сценария с именем [%s]", scenario.getId(), scenario.getName()));
-        if (!(tryLoadProperty("ENVIRONMENT") == null & tryLoadProperty("ENVIRONMENT").equals("prod"))) {
+
+        boolean quitDriver = true;
+
+        if (tryLoadProperty("ENVIRONMENT") != null) {
+            switch (loadProperty("ENVIRONMENT")) {
+                case "dev": {
+                    quitDriver = true;
+                    break;
+                }
+                case "integrative": {
+                    quitDriver = true;
+                    break;
+                }
+                case "prod": {
+                    quitDriver = false;
+                    break;
+                }
+            }
+        }
+
+        if (quitDriver) {
             try {
                 getWebDriver().quit();
                 log.info(String.format("%s: драйвер успешно остановлен", scenario.getId()));
