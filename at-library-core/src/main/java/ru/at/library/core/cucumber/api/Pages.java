@@ -127,6 +127,7 @@ public final class Pages {
         Constructor<? extends CorePage> constructor = page.getDeclaredConstructor();
         constructor.setAccessible(true);
         CorePage p = page.newInstance();
+        p.setName(pageName);
         pages.put(pageName, p);
     }
 }

@@ -23,8 +23,6 @@ import java.util.function.Consumer;
 @Slf4j
 public final class CoreScenario {
 
-//    public static final String CURRENT = "CURRENT";
-
     private static CoreScenario instance = new CoreScenario();
 
     /**
@@ -40,9 +38,6 @@ public final class CoreScenario {
         return instance;
     }
 
-//    public static void sleep(int seconds) {
-//        Selenide.sleep(TimeUnit.MILLISECONDS.convert(seconds, TimeUnit.SECONDS));
-//    }
 
     /**
      * Позволяет получить доступ к полям и методам конкретной страницы, которая передается в метод в качестве аргумента.
@@ -90,6 +85,8 @@ public final class CoreScenario {
             throw new IllegalArgumentException("Происходит переход на несуществующую страницу. " +
                     "Проверь аннотации @Name у используемых страниц");
         }
+
+        getPages().put(page.getName(), page.getClass());
         environment.get().getPages().setCurrentPage(page);
     }
 
@@ -110,15 +107,6 @@ public final class CoreScenario {
     public CorePage getPage(String name) {
         return this.getEnvironment().getPage(name);
     }
-
-//    /**
-//     * Выводит дополнительный информационный текст в отчет (уровень логирования INFO)
-//     */
-//    public void write(Object object) {
-//        if (AtCoreConfig.debugCore) {
-//            this.getEnvironment().write(object);
-//        }
-//    }
 
     /**
      * Получение переменной по имени, заданного пользователем, из пула переменных "variables" в CoreEnvironment

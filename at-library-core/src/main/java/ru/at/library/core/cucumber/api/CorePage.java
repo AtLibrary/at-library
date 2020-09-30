@@ -15,6 +15,8 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.ElementsContainer;
 import com.codeborne.selenide.SelenideElement;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.support.FindBy;
 import ru.at.library.core.cucumber.annotations.Hidden;
@@ -41,6 +43,13 @@ import static ru.at.library.core.core.helpers.PropertyLoader.tryLoadProperty;
 public abstract class CorePage extends ElementsContainer {
 
     public static boolean isAppeared = Boolean.parseBoolean(tryLoadProperty("isAppeared"));
+
+    /**
+     * Имя страницы
+     */
+    @Getter
+    @Setter
+    private String name;
 
     /**
      * Список всех элементов страницы
@@ -353,6 +362,5 @@ public abstract class CorePage extends ElementsContainer {
     private Object extractFieldValueViaReflection(Field field) {
         return Reflection.extractFieldValue(field, this);
     }
-
 
 }

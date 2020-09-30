@@ -80,13 +80,6 @@ public class CoreEnvironment {
                 .orElseThrow(() -> new AssertionError("Не найдены аннотации CorePage.Name в класса " + c.getClass().getName()));
     }
 
-//    /**
-//     * Выводит дополнительный информационный текст в отчет (уровень логирования INFO)
-//     */
-//    public void write(Object object) {
-//        scenario.write(String.valueOf(object));
-//    }
-
     public ScopedVariables getVars() {
         return getVariables();
     }
