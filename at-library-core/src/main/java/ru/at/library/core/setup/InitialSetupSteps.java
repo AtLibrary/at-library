@@ -96,6 +96,10 @@ public class InitialSetupSteps {
 
     @Step("В зависимости от стенда принимаете решение о закрытии браузера")
     private boolean doNeedToCloseTheBrowser(String environment) {
+        if (environment == null) {
+            return true;
+        }
+
         boolean quitDriver = true;
         switch (environment) {
             case "dev": {
@@ -111,7 +115,6 @@ public class InitialSetupSteps {
         }
         return quitDriver;
     }
-
 
 
     @Step("Попытка закрытия браузера")
