@@ -1,6 +1,7 @@
 package ru.at.library.core.core.helpers;
 
 import com.codeborne.selenide.logevents.SelenideLogger;
+import io.qameta.allure.Step;
 import io.qameta.allure.restassured.AllureRestAssured;
 import io.qameta.allure.selenide.AllureSelenide;
 import io.qameta.allure.selenide.LogType;
@@ -29,6 +30,7 @@ public class LogReportListener {
      * <li> отчет allure</li>
      * </ul>
      */
+    @Step("Включение слушателей Allure")
     public synchronized static void turnOn() {
         turnListenerSelenide();
         if (!turn) {

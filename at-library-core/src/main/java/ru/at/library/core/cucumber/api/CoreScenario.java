@@ -12,6 +12,7 @@
 package ru.at.library.core.cucumber.api;
 
 import cucumber.api.Scenario;
+import io.qameta.allure.Step;
 import lombok.extern.slf4j.Slf4j;
 import ru.at.library.core.cucumber.ScopedVariables;
 
@@ -66,6 +67,7 @@ public final class CoreScenario {
         return environment.get();
     }
 
+    @Step("Создание Page и переменных для сценария")
     public void setEnvironment(CoreEnvironment coreEnvironment) {
         environment.set(coreEnvironment);
     }

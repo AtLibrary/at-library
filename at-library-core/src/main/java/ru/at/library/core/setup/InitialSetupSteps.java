@@ -16,20 +16,14 @@ import com.codeborne.selenide.Selenide;
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
-import io.qameta.allure.Attachment;
+import io.qameta.allure.Step;
 import io.restassured.RestAssured;
 import lombok.experimental.Delegate;
 import lombok.extern.log4j.Log4j2;
-import org.openqa.selenium.logging.LogType;
 import ru.at.library.core.core.helpers.LogReportListener;
 import ru.at.library.core.cucumber.api.CoreEnvironment;
 import ru.at.library.core.cucumber.api.CoreScenario;
 
-import java.util.List;
-import java.util.logging.Level;
-
-import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
-import static ru.at.library.core.core.helpers.PropertyLoader.loadProperty;
 import static ru.at.library.core.core.helpers.PropertyLoader.tryLoadProperty;
 
 /**
@@ -43,22 +37,22 @@ public class InitialSetupSteps {
     @Delegate
     CoreScenario coreScenario = CoreScenario.getInstance();
 
-    @Attachment(value = "Web Driver Logs", type = "text/plain", fileExtension = ".log")
-    private static String attachmentWebDriverLogs() {
-        /**
-         * Чтоб все логи консоли успели загрузится
-         */
-        Selenide.sleep(1000);
-        List<String> webDriverLogs = Selenide.getWebDriverLogs(LogType.BROWSER, Level.ALL);
-        StringBuilder stringBuilder = new StringBuilder();
-        for (String logText : webDriverLogs) {
-            stringBuilder.append(logText);
-            stringBuilder.append("\n\n");
-            log.trace(logText);
-        }
-
-        return stringBuilder.toString();
-    }
+//    @Attachment(value = "Web Driver Logs", type = "text/plain", fileExtension = ".log")
+//    private static String attachmentWebDriverLogs() {
+//        /**
+//         * Чтоб все логи консоли успели загрузится
+//         */
+//        Selenide.sleep(1000);
+//        List<String> webDriverLogs = Selenide.getWebDriverLogs(LogType.BROWSER, Level.ALL);
+//        StringBuilder stringBuilder = new StringBuilder();
+//        for (String logText : webDriverLogs) {
+//            stringBuilder.append(logText);
+//            stringBuilder.append("\n\n");
+//            log.trace(logText);
+//        }
+//
+//        return stringBuilder.toString();
+//    }
 
     /**
      * Действия выполняемые перед каждым сценарием
@@ -67,7 +61,7 @@ public class InitialSetupSteps {
      * Создает окружение(среду) для запуска сценария
      */
     @Before(order = 0)
-    public void beforeEachTest(Scenario scenario) {
+    public void startUITestInBrowser(Scenario scenario) {
         scenarioNumber++;
 
         log.info(String.format("%s: старт сценария %d с именем [%s]", scenario.getId(), scenarioNumber, scenario.getName()));
@@ -91,35 +85,40 @@ public class InitialSetupSteps {
         LogReportListener.turnOn();
     }
 
-    /**
-     * Если сценарий содержит тег @web" то по завершению теста удаляет все куки и закрывает веб-браузер
-     */
     @After(order = 0)
-    public void afterEachTest(Scenario scenario) {
+    public void endOfTest(Scenario scenario) {
         log.info(String.format("%s: завершение сценария с именем [%s]", scenario.getId(), scenario.getName()));
 
-        boolean quitDriver = true;
+        boolean quitDriver = doNeedToCloseTheBrowser(tryLoadProperty("ENVIRONMENT"));
+        tryingToCloseTheBrowser(scenario, quitDriver);
 
-        if (tryLoadProperty("ENVIRONMENT") != null) {
-            switch (loadProperty("ENVIRONMENT")) {
-                case "dev": {
-                    quitDriver = true;
-                    break;
-                }
-                case "integrative": {
-                    quitDriver = true;
-                    break;
-                }
-                case "prod": {
-                    quitDriver = false;
-                    break;
-                }
+    }
+
+    @Step("В зависимости от стенда принимаете решение о закрытии браузера")
+    private boolean doNeedToCloseTheBrowser(String environment) {
+        boolean quitDriver = true;
+        switch (environment) {
+            case "dev": {
+                break;
+            }
+            case "integrative": {
+                break;
+            }
+            case "prod": {
+                quitDriver = false;
+                break;
             }
         }
+        return quitDriver;
+    }
 
+
+
+    @Step("Попытка закрытия браузера")
+    private void tryingToCloseTheBrowser(Scenario scenario, boolean quitDriver) {
         if (quitDriver) {
             try {
-                getWebDriver().quit();
+                Selenide.close();
                 log.info(String.format("%s: драйвер успешно остановлен", scenario.getId()));
             } catch (IllegalStateException ex) {
                 log.warn(String.format("%s: Использовался метод getWebDriver().quit(), но браузер не был запущен", scenario.getId()));

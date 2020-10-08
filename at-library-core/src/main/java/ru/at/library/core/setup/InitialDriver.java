@@ -4,6 +4,7 @@ import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
 import com.google.common.base.Strings;
 import cucumber.api.Scenario;
+import io.qameta.allure.Step;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.remote.CapabilityType;
@@ -15,6 +16,7 @@ public class InitialDriver {
     /**
      * Создание WebDriver
      */
+    @Step("Запуск UI теста")
     public void startUITest(Scenario scenario) {
 
         /**
@@ -32,6 +34,7 @@ public class InitialDriver {
         }
     }
 
+    @Step("Запуск теста локально")
     private void initLocalStart(Proxy proxy, Scenario scenario) {
         log.info(String.format("%s: ОС: %s", scenario.getId(), System.getProperty("os.name")));
         log.info(String.format("%s: локальный бразуер: %s", scenario.getId(), browser));
@@ -42,6 +45,7 @@ public class InitialDriver {
 
     }
 
+    @Step("Запуск теста удаленно")
     private void initRemoteStart(Proxy proxy, Scenario scenario) {
         log.info(String.format("%s: удаленная машина: %s", scenario.getId(), Configuration.remote));
         log.info(String.format("%s: браузер: %s", scenario.getId(), browser));
