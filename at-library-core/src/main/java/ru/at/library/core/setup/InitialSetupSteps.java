@@ -90,8 +90,8 @@ public class InitialSetupSteps {
         log.info(String.format("%s: завершение сценария с именем [%s]", scenario.getId(), scenario.getName()));
 
         boolean quitDriver = doNeedToCloseTheBrowser(tryLoadProperty("ENVIRONMENT"));
-        tryingToCloseTheBrowser(scenario, quitDriver);
-
+        tryingToCloseTheBrowser(quitDriver);
+        log.info(String.format("%s: драйвер успешно остановлен", scenario.getId()));
     }
 
     @Step("В зависимости от стенда принимаете решение о закрытии браузера")
@@ -117,15 +117,10 @@ public class InitialSetupSteps {
     }
 
 
-    @Step("Попытка закрытия браузера")
-    private void tryingToCloseTheBrowser(Scenario scenario, boolean quitDriver) {
+    @Step("Браузер будет закрыт: {quitDriver}")
+    private void tryingToCloseTheBrowser(boolean quitDriver) {
         if (quitDriver) {
-            try {
-                Selenide.close();
-                log.info(String.format("%s: драйвер успешно остановлен", scenario.getId()));
-            } catch (IllegalStateException ex) {
-                log.warn(String.format("%s: Использовался метод getWebDriver().quit(), но браузер не был запущен", scenario.getId()));
-            }
+            Selenide.close();
         }
     }
 }

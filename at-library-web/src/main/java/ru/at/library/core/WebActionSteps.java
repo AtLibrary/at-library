@@ -56,7 +56,8 @@ public class WebActionSteps {
      */
     @И("^(?:страница|блок|форма|вкладка) \"([^\"]*)\" (?:загрузилась|загрузился)$")
     public void loadPage(String nameOfPage) {
-        coreScenario.setCurrentPage(coreScenario.getPage(nameOfPage));
+        CorePage page = coreScenario.getPage(nameOfPage);
+        coreScenario.setCurrentPage(page);
         if (isIE()) {
             coreScenario.getCurrentPage().ieAppeared();
         } else {
