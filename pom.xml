@@ -84,7 +84,7 @@
         <dependency>
             <groupId>com.github.Antonppavlov</groupId>
             <artifactId>selenide</artifactId>
-            <version>7a18f9c8bf</version>
+            <version>fa5ec9a64d</version>
         </dependency>
 
         <!--API ТЕСТИРОВАНИЕ-->
