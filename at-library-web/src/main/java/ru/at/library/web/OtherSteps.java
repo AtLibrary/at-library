@@ -51,7 +51,7 @@ public class OtherSteps {
 
     /**
      * Выполняется запуск js-скрипта с указанием в js.executeScript его логики
-     * Скрипт можно передать как аргумент метода или значение из application.properties
+     * Скрипт можно передать как аргумент метода или значение из properties
      */
     @И("^выполнен js-скрипт \"([^\"]*)\"")
     public void executeJsScript(String scriptName) {

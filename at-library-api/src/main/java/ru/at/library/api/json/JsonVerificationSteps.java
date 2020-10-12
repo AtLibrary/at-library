@@ -64,7 +64,7 @@ public class JsonVerificationSteps {
      *
      * @param typeContentBody тип контента
      * @param valueToFind     имя переменной которая содержит Response
-     * @param dataTable       И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
+     * @param dataTable       И в URL, и в значениях в таблице можно использовать переменные и из properties,
      *                        и из хранилища переменных из CoreScenario.
      *                        Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
@@ -79,7 +79,7 @@ public class JsonVerificationSteps {
      *
      * @param typeContentBody тип контента
      * @param valueToFind     имя переменной которая содержит Response
-     * @param dataTable       И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
+     * @param dataTable       И в URL, и в значениях в таблице можно использовать переменные и из properties,
      *                        и из хранилища переменных из CoreScenario.
      *                        Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
@@ -127,7 +127,7 @@ public class JsonVerificationSteps {
      *
      * @param typeContentBody тип контента
      * @param valueToFind     имя переменной которая содержит Response
-     * @param dataTable       И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
+     * @param dataTable       И в URL, и в значениях в таблице можно использовать переменные и из properties,
      *                        и из хранилища переменных из CoreScenario.
      *                        Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
@@ -162,7 +162,7 @@ public class JsonVerificationSteps {
      * Шаг работает со всеми типами json элементов: объекты, массивы, строки, числа, литералы true, false и null.
      *
      * @param valueToFind имя переменной которая содержит Response
-     * @param dataTable   И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
+     * @param dataTable   И в URL, и в значениях в таблице можно использовать переменные и из properties,
      *                    и из хранилища переменных из CoreScenario.
      *                    Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */

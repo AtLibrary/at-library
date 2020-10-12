@@ -68,7 +68,7 @@ public class WebCheckSteps {
 
     /**
      * Проверка появления элемента(не списка) на странице в течение Configuration.timeout.
-     * В случае, если свойство "waitingCustomElementsTimeout" в application.properties не задано,
+     * В случае, если свойство "waitingCustomElementsTimeout" в properties не задано,
      * таймаут равен 10 секундам
      *
      * @param elementName название
@@ -94,7 +94,7 @@ public class WebCheckSteps {
 
     /**
      * Проверка появления элемента(не списка) на странице в течение Configuration.timeout.
-     * В случае, если свойство "waitingCustomElementsTimeout" в application.properties не задано,
+     * В случае, если свойство "waitingCustomElementsTimeout" в properties не задано,
      * таймаут равен 10 секундам
      *
      * @param elementName название
@@ -388,7 +388,7 @@ public class WebCheckSteps {
 
     /**
      * Проверка того, что элемент исчезнет со страницы (станет невидимым) в течение Configuration.timeout.
-     * В случае, если свойство "waitingCustomElementsTimeout" в application.properties не задано,
+     * В случае, если свойство "waitingCustomElementsTimeout" в properties не задано,
      * таймаут равен 10 секундам
      *
      * @param elementName название

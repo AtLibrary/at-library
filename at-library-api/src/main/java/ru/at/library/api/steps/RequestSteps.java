@@ -50,7 +50,7 @@ public class RequestSteps {
      * Результат сохраняется в заданную переменную
      *
      * @param method               методов HTTP запроса
-     * @param address              url запроса (можно задать как напрямую в шаге, так и указав в application.properties)
+     * @param address              url запроса (можно задать как напрямую в шаге, так и указав в properties)
      * @param responseNameVariable имя переменной в которую сохраняется ответ
      */
     @И("^" + REQUEST_URL + ". Полученный ответ сохранен в переменную \"([^\"]+)\"$")
@@ -66,9 +66,9 @@ public class RequestSteps {
      * Результат сохраняется в заданную переменную
      *
      * @param method               методов HTTP запроса
-     * @param address              url запроса (можно задать как напрямую в шаге, так и указав в application.properties)
+     * @param address              url запроса (можно задать как напрямую в шаге, так и указав в properties)
      * @param responseNameVariable имя переменной в которую сохраняется ответ
-     * @param dataTable            И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
+     * @param dataTable            И в URL, и в значениях в таблице можно использовать переменные и из properties,
      *                             и из хранилища переменных из CoreScenario.
      *                             Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
@@ -86,9 +86,9 @@ public class RequestSteps {
      * Результат сохраняется в заданную переменную
      *
      * @param method             методов HTTP запроса
-     * @param address            url запроса (можно задать как напрямую в шаге, так и указав в application.properties)
+     * @param address            url запроса (можно задать как напрямую в шаге, так и указав в properties)
      * @param expectedStatusCode ожидаемый код ответа
-     * @param dataTable          И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
+     * @param dataTable          И в URL, и в значениях в таблице можно использовать переменные и из properties,
      *                           и из хранилища переменных из CoreScenario.
      *                           Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
@@ -106,10 +106,10 @@ public class RequestSteps {
      * Результат сохраняется в заданную переменную
      *
      * @param method               методов HTTP запроса
-     * @param address              url запроса (можно задать как напрямую в шаге, так и указав в application.properties)
+     * @param address              url запроса (можно задать как напрямую в шаге, так и указав в properties)
      * @param expectedStatusCode   ожидаемый код ответа
      * @param responseNameVariable имя переменной в которую сохраняется ответ
-     * @param dataTable            И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
+     * @param dataTable            И в URL, и в значениях в таблице можно использовать переменные и из properties,
      *                             и из хранилища переменных из CoreScenario.
      *                             Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
@@ -129,7 +129,7 @@ public class RequestSteps {
      * Результат сохраняется в заданную переменную
      *
      * @param method               методов HTTP запроса
-     * @param address              url запроса (можно задать как напрямую в шаге, так и указав в application.properties)
+     * @param address              url запроса (можно задать как напрямую в шаге, так и указав в properties)
      * @param expectedStatusCode   ожидаемый код ответа
      * @param responseNameVariable имя переменной в которую сохраняется ответ
      */
@@ -151,7 +151,7 @@ public class RequestSteps {
      * @param timeoutSec           время выполнения попыток запроса - таймаут попыток
      * @param periodSec            период попыток запроса - ожидание между попытками
      * @param method               методов HTTP запроса
-     * @param address              url запроса (можно задать как напрямую в шаге, так и указав в application.properties)
+     * @param address              url запроса (можно задать как напрямую в шаге, так и указав в properties)
      * @param expectedStatusCode   ожидаемый код ответа
      * @param responseNameVariable имя переменной в которую сохраняется ответ
      */
@@ -176,10 +176,10 @@ public class RequestSteps {
      * @param timeoutSec           время выполнения попыток запроса - таймаут попыток
      * @param periodSec            период попыток запроса - ожидание между попытками
      * @param method               методов HTTP запроса
-     * @param address              url запроса (можно задать как напрямую в шаге, так и указав в application.properties)
+     * @param address              url запроса (можно задать как напрямую в шаге, так и указав в properties)
      * @param expectedStatusCode   ожидаемый код ответа
      * @param responseNameVariable имя переменной в которую сохраняется ответ
-     * @param dataTable            И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
+     * @param dataTable            И в URL, и в значениях в таблице можно использовать переменные и из properties,
      *                             и из хранилища переменных из CoreScenario.
      *                             Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
@@ -215,10 +215,10 @@ public class RequestSteps {
      * @param timeoutSec           время выполнения попыток запроса - таймаут попыток
      * @param periodSec            период попыток запроса - ожидание между попытками
      * @param method               методов HTTP запроса
-     * @param address              url запроса (можно задать как напрямую в шаге, так и указав в application.properties)
+     * @param address              url запроса (можно задать как напрямую в шаге, так и указав в properties)
      * @param expectedStatusCode   ожидаемый код ответа
      * @param responseNameVariable имя переменной в которую сохраняется ответ
-     * @param dataTable            И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
+     * @param dataTable            И в URL, и в значениях в таблице можно использовать переменные и из properties,
      *                             и из хранилища переменных из CoreScenario.
      *                             Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
@@ -429,9 +429,9 @@ public class RequestSteps {
      * Запрос отправляется заданное количество попыток requestRetries пока не ответ не вернет ожидаемый statusCode или закончистя количество попыток
      *
      * @param method             методов HTTP запроса
-     * @param address            url запроса (можно задать как напрямую в шаге, так и указав в application.properties)
+     * @param address            url запроса (можно задать как напрямую в шаге, так и указав в properties)
      * @param expectedStatusCode ожидаемый statusCode
-     * @param dataTable          И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
+     * @param dataTable          И в URL, и в значениях в таблице можно использовать переменные и из properties,
      *                           и из хранилища переменных из CoreScenario.
      *                           Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
@@ -455,9 +455,9 @@ public class RequestSteps {
      * @param timeoutSec         время выполнения попыток запроса - таймаут попыток
      * @param periodSec          период попыток запроса - ожидание между попытками
      * @param method             методов HTTP запроса
-     * @param address            url запроса (можно задать как напрямую в шаге, так и указав в application.properties)
+     * @param address            url запроса (можно задать как напрямую в шаге, так и указав в properties)
      * @param expectedStatusCode ожидаемый statusCode
-     * @param dataTable          И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
+     * @param dataTable          И в URL, и в значениях в таблице можно использовать переменные и из properties,
      *                           и из хранилища переменных из CoreScenario.
      *                           Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */

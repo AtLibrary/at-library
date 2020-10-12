@@ -61,7 +61,7 @@ public class VerificationSteps {
      *
      * @param checkingValuePath        строка для обработки
      * @param caseInsensitiveIndicator независимость то регистра
-     * @param dataTable                И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
+     * @param dataTable                И в URL, и в значениях в таблице можно использовать переменные и из properties,
      *                                 и из хранилища переменных из CoreScenario.
      *                                 Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
@@ -79,7 +79,7 @@ public class VerificationSteps {
      * @param checkingValueType        формат переданной строки
      * @param checkingValuePath        строка для обработки
      * @param caseInsensitiveIndicator независимость то регистра
-     * @param dataTable                И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
+     * @param dataTable                И в URL, и в значениях в таблице можно использовать переменные и из properties,
      *                                 и из хранилища переменных из CoreScenario.
      *                                 Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
@@ -95,7 +95,7 @@ public class VerificationSteps {
      * '!~' - несоответствие регулярному выражению) и по значениям в третьем столбце таблицы.
      *
      * @param caseInsensitiveIndicator независимость то регистра
-     * @param dataTable                И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
+     * @param dataTable                И в URL, и в значениях в таблице можно использовать переменные и из properties,
      *                                 и из хранилища переменных из CoreScenario.
      *                                 Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
@@ -113,7 +113,7 @@ public class VerificationSteps {
      * @param checkingValueType формат переданной строки
      * @param checkingValuePath строка для обработки
      * @param caseInsensitive   независимость то регистра
-     * @param dataTable         И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
+     * @param dataTable         И в URL, и в значениях в таблице можно использовать переменные и из properties,
      *                          и из хранилища переменных из CoreScenario.
      *                          Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
@@ -155,7 +155,7 @@ public class VerificationSteps {
      * Полученные значения сохраняются в переменных. Название переменной указывается во втором столбце таблицы.
      *
      * @param processingValuePath строка для обработки
-     * @param dataTable           И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
+     * @param dataTable           И в URL, и в значениях в таблице можно использовать переменные и из properties,
      *                            и из хранилища переменных из CoreScenario.
      *                            Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
@@ -169,7 +169,7 @@ public class VerificationSteps {
      * В строке json/xml/params, сохраннённой в переменной по-умолчанию, происходит поиск значений по jsonPath/xmlPath/paramName из первого столбца таблицы.
      * Полученные значения сохраняются в переменных. Название переменной указывается во втором столбце таблицы.
      *
-     * @param dataTable И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
+     * @param dataTable И в URL, и в значениях в таблице можно использовать переменные и из properties,
      *                  и из хранилища переменных из CoreScenario.
      *                  Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */
@@ -185,7 +185,7 @@ public class VerificationSteps {
      *
      * @param processingValueType формат переданной строки
      * @param processingValuePath строка для обработки
-     * @param dataTable           И в URL, и в значениях в таблице можно использовать переменные и из application.properties,
+     * @param dataTable           И в URL, и в значениях в таблице можно использовать переменные и из properties,
      *                            и из хранилища переменных из CoreScenario.
      *                            Для этого достаточно заключить переменные в фигурные скобки, например: http://{hostname}?user={username}.
      */

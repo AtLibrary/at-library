@@ -50,7 +50,7 @@ public class ScopedVariables {
             if (value == null)
                 throw new IllegalArgumentException(
                         "Значение " + varName +
-                                " не было найдено ни в application.properties, ни в environment переменной");
+                                " не было найдено ни в properties, ни в environment переменной");
             newString = m.replaceFirst(value);
             m = p.matcher(newString);
         }
@@ -79,7 +79,7 @@ public class ScopedVariables {
             if (value == null) {
                 log.trace(
                         "Значение " + varName +
-                                " не было найдено ни в application.properties, ни в environment переменной");
+                                " не было найдено ни в properties, ни в environment переменной");
             }
             newString = m.replaceFirst(value);
             if (isJSONValid(newString)) return newString;

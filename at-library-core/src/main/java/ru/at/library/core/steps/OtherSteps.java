@@ -251,9 +251,9 @@ public class OtherSteps {
     /**
      * Сохранено значение из property файла в переменную
      *
-     * @param propertyVariableName ключ в файле application.properties
+     * @param propertyVariableName ключ в файле properties
      * @param variableName         имя переменной
-     *                             Значение заданной переменной из application.properties сохраняется в переменную в coreScenario
+     *                             Значение заданной переменной из properties сохраняется в переменную в coreScenario
      *                             для дальнейшего использования
      */
     @И("^сохранено значение \"([^\"]*)\" из property файла в переменную \"([^\"]*)\"$")

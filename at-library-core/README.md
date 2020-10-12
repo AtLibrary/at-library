@@ -38,9 +38,9 @@ CoreScenario
 InitialSetupSteps
 ```
 
-application.properties
+properties
 =======================
-Для указания дополнительных параметров или тестовых данных создайте в своем проекте файл application.properties
+Для указания дополнительных параметров или тестовых данных создайте в своем проекте файл properties
 в main/java/resources
 
 Отображение в отчете справочной информации

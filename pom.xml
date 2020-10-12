@@ -19,8 +19,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!--WEB ТЕСТИРОВАНИЕ-->
-<!--        <selenide.version>5.14.0</selenide.version>-->
 <!--        <selenide.version>5.2.7</selenide.version>-->
+        <selenide.version>fa5ec9a64d</selenide.version>
         <!--API ТЕСТИРОВАНИЕ-->
         <rest-assured.version>3.3.0</rest-assured.version>
         <!--MOBILE ТЕСТИРОВАНИЕ-->
@@ -30,7 +30,7 @@
         <cucumber.version>4.3.0</cucumber.version>
         <!--ОТЧЕТ ALLURE-->
 <!--        <allure.version>2.11.0</allure.version>-->
-        <allure.version>2.13.5</allure.version>
+        <allure.version>2.13.6</allure.version>
         <!--LOMBOK-->
         <lombok.version>1.18.10</lombok.version>
         <!--JACKSON-->
@@ -70,23 +70,11 @@
             <version>${io.appium.java-client.version}</version>
         </dependency>
         <!--WEB ТЕСТИРОВАНИЕ-->
-<!--        <dependency>-->
-<!--            <groupId>com.codeborne</groupId>-->
-<!--            <artifactId>selenide</artifactId>-->
-<!--            <version>${selenide.version}</version>-->
-<!--        </dependency>-->
-        <!-- https://mvnrepository.com/artifact/com.codeborne/selenide -->
-<!--        <dependency>-->
-<!--            <groupId>com.codeborne</groupId>-->
-<!--            <artifactId>selenide</artifactId>-->
-<!--            <version>5.15.1</version>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>com.github.Antonppavlov</groupId>
             <artifactId>selenide</artifactId>
-            <version>fa5ec9a64d</version>
+            <version>${selenide.version}</version>
         </dependency>
-
         <!--API ТЕСТИРОВАНИЕ-->
         <dependency>
             <groupId>io.rest-assured</groupId>

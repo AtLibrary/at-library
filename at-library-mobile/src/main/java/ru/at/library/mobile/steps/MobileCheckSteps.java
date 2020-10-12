@@ -46,7 +46,7 @@ public class MobileCheckSteps {
      * Проверка того, что все элементы, которые описаны в классе экрана с аннотацией @Name,
      * но без аннотации @Optional появились на экране
      * в течение WAITING_APPEAR_TIMEOUT, которое равно значению свойства "waitingAppearTimeout"
-     * из application.properties. Если свойство не найдено, время таймаута равно 8 секундам
+     * из properties. Если свойство не найдено, время таймаута равно 8 секундам
      *
      * @param nameOfPage название экран|блок|форма
      */
@@ -60,7 +60,7 @@ public class MobileCheckSteps {
 
     /**
      * Проверка появления элемента(не списка) на экране в течение DEFAULT_TIMEOUT.
-     * В случае, если свойство "waitingCustomElementsTimeout" в application.properties не задано,
+     * В случае, если свойство "waitingCustomElementsTimeout" в properties не задано,
      * таймаут равен 10 секундам
      *
      * @param elementName название кнопки|поля|блока
@@ -86,7 +86,7 @@ public class MobileCheckSteps {
 
     /**
      * Проверка того, что элемент исчезнет со экрана (станет невидимым) в течение DEFAULT_TIMEOUT.
-     * В случае, если свойство "waitingCustomElementsTimeout" в application.properties не задано,
+     * В случае, если свойство "waitingCustomElementsTimeout" в properties не задано,
      * таймаут равен 10 секундам
      *
      * @param elementName название кнопки|поля|блока

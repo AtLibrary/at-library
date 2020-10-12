@@ -36,7 +36,7 @@ import java.util.Properties;
 @Log4j2
 public class PropertyLoader {
 
-    public static final String PROPERTIES_FILE = "/" + System.getProperty("properties", "application.properties");
+    public static String PROPERTIES_FILE = "/" + System.getProperty("properties", "application.properties");
     private static final Properties PROPERTIES = getPropertiesInstance();
     private static final Properties PROFILE_PROPERTIES = getProfilePropertiesInstance();
 
@@ -100,7 +100,7 @@ public class PropertyLoader {
     public static String loadProperty(String propertyName) {
         String value = tryLoadProperty(propertyName);
         if (null == value) {
-            throw new IllegalArgumentException("В файле application.properties не найдено значение по ключу: " + propertyName);
+            throw new IllegalArgumentException("В файле properties не найдено значение по ключу: " + propertyName);
         }
         return value;
     }
@@ -147,7 +147,7 @@ public class PropertyLoader {
      * Вспомогательный метод, возвращает значение свойства по имени.
      * Сначала поиск в System переменным,
      * затем в property-файле, если указано системное свойство "profile"
-     * Если ничего не найдено, поиск в /application.properties
+     * Если ничего не найдено, поиск в properties
      *
      * @param propertyName название свойства
      * @return значение свойства
@@ -194,17 +194,17 @@ public class PropertyLoader {
     }
 
     /**
-     * Получает значение из application.properties, файла по переданному пути, значение из хранилища переменных или как String аргумент
+     * Получает значение из properties, файла по переданному пути, значение из хранилища переменных или как String аргумент
      * Используется для получение body.json api шагах, либо для получения script.js в ui шагах
      *
-     * @param valueToFind - ключ к значению в application.properties, путь к файлу c нужным значением, значение как String
+     * @param valueToFind - ключ к значению в properties, путь к файлу c нужным значением, значение как String
      * @return значение как String
      */
     public static String loadValueFromFileOrPropertyOrVariableOrDefault(String valueToFind) {
         String pathAsString = StringUtils.EMPTY;
         String propertyValue = tryLoadProperty(valueToFind);
         if (StringUtils.isNotBlank(propertyValue)) {
-            log.trace("Значение переменной: " + valueToFind + " из application.properties = " + propertyValue);
+            log.trace("Значение переменной: " + valueToFind + " из " + PROPERTIES_FILE + " = " + propertyValue);
             return propertyValue;
         }
         try {
@@ -229,10 +229,10 @@ public class PropertyLoader {
     }
 
     /**
-     * Циклически подставляет параметры из application.properties, содержимое файла по переданному пути,
+     * Циклически подставляет параметры из properties, содержимое файла по переданному пути,
      * значение из хранилища переменных или как String аргумент
      *
-     * @param processingValue - строка, содержащая в фигурных скобках ключи к значению в application.properties, переменные сценариев,
+     * @param processingValue - строка, содержащая в фигурных скобках ключи к значению в properties, переменные сценариев,
      *                        названия путей к файлам c нужным значением, значения как строки. Пример:
      *                        123{var_name} 456{prop_name} 789{file_path_from_project_root}
      * @return значение как String после всевозможных замен
@@ -258,9 +258,9 @@ public class PropertyLoader {
     }
 
     /**
-     * Вспомогательный метод, возвращает свойства из файла /application.properties
+     * Вспомогательный метод, возвращает свойства из файла properties
      *
-     * @return свойства из файла /application.properties
+     * @return свойства из файла properties
      */
     @SneakyThrows(IOException.class)
     private static Properties getPropertiesInstance() {
@@ -275,10 +275,10 @@ public class PropertyLoader {
     }
 
     /**
-     * Вспомогательный метод, возвращает свойства из кастомного application.properties по пути
+     * Вспомогательный метод, возвращает свойства из кастомного properties по пути
      * из системного свойства "profile"
      *
-     * @return прочитанные свойства из кастомного файла application.properties, если свойство "profile" указано, иначе пустой объект
+     * @return прочитанные свойства из кастомного файла properties, если свойство "profile" указано, иначе пустой объект
      */
     @SneakyThrows(IOException.class)
     private static Properties getProfilePropertiesInstance() {
