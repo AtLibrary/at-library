@@ -23,8 +23,6 @@ import lombok.extern.log4j.Log4j2;
 import ru.at.library.core.cucumber.api.CoreEnvironment;
 import ru.at.library.core.cucumber.api.CoreScenario;
 
-import java.net.MalformedURLException;
-
 import static ru.at.library.core.core.helpers.PropertyLoader.tryLoadProperty;
 
 /**
@@ -33,7 +31,7 @@ import static ru.at.library.core.core.helpers.PropertyLoader.tryLoadProperty;
 @Log4j2
 public class InitialSetupSteps {
 
-    public static int scenarioNumber = 0;
+    public volatile static int scenarioNumber = 1;
 
     @Delegate
     CoreScenario coreScenario = CoreScenario.getInstance();
@@ -44,11 +42,10 @@ public class InitialSetupSteps {
      * Если сценарий содержит тег @web" то будет создан WebDriver
      * Создает окружение(среду) для запуска сценария
      */
-    @Before(order = 0)
-    public void startUITestInBrowser(Scenario scenario) throws MalformedURLException {
-        scenarioNumber++;
-
-        log.info(String.format("%s: старт сценария %d с именем [%s]", scenario.getId(), scenarioNumber, scenario.getName()));
+    @Before(order = 500)
+    public void startUITestInBrowser(Scenario scenario) throws Exception {
+        int testNumber = scenarioNumber++;
+        log.info(String.format("%s: старт сценария %d с именем [%s]", scenario.getId(), testNumber, scenario.getName()));
 
         RestAssured.baseURI = System.getProperty("baseURI", tryLoadProperty("baseURI"));
         Configuration.baseUrl = System.getProperty("baseURI", tryLoadProperty("baseURI"));
@@ -56,7 +53,7 @@ public class InitialSetupSteps {
         /**
          * Если сценарий содержит тег @web" то будет создан WebDriver
          */
-        new InitialDriver().startUITest(scenario);
+        new InitialDriver().startUITest(scenario,testNumber);
 
         /**
          * Создает окружение(среду) для запуска сценария

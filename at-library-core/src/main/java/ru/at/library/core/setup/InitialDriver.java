@@ -9,11 +9,9 @@ import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-import java.net.MalformedURLException;
 import java.net.URI;
 
 import static com.codeborne.selenide.Configuration.browser;
-import static ru.at.library.core.setup.InitialSetupSteps.scenarioNumber;
 
 @Log4j2
 public class InitialDriver {
@@ -21,7 +19,7 @@ public class InitialDriver {
      * Создание WebDriver
      */
     @Step("Запуск UI теста")
-    public void startUITest(Scenario scenario) throws MalformedURLException {
+    public void startUITest(Scenario scenario, int testNumber) throws Exception {
 
         /**
          * Создает настойки прокси для запуска драйвера
@@ -32,14 +30,14 @@ public class InitialDriver {
          * Уведомление о месте запуска тестов
          */
         if (Strings.isNullOrEmpty(Configuration.remote)) {
-            initLocalStart(scenario);
+            initLocalStart(scenario, testNumber);
         } else {
-            initRemoteStart(scenario);
+            initRemoteStart(scenario, testNumber);
         }
     }
 
     @Step("Запуск теста локально")
-    private void initLocalStart(Scenario scenario) {
+    private void initLocalStart(Scenario scenario, int testNumber) throws Exception {
         log.info(String.format("%s: ОС: %s", scenario.getId(), System.getProperty("os.name")));
         log.info(String.format("%s: локальный бразуер: %s", scenario.getId(), browser));
 //        if (proxy != null) {
@@ -50,13 +48,10 @@ public class InitialDriver {
     }
 
     @Step("Запуск теста удаленно")
-    private void initRemoteStart(Scenario scenario) throws MalformedURLException {
+    private void initRemoteStart(Scenario scenario, int testNumber) throws Exception {
         log.info(String.format("%s: удаленная машина: %s", scenario.getId(), Configuration.remote));
         log.info(String.format("%s: браузер: %s", scenario.getId(), Configuration.browser));
 
-//        Configuration.browserCapabilities.setCapability("enableVNC", true);
-//        Configuration.browserCapabilities.setCapability("enableVideo", false);
-//        Configuration.browserCapabilities.setCapability("name", scenario.getName());
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setBrowserName(Configuration.browser);
         capabilities.setCapability("enableVNC",
@@ -65,13 +60,8 @@ public class InitialDriver {
         capabilities.setCapability("enableVideo",
                 Boolean.parseBoolean(System.getProperty("enableVideo", "false"))
         );
-        capabilities.setCapability("name", "[" + scenarioNumber + "]" + scenario.getName());
-
-//        if (proxy != null) {
-//            capabilities.setCapability(CapabilityType.PROXY, proxy);
-//            log.trace(String.format("%s: Проставлена прокси: %s", scenario.getId(), proxy));
-//        }
-
+        capabilities.setCapability("name", "[" + testNumber + "]" + scenario.getName());
+        capabilities.setCapability("screenResolution", "1900x1080x24");
         WebDriverRunner.setWebDriver(new RemoteWebDriver(
                 URI.create(Configuration.remote).toURL(),
                 capabilities
