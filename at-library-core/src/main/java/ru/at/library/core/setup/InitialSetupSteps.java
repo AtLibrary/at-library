@@ -20,7 +20,6 @@ import io.qameta.allure.Step;
 import io.restassured.RestAssured;
 import lombok.experimental.Delegate;
 import lombok.extern.log4j.Log4j2;
-import ru.at.library.core.core.helpers.LogReportListener;
 import ru.at.library.core.cucumber.api.CoreEnvironment;
 import ru.at.library.core.cucumber.api.CoreScenario;
 
@@ -67,10 +66,10 @@ public class InitialSetupSteps {
          */
         coreScenario.setEnvironment(new CoreEnvironment(scenario));
 
-        LogReportListener.turnOn();
+//        LogReportListener.turnOn();
     }
 
-    @After(order = 0)
+    @After
     public void endOfTest(Scenario scenario) {
         log.info(String.format("%s: завершение сценария с именем [%s]", scenario.getId(), scenario.getName()));
         tryingToCloseTheBrowser(doNeedToCloseTheBrowser(tryLoadProperty("ENVIRONMENT")));
