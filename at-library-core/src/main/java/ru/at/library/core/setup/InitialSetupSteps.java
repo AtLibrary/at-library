@@ -24,6 +24,8 @@ import ru.at.library.core.core.helpers.LogReportListener;
 import ru.at.library.core.cucumber.api.CoreEnvironment;
 import ru.at.library.core.cucumber.api.CoreScenario;
 
+import java.net.MalformedURLException;
+
 import static ru.at.library.core.core.helpers.PropertyLoader.tryLoadProperty;
 
 /**
@@ -32,27 +34,10 @@ import static ru.at.library.core.core.helpers.PropertyLoader.tryLoadProperty;
 @Log4j2
 public class InitialSetupSteps {
 
-    private static int scenarioNumber = 0;
+    public volatile static int scenarioNumber = 0;
 
     @Delegate
     CoreScenario coreScenario = CoreScenario.getInstance();
-
-//    @Attachment(value = "Web Driver Logs", type = "text/plain", fileExtension = ".log")
-//    private static String attachmentWebDriverLogs() {
-//        /**
-//         * Чтоб все логи консоли успели загрузится
-//         */
-//        Selenide.sleep(1000);
-//        List<String> webDriverLogs = Selenide.getWebDriverLogs(LogType.BROWSER, Level.ALL);
-//        StringBuilder stringBuilder = new StringBuilder();
-//        for (String logText : webDriverLogs) {
-//            stringBuilder.append(logText);
-//            stringBuilder.append("\n\n");
-//            log.trace(logText);
-//        }
-//
-//        return stringBuilder.toString();
-//    }
 
     /**
      * Действия выполняемые перед каждым сценарием
@@ -61,7 +46,7 @@ public class InitialSetupSteps {
      * Создает окружение(среду) для запуска сценария
      */
     @Before(order = 0)
-    public void startUITestInBrowser(Scenario scenario) {
+    public void startUITestInBrowser(Scenario scenario) throws MalformedURLException {
         scenarioNumber++;
 
         log.info(String.format("%s: старт сценария %d с именем [%s]", scenario.getId(), scenarioNumber, scenario.getName()));
@@ -88,10 +73,15 @@ public class InitialSetupSteps {
     @After(order = 0)
     public void endOfTest(Scenario scenario) {
         log.info(String.format("%s: завершение сценария с именем [%s]", scenario.getId(), scenario.getName()));
-
-        boolean quitDriver = doNeedToCloseTheBrowser(tryLoadProperty("ENVIRONMENT"));
-        tryingToCloseTheBrowser(quitDriver);
+        tryingToCloseTheBrowser(doNeedToCloseTheBrowser(tryLoadProperty("ENVIRONMENT")));
         log.info(String.format("%s: драйвер успешно остановлен", scenario.getId()));
+    }
+
+    @Step("Браузер будет закрыт: {quitDriver}")
+    private void tryingToCloseTheBrowser(boolean quitDriver) {
+        if (quitDriver) {
+            Selenide.close();
+        }
     }
 
     @Step("В зависимости от стенда принимаете решение о закрытии браузера")
@@ -114,13 +104,5 @@ public class InitialSetupSteps {
             }
         }
         return quitDriver;
-    }
-
-
-    @Step("Браузер будет закрыт: {quitDriver}")
-    private void tryingToCloseTheBrowser(boolean quitDriver) {
-        if (quitDriver) {
-            Selenide.close();
-        }
     }
 }

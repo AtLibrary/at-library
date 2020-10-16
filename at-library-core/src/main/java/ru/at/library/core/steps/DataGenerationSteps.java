@@ -25,7 +25,9 @@ public class DataGenerationSteps {
      */
     @И("конкатенация строк \"([^\"]*)\" и \"([^\"]*)\" и сохранено в переменную \"([^\"]*)\"$")
     public void concatenationString(String text1, String text2, String varName) {
-        String text = getPropertyOrStringVariableOrValue(text1) + getPropertyOrStringVariableOrValue(text2);
+        text1 = getPropertyOrStringVariableOrValue(text1);
+        text2 = getPropertyOrStringVariableOrValue(text2);
+        String text = text1 + text2;
         coreScenario.setVar(varName, text);
         log.trace("Строка равна: " + text);
     }

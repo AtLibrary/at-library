@@ -72,9 +72,9 @@ public class WebListSteps {
      */
     @И("^нажатие на элемент с (?:текстом|значением) \"([^\"]*)\" в списке \"([^\"]*)\"$")
     public void checkIfSelectedListElementMatchesValue(String expectedValue, String listName) {
-        final String value = getPropertyOrStringVariableOrValue(expectedValue);
+        expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
         ElementsCollection elements = coreScenario.getCurrentPage().getElementsList(listName);
-        elements.find(exactText(value)).click();
+        elements.find(exactText(expectedValue)).click();
     }
 
     /**
@@ -84,10 +84,10 @@ public class WebListSteps {
      */
     @И("^нажатие на элемент содержащий (?:текст|значение) \"([^\"]*)\" в списке \"([^\"]*)\"$")
     public void selectElementInListIfFoundByText(String expectedValue, String listName) {
-        final String value = getPropertyOrStringVariableOrValue(expectedValue);
+        expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
         CorePage currentPage = coreScenario.getCurrentPage();
         ElementsCollection elements = currentPage.getElementsList(listName);
-        elements.find(text(value)).click();
+        elements.find(text(expectedValue)).click();
     }
 
     /**

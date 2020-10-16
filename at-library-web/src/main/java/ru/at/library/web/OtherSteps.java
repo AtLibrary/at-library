@@ -14,8 +14,7 @@ import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Selenide.switchTo;
 import static org.junit.Assert.*;
 import static ru.at.library.core.core.helpers.PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault;
-import static ru.at.library.core.steps.OtherSteps.deleteFiles;
-import static ru.at.library.core.steps.OtherSteps.getDownloadsDir;
+import static ru.at.library.core.steps.OtherSteps.*;
 
 public class OtherSteps {
 
@@ -54,9 +53,9 @@ public class OtherSteps {
      * Скрипт можно передать как аргумент метода или значение из properties
      */
     @И("^выполнен js-скрипт \"([^\"]*)\"")
-    public void executeJsScript(String scriptName) {
-        String content = loadValueFromFileOrPropertyOrVariableOrDefault(scriptName);
-        Selenide.executeJavaScript(content);
+    public void executeJsScript(String script) {
+        script = getPropertyOrStringVariableOrValue(script);
+        Selenide.executeJavaScript(script);
     }
 
 
@@ -67,6 +66,8 @@ public class OtherSteps {
      */
     @И("^файл по пути \"([^\"]*)\" выгрузился в поле \"([^\"]*)\"$")
     public void uploadFile(String path, String fieldName) {
+        path = getPropertyOrStringVariableOrValue(path);
+
         coreScenario.getCurrentPage()
                 .getElement(fieldName)
                 .uploadFile(new File(path));

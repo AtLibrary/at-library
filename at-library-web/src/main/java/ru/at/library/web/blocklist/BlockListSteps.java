@@ -65,6 +65,7 @@ public class BlockListSteps {
 
     @И("^текст в элементе \"([^\"]*)\" равен формату \"([^\"]*)\" в списке блоков \"([^\"]*)\" где в элементе \"([^\"]*)\" текст равен \"([^\"]*)\"$")
     public void checkTextInAnyBlockMatches(String elementNameCheck, String regExp, String listName, String elementNameText, String expectedText) {
+        expectedText = getPropertyOrStringVariableOrValue(expectedText);
         List<CorePage> blocksList = coreScenario.getCurrentPage().getBlocksList(listName);
         CorePage corePageByTextInElement = findCorePageByTextInElement(blocksList, elementNameText, expectedText);
 
@@ -129,6 +130,7 @@ public class BlockListSteps {
 
     @И("^выполнено нажатие на кнопку \"([^\"]*)\" в списке блоков \"([^\"]*)\" где в элементе \"([^\"]*)\" текст равен \"([^\"]*)\" в блоке \"([^\"]*)\"$")
     public void clickButtonInBlockWhereTextEquals(String elementNameClick, String listName, String elementNameText, String expectedText, String blockName) {
+        expectedText = getPropertyOrStringVariableOrValue(expectedText);
         List<CorePage> blocksList = coreScenario.getCurrentPage().getBlock(blockName).getBlocksList(listName);
         CorePage corePageByTextInElement = findCorePageByTextInElement(blocksList, elementNameText, expectedText);
 
@@ -139,6 +141,7 @@ public class BlockListSteps {
 
     @И("^элемент \"([^\"]*)\" отображается на странице в списке блоков \"([^\"]*)\" где в элементе \"([^\"]*)\" текст равен \"([^\"]*)\" в блоке \"([^\"]*)\"$")
     public void visibleElementBlockWhereTextEquals(String elementNameClick, String listName, String elementNameText, String expectedText, String blockName) {
+        expectedText = getPropertyOrStringVariableOrValue(expectedText);
         List<CorePage> blocksList = coreScenario.getCurrentPage().getBlock(blockName).getBlocksList(listName);
         CorePage corePageByTextInElement = findCorePageByTextInElement(blocksList, elementNameText, expectedText);
 
@@ -148,6 +151,7 @@ public class BlockListSteps {
 
     @И("^текст в элементе \"([^\"]*)\" равен формату \"([^\"]*)\" в списке блоков \"([^\"]*)\" где в элементе \"([^\"]*)\" текст равен \"([^\"]*)\" в блоке \"([^\"]*)\"$")
     public void checkTextInAnyBlockMatches(String elementNameCheck, String regExp, String listName, String elementNameText, String expectedText, String blockName) {
+        expectedText = getPropertyOrStringVariableOrValue(expectedText);
         List<CorePage> blocksList = coreScenario.getCurrentPage().getBlock(blockName).getBlocksList(listName);
         CorePage corePageByTextInElement = findCorePageByTextInElement(blocksList, elementNameText, expectedText);
 

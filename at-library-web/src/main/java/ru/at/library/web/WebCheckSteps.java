@@ -202,8 +202,9 @@ public class WebCheckSteps {
      */
     @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" содержит атрибут \"([^\"]*)\" со значением \"([^\"]*)\"$")
     public void checkElemContainsAtrWithValue(String elementName, String attribute, String expectedAttributeValue) {
-        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
+        attribute = getPropertyOrStringVariableOrValue(attribute);
         expectedAttributeValue = getPropertyOrStringVariableOrValue(expectedAttributeValue);
+        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
         element.shouldHave(attribute(attribute, expectedAttributeValue));
     }
 
@@ -212,9 +213,9 @@ public class WebCheckSteps {
      */
     @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" содержит css \"([^\"]*)\" со значением \"([^\"]*)\"$")
     public void checkCssInElement(String elementName, String cssName, String cssValue) {
-        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
         cssName = getPropertyOrStringVariableOrValue(cssName);
         cssValue = getPropertyOrStringVariableOrValue(cssValue);
+        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
         element.shouldHave(cssValue(cssName, cssValue));
     }
 
@@ -226,8 +227,8 @@ public class WebCheckSteps {
     @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" содержит текст \"([^\"]*)\"$")
     @А("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" содержит текст")
     public void testFieldContainsInnerText(String elementName, String expectedValue) {
-        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
+        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
         element.shouldHave(
                 or("Текст элемента содержит",
                         text(expectedValue),
@@ -242,8 +243,8 @@ public class WebCheckSteps {
     @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" не содержит текст \"([^\"]*)\"$")
     @А("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" не содержит текст")
     public void testFieldNotContainsInnerText(String elementName, String expectedValue) {
-        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
+        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
         element.shouldHave(
                 and("Текст элемента не содержит",
                         not(text(expectedValue)),
@@ -257,8 +258,8 @@ public class WebCheckSteps {
     @И("^текст (?:кнопки|ссылки|поля|чекбокса|радиокнопки|текста|элемента) \"([^\"]*)\" равен \"([^\"]*)\"$")
     @А("^текст (?:кнопки|ссылки|поля|чекбокса|радиокнопки|текста|элемента) \"([^\"]*)\" равен$")
     public void compareValInFieldAndFromStep(String elementName, String expectedValue) {
-        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
+        SelenideElement element = coreScenario.getCurrentPage().getElement(elementName);
         element.shouldHave(
                 or("Текст элемента равен",
                         exactText(expectedValue),
@@ -485,8 +486,9 @@ public class WebCheckSteps {
      */
     @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" содержит атрибут \"([^\"]*)\" со значением \"([^\"]*)\"$")
     public void checkElemContainsAtrWithValue(String elementName, String blockName, String attribute, String expectedAttributeValue) {
-        SelenideElement element = coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName);
+        attribute = getPropertyOrStringVariableOrValue(attribute);
         expectedAttributeValue = getPropertyOrStringVariableOrValue(expectedAttributeValue);
+        SelenideElement element = coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName);
         element.shouldHave(attribute(attribute, expectedAttributeValue));
     }
 
@@ -495,9 +497,9 @@ public class WebCheckSteps {
      */
     @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" содержит css \"([^\"]*)\" со значением \"([^\"]*)\"$")
     public void checkCssInElement(String elementName, String blockName, String cssName, String cssValue) {
-        SelenideElement element = coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName);
         cssName = getPropertyOrStringVariableOrValue(cssName);
         cssValue = getPropertyOrStringVariableOrValue(cssValue);
+        SelenideElement element = coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName);
         element.shouldHave(cssValue(cssName, cssValue));
     }
 
@@ -509,8 +511,8 @@ public class WebCheckSteps {
     @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" содержит текст \"([^\"]*)\"$")
     @А("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" содержит текст")
     public void testFieldContainsInnerText(String elementName, String blockName, String expectedValue) {
-        SelenideElement element = coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName);
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
+        SelenideElement element = coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName);
         element.shouldHave(
                 or("Текст элемента содержит",
                         text(expectedValue),
@@ -525,8 +527,8 @@ public class WebCheckSteps {
     @И("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" не содержит текст \"([^\"]*)\"$")
     @А("^(?:кнопка|ссылка|поле|чекбокс|радиокнопка|текст|элемент) \"([^\"]*)\" в блоке \"([^\"]*)\" не содержит текст")
     public void testFieldNotContainsInnerText(String elementName, String blockName, String expectedValue) {
-        SelenideElement element = coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName);
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
+        SelenideElement element = coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName);
         element.shouldHave(
                 and("Текст элемента не содержит",
                         not(text(expectedValue)),
@@ -541,8 +543,8 @@ public class WebCheckSteps {
     @И("^текст (?:кнопки|ссылки|поля|чекбокса|радиокнопки|текста|элемента) \"([^\"]*)\" в блоке \"([^\"]*)\" равен \"([^\"]*)\"$")
     @А("^текст (?:кнопки|ссылки|поля|чекбокса|радиокнопки|текста|элемента) \"([^\"]*)\" в блоке \"([^\"]*)\" равен$")
     public void compareValInFieldAndFromStep(String elementName, String blockName, String expectedValue) {
-        SelenideElement element = coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName);
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
+        SelenideElement element = coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName);
         element.shouldHave(
                 or("Текст элемента равен",
                         exactText(expectedValue),

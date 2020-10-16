@@ -40,7 +40,7 @@ public class OtherSteps {
     /**
      * Локальное перемещение файла
      */
-    @И("^перемещещие файла из \"([^\"]*)\" в \"([^\"]*)\"$")
+    @И("^перемещение файла из \"([^\"]*)\" в \"([^\"]*)\"$")
     public static void localMoveFiles(String pathFile, String pathMoveFile) throws IOException {
         pathFile = loadValueFromFileOrPropertyOrVariableOrDefault(pathFile);
         pathFile = loadValueFromFileOrVariableOrDefault(pathFile);
@@ -229,8 +229,8 @@ public class OtherSteps {
     @То("^значение переменной \"([^\"]*)\" равно$")
     @И("^значение переменной \"([^\"]*)\" равно \"([^\"]*)\"$")
     public void checkVariable(String variableName, String expectedValueVariable) {
+        expectedValueVariable = getPropertyOrStringVariableOrValue(expectedValueVariable);
         String valueVariable = coreScenario.getVar(variableName).toString();
-        expectedValueVariable = loadValueFromFileOrPropertyOrVariableOrDefault(expectedValueVariable);
         assertThat(String.format("Значения в переменных [%s] и [%s] не совпадают", valueVariable, expectedValueVariable),
                 valueVariable, equalTo(expectedValueVariable));
     }

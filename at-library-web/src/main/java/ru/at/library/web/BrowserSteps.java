@@ -215,7 +215,7 @@ public class BrowserSteps {
         title = getPropertyOrStringVariableOrValue(title);
         try {
             switchTo().window(title);
-        }catch (Exception exception){
+        } catch (Exception exception) {
             exception.printStackTrace();
             checkPageTitle(title);
         }
@@ -228,9 +228,10 @@ public class BrowserSteps {
      */
     @И("^выполнено переключение на фрейм с (?:именем|id) \"([^\"]*)\"$")
     public void switchToFrameWithName(String frameName) {
+        frameName = getPropertyOrStringVariableOrValue(frameName);
         try {
-            switchTo().frame(getPropertyOrStringVariableOrValue(frameName));
-        }catch (Exception exception){
+            switchTo().frame(frameName);
+        } catch (Exception exception) {
             exception.printStackTrace();
         }
     }
@@ -243,7 +244,7 @@ public class BrowserSteps {
         try {
             switchTo().defaultContent();
 
-        }catch (Exception exception){
+        } catch (Exception exception) {
             exception.printStackTrace();
         }
     }
@@ -408,9 +409,9 @@ public class BrowserSteps {
      */
     @И("^добавлена cookie с именем \"([^\"]*)\" и значением \"([^\"]*)\"$")
     public void replaceCookie(String cookieName, String cookieValue) {
-        String nameCookie = resolveVars(cookieName);
-        String valueCookie = resolveVars(cookieValue);
-        getWebDriver().manage().addCookie(new Cookie(nameCookie, valueCookie));
+        cookieName = getPropertyOrStringVariableOrValue(cookieName);
+        cookieValue = getPropertyOrStringVariableOrValue(cookieValue);
+        getWebDriver().manage().addCookie(new Cookie(cookieName, cookieValue));
     }
 
     /**
@@ -420,6 +421,7 @@ public class BrowserSteps {
      */
     @И("^на странице нет cookie с именем \"([^\"]*)\"$")
     public void notCookie(String cookieName) {
+        cookieName = getPropertyOrStringVariableOrValue(cookieName);
         int sleepTime = 100;
         Cookie cookie = null;
         for (int time = 0; time < Configuration.timeout; time += sleepTime) {

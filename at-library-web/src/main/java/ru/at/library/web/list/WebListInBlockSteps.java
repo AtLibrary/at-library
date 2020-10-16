@@ -73,10 +73,10 @@ public class WebListInBlockSteps {
      */
     @И("^нажатие на элемент с (?:текстом|значением) \"([^\"]*)\" в списке \"([^\"]*)\" в блоке \"([^\"]*)\"$")
     public void checkIfSelectedListElementMatchesValue(String expectedValue, String listName, String blockName) {
-        final String value = getPropertyOrStringVariableOrValue(expectedValue);
+        expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
         CorePage page = coreScenario.getCurrentPage().getBlock(blockName);
         ElementsCollection elements = page.getElementsList(listName);
-        elements.find(exactText(value)).click();
+        elements.find(exactText(expectedValue)).click();
     }
 
     /**
@@ -86,10 +86,10 @@ public class WebListInBlockSteps {
      */
     @И("^нажатие на элемент содержащий (?:текст|значение) \"([^\"]*)\" в списке \"([^\"]*)\" в блоке \"([^\"]*)\"$")
     public void selectElementInListIfFoundByText(String expectedValue, String listName, String blockName) {
-        final String value = getPropertyOrStringVariableOrValue(expectedValue);
+        expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
         CorePage page = coreScenario.getCurrentPage().getBlock(blockName);
         ElementsCollection elements = page.getElementsList(listName);
-        elements.find(text(value)).click();
+        elements.find(text(expectedValue)).click();
     }
 
     /**

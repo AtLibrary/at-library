@@ -279,6 +279,7 @@ public class WebActionSteps {
      */
     @И("^(?:поле|элемент) \"([^\"]*)\" заполняется текущей датой в формате \"([^\"]*)\"$")
     public void currentDate(String fieldName, String dateFormat) {
+        dateFormat = getPropertyOrStringVariableOrValue(dateFormat);
         long date = System.currentTimeMillis();
         String currentStringDate;
         try {
