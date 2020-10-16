@@ -34,7 +34,7 @@ import static ru.at.library.core.core.helpers.PropertyLoader.tryLoadProperty;
 @Log4j2
 public class InitialSetupSteps {
 
-    public volatile static int scenarioNumber = 0;
+    public static int scenarioNumber = 0;
 
     @Delegate
     CoreScenario coreScenario = CoreScenario.getInstance();
