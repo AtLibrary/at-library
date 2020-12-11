@@ -54,6 +54,9 @@ public class InitialDriver {
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setBrowserName(Configuration.browser);
+        if (System.getProperty("version") != null && (!System.getProperty("version").isEmpty())) {
+            capabilities.setVersion(System.getProperty("version"));
+        }
         capabilities.setCapability("enableVNC",
                 Boolean.parseBoolean(System.getProperty("enableVNC", "false"))
         );
