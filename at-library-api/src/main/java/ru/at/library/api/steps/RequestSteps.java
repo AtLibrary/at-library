@@ -262,12 +262,6 @@ public class RequestSteps {
                             );
         }
 
-        // todo удалить, когда будет переделан механизм работы с biztalk
-        if (address.contains("biz-srv")) {
-            RestAssured.config = RestAssured.config
-                    .sslConfig(new SSLConfig().trustStore("truststore_biztalk.jks", "biztalk"));
-        }
-
         RequestSender request = createRequest(dataTable);
         return request.request(Method.valueOf(method), address);
     }

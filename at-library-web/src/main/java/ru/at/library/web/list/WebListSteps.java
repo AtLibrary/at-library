@@ -88,7 +88,7 @@ public class WebListSteps {
         CorePage currentPage = coreScenario.getCurrentPage();
         ElementsCollection elements = currentPage.getElementsList(listName);
         elements
-                .shouldHave(CollectionCondition.texts(expectedValue))
+                .shouldHave(CollectionCondition.itemWithText(expectedValue))
                 .find(text(expectedValue)).click();
     }
 
