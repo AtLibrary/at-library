@@ -2,8 +2,8 @@ package ru.at.library.api.json;
 
 import com.google.gson.JsonSyntaxException;
 import com.jayway.jsonpath.JsonPath;
-import io.cucumber.java.ru.И;
 import io.cucumber.datatable.DataTable;
+import io.cucumber.java.ru.И;
 import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.response.Response;
 import lombok.extern.log4j.Log4j2;
@@ -11,13 +11,15 @@ import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
 import org.hamcrest.Matchers;
-import org.junit.Assert;
 import ru.at.library.core.core.helpers.PropertyLoader;
 import ru.at.library.core.core.helpers.Utils;
 import ru.at.library.core.cucumber.ScopedVariables;
 import ru.at.library.core.cucumber.api.CoreScenario;
 
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 @Log4j2
 public class JsonVerificationSteps {
 
@@ -111,12 +113,12 @@ public class JsonVerificationSteps {
                 actualValue = actualValue.toLowerCase();
             }
 
-            Assert.assertEquals(
-                    "Содержимое по " + typeContentBody + "path: " + path + " не равно" +
-                            "\nожидаемое: " + expectedValue +
-                            "\nреальное: " + actualValue +
-                            "\n",
-                    expectedValue, actualValue);
+           assertEquals(
+                    expectedValue, actualValue,
+                   "Содержимое по " + typeContentBody + "path: " + path + " не равно" +
+                           "\nожидаемое: " + expectedValue +
+                           "\nреальное: " + actualValue +
+                           "\n");
         }
     }
 
@@ -205,7 +207,7 @@ public class JsonVerificationSteps {
                 actualValue = actualValue.toLowerCase();
             }
 
-            Assert.assertEquals(
+            assertEquals(
                     "Содержимое по jsonpath: " + path + " не равно" +
                             "\nожидаемое: " + expectedValue +
                             "\nреальное: " + actualValue +
@@ -229,12 +231,12 @@ public class JsonVerificationSteps {
             Object read = JsonPath.read(jsonObject, path);
             String actualValue = String.valueOf(read);
 
-            Assert.assertTrue(
+            assertTrue(
+                    actualValue.matches(regex),
                     "Содержимое по jsonpath: " + path + " не соответствует" +
                             "\nожидаемое: " + regex +
                             "\nреальное: " + actualValue +
-                            "\n",
-                    actualValue.matches(regex));
+                            "\n");
         }
     }
 
@@ -256,18 +258,18 @@ public class JsonVerificationSteps {
             String actualValue = response1.jsonPath().getString(path);
             String expectedValue = response2.jsonPath().getString(path);
 
-            Assert.assertNotNull(
+            assertNotNull(
                     "Содержимое по jsonpath: " + path +
                             "\nВ ответе: " + nameResponseOne +
                             "\nНе должно быть: null ",
                     actualValue);
-            Assert.assertNotNull(
+            assertNotNull(
                     "Содержимое по jsonpath: " + path +
                             "\nВ ответе: " + nameResponseTwo +
                             "\nНе должно быть: null ",
                     expectedValue);
 
-            Assert.assertEquals(
+            assertEquals(
                     "Содержимое по jsonpath: " + path + " не равно" +
                             "\nВ ответе: " + expectedValue +
                             "\nВ переменной: " + actualValue +

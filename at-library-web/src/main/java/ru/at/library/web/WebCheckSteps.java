@@ -13,7 +13,7 @@ import java.time.LocalTime;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverRunner.isIE;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static ru.at.library.core.steps.OtherSteps.getPropertyOrStringVariableOrValue;
 import static ru.at.library.core.steps.OtherSteps.getTranslateNormalizeSpaceText;
 
@@ -279,7 +279,8 @@ public class WebCheckSteps {
         } else {
             length = element.getText().length();
         }
-        assertEquals(String.format("Неверное количество символов. Ожидаемый результат: %s, текущий результат: %s", num, length), num, length);
+        assertEquals(num, length,
+                String.format("Неверное количество символов. Ожидаемый результат: %s, текущий результат: %s", num, length));
     }
 
     /**
@@ -570,7 +571,8 @@ public class WebCheckSteps {
         }
 
         BrowserSteps.takeScreenshot();
-        assertEquals(String.format("Неверное количество символов. Ожидаемый результат: %s, текущий результат: %s", num, lengthText), num, lengthText);
+        assertEquals(num, lengthText
+                , String.format("Неверное количество символов. Ожидаемый результат: %s, текущий результат: %s", num, lengthText));
     }
 
     /**
@@ -642,9 +644,10 @@ public class WebCheckSteps {
                 && winRightBound >= elementRightBound
                 && winLowerBound >= elementLowerBound;
 
-        assertEquals(String.format("Элемент вне видимой части браузера. Видимая область: %d %d %d %d Координаты элемента: %d %d %d %d",
-                winLeftBound, winUpperBound, winRightBound, winLowerBound, elementLeftBound, elementUpperBound, elementRightBound, elementLowerBound),
-                true, inBounds);
+        assertEquals(
+                true, inBounds,
+                String.format("Элемент вне видимой части браузера. Видимая область: %d %d %d %d Координаты элемента: %d %d %d %d",
+                        winLeftBound, winUpperBound, winRightBound, winLowerBound, elementLeftBound, elementUpperBound, elementRightBound, elementLowerBound));
     }
 
 }

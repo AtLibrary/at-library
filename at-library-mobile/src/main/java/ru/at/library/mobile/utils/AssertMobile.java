@@ -1,6 +1,5 @@
 package ru.at.library.mobile.utils;
 
-import org.junit.Assert;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebElement;
@@ -8,6 +7,8 @@ import ru.at.library.core.cucumber.api.CoreScenario;
 
 import static com.codeborne.selenide.Selenide.sleep;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class AssertMobile {
 
@@ -21,7 +22,7 @@ public class AssertMobile {
             sleep(1000);
         }
         screenshot();
-        Assert.assertEquals(expectedText, actualText);
+        assertEquals(expectedText, actualText);
     }
 
     public static void containsText(WebElement element, String containText, int second) {
@@ -34,7 +35,7 @@ public class AssertMobile {
             sleep(1000);
         }
         screenshot();
-        Assert.fail("Текст: " + actualText + " не содержит: " + containText);
+        fail("Текст: " + actualText + " не содержит: " + containText);
     }
 
     public static void display(WebElement element, boolean expectedDisplayed, int second) {
@@ -47,12 +48,12 @@ public class AssertMobile {
             sleep(1000);
         }
         screenshot();
-        Assert.fail("Displayed элемента должен быть:" + expectedDisplayed);
+        fail("Displayed элемента должен быть:" + expectedDisplayed);
     }
 
 
     private static void screenshot() {
         final byte[] screenshot = ((TakesScreenshot) getWebDriver()).getScreenshotAs(OutputType.BYTES);
-        CoreScenario.getInstance().getScenario().embed(screenshot, "image/png");
+        CoreScenario.getInstance().getScenario().attach(screenshot, "image/png","скриншот");
     }
 }

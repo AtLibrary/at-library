@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Selenide.switchTo;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static ru.at.library.core.core.helpers.PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault;
 import static ru.at.library.core.steps.OtherSteps.*;
 
@@ -94,10 +94,9 @@ public class OtherSteps {
     public void testFileDownloaded(String fileName) {
         File downloads = getDownloadsDir();
         File[] expectedFiles = downloads.listFiles((files, file) -> file.contains(fileName));
-        assertNotNull("Ошибка поиска файла", expectedFiles);
-        assertFalse("Файл не загрузился", expectedFiles.length == 0);
-        assertTrue(String.format("В папке присутствуют более одного файла с одинаковым названием, содержащим текст [%s]", fileName),
-                expectedFiles.length == 1);
+        assertNotNull(expectedFiles, "Ошибка поиска файла");
+        assertNotEquals(expectedFiles.length, 0, "Файл не загрузился");
+        assertEquals(expectedFiles.length, 1, String.format("В папке присутствуют более одного файла с одинаковым названием, содержащим текст [%s]", fileName));
         deleteFiles(expectedFiles);
     }
 
@@ -109,9 +108,9 @@ public class OtherSteps {
     @И("^открыта read-only форма$")
     public void openReadOnlyForm() {
         int inputsCount = getDisplayedElementsByCss("input").size();
-        assertTrue("Форма не read-only. Количество input-полей: " + inputsCount, inputsCount == 0);
+        assertEquals(inputsCount, 0, "Форма не read-only. Количество input-полей: " + inputsCount);
         int textareasCount = getDisplayedElementsByCss("textarea").size();
-        assertTrue("Форма не read-only. Количество элементов textarea: " + textareasCount, textareasCount == 0);
+        assertEquals(textareasCount, 0, "Форма не read-only. Количество элементов textarea: " + textareasCount);
     }
 
     private List<SelenideElement> getDisplayedElementsByCss(String cssSelector) {

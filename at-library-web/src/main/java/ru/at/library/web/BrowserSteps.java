@@ -30,8 +30,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.fail;
 import static ru.at.library.core.core.helpers.PropertyLoader.getPropertyOrValue;
 import static ru.at.library.core.core.helpers.PropertyLoader.loadValueFromFileOrVariableOrDefault;
 import static ru.at.library.core.cucumber.ScopedVariables.resolveVars;
@@ -322,7 +322,9 @@ public class BrowserSteps {
     @И("^снят скриншот текущей страницы$")
     public synchronized static void takeScreenshot() {
         final byte[] screenshot = ((TakesScreenshot) getWebDriver()).getScreenshotAs(OutputType.BYTES);
-        CoreScenario.getInstance().getScenario().embed(screenshot, "image/png");
+        CoreScenario.getInstance().getScenario().attach(screenshot, "image/png",
+                CoreScenario.getInstance().getCurrentPage().getName()
+        );
     }
 
     /**
@@ -430,7 +432,7 @@ public class BrowserSteps {
                 sleep(sleepTime);
             }
         }
-        assertNull("Cookie: " + cookie + " найдена", cookie);
+        assertNull(cookie, "Cookie: " + cookie + " найдена");
     }
 
     private String nextWindowHandle() {

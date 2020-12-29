@@ -21,8 +21,8 @@ import ru.at.library.mobile.utils.AssertMobile;
 import ru.at.library.mobile.utils.MobileTestConfig;
 
 import static com.codeborne.selenide.Selenide.sleep;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 import static ru.at.library.core.steps.OtherSteps.getPropertyOrStringVariableOrValue;
 
@@ -179,7 +179,9 @@ public class MobileCheckSteps {
     @И("^(?:поле|элемент) \"([^\"]*)\" (?:недоступно|недоступен) для редактирования$")
     public void fieldIsDisable(String elementName) {
         WebElement element = MobileTestConfig.getWebElementInCurrentPage(elementName);
-        assertTrue(String.format("Элемент [%s] доступен для редактирования", elementName), element.isDisplayed());
+        assertTrue(
+                element.isDisplayed(),
+                String.format("Элемент [%s] доступен для редактирования", elementName));
     }
 
     /**
@@ -188,7 +190,8 @@ public class MobileCheckSteps {
     @И("^в поле \"([^\"]*)\" содержится (\\d+) символов$")
     public void checkFieldSymbolsCount(String elementName, int num) {
         int length = MobileTestConfig.getWebElementInCurrentPage(elementName).getText().length();
-        assertEquals(String.format("Неверное количество символов. Ожидаемый результат: %s, текущий результат: %s", num, length), num, length);
+        assertEquals(num, length,
+                String.format("Неверное количество символов. Ожидаемый результат: %s, текущий результат: %s", num, length));
     }
 
     /**

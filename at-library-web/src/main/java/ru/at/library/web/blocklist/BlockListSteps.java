@@ -12,7 +12,7 @@ import ru.at.library.web.BrowserSteps;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static ru.at.library.core.steps.OtherSteps.getPropertyOrStringVariableOrValue;
 import static ru.at.library.core.steps.OtherSteps.isTextMatches;
 
