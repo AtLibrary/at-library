@@ -11,7 +11,7 @@
  */
 package ru.at.library.api.steps;
 
-import cucumber.api.java.ru.И;
+import io.cucumber.java.ru.И;
 import io.cucumber.datatable.DataTable;
 import io.restassured.response.Response;
 import lombok.extern.log4j.Log4j2;

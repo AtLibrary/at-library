@@ -1,11 +1,11 @@
 package ru.at.library.core.steps;
 
-import cucumber.api.java.ru.И;
-import cucumber.api.java.ru.То;
 import io.cucumber.datatable.DataTable;
+import io.cucumber.java.PendingException;
+import io.cucumber.java.ru.И;
+import io.cucumber.java.ru.То;
 import lombok.extern.log4j.Log4j2;
 import org.hamcrest.Matchers;
-import org.junit.Assert;
 import ru.at.library.core.cucumber.api.CoreScenario;
 
 import javax.mail.internet.AddressException;
@@ -27,6 +27,7 @@ import static com.codeborne.selenide.Selenide.sleep;
 import static java.util.Objects.isNull;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static ru.at.library.core.core.helpers.PropertyLoader.*;
 
 /**
@@ -50,7 +51,7 @@ public class OtherSteps {
 
         Path temp = Files.move(Paths.get(pathFile), Paths.get(pathMoveFile));
 
-        Assert.assertNotNull("Ошибка перемещения файла: " + pathFile, temp);
+        assertNotNull(temp, "Ошибка перемещения файла: " + pathFile);
     }
 
     /**
@@ -390,7 +391,7 @@ public class OtherSteps {
      */
     @И("^ручной тест$")
     public void manualTest() {
-        throw new cucumber.api.PendingException("написание автотеста в работе");
+        throw new io.cucumber.java.PendingException("написание автотеста в работе");
     }
 
     /**
@@ -398,15 +399,15 @@ public class OtherSteps {
      */
     @И("^написание автотеста в работе$")
     public void pendingException() {
-        throw new cucumber.api.PendingException("написание автотеста в работе");
+        throw new io.cucumber.java.PendingException("написание автотеста в работе");
     }
 
     /**
      * Написание автотеста в работе
      */
     @И("^написание автотеста в работе. Планируемая дата: \"([^\"]*)\"$")
-    public void pendingException(String date) {
-        throw new cucumber.api.PendingException("написание автотеста в работе. Планируемая дата: " + date);
+    public void pendingException(String date) throws PendingException {
+        throw new io.cucumber.java.PendingException("написание автотеста в работе. Планируемая дата: " + date);
     }
 
     /**
@@ -414,7 +415,7 @@ public class OtherSteps {
      */
     @И("^проблема с поиском локатора: \"([^\"]*)\"$")
     public void pending(String date) {
-        throw new cucumber.api.PendingException("написание автотеста в работе. Планируемая дата: " + date);
+        throw new io.cucumber.java.PendingException("написание автотеста в работе. Планируемая дата: " + date);
     }
 
     /**
@@ -422,7 +423,7 @@ public class OtherSteps {
      */
     @И("^автотест реализован на старом фреймворке$")
     public void oldFramework() {
-        throw new cucumber.api.PendingException("автотест реализован на старом фреймворке");
+        throw new io.cucumber.java.PendingException("автотест реализован на старом фреймворке");
     }
 
     /**
@@ -430,6 +431,6 @@ public class OtherSteps {
      */
     @И("^не актуальный тест в тестовой моделе")
     public void notActual() {
-        throw new cucumber.api.PendingException("не актуальный тест в тестовой моделе");
+        throw new io.cucumber.java.PendingException("не актуальный тест в тестовой моделе");
     }
 }

@@ -1,7 +1,6 @@
 package ru.at.library.mobile;
 
-import cucumber.api.CucumberOptions;
-import cucumber.api.junit.Cucumber;
+import io.cucumber.junit.platform.engine.Cucumber;
 import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)

@@ -14,7 +14,7 @@ package ru.at.library.web;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
-import cucumber.api.java.ru.И;
+import io.cucumber.java.ru.И;
 import lombok.extern.log4j.Log4j2;
 import org.hamcrest.Matchers;
 import org.openqa.selenium.*;

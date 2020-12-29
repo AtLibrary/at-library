@@ -3,7 +3,7 @@ package ru.at.library.core.setup;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
 import com.google.common.base.Strings;
-import cucumber.api.Scenario;
+import io.cucumber.java.Scenario;
 import io.qameta.allure.Step;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.remote.DesiredCapabilities;

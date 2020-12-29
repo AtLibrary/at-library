@@ -11,7 +11,7 @@
  */
 package ru.at.library.api.steps;
 
-import cucumber.api.java.ru.И;
+import io.cucumber.java.ru.И;
 import io.restassured.RestAssured;
 import io.restassured.config.JsonConfig;
 import io.restassured.config.RestAssuredConfig;

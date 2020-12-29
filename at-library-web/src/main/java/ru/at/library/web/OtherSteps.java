@@ -2,7 +2,7 @@ package ru.at.library.web;
 
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
-import cucumber.api.java.ru.И;
+import io.cucumber.java.ru.И;
 import org.openqa.selenium.Keys;
 import ru.at.library.core.cucumber.api.CoreScenario;
 

@@ -1,6 +1,6 @@
 package ru.at.library.web.allure;
 
-import cucumber.api.java.ru.И;
+import io.cucumber.java.ru.И;
 import io.qameta.allure.Allure;
 import io.qameta.allure.AllureLifecycle;
 import io.qameta.allure.model.Parameter;

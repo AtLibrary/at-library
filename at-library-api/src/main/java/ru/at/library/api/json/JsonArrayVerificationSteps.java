@@ -1,7 +1,7 @@
 package ru.at.library.api.json;
 
 import com.google.common.collect.Ordering;
-import cucumber.api.java.ru.И;
+import io.cucumber.java.ru.И;
 import io.restassured.response.Response;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;

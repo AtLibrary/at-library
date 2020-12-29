@@ -22,8 +22,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
+
 
 public class Utils {
 
@@ -38,30 +38,30 @@ public class Utils {
     public static TextFormat defineOrCheckDataFormat(String checkingValueString, TextFormat expectedTextFormat) {
         if (expectedTextFormat != null) {
             switch (expectedTextFormat) {
-                case JSON:
-                    assertTrue(
-                            "Неверный формат данных:" +
-                                    "\nожидаемое: " + TextFormat.JSON +
-                                    "\nреальное: " + checkingValueString +
-                                    "\n",
-                            isJSONValid(checkingValueString));
-                    break;
-                case XML:
-                    assertTrue(
-                            "Неверный формат данных:" +
-                                    "\nожидаемое: " + TextFormat.XML +
-                                    "\nреальное: " + checkingValueString +
-                                    "\n",
-                            isXMLValid(checkingValueString));
-                    break;
-                case PARAMS:
-                    assertTrue(
-                            "Неверный формат данных:" +
-                                    "\nожидаемое: " + TextFormat.PARAMS +
-                                    "\nреальное: " + checkingValueString +
-                                    "\n",
-                            isParamsValid(checkingValueString));
-                    break;
+//                case JSON:
+//                    assertTrue(
+//                            "Неверный формат данных:" +
+//                                    "\nожидаемое: " + TextFormat.JSON +
+//                                    "\nреальное: " + checkingValueString +
+//                                    "\n",
+//                            isJSONValid(checkingValueString));
+//                    break;
+//                case XML:
+//                    assertTrue(
+//                            "Неверный формат данных:" +
+//                                    "\nожидаемое: " + TextFormat.XML +
+//                                    "\nреальное: " + checkingValueString +
+//                                    "\n",
+//                            isXMLValid(checkingValueString));
+//                    break;
+//                case PARAMS:
+//                    assertTrue(
+//                            "Неверный формат данных:" +
+//                                    "\nожидаемое: " + TextFormat.PARAMS +
+//                                    "\nреальное: " + checkingValueString +
+//                                    "\n",
+//                            isParamsValid(checkingValueString));
+//                    break;
             }
         } else if (isJSONValid(checkingValueString)) {
             expectedTextFormat = TextFormat.JSON;

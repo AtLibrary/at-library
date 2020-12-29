@@ -1,6 +1,6 @@
 package ru.at.library.web.steps;
 
-import cucumber.api.java.ru.И;
+import io.cucumber.java.ru.И;
 import ru.at.library.web.WebActionSteps;
 
 public class GoogleSteps {

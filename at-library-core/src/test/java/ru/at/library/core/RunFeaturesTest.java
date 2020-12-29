@@ -1,15 +1,8 @@
 package ru.at.library.core;
 
-import cucumber.api.CucumberOptions;
-import cucumber.api.junit.Cucumber;
-import org.junit.runner.RunWith;
+import io.cucumber.junit.platform.engine.Cucumber;
 
-@RunWith(Cucumber.class)
-@CucumberOptions(
-        tags = "@unit",
-        features = "src/test/resources/features",
-        glue = {"ru"}
-)
+@Cucumber
 public class RunFeaturesTest {
 
 }

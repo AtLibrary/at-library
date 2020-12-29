@@ -1,6 +1,6 @@
 package ru.at.library.mobile.steps;
 
-import cucumber.api.java.ru.И;
+import io.cucumber.java.ru.И;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import ru.at.library.core.cucumber.api.CoreScenario;

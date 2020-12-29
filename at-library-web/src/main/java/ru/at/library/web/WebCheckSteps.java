@@ -2,8 +2,8 @@ package ru.at.library.web;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.SelenideElement;
-import cucumber.api.java.ru.А;
-import cucumber.api.java.ru.И;
+import io.cucumber.java.ru.А;
+import io.cucumber.java.ru.И;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
 import ru.at.library.core.cucumber.api.CoreScenario;

@@ -3,7 +3,7 @@ package ru.at.library.web.blocklist;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
-import cucumber.api.java.ru.И;
+import io.cucumber.java.ru.И;
 import io.qameta.allure.Step;
 import lombok.extern.log4j.Log4j2;
 import ru.at.library.core.cucumber.api.CorePage;

@@ -2,7 +2,7 @@ package ru.at.library.api.json;
 
 import com.google.gson.JsonSyntaxException;
 import com.jayway.jsonpath.JsonPath;
-import cucumber.api.java.ru.И;
+import io.cucumber.java.ru.И;
 import io.cucumber.datatable.DataTable;
 import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.response.Response;
