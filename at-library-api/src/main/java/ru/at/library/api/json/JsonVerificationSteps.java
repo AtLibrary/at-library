@@ -18,7 +18,10 @@ import ru.at.library.core.cucumber.api.CoreScenario;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
+import static org.testng.AssertJUnit.assertEquals;
+
 
 @Log4j2
 public class JsonVerificationSteps {

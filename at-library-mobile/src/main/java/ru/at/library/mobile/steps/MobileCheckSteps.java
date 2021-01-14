@@ -21,9 +21,9 @@ import ru.at.library.mobile.utils.AssertMobile;
 import ru.at.library.mobile.utils.MobileTestConfig;
 
 import static com.codeborne.selenide.Selenide.sleep;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.openqa.selenium.support.ui.ExpectedConditions.*;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 import static ru.at.library.core.steps.OtherSteps.getPropertyOrStringVariableOrValue;
 
 /**

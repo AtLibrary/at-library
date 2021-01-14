@@ -1,7 +1,6 @@
 package ru.at.library.api;
 
-import io.cucumber.junit.platform.engine.Cucumber;
+import io.cucumber.testng.AbstractTestNGCucumberTests;
 
-@Cucumber
-public class RunFeaturesTest {
+public class RunFeaturesTest extends AbstractTestNGCucumberTests {
 }
