@@ -31,7 +31,7 @@ public class StepsAspects {
                 }
             };
 
-    @Pointcut("@annotation(cucumber.api.java.ru.И)")
+    @Pointcut("@annotation(io.cucumber.java.ru.И)")
     public void withStepAnnotation() {
         //pointcut body, should be empty
     }

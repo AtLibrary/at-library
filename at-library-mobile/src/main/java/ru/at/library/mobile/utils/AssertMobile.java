@@ -7,8 +7,8 @@ import ru.at.library.core.cucumber.api.CoreScenario;
 
 import static com.codeborne.selenide.Selenide.sleep;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import static junit.framework.TestCase.assertEquals;
+import static org.testng.Assert.fail;
 
 public class AssertMobile {
 

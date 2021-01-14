@@ -10,6 +10,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.net.URI;
+import java.util.Calendar;
 
 import static com.codeborne.selenide.Configuration.browser;
 
@@ -65,6 +66,7 @@ public class InitialDriver {
         );
         capabilities.setCapability("name", "[" + testNumber + "]" + scenario.getName());
         capabilities.setCapability("screenResolution", "1900x1080x24");
+        capabilities.setCapability("browserstack.timezone", "Moscow");
         WebDriverRunner.setWebDriver(new RemoteWebDriver(
                 URI.create(Configuration.remote).toURL(),
                 capabilities

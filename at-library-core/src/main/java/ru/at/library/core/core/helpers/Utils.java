@@ -2,6 +2,7 @@ package ru.at.library.core.core.helpers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import groovy.util.XmlParser;
+import org.testng.asserts.SoftAssert;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -22,11 +23,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static org.junit.jupiter.api.Assertions.fail;
-
 
 public class Utils {
-
+    private static final SoftAssert sa = new SoftAssert();
     /**
      * Проверяет, является ли переданная в качестве аргумента строка соответствующей переданному формату, или,
      * если формат не передан, определяет формат
@@ -70,7 +69,7 @@ public class Utils {
         } else if (isParamsValid(checkingValueString)) {
             expectedTextFormat = TextFormat.PARAMS;
         } else {
-            fail("Нечитаемый формат данных");
+            sa.fail("Нечитаемый формат данных");
         }
         return expectedTextFormat;
     }

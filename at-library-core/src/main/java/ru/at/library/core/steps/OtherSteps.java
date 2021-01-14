@@ -27,7 +27,7 @@ import static com.codeborne.selenide.Selenide.sleep;
 import static java.util.Objects.isNull;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.testng.Assert.assertNotNull;
 import static ru.at.library.core.core.helpers.PropertyLoader.*;
 
 /**

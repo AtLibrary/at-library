@@ -6,14 +6,16 @@
 
     <groupId>ru</groupId>
     <artifactId>at-library</artifactId>
-    <packaging>pom</packaging>
     <version>0.0.0.2</version>
+    <name>at-library</name>
+    <packaging>pom</packaging>
 
     <modules>
         <module>at-library-core</module>
         <module>at-library-mobile</module>
         <module>at-library-web</module>
         <module>at-library-api</module>
+        <module>distribution</module>
     </modules>
 
     <properties>
@@ -22,33 +24,36 @@
 <!--        <selenide.version>5.2.7</selenide.version>-->
         <selenide.version>fa5ec9a64d</selenide.version>
         <!--API ТЕСТИРОВАНИЕ-->
-        <rest-assured.version>3.3.0</rest-assured.version>
+        <rest-assured.version>4.0.0</rest-assured.version>
         <!--MOBILE ТЕСТИРОВАНИЕ-->
         <io.appium.java-client.version>7.3.0</io.appium.java-client.version>
         <!--CUCUMBER-->
-        <!--        <cucumber.version>5.4.1</cucumber.version>-->
         <cucumber.version>6.9.1</cucumber.version>
         <junit-jupiter-engine.version>5.7.0</junit-jupiter-engine.version>
-        <aspectj.version>1.8.10</aspectj.version>
+        <aspectj.version>1.8.16</aspectj.version>
         <allure-cucumber6-jvm.version>2.13.8</allure-cucumber6-jvm.version>
         <allure-maven.version>2.8</allure-maven.version>
-<!--        <cucumber.version>4.3.0</cucumber.version>-->
         <!--ОТЧЕТ ALLURE-->
-<!--        <allure.version>2.11.0</allure.version>-->
-        <allure.version>2.13.6</allure.version>
+        <allure.version>2.13.8</allure.version>
         <!--LOMBOK-->
         <lombok.version>1.18.10</lombok.version>
         <!--JACKSON-->
-        <jackson.version>2.10.1</jackson.version>
+        <jackson.version>2.12.1</jackson.version>
         <!--HAMCREST-->
         <hamcrest.version>2.1</hamcrest.version>
         <!--LOG-->
-        <logging.version>2.11.2</logging.version>
+        <logging.version>2.13.3</logging.version>
         <!--ВСПОМОГАТЕЛЬНЫЕ БИБЛИОТЕКИ-->
-        <reflections.version>0.9.10</reflections.version>
-        <guava.version>23.0</guava.version>
-        <jsonpath.version>2.4.0</jsonpath.version>
+        <reflections.version>0.9.12</reflections.version>
+        <guava.version>30.1-jre</guava.version>
+        <jsonpath.version>2.5.0</jsonpath.version>
         <aspectj.version>1.9.4</aspectj.version>
+
+        <maven-compiler.version>3.8.1</maven-compiler.version>
+        <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
+        <maven-javadoc-plugin.version>3.2.0</maven-javadoc-plugin.version>
+        <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
+        <maven-shade-plugin.version>3.2.4</maven-shade-plugin.version>
     </properties>
 
     <repositories>
@@ -93,14 +98,9 @@
         </dependency>
         <!--CUCUMBER-->
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>${junit-jupiter-engine.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-junit-platform-engine</artifactId>
-            <version>${cucumber.version}</version>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>7.3.0</version>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
@@ -108,31 +108,16 @@
             <version>${cucumber.version}</version>
         </dependency>
         <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-testng</artifactId>
+            <version>${cucumber.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-cucumber6-jvm</artifactId>
-            <version>${allure-cucumber6-jvm.version}</version>
+            <version>${allure.version}</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>io.cucumber</groupId>-->
-<!--            <artifactId>cucumber-java8</artifactId>-->
-<!--            <version>${cucumber.version}</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>io.cucumber</groupId>-->
-<!--            <artifactId>cucumber-junit</artifactId>-->
-<!--            <version>${cucumber.version}</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>io.cucumber</groupId>-->
-<!--            <artifactId>cucumber-core</artifactId>-->
-<!--            <version>${cucumber.version}</version>-->
-<!--        </dependency>-->
-        <!--ОТЧЕТ ALLURE-->
-<!--        <dependency>-->
-<!--            <groupId>io.qameta.allure</groupId>-->
-<!--            <artifactId>allure-cucumber4-jvm</artifactId>-->
-<!--            <version>${allure.version}</version>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-selenide</artifactId>
@@ -147,11 +132,6 @@
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-rest-assured</artifactId>
-            <version>${allure.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.qameta.allure</groupId>
-            <artifactId>allure-junit4</artifactId>
             <version>${allure.version}</version>
         </dependency>
         <!--LOMBOK-->
@@ -243,7 +223,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
+                <version>${maven-compiler.version}</version>
                 <configuration>
                     <encoding>UTF-8</encoding>
                     <source>1.8</source>
@@ -253,7 +233,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>3.0.1</version>
+                <version>${maven-source-plugin.version}</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
@@ -266,7 +246,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.0.1</version>
+                <version>${maven-javadoc-plugin.version}</version>
                 <executions>
                     <execution>
                         <id>attach-resource-bundle</id>
@@ -285,6 +265,7 @@
                         <artifactId>markdown-doclet</artifactId>
                         <version>1.4</version>
                     </docletArtifact>
+                    <includeDependencySources>true</includeDependencySources>
                     <useStandardDocletOptions>true</useStandardDocletOptions>
                 </configuration>
             </plugin>
