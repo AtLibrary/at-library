@@ -43,9 +43,10 @@ public class InitialSetupSteps {
      * Создает окружение(среду) для запуска сценария
      */
     @Before(order = 500)
+    @Step("Запуск браузера")
     public void startUITestInBrowser(Scenario scenario) throws Exception {
         int testNumber = scenarioNumber++;
-        log.info(String.format("%s: старт сценария %d с именем [%s]", scenario.getId(), testNumber, scenario.getName()));
+        log.info(String.format("%s: старт сценария %d с именем [%s]", getScenarioId(scenario), testNumber, scenario.getName()));
 
         RestAssured.baseURI = System.getProperty("baseURI", tryLoadProperty("baseURI"));
         Configuration.baseUrl = System.getProperty("baseURI", tryLoadProperty("baseURI"));
@@ -67,10 +68,11 @@ public class InitialSetupSteps {
     }
 
     @After
+    @Step("Закрытие браузера")
     public void endOfTest(Scenario scenario) {
-        log.info(String.format("%s: завершение сценария с именем [%s]", scenario.getId(), scenario.getName()));
+        log.info(String.format("%s: завершение сценария с именем [%s]", getScenarioId(scenario), scenario.getName()));
         tryingToCloseTheBrowser(doNeedToCloseTheBrowser(tryLoadProperty("ENVIRONMENT")));
-        log.info(String.format("%s: драйвер успешно остановлен", scenario.getId()));
+        log.info(String.format("%s: драйвер успешно остановлен", getScenarioId(scenario)));
     }
 
     @Step("Браузер будет закрыт: {quitDriver}")
@@ -100,5 +102,15 @@ public class InitialSetupSteps {
             }
         }
         return quitDriver;
+    }
+
+    /**
+     * Возврщает сокращенный ID сценария
+     *
+     * @return      ID сценария в формате feature_file.feature:ID
+     */
+    public static String getScenarioId(Scenario scenario) {
+        String fullID = scenario.getId();
+        return fullID.substring(fullID.lastIndexOf('/') + 1).replace(':', '_');
     }
 }

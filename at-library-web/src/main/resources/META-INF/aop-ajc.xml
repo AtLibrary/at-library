@@ -1,5 +1,0 @@
-<aspectj>
-    <aspects>
-        <aspect name="ru.at.library.web.allure.StepsAspects"/>
-    </aspects>
-</aspectj>
