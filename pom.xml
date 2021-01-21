@@ -36,7 +36,7 @@
         <!--ОТЧЕТ ALLURE-->
         <allure.version>2.13.8</allure.version>
         <!--LOMBOK-->
-        <lombok.version>1.18.10</lombok.version>
+        <lombok.version>1.18.16</lombok.version>
         <!--JACKSON-->
         <jackson.version>2.12.1</jackson.version>
         <!--HAMCREST-->
