@@ -13,6 +13,7 @@ import java.net.URI;
 import java.util.Calendar;
 
 import static com.codeborne.selenide.Configuration.browser;
+import static ru.at.library.core.setup.InitialSetupSteps.getScenarioId;
 
 @Log4j2
 public class InitialDriver {
@@ -39,8 +40,8 @@ public class InitialDriver {
 
     @Step("Запуск теста локально")
     private void initLocalStart(Scenario scenario, int testNumber) throws Exception {
-        log.info(String.format("%s: ОС: %s", scenario.getId(), System.getProperty("os.name")));
-        log.info(String.format("%s: локальный бразуер: %s", scenario.getId(), browser));
+        log.info(String.format("%s: ОС: %s", getScenarioId(scenario), System.getProperty("os.name")));
+        log.info(String.format("%s: локальный бразуер: %s", getScenarioId(scenario), browser));
 //        if (proxy != null) {
 //            WebDriverRunner.setProxy(proxy);
 //            log.trace(String.format("%s: Проставлена прокси: %s", scenario.getId(), proxy));
@@ -50,8 +51,8 @@ public class InitialDriver {
 
     @Step("Запуск теста удаленно")
     private void initRemoteStart(Scenario scenario, int testNumber) throws Exception {
-        log.info(String.format("%s: удаленная машина: %s", scenario.getId(), Configuration.remote));
-        log.info(String.format("%s: браузер: %s", scenario.getId(), Configuration.browser));
+        log.info(String.format("%s: удаленная машина: %s", getScenarioId(scenario), Configuration.remote));
+        log.info(String.format("%s: браузер: %s", getScenarioId(scenario), Configuration.browser));
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setBrowserName(Configuration.browser);
