@@ -24,7 +24,7 @@
 <!--        <selenide.version>5.2.7</selenide.version>-->
         <selenide.version>fa5ec9a64d</selenide.version>
         <!--API ТЕСТИРОВАНИЕ-->
-        <rest-assured.version>4.0.0</rest-assured.version>
+        <rest-assured.version>4.3.3</rest-assured.version>
         <!--MOBILE ТЕСТИРОВАНИЕ-->
         <io.appium.java-client.version>7.3.0</io.appium.java-client.version>
         <!--CUCUMBER-->
@@ -36,7 +36,7 @@
         <!--ОТЧЕТ ALLURE-->
         <allure.version>2.13.8</allure.version>
         <!--LOMBOK-->
-        <lombok.version>1.18.10</lombok.version>
+        <lombok.version>1.18.16</lombok.version>
         <!--JACKSON-->
         <jackson.version>2.12.1</jackson.version>
         <!--HAMCREST-->
