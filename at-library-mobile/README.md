@@ -8,7 +8,7 @@ at-library-mobile
 <dependency>
       <groupId>ru</groupId>
       <artifactId>at-library-mobile</artifactId>
-      <version>0.0.0.2</version>
+      <version>21.01.2021</version>
 </dependency>
 ```
 

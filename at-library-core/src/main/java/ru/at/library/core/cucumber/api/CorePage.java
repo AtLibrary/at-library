@@ -11,10 +11,7 @@
  */
 package ru.at.library.core.cucumber.api;
 
-import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.ElementsCollection;
-import com.codeborne.selenide.ElementsContainer;
-import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -91,7 +88,8 @@ public abstract class CorePage extends ElementsContainer {
 
     private static CorePage castToCorePage(Object object) {
         if (object instanceof CorePage) {
-            return (CorePage) object;
+            CorePage corePage = (CorePage) object;
+            return Selenide.page(corePage).initialize();
         }
         return null;
     }
@@ -100,8 +98,10 @@ public abstract class CorePage extends ElementsContainer {
      * Получение блока со страницы по имени (аннотированного "Name")
      */
     public CorePage getBlock(String blockName) {
-        return (CorePage) java.util.Optional.ofNullable(namedElements.get(blockName))
+        CorePage corePageBlockName = (CorePage) Optional.ofNullable(namedElements.get(blockName))
                 .orElseThrow(() -> new IllegalArgumentException("Блок " + blockName + " не описан на странице " + this.getClass().getName()));
+
+        return castToCorePage(corePageBlockName);
     }
 
     /**
@@ -114,6 +114,7 @@ public abstract class CorePage extends ElementsContainer {
             throw new IllegalArgumentException("Список " + listName + " не описан на странице " + this.getClass().getName());
         }
         Stream<Object> s = ((List) value).stream();
+
         return s.map(CorePage::castToCorePage).collect(toList());
     }
 
@@ -273,11 +274,11 @@ public abstract class CorePage extends ElementsContainer {
     }
 
 
-    @Override
-    public void setSelf(SelenideElement self) {
-        super.setSelf(self);
-        initialize();
-    }
+//    @Override
+//    public void setSelf(SelenideElement self) {
+//        super.setSelf(self);
+//        initialize();
+//    }
 
     public CorePage initialize() {
         namedElements = readNamedElements();
