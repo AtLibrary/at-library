@@ -11,6 +11,8 @@
  */
 package ru.at.library.web;
 
+import com.assertthat.selenium_shutterbug.core.Capture;
+import com.assertthat.selenium_shutterbug.core.Shutterbug;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
@@ -21,6 +23,8 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import ru.at.library.core.cucumber.api.CoreScenario;
 
+import java.io.IOException;
+import java.util.Optional;
 import java.util.Set;
 
 import static com.codeborne.selenide.Selenide.*;
@@ -321,10 +325,8 @@ public class BrowserSteps {
      */
     @И("^снят скриншот текущей страницы$")
     public synchronized static void takeScreenshot() {
-        final byte[] screenshot = ((TakesScreenshot) getWebDriver()).getScreenshotAs(OutputType.BYTES);
-        CoreScenario.getInstance().getScenario().attach(screenshot, "image/png",
-                CoreScenario.getInstance().getCurrentPage().getName()
-        );
+        getScreenshotBytes().ifPresent((bytes) -> CoreScenario.getInstance().getScenario().attach(bytes, "image/png",
+                CoreScenario.getInstance().getCurrentPage().getName()));
     }
 
     /**
@@ -460,5 +462,17 @@ public class BrowserSteps {
         }
 
         return expectedURL;
+    }
+
+    public synchronized static Optional<byte[]> getScreenshotBytes() {
+        try {
+            return WebDriverRunner.hasWebDriverStarted() ?
+                    Optional.ofNullable(Shutterbug.shootPage(WebDriverRunner.getWebDriver(), Capture.FULL).getBytes()) :
+                    Optional.empty();
+        } catch (WebDriverException | IOException e) {
+            log.warn("Could not get screen shot: " + e.getMessage());
+            e.printStackTrace();
+            return Optional.empty();
+        }
     }
 }
