@@ -54,9 +54,28 @@ public class WebActionSteps {
      *
      * @param nameOfPage название страница|блок|форма|вкладка
      */
-    @И("^(?:страница|блок|форма|вкладка) \"([^\"]*)\" (?:загрузилась|загрузился)$")
+    @И("^(?:страница|форма|вкладка) \"([^\"]*)\" (?:загрузилась|загрузился)$")
     public void loadPage(String nameOfPage) {
         CorePage page = coreScenario.getPage(nameOfPage);
+        coreScenario.setCurrentPage(page);
+        if (isIE()) {
+            coreScenario.getCurrentPage().ieAppeared();
+        } else {
+            coreScenario.getCurrentPage().appeared();
+        }
+    }
+
+    /**
+     * Проверка того, что все элементы, которые описаны в классе страницы с аннотацией @Name,
+     * но без аннотации @Optional появились на странице
+     * в течение WAITING_APPEAR_TIMEOUT, которое равно значению свойства "waitingAppearTimeout"
+     * из properties. Если свойство не найдено, время таймаута равно 8 секундам
+     *
+     * @param nameOfPage название страница|блок|форма|вкладка
+     */
+    @И("^блок \"([^\"]*)\" загрузился$")
+    public void loadBlock(String nameOfPage) {
+        CorePage page = coreScenario.getCurrentPage().getBlock(nameOfPage);
         coreScenario.setCurrentPage(page);
         if (isIE()) {
             coreScenario.getCurrentPage().ieAppeared();
