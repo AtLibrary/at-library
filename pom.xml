@@ -6,7 +6,7 @@
 
     <groupId>ru</groupId>
     <artifactId>at-library</artifactId>
-    <version>22.01.2021</version>
+    <version>30.01.2021</version>
     <name>at-library</name>
     <packaging>pom</packaging>
 
@@ -21,8 +21,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!--WEB ТЕСТИРОВАНИЕ-->
-<!--        <selenide.version>5.2.7</selenide.version>-->
-<!--        <selenide.version>fa5ec9a64d</selenide.version>-->
+        <selenide.version>5.17.4</selenide.version>
         <!--API ТЕСТИРОВАНИЕ-->
         <rest-assured.version>4.3.3</rest-assured.version>
         <!--MOBILE ТЕСТИРОВАНИЕ-->
@@ -81,19 +80,11 @@
             <version>${io.appium.java-client.version}</version>
         </dependency>
         <!--WEB ТЕСТИРОВАНИЕ-->
-<!--        <dependency>-->
-<!--            <groupId>com.github.Antonppavlov</groupId>-->
-<!--            <artifactId>selenide</artifactId>-->
-<!--            <version>${selenide.version}</version>-->
-<!--        </dependency>-->
-
-<!--         https://mvnrepository.com/artifact/com.codeborne/selenide -->
         <dependency>
             <groupId>com.codeborne</groupId>
             <artifactId>selenide</artifactId>
-            <version>5.17.4</version>
+            <version>${selenide.version}</version>
         </dependency>
-
         <!--API ТЕСТИРОВАНИЕ-->
         <dependency>
             <groupId>io.rest-assured</groupId>

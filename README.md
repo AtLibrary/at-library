@@ -1,6 +1,6 @@
 at-library
 =========================
-[![](https://jitpack.io/v/Antonppavlov/at-library.svg)](https://jitpack.io/#Antonppavlov/at-library)
+[![](https://jitpack.io/v/AtLibrary/at-library.svg)](https://jitpack.io/#AtLibrary/at-library)
 
 BDD библиотека
 =======================
@@ -47,12 +47,12 @@ BDD библиотека шагов для тестирования на осн�
 ```xml
 <dependencies>
     <dependency>
-        <groupId>com.github.Antonppavlov.at-library</groupId>
+        <groupId>com.github.AtLibrary.at-library</groupId>
         <artifactId>at-library-core</artifactId>
         <version>85b2b9a4fd</version>
     </dependency>
     <dependency>
-        <groupId>com.github.Antonppavlov.at-library</groupId>
+        <groupId>com.github.AtLibrary.at-library</groupId>
         <artifactId>at-library-web</artifactId>
         <version>85b2b9a4fd</version>
     </dependency>
