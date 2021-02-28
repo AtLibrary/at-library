@@ -40,7 +40,7 @@ public class CastToWebElements {
         WebElement webElement;
         try {
             webElement = selenideElement.toWebElement();
-        } catch (NoSuchElementException e) {
+        } catch (Exception e) {
             return Optional.empty();
         }
         return Optional.of(webElement);
