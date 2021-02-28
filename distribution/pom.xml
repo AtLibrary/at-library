@@ -7,7 +7,7 @@
     <parent>
         <groupId>ru</groupId>
         <artifactId>at-library</artifactId>
-        <version>10.02.2021</version>
+        <version>28.02.2021</version>
     </parent>
 
     <groupId>ru</groupId>
@@ -18,12 +18,12 @@
         <dependency>
             <groupId>ru</groupId>
             <artifactId>at-library-core</artifactId>
-            <version>10.02.2021</version>
+            <version>28.02.2021</version>
         </dependency>
         <dependency>
             <groupId>ru</groupId>
             <artifactId>at-library-web</artifactId>
-            <version>10.02.2021</version>
+            <version>28.02.2021</version>
         </dependency>
     </dependencies>
 

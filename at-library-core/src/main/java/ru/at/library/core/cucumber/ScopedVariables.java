@@ -23,7 +23,6 @@ import java.util.regex.Pattern;
 
 import static java.lang.String.format;
 import static ru.at.library.core.core.helpers.PropertyLoader.loadProperty;
-import static ru.at.library.core.core.helpers.Utils.isJSONValid;
 
 /**
  * Реализация хранилища переменных, заданных пользователем, внутри тестовых сценариев
@@ -58,35 +57,6 @@ public class ScopedVariables {
             newString = inputString;
         } else {
             log.trace(format("Значение переменной %s = %s", inputString, newString));
-        }
-        return newString;
-    }
-
-    /**
-     * @param inputJsonAsString заданная строка
-     * @return новая строка
-     * Производит поиск параметров в переданном строкой json.
-     * В случае нахождения параметра - заменяет его значение на значение из properties или хранилища переменных
-     */
-    public static String resolveJsonVars(String inputJsonAsString) {
-        if (isJSONValid(inputJsonAsString)) return inputJsonAsString;
-        Pattern p = Pattern.compile(CURVE_BRACES_PATTERN);
-        Matcher m = p.matcher(inputJsonAsString);
-        String newString = "";
-        while (m.find()) {
-            String varName = m.group(1);
-            String value = loadProperty(varName, (String) CoreScenario.getInstance().tryGetVar(varName));
-            if (value == null) {
-                log.trace(
-                        "Значение " + varName +
-                                " не было найдено ни в properties, ни в environment переменной");
-            }
-            newString = m.replaceFirst(value);
-            if (isJSONValid(newString)) return newString;
-            m = p.matcher(newString);
-        }
-        if (newString.isEmpty()) {
-            newString = inputJsonAsString;
         }
         return newString;
     }

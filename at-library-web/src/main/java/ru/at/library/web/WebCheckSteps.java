@@ -6,6 +6,7 @@ import io.cucumber.java.ru.А;
 import io.cucumber.java.ru.И;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
+import ru.at.library.core.cucumber.api.CorePage;
 import ru.at.library.core.cucumber.api.CoreScenario;
 
 import java.time.LocalTime;
@@ -39,21 +40,19 @@ public class WebCheckSteps {
     /**
      * Проверка того, что блок отображается
      */
-    @И("^(?:страница|блок|форма|вкладка) \"([^\"]*)\" отображается на странице$")
-    public void blockAppeared(String nameOfPage) {
-        coreScenario.getPage(nameOfPage).isAppeared();
+    @И("^блок \"([^\"]*)\" отображается на странице$")
+    public void blockAppeared(String blockName) {
+        CorePage block = this.coreScenario.getCurrentPage().getBlock(blockName);
+        block.isAppeared();
     }
 
     /**
      * Проверка того, что блок исчез/стал невидимым
      */
-    @И("^(?:страница|блок|форма|вкладка) \"([^\"]*)\" не отображается на странице$")
-    public void blockDisappeared(String nameOfPage) {
-        if (isIE()) {
-            coreScenario.getPage(nameOfPage).ieDisappeared();
-        } else {
-            coreScenario.getPage(nameOfPage).disappeared();
-        }
+    @И("^блок \"([^\"]*)\" не отображается на странице$")
+    public void blockDisappeared(String blockName) {
+        CorePage block = this.coreScenario.getCurrentPage().getBlock(blockName);
+        block.ieDisappeared();
     }
 
     /**

@@ -12,8 +12,7 @@ import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
 import org.hamcrest.Matchers;
 import ru.at.library.core.core.helpers.PropertyLoader;
-import ru.at.library.core.core.helpers.Utils;
-import ru.at.library.core.cucumber.ScopedVariables;
+import ru.at.library.api.helpers.Utils;
 import ru.at.library.core.cucumber.api.CoreScenario;
 
 import java.util.List;
@@ -291,7 +290,7 @@ public class JsonVerificationSteps {
     @И("^json в ответе \"([^\"]*)\" равен json: \"([^\"]*)\"")
     public void checkResponseJson(String variableName, String pathExpectedJson) {
         String json = PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault(pathExpectedJson);
-        json = ScopedVariables.resolveJsonVars(json);
+        json = Utils.resolveJsonVars(json);
         Response response = (Response) CoreScenario.getInstance().getVar(variableName);
         response
                 .then().body(
