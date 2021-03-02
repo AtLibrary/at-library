@@ -40,6 +40,15 @@ public class WebCheckSteps {
     /**
      * Проверка того, что блок отображается
      */
+    @И("^все элементы текущей страницы отображаются$")
+    public void pageAppeared() {
+        this.coreScenario.getCurrentPage().isAppeared();
+    }
+
+
+    /**
+     * Проверка того, что блок отображается
+     */
     @И("^блок \"([^\"]*)\" отображается на странице$")
     public void blockAppeared(String blockName) {
         CorePage block = this.coreScenario.getCurrentPage().getBlock(blockName);
