@@ -3,6 +3,7 @@ package ru.at.library.web.step.result.core;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.ex.ElementNotFound;
 import lombok.experimental.UtilityClass;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
@@ -40,7 +41,7 @@ public class CastToWebElements {
         WebElement webElement;
         try {
             webElement = selenideElement.toWebElement();
-        } catch (Exception e) {
+        } catch (Exception | ElementNotFound e) {
             return Optional.empty();
         }
         return Optional.of(webElement);
