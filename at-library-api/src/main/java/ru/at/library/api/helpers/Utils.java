@@ -1,11 +1,14 @@
-package ru.at.library.core.core.helpers;
+package ru.at.library.api.helpers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import groovy.util.XmlParser;
+import lombok.extern.log4j.Log4j2;
 import org.testng.asserts.SoftAssert;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+import ru.at.library.core.core.helpers.TextFormat;
+import ru.at.library.core.cucumber.api.CoreScenario;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -23,8 +26,11 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static ru.at.library.core.core.helpers.PropertyLoader.loadProperty;
 
+@Log4j2
 public class Utils {
+    public static final String CURVE_BRACES_PATTERN = "\\{([^{}]+)\\}";
     private static final SoftAssert sa = new SoftAssert();
     /**
      * Проверяет, является ли переданная в качестве аргумента строка соответствующей переданному формату, или,
@@ -168,6 +174,35 @@ public class Utils {
         } catch (UnsupportedEncodingException e) {
             throw new UnsupportedOperationException(e);
         }
+    }
+
+    /**
+     * @param inputJsonAsString заданная строка
+     * @return новая строка
+     * Производит поиск параметров в переданном строкой json.
+     * В случае нахождения параметра - заменяет его значение на значение из properties или хранилища переменных
+     */
+    public static String resolveJsonVars(String inputJsonAsString) {
+        if (isJSONValid(inputJsonAsString)) return inputJsonAsString;
+        Pattern p = Pattern.compile(CURVE_BRACES_PATTERN);
+        Matcher m = p.matcher(inputJsonAsString);
+        String newString = "";
+        while (m.find()) {
+            String varName = m.group(1);
+            String value = loadProperty(varName, (String) CoreScenario.getInstance().tryGetVar(varName));
+            if (value == null) {
+                log.trace(
+                        "Значение " + varName +
+                                " не было найдено ни в properties, ни в environment переменной");
+            }
+            newString = m.replaceFirst(value);
+            if (isJSONValid(newString)) return newString;
+            m = p.matcher(newString);
+        }
+        if (newString.isEmpty()) {
+            newString = inputJsonAsString;
+        }
+        return newString;
     }
 
 }

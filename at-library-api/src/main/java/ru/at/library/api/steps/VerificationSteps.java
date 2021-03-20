@@ -5,10 +5,10 @@ import io.cucumber.datatable.DataTable;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.hamcrest.text.MatchesPattern;
-import ru.at.library.core.core.helpers.FormattedDataContainer;
+import ru.at.library.api.helpers.FormattedDataContainer;
 import ru.at.library.core.core.helpers.PropertyLoader;
 import ru.at.library.core.core.helpers.TextFormat;
-import ru.at.library.core.core.helpers.Utils;
+import ru.at.library.api.helpers.Utils;
 import ru.at.library.core.cucumber.api.CoreScenario;
 
 import java.util.List;

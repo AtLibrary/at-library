@@ -6,7 +6,7 @@ import io.cucumber.testng.CucumberOptions;
 @CucumberOptions(
         monochrome = true,
         plugin = {"io.qameta.allure.cucumber6jvm.AllureCucumber6Jvm"},
-        tags = "@image",
+        tags = "@unit",
         features = "src/test/resources/features",
         glue = {"ru"}
 )

@@ -27,8 +27,11 @@ import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Класс для получения свойств
@@ -241,7 +244,7 @@ public class PropertyLoader {
         String savedValue;
         do {
             savedValue = processingValue;
-            List<String> matches = Utils.getMatchesByRegex(processingValue, "\\{[^\\s{}]+}");
+            List<String> matches = getMatchesByRegex(processingValue, "\\{[^\\s{}]+}");
             if (matches.size() == 0) {
                 return processingValue;
             }
@@ -295,6 +298,20 @@ public class PropertyLoader {
             }
         }
         return instance;
+    }
+
+    /**
+     * @param inputString - строка для поиска соответствий регулярному выражению
+     * @param regex       - регулярное выражение для поиска
+     * @return Возращает список соответствий по регулярному выражению
+     */
+    public static List<String> getMatchesByRegex(String inputString, String regex) {
+        List<String> result = new ArrayList<>();
+        Matcher m = Pattern.compile(regex).matcher(inputString);
+        while (m.find()) {
+            result.add(m.group(0));
+        }
+        return result;
     }
 
 }

@@ -2,7 +2,7 @@ package ru.at.library.core.steps;
 
 import io.cucumber.java.ru.И;
 import lombok.extern.log4j.Log4j2;
-import net.andreinc.mockneat.MockNeat;
+//import net.andreinc.mockneat.MockNeat;
 import org.apache.commons.lang3.RandomStringUtils;
 import ru.at.library.core.cucumber.api.CoreScenario;
 
@@ -91,13 +91,13 @@ public class DataGenerationSteps {
         log.trace("Строка равна: " + randomString);
     }
 
-    /**
-     * Сгенерирован случайный email и сохранен в переменную
-     */
-    @И("^генерация случайного email и сохранение в переменную \"([^\"]*)\"$")
-    public void randomEmail(String varName) {
-        String randomEmail = MockNeat.secure().emails().val();
-        coreScenario.setVar(varName, randomEmail);
-        log.trace("Email равен: " + randomEmail);
-    }
+//    /**
+//     * Сгенерирован случайный email и сохранен в переменную
+//     */
+//    @И("^генерация случайного email и сохранение в переменную \"([^\"]*)\"$")
+//    public void randomEmail(String varName) {
+//        String randomEmail = MockNeat.secure().emails().val();
+//        coreScenario.setVar(varName, randomEmail);
+//        log.trace("Email равен: " + randomEmail);
+//    }
 }

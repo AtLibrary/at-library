@@ -1,4 +1,4 @@
-package ru.at.library.core.core.helpers;
+package ru.at.library.api.helpers;
 
 import com.google.common.base.Splitter;
 import com.jayway.jsonpath.JsonPath;
@@ -8,6 +8,7 @@ import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
+import ru.at.library.core.core.helpers.TextFormat;
 
 import java.io.ByteArrayInputStream;
 import java.io.UnsupportedEncodingException;
@@ -76,4 +77,5 @@ public class FormattedDataContainer {
         }
         return null;
     }
+
 }
