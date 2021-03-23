@@ -81,7 +81,6 @@ public class InitialDriver {
             chromeOptions.setExperimentalOption("prefs", new HashMap<String, Object>() {
                 {
                     put("profile.default_content_settings.popups", 0);
-                    put("download.default_directory", "/home/selenium/Downloads");
                     put("download.prompt_for_download", false);
                     put("download.directory_upgrade", true);
                     put("safebrowsing.enabled", false);
