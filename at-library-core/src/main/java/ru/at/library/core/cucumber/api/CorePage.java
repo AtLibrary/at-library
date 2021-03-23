@@ -335,7 +335,7 @@ public abstract class CorePage extends ElementsContainer {
                         duplicates.add(name);
                     }
                 });
-        if (duplicates.size() != 0) {
+        if (!duplicates.isEmpty()) {
             throw new IllegalStateException(String.format("Найдено несколько аннотаций @Name с одинаковым значением в классе %s\nДубликаты: %s", this.getClass().getName(), duplicates.toString()));
         }
     }
