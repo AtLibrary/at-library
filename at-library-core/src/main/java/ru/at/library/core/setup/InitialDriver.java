@@ -6,13 +6,16 @@ import com.google.common.base.Strings;
 import io.cucumber.java.Scenario;
 import io.qameta.allure.Step;
 import lombok.extern.log4j.Log4j2;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
 
 import static com.codeborne.selenide.Configuration.browser;
 import static ru.at.library.core.setup.InitialSetupSteps.getScenarioId;
@@ -72,6 +75,24 @@ public class InitialDriver {
         capabilities.setCapability("browserstack.timezone", "Moscow");
         capabilities.setCapability("chrome.switches", Arrays.asList("--ignore-certificate-errors"));
         capabilities.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.setExperimentalOption("prefs", new HashMap<String, Object>(){
+            {
+                put("profile.default_content_settings.popups", 0);
+                put("download.default_directory", "/home/selenium/Downloads");
+                put("download.prompt_for_download", false);
+                put("download.directory_upgrade", true);
+                put("safebrowsing.enabled", false);
+                put("plugins.always_open_pdf_externally", true);
+                put("plugins.plugins_disabled", new ArrayList<String>(){
+                    {
+                        add("Chrome PDF Viewer");
+                    }
+                });
+            }
+        });
+        capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
         WebDriverRunner.setWebDriver(new RemoteWebDriver(
                 URI.create(Configuration.remote).toURL(),
                 capabilities
