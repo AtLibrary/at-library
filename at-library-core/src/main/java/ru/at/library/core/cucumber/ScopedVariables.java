@@ -34,29 +34,38 @@ public class ScopedVariables {
     private Map<String, Object> variables = Maps.newHashMap();
 
     /**
-     * @param inputString заданная строка
-     * @return новая строка
-     * Производит поиск в заданной строке на наличие совпадений параметров.
-     * В случае нахождения параметра в строке заменяет его значение на значение из properties или хранилища переменных
+     * Проверяет заданную строку на возможность подставновки параметров.
+     * В случае нахождения параметра в строке заменяет его значение на значение из properties или хранилища переменных.
+     * Пример: в файле property есть запись: 'prop.value = test'
+     * При обработке строки: 'some_{prop.value}' будет получена строка: 'some_test'
+     *
+     * @param inputString       заданная строка
+     * @return                  новая строка
      */
     public static String resolveVars(String inputString) {
+        if (inputString == null || inputString.isEmpty()) {
+            return inputString;
+        }
+        log.debug(format("Проверка строки %s на возможность подстановки параметров", inputString));
         Pattern p = Pattern.compile(CURVE_BRACES_PATTERN);
         Matcher m = p.matcher(inputString);
         String newString = "";
         while (m.find()) {
             String varName = m.group(1);
             String value = loadProperty(varName, (String) CoreScenario.getInstance().tryGetVar(varName));
-            if (value == null)
-                throw new IllegalArgumentException(
-                        "Значение " + varName +
-                                " не было найдено ни в properties, ни в environment переменной");
-            newString = m.replaceFirst(value);
+            if (value == null) {
+                log.debug(format("Значение %s не было найдено ни в properties, ни в environment переменной", varName));
+                newString = m.replaceFirst("__[__" + m.group(1) + "__]__");
+            } else {
+                newString = m.replaceFirst(value);
+            }
             m = p.matcher(newString);
         }
+        newString = newString.replaceAll("__\\[__", "{").replaceAll("__\\]__", "}");
         if (newString.isEmpty()) {
             newString = inputString;
         } else {
-            log.trace(format("Значение переменной %s = %s", inputString, newString));
+            log.debug(format("Найден параметр для подстановки. Новое значение строки %s = %s", inputString, newString));
         }
         return newString;
     }

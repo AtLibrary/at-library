@@ -76,22 +76,24 @@ public class InitialDriver {
         capabilities.setCapability("chrome.switches", Arrays.asList("--ignore-certificate-errors"));
         capabilities.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.setExperimentalOption("prefs", new HashMap<String, Object>(){
-            {
-                put("profile.default_content_settings.popups", 0);
-                put("download.prompt_for_download", false);
-                put("download.directory_upgrade", true);
-                put("safebrowsing.enabled", false);
-                put("plugins.always_open_pdf_externally", true);
-                put("plugins.plugins_disabled", new ArrayList<String>(){
-                    {
-                        add("Chrome PDF Viewer");
-                    }
-                });
-            }
-        });
-        capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
+        if (System.getProperty("disableChromeFileViewer", "true").equals("true")) {
+            ChromeOptions chromeOptions = new ChromeOptions();
+            chromeOptions.setExperimentalOption("prefs", new HashMap<String, Object>() {
+                {
+                    put("profile.default_content_settings.popups", 0);
+                    put("download.prompt_for_download", false);
+                    put("download.directory_upgrade", true);
+                    put("safebrowsing.enabled", false);
+                    put("plugins.always_open_pdf_externally", true);
+                    put("plugins.plugins_disabled", new ArrayList<String>() {
+                        {
+                            add("Chrome PDF Viewer");
+                        }
+                    });
+                }
+            });
+            capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
+        }
         WebDriverRunner.setWebDriver(new RemoteWebDriver(
                 URI.create(Configuration.remote).toURL(),
                 capabilities

@@ -325,12 +325,18 @@ public abstract class CorePage extends ElementsContainer {
      * Поиск по аннотации "Name"
      */
     private void checkNamedAnnotations() {
-        List<String> list = Arrays.stream(getClass().getFields())
+        Set<String> uniques = new HashSet<>();
+        Set<String> duplicates = new HashSet<>();
+        Arrays.stream(getClass().getFields())
                 .filter(f -> f.getAnnotation(Name.class) != null)
                 .map(f -> f.getAnnotation(Name.class).value())
-                .collect(toList());
-        if (list.size() != new HashSet<>(list).size()) {
-            throw new IllegalStateException("Найдено несколько аннотаций @Name с одинаковым значением в классе " + this.getClass().getName());
+                .forEach(name -> {
+                    if (!uniques.add(name)) {
+                        duplicates.add(name);
+                    }
+                });
+        if (!duplicates.isEmpty()) {
+            throw new IllegalStateException(String.format("Найдено несколько аннотаций @Name с одинаковым значением в классе %s\nДубликаты: %s", this.getClass().getName(), duplicates.toString()));
         }
     }
 
