@@ -66,17 +66,6 @@ public abstract class CorePage extends ElementsContainer {
     }
 
     /**
-     * Поиск элемента по имени внутри списка элементов
-     */
-    public static SelenideElement getButtonFromListByName(List<SelenideElement> listButtons, String nameOfButton) {
-        List<String> names = new ArrayList<>();
-        for (SelenideElement button : listButtons) {
-            names.add(button.getText());
-        }
-        return listButtons.get(names.indexOf(nameOfButton));
-    }
-
-    /**
      * Приведение объекта к типу SelenideElement
      */
     private static SelenideElement castToSelenideElement(Object object) {
@@ -87,50 +76,8 @@ public abstract class CorePage extends ElementsContainer {
     }
 
     private static CorePage castToCorePage(Object object) {
-        if (object instanceof CorePage) {
-            CorePage corePage = (CorePage) object;
-            return Selenide.page(corePage).initialize();
-        }
-        return null;
-    }
-
-    /**
-     * Получение блока со страницы по имени (аннотированного "Name")
-     */
-    public CorePage getBlock(String blockName) {
-        CorePage corePageBlockName = (CorePage) Optional.ofNullable(namedElements.get(blockName))
-                .orElseThrow(() -> new IllegalArgumentException("Блок " + blockName + " не описан на странице " + this.getClass().getName()));
-
-        return castToCorePage(corePageBlockName);
-    }
-
-    /**
-     * Получение списка блоков со страницы по имени (аннотированного "Name")
-     */
-    @SuppressWarnings("unchecked")
-    public List<CorePage> getBlocksList(String listName) {
-        Object value = namedElements.get(listName);
-        if (!(value instanceof List)) {
-            throw new IllegalArgumentException("Список " + listName + " не описан на странице " + this.getClass().getName());
-        }
-        Stream<Object> s = ((List) value).stream();
-
-        return s.map(CorePage::castToCorePage).collect(toList());
-    }
-
-    /**
-     * Получение списка из элементов блока со страницы по имени (аннотированного "Name")
-     */
-    public List<SelenideElement> getBlockElements(String blockName) {
-        return getBlock(blockName).namedElements.entrySet().stream()
-                .map(x -> ((SelenideElement) x.getValue())).collect(toList());
-    }
-
-    /**
-     * Получение элемента блока со страницы по имени (аннотированного "Name")
-     */
-    public SelenideElement getBlockElement(String blockName, String elementName) {
-        return ((SelenideElement) getBlock(blockName).namedElements.get(elementName));
+        CorePage corePage = (CorePage) object;
+        return Selenide.page(corePage).initialize();
     }
 
     /**
@@ -138,7 +85,7 @@ public abstract class CorePage extends ElementsContainer {
      */
     public SelenideElement getElement(String elementName) {
         return (SelenideElement) java.util.Optional.ofNullable(namedElements.get(elementName))
-                .orElseThrow(() -> new IllegalArgumentException("Элемент " + elementName + " не описан на странице " + this.getClass().getName()));
+                .orElseThrow(() -> new IllegalArgumentException("SelenideElement " + elementName + " не описан на странице " + this.getClass().getName()));
     }
 
     /**
@@ -147,15 +94,34 @@ public abstract class CorePage extends ElementsContainer {
     @SuppressWarnings("unchecked")
     public ElementsCollection getElementsList(String listName) {
         Object value = namedElements.get(listName);
-        if (!(value instanceof List)) {
-            throw new IllegalArgumentException("Список " + listName + " не описан на странице " + this.getClass().getName());
+        if (!(value instanceof ElementsCollection)) {
+            throw new IllegalArgumentException("ElementsCollection " + listName + " не описан на странице " + this.getClass().getName());
         }
-        FindBy listSelector = Arrays.stream(this.getClass().getFields())
-                .filter(f -> f.getAnnotation(Name.class) != null && f.getAnnotation(Name.class).value().equals(listName))
-                .map(f -> f.getAnnotation(FindBy.class))
-                .findFirst().get();
-        FindBy.FindByBuilder findByBuilder = new FindBy.FindByBuilder();
-        return $$(findByBuilder.buildIt(listSelector, null));
+        return (ElementsCollection) value;
+    }
+
+    /**
+     * Получение блока со страницы по имени (аннотированного "Name")
+     */
+    public CorePage getBlock(String blockName) {
+        CorePage corePageBlockName = (CorePage) Optional.ofNullable(namedElements.get(blockName))
+                .orElseThrow(() -> new IllegalArgumentException("CorePage " + blockName + " не описан на странице " + this.getClass().getName()));
+
+        return castToCorePage(corePageBlockName);
+    }
+
+    /**
+     * Получение списка блоков со страницы по имени (аннотированного "Name")
+     */
+    @SuppressWarnings("unchecked")
+    public List<CorePage> getBlocksList(String listCorePage) {
+        Object value = namedElements.get(listCorePage);
+        if (!(value instanceof List)) {
+            throw new IllegalArgumentException("List<CorePage> " + listCorePage + " не описан на странице " + this.getClass().getName());
+        }
+        Stream<Object> stream = ((List) value).stream();
+
+        return stream.map(CorePage::castToCorePage).collect(toList());
     }
 
     /**
