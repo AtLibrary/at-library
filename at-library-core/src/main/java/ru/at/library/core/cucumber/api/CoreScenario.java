@@ -30,7 +30,9 @@ public final class CoreScenario {
      * Среда прогона тестов, хранит в себе: Cucumber.Scenario,
      * переменные, объявленные пользователем в сценарии и страницы, тестирование которых будет производиться
      */
-    private static ThreadLocal<CoreEnvironment> environment = new ThreadLocal<>();
+    private static final ThreadLocal<CoreEnvironment> environment = new ThreadLocal<>();
+
+    private static final ThreadLocal<AssertionHelper> assertionHelper = new ThreadLocal<>();
 
     private CoreScenario() {
     }
@@ -67,11 +69,14 @@ public final class CoreScenario {
         return environment.get();
     }
 
+    public AssertionHelper getAssertionHelper() {return assertionHelper.get(); }
+
     @Step("Создание Page и переменных для сценария")
     public void setEnvironment(CoreEnvironment coreEnvironment) {
         environment.set(coreEnvironment);
     }
 
+    public void setAssertionHelper(AssertionHelper assertionHlp) { assertionHelper.set(assertionHlp);}
     /**
      * Получение страницы, тестирование которой производится в данный момент
      */
