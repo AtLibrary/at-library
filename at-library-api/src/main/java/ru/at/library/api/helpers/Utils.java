@@ -7,7 +7,6 @@ import org.testng.asserts.SoftAssert;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-import ru.at.library.core.core.helpers.TextFormat;
 import ru.at.library.core.cucumber.api.CoreScenario;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -26,7 +25,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static ru.at.library.core.core.helpers.PropertyLoader.loadProperty;
+import static ru.at.library.core.utils.helpers.PropertyLoader.loadProperty;
 
 @Log4j2
 public class Utils {

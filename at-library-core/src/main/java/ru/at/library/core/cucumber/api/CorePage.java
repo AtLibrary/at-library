@@ -14,24 +14,23 @@ package ru.at.library.core.cucumber.api;
 import com.codeborne.selenide.*;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
+import ru.at.library.core.utils.helpers.Reflection;
 import ru.at.library.core.cucumber.annotations.Hidden;
 import ru.at.library.core.cucumber.annotations.Mandatory;
 import ru.at.library.core.cucumber.annotations.Name;
-import ru.at.library.core.cucumber.selenide.ElementCheck;
-import ru.at.library.core.cucumber.selenide.IElementCheck;
-import ru.at.library.core.cucumber.utils.Reflection;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.util.*;
 import java.util.stream.Stream;
 
+import static com.codeborne.selenide.Configuration.timeout;
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static ru.at.library.core.core.helpers.PropertyLoader.loadProperty;
+import static ru.at.library.core.utils.helpers.PropertyLoader.loadProperty;
 import static ru.at.library.core.cucumber.selenide.ElementChecker.checkElements;
 import static ru.at.library.core.cucumber.selenide.ElementChecker.elementCheckListAsString;
 

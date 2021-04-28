@@ -24,7 +24,7 @@ import java.text.SimpleDateFormat;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverRunner.isIE;
 import static com.codeborne.selenide.WebDriverRunner.url;
-import static ru.at.library.core.cucumber.ScopedVariables.resolveVars;
+import static ru.at.library.core.utils.helpers.ScopedVariables.resolveVars;
 import static ru.at.library.core.steps.OtherSteps.*;
 
 /**

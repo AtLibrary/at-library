@@ -36,9 +36,9 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
 import static org.testng.Assert.assertNull;
 import static org.testng.Assert.fail;
-import static ru.at.library.core.core.helpers.PropertyLoader.getPropertyOrValue;
-import static ru.at.library.core.core.helpers.PropertyLoader.loadValueFromFileOrVariableOrDefault;
-import static ru.at.library.core.cucumber.ScopedVariables.resolveVars;
+import static ru.at.library.core.utils.helpers.PropertyLoader.getPropertyOrValue;
+import static ru.at.library.core.utils.helpers.PropertyLoader.loadValueFromFileOrVariableOrDefault;
+import static ru.at.library.core.utils.helpers.ScopedVariables.resolveVars;
 import static ru.at.library.core.steps.OtherSteps.getPropertyOrStringVariableOrValue;
 
 /**
