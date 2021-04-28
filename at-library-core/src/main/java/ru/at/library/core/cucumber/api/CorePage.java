@@ -12,27 +12,30 @@
 package ru.at.library.core.cucumber.api;
 
 import com.codeborne.selenide.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import ru.at.library.core.utils.helpers.Reflection;
-import ru.at.library.core.cucumber.annotations.Hidden;
-import ru.at.library.core.cucumber.annotations.Mandatory;
 import ru.at.library.core.cucumber.annotations.Name;
+import ru.at.library.core.utils.helpers.Reflection;
+import ru.at.library.core.utils.selenide.ElementCheck;
+import ru.at.library.core.utils.selenide.IElementCheck;
+import ru.at.library.core.utils.selenide.PageElement;
+import ru.at.library.core.utils.selenide.PageElement.ElementMode;
+import ru.at.library.core.utils.selenide.PageElement.ElementType;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.util.*;
 import java.util.stream.Stream;
 
-import static com.codeborne.selenide.Configuration.timeout;
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static ru.at.library.core.utils.helpers.PropertyLoader.loadProperty;
-import static ru.at.library.core.cucumber.selenide.ElementChecker.checkElements;
-import static ru.at.library.core.cucumber.selenide.ElementChecker.elementCheckListAsString;
+import static ru.at.library.core.utils.selenide.ElementChecker.checkElements;
+import static ru.at.library.core.utils.selenide.ElementChecker.elementCheckListAsString;
 
 /**
  * Класс для реализации паттерна PageObject
@@ -245,44 +248,6 @@ public abstract class CorePage extends ElementsContainer {
         assertThat("Все описанные на странице элементы исчезли со страницы", checkResult.stream().allMatch(IElementCheck::getStatus), is(equalTo(true)));
     }
 
-    /**
-     * Обертка над CorePage.isAppearedInIe
-     * Ex: CorePage.ieAppeared().doSomething();
-     * Используется при работе с IE
-     */
-    public final CorePage ieAppeared() {
-        if (isAppeared) {
-            isAppearedInIe();
-        }
-        return this;
-    }
-
-    /**
-     * Обертка над CorePage.isDisappearedInIe
-     * Ex: CorePage.ieDisappeared().doSomething();
-     * Используется при работе с IE
-     */
-    public final CorePage ieDisappeared() {
-        isDisappearedInIe();
-        return this;
-    }
-
-    /**
-     * Проверка того, что элементы, не помеченные аннотацией "Optional", отображаются,
-     * а элементы, помеченные аннотацией "Hidden", скрыты.
-     * Вместо parallelStream используется stream из-за медленной работы IE
-     */
-    protected void isAppearedInIe() {
-        isAppeared();
-    }
-
-    /**
-     * Проверка, что все элементы страницы, не помеченные аннотацией "Optional" или "Hidden", исчезли
-     * Вместо parallelStream используется stream из-за медленной работы IE
-     */
-    protected void isDisappearedInIe() {
-        isDisappeared();
-    }
 
     public CorePage initialize() {
         namedElements = readNamedElements();
@@ -352,54 +317,4 @@ public abstract class CorePage extends ElementsContainer {
     private Object extractFieldValueViaReflection(Field field) {
         return Reflection.extractFieldValue(field, this);
     }
-
-    @Data
-    @AllArgsConstructor
-    static class PageElement {
-        private Object element;
-        private String name;
-        private ElementType type;
-        private ElementMode mode;
-    }
-
-    public enum ElementType {
-        SELENIDE_ELEMENT,
-        ELEMENTS_COLLECTION,
-        CORE_PAGE,
-        LIST_CORE_PAGE;
-
-        public static ElementType getType(Object obj) {
-            ElementType type = null;
-            if (obj instanceof SelenideElement) {
-                type = SELENIDE_ELEMENT;
-            } else if (obj instanceof ElementsCollection) {
-                type = ELEMENTS_COLLECTION;
-            } else if (obj instanceof CorePage) {
-                type = CORE_PAGE;
-            } else if (obj instanceof List) {
-                type = LIST_CORE_PAGE;
-            }
-            return type;
-        }
-    }
-
-    public enum ElementMode {
-        MANDATORY,
-        PRIMARY,
-        OPTIONAL,
-        HIDDEN;
-
-        public static ElementMode getMode(Field field) {
-            ElementMode elementMode;
-            if (field.getAnnotation(Mandatory.class) != null) {
-                elementMode = MANDATORY;
-            } else if (field.getAnnotation(ru.at.library.core.cucumber.annotations.Optional.class) != null) {
-                elementMode = OPTIONAL;
-            } else if (field.getAnnotation(Hidden.class) != null) {
-                elementMode = HIDDEN;
-            } else elementMode = PRIMARY;
-            return elementMode;
-        }
-    }
-
 }

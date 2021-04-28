@@ -13,7 +13,6 @@ import java.time.LocalTime;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
-import static com.codeborne.selenide.WebDriverRunner.isIE;
 import static org.testng.Assert.assertEquals;
 import static ru.at.library.core.steps.OtherSteps.getPropertyOrStringVariableOrValue;
 import static ru.at.library.core.steps.OtherSteps.getTranslateNormalizeSpaceText;
@@ -61,7 +60,7 @@ public class WebCheckSteps {
     @И("^блок \"([^\"]*)\" не отображается на странице$")
     public void blockDisappeared(String blockName) {
         CorePage block = this.coreScenario.getCurrentPage().getBlock(blockName);
-        block.ieDisappeared();
+        block.disappeared();
     }
 
     /**

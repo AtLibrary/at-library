@@ -65,7 +65,6 @@ public class InitialSetupSteps {
          */
         coreScenario.setEnvironment(new CoreEnvironment(scenario));
         coreScenario.setAssertionHelper(new AssertionHelper());
-//        LogReportListener.turnOn();
     }
 
     @After

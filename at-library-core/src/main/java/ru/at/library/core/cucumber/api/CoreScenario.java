@@ -187,6 +187,6 @@ public final class CoreScenario {
      * Получение всех переменных из пула "variables" в классе CoreEnvironment
      */
     public ScopedVariables getVars() {
-        return this.getEnvironment().getVars();
+        return this.getEnvironment().getVariables().get();
     }
 }

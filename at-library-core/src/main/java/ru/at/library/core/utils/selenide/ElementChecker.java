@@ -1,4 +1,4 @@
-package ru.at.library.core.cucumber.selenide;
+package ru.at.library.core.utils.selenide;
 
 import java.util.List;
 
