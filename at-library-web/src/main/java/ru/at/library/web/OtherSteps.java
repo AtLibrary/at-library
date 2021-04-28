@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Selenide.switchTo;
 import static org.testng.Assert.*;
-import static ru.at.library.core.core.helpers.PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault;
+import static ru.at.library.core.utils.helpers.PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault;
 import static ru.at.library.core.steps.OtherSteps.*;
 
 public class OtherSteps {

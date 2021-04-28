@@ -23,7 +23,7 @@ import lombok.extern.log4j.Log4j2;
 import ru.at.library.core.cucumber.api.CoreEnvironment;
 import ru.at.library.core.cucumber.api.CoreScenario;
 
-import static ru.at.library.core.core.helpers.PropertyLoader.tryLoadProperty;
+import static ru.at.library.core.utils.helpers.PropertyLoader.tryLoadProperty;
 
 /**
  * Начальная настройка
@@ -63,8 +63,6 @@ public class InitialSetupSteps {
          * @throws Exception
          */
         coreScenario.setEnvironment(new CoreEnvironment(scenario));
-
-//        LogReportListener.turnOn();
     }
 
     @After
@@ -78,7 +76,7 @@ public class InitialSetupSteps {
     @Step("Браузер будет закрыт: {quitDriver}")
     private void tryingToCloseTheBrowser(boolean quitDriver) {
         if (quitDriver) {
-            Selenide.close();
+            Selenide.closeWebDriver();
         }
     }
 

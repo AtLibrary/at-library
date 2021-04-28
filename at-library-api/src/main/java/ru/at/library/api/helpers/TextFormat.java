@@ -1,4 +1,4 @@
-package ru.at.library.core.core.helpers;
+package ru.at.library.api.helpers;
 
 /**
  * Множество типов форматированного текста.

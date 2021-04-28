@@ -31,7 +31,7 @@ import java.text.SimpleDateFormat;
 import static com.codeborne.selenide.Selenide.sleep;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOf;
-import static ru.at.library.core.core.helpers.PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault;
+import static ru.at.library.core.utils.helpers.PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault;
 import static ru.at.library.core.steps.OtherSteps.*;
 
 

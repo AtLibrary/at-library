@@ -9,7 +9,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ru.at.library.core.cucumber;
+package ru.at.library.core.utils.helpers;
 
 import com.google.common.collect.Maps;
 import groovy.lang.GroovyShell;
@@ -22,7 +22,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static java.lang.String.format;
-import static ru.at.library.core.core.helpers.PropertyLoader.loadProperty;
+import static ru.at.library.core.utils.helpers.PropertyLoader.loadProperty;
 
 /**
  * Реализация хранилища переменных, заданных пользователем, внутри тестовых сценариев

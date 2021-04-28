@@ -19,8 +19,8 @@ import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import org.apache.http.params.CoreConnectionPNames;
 import ru.at.library.api.helpers.Utils;
-import ru.at.library.core.core.helpers.PropertyLoader;
-import ru.at.library.core.cucumber.ScopedVariables;
+import ru.at.library.core.utils.helpers.PropertyLoader;
+import ru.at.library.core.utils.helpers.ScopedVariables;
 import ru.at.library.core.cucumber.api.CoreScenario;
 
 import java.io.File;

@@ -14,7 +14,7 @@ package ru.at.library.core.cucumber.api;
 import io.cucumber.java.Scenario;
 import io.qameta.allure.Step;
 import lombok.extern.slf4j.Slf4j;
-import ru.at.library.core.cucumber.ScopedVariables;
+import ru.at.library.core.utils.helpers.ScopedVariables;
 
 import java.util.function.Consumer;
 

@@ -28,7 +28,7 @@ import static java.util.Objects.isNull;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.testng.Assert.assertNotNull;
-import static ru.at.library.core.core.helpers.PropertyLoader.*;
+import static ru.at.library.core.utils.helpers.PropertyLoader.*;
 
 /**
  * Набор общих шагов под api/web/mob</>

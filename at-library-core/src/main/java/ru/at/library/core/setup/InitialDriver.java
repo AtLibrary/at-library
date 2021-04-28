@@ -14,7 +14,6 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.HashMap;
 
 import static com.codeborne.selenide.Configuration.browser;
@@ -29,29 +28,19 @@ public class InitialDriver {
     public void startUITest(Scenario scenario, int testNumber) throws Exception {
 
         /**
-         * Создает настойки прокси для запуска драйвера
-         */
-//        Proxy proxy = createProxy();
-
-        /**
          * Уведомление о месте запуска тестов
          */
         if (Strings.isNullOrEmpty(Configuration.remote)) {
-            initLocalStart(scenario, testNumber);
+            initLocalStart(scenario);
         } else {
             initRemoteStart(scenario, testNumber);
         }
     }
 
     @Step("Запуск теста локально")
-    private void initLocalStart(Scenario scenario, int testNumber) throws Exception {
+    private void initLocalStart(Scenario scenario){
         log.info(String.format("%s: ОС: %s", getScenarioId(scenario), System.getProperty("os.name")));
         log.info(String.format("%s: локальный бразуер: %s", getScenarioId(scenario), browser));
-//        if (proxy != null) {
-//            WebDriverRunner.setProxy(proxy);
-//            log.trace(String.format("%s: Проставлена прокси: %s", scenario.getId(), proxy));
-//        }
-
     }
 
     @Step("Запуск теста удаленно")
@@ -99,23 +88,4 @@ public class InitialDriver {
                 capabilities
         ));
     }
-
-//    private Proxy createProxy() {
-//        Proxy proxy = null;
-//        String stringProxy = System.getProperty("selenoid.proxy");
-//
-//        if (Strings.isNullOrEmpty(stringProxy)) {
-//            stringProxy = System.getProperty("proxy");
-//        }
-//
-//        if (!Strings.isNullOrEmpty(stringProxy)) {
-//            proxy = new Proxy()
-//                    .setProxyType(Proxy.ProxyType.MANUAL)
-//                    .setHttpProxy(stringProxy)
-//                    .setFtpProxy(stringProxy)
-//                    .setSslProxy(stringProxy)
-//            ;
-//        }
-//        return proxy;
-//    }
 }

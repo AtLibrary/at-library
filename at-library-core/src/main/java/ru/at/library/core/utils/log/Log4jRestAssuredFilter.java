@@ -1,4 +1,4 @@
-package ru.at.library.core.core.log;
+package ru.at.library.core.utils.log;
 
 import io.restassured.filter.FilterContext;
 import io.restassured.filter.OrderedFilter;

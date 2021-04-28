@@ -11,7 +11,7 @@ import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
 import org.hamcrest.Matchers;
-import ru.at.library.core.core.helpers.PropertyLoader;
+import ru.at.library.core.utils.helpers.PropertyLoader;
 import ru.at.library.api.helpers.Utils;
 import ru.at.library.core.cucumber.api.CoreScenario;
 

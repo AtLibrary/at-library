@@ -15,7 +15,7 @@ import io.cucumber.java.ru.И;
 import io.cucumber.datatable.DataTable;
 import io.restassured.response.Response;
 import lombok.extern.log4j.Log4j2;
-import ru.at.library.core.core.helpers.PropertyLoader;
+import ru.at.library.core.utils.helpers.PropertyLoader;
 import ru.at.library.core.cucumber.api.CoreScenario;
 
 import java.io.File;
