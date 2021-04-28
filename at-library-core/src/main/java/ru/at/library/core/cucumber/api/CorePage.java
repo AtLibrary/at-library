@@ -115,8 +115,12 @@ public abstract class CorePage extends ElementsContainer {
      * а элементы, помеченные аннотацией "Hidden", скрыты.
      */
     public void isAppeared() {
-        if (checkMandatory) checkMandatory();
-        if (isAppeared) checkPrimary();
+        if (checkMandatory){
+            checkMandatory();
+        }
+        if (isAppeared){
+            checkPrimary();
+        }
     }
 
     /**
@@ -129,64 +133,6 @@ public abstract class CorePage extends ElementsContainer {
                         .collect(toList()), Configuration.timeout);
         assertThat("Все описанные на странице элементы исчезли со страницы", checkResult.stream().allMatch(IElementCheck::getStatus), is(equalTo(true)));
     }
-
-    /**
-     * Получение всех элементов страницы, помеченных аннотацией "Mandatory"
-     */
-    public List<PageElement> getMandatoryElements() {
-        return namedElements.values().stream()
-                .filter(pageElement -> pageElement.getMode().equals(ElementMode.MANDATORY))
-                .flatMap(v -> v.getType().equals(ElementType.LIST_CORE_PAGE)
-                        ? ((List<?>) v.getElement()).stream().map(subElement -> new PageElement(subElement, v.getName(), ElementType.CORE_PAGE, ElementMode.MANDATORY))
-                        : Stream.of(v))
-                .flatMap(v -> v.getType().equals(ElementType.CORE_PAGE)
-                        ? castToCorePage(v.getElement()).getMandatoryAndPrimaryDeep().stream()
-                        : Stream.of(v))
-                .collect(toList());
-    }
-
-    public List<PageElement> getMandatoryAndPrimaryDeep() {
-        return namedElements.values().stream()
-                .filter(pageElement -> pageElement.getMode().equals(ElementMode.MANDATORY) || pageElement.getMode().equals(ElementMode.PRIMARY))
-                .flatMap(v -> v.getType().equals(ElementType.LIST_CORE_PAGE)
-                    ? ((List<?>) v.getElement()).stream().map(subElement -> new PageElement(subElement, v.getName(), ElementType.getType(subElement), v.getMode()))
-                    : Stream.of(v))
-                .flatMap(v -> v.getType().equals(ElementType.CORE_PAGE)
-                    ? castToCorePage(v.getElement()).getMandatoryAndPrimaryDeep().stream()
-                    : Stream.of(v))
-                .collect(toList());
-    }
-
-    /**
-     * Получение всех элементов страницы, не помеченных аннотацией "Optional" или "Hidden"
-     */
-    public List<PageElement> getPrimaryElementsDeep() {
-        return namedElements.values().stream()
-                .filter(pageElement -> pageElement.getMode().equals(ElementMode.PRIMARY))
-                .flatMap(v -> v.getType().equals(ElementType.LIST_CORE_PAGE)
-                        ? ((List<?>) v.getElement()).stream().map(subElement -> new PageElement(subElement, v.getName(), ElementType.getType(subElement), v.getMode()))
-                        : Stream.of(v))
-                .flatMap(v -> v.getType().equals(ElementType.CORE_PAGE)
-                        ? castToCorePage(v.getElement()).getMandatoryAndPrimaryDeep().stream()
-                        : Stream.of(v))
-                .collect(toList());
-    }
-
-    /**
-     * Получение всех элементов страницы, помеченных аннотацией "Hidden"
-     */
-    public List<PageElement> getHiddenElementsDeep() {
-        return namedElements.values().stream()
-                .filter(pageElement -> pageElement.getMode().equals(ElementMode.HIDDEN))
-                .flatMap(v -> v.getType().equals(ElementType.LIST_CORE_PAGE)
-                        ? ((List<?>) v.getElement()).stream().map(subElement -> new PageElement(subElement, v.getName(), ElementType.getType(subElement), v.getMode()))
-                        : Stream.of(v))
-                .flatMap(v -> v.getType().equals(ElementType.CORE_PAGE)
-                        ? castToCorePage(v.getElement()).getHiddenElementsDeep().stream()
-                        : Stream.of(v))
-                .collect(toList());
-    }
-
 
     private void checkMandatory() {
         String template = "Элемент '%s' %s";
@@ -212,6 +158,63 @@ public abstract class CorePage extends ElementsContainer {
         );
         checkResult = checkElements(elementCheckList, Configuration.timeout);
         CoreScenario.getInstance().getAssertionHelper().hamcrestAssert("На текущей странице не отобразились все основные элементы:\n" + elementCheckListAsString(checkResult.stream().filter(r -> !r.getStatus()).collect(toList())), checkResult.stream().allMatch(IElementCheck::getStatus), is(equalTo(true)));
+    }
+
+    /**
+     * Получение всех элементов страницы, помеченных аннотацией "Mandatory"
+     */
+    private List<PageElement> getMandatoryElements() {
+        return namedElements.values().stream()
+                .filter(pageElement -> pageElement.getMode().equals(ElementMode.MANDATORY))
+                .flatMap(mandatoryElement -> mandatoryElement.getType().equals(ElementType.LIST_CORE_PAGE)
+                        ? ((List<?>) mandatoryElement.getElement()).stream().map(subElement -> new PageElement(subElement, mandatoryElement.getName(), ElementType.CORE_PAGE, ElementMode.MANDATORY))
+                        : Stream.of(mandatoryElement))
+                .flatMap(v -> v.getType().equals(ElementType.CORE_PAGE)
+                        ? castToCorePage(v.getElement()).getMandatoryAndPrimaryDeep().stream()
+                        : Stream.of(v))
+                .collect(toList());
+    }
+
+    private List<PageElement> getMandatoryAndPrimaryDeep() {
+        return namedElements.values().stream()
+                .filter(pageElement -> pageElement.getMode().equals(ElementMode.MANDATORY) || pageElement.getMode().equals(ElementMode.PRIMARY))
+                .flatMap(v -> v.getType().equals(ElementType.LIST_CORE_PAGE)
+                    ? ((List<?>) v.getElement()).stream().map(subElement -> new PageElement(subElement, v.getName(), ElementType.getType(subElement), v.getMode()))
+                    : Stream.of(v))
+                .flatMap(v -> v.getType().equals(ElementType.CORE_PAGE)
+                    ? castToCorePage(v.getElement()).getMandatoryAndPrimaryDeep().stream()
+                    : Stream.of(v))
+                .collect(toList());
+    }
+
+    /**
+     * Получение всех элементов страницы, не помеченных аннотацией "Optional" или "Hidden"
+     */
+    private List<PageElement> getPrimaryElementsDeep() {
+        return namedElements.values().stream()
+                .filter(pageElement -> pageElement.getMode().equals(ElementMode.PRIMARY))
+                .flatMap(v -> v.getType().equals(ElementType.LIST_CORE_PAGE)
+                        ? ((List<?>) v.getElement()).stream().map(subElement -> new PageElement(subElement, v.getName(), ElementType.getType(subElement), v.getMode()))
+                        : Stream.of(v))
+                .flatMap(v -> v.getType().equals(ElementType.CORE_PAGE)
+                        ? castToCorePage(v.getElement()).getMandatoryAndPrimaryDeep().stream()
+                        : Stream.of(v))
+                .collect(toList());
+    }
+
+    /**
+     * Получение всех элементов страницы, помеченных аннотацией "Hidden"
+     */
+    private List<PageElement> getHiddenElementsDeep() {
+        return namedElements.values().stream()
+                .filter(pageElement -> pageElement.getMode().equals(ElementMode.HIDDEN))
+                .flatMap(hiddenElement -> hiddenElement.getType().equals(ElementType.LIST_CORE_PAGE)
+                        ? ((List<?>) hiddenElement.getElement()).stream().map(subElement -> new PageElement(subElement, hiddenElement.getName(), ElementType.getType(subElement), hiddenElement.getMode()))
+                        : Stream.of(hiddenElement))
+                .flatMap(hiddenElement -> hiddenElement.getType().equals(ElementType.CORE_PAGE)
+                        ? castToCorePage(hiddenElement.getElement()).getHiddenElementsDeep().stream()
+                        : Stream.of(hiddenElement))
+                .collect(toList());
     }
 
     private IElementCheck pageElementToElementCheck(PageElement pageElement, Condition condition, String message) {
