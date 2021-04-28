@@ -57,7 +57,7 @@ public class WebActionSteps {
     public void loadPage(String nameOfPage) {
         CorePage page = coreScenario.getPage(nameOfPage);
         coreScenario.setCurrentPage(page);
-        coreScenario.getCurrentPage().appeared();
+        coreScenario.getCurrentPage().isAppeared();
     }
 
     /**
@@ -72,7 +72,7 @@ public class WebActionSteps {
     public void loadBlock(String nameOfPage) {
         CorePage page = coreScenario.getCurrentPage().getBlock(nameOfPage);
         coreScenario.setCurrentPage(page);
-        coreScenario.getCurrentPage().appeared();
+        coreScenario.getCurrentPage().isAppeared();
     }
 
     /**
@@ -84,7 +84,7 @@ public class WebActionSteps {
     @И("^(?:страница|блок|форма|вкладка) \"([^\"]*)\" не (?:загрузилась|загрузился)$")
     public void loadPageFailed(String nameOfPage) {
         coreScenario.setCurrentPage(coreScenario.getPage(nameOfPage));
-        coreScenario.getCurrentPage().disappeared();
+        coreScenario.getCurrentPage().isDisappeared();
     }
 
     /**

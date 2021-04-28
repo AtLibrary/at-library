@@ -62,19 +62,9 @@ public abstract class CorePage extends ElementsContainer {
         super();
     }
 
-    /**
-     * Приведение объекта к типу SelenideElement
-     */
-    private static SelenideElement castToSelenideElement(Object object) {
-        if (object instanceof SelenideElement) {
-            return (SelenideElement) object;
-        }
-        return null;
-    }
-
-    private static CorePage castToCorePage(Object object) {
-        CorePage corePage = (CorePage) object;
-        return Selenide.page(corePage).initialize();
+    public CorePage initialize() {
+        namedElements = readNamedElements();
+        return this;
     }
 
     /**
@@ -118,6 +108,26 @@ public abstract class CorePage extends ElementsContainer {
         Stream<Object> stream = ((List<Object>) value).stream();
 
         return stream.map(CorePage::castToCorePage).collect(toList());
+    }
+
+    /**
+     * Проверка того, что элементы, не помеченные аннотацией "Optional", отображаются,
+     * а элементы, помеченные аннотацией "Hidden", скрыты.
+     */
+    public void isAppeared() {
+        if (checkMandatory) checkMandatory();
+        if (isAppeared) checkPrimary();
+    }
+
+    /**
+     * Проверка, что все элементы страницы, не помеченные аннотацией "Optional" или "Hidden", исчезли
+     */
+    public void isDisappeared() {
+        List<IElementCheck> checkResult = checkElements(
+                getPrimaryElementsDeep().stream()
+                        .map(pageElement -> new ElementCheck(pageElement.getName(), castToSelenideElement(pageElement.getElement()), Condition.hidden, String.format("Элемент '%s' %s", pageElement.getName(), "не отображается на странице")))
+                        .collect(toList()), Configuration.timeout);
+        assertThat("Все описанные на странице элементы исчезли со страницы", checkResult.stream().allMatch(IElementCheck::getStatus), is(equalTo(true)));
     }
 
     /**
@@ -177,32 +187,6 @@ public abstract class CorePage extends ElementsContainer {
                 .collect(toList());
     }
 
-    /**
-     * Обертка над CorePage.isAppeared
-     * Ex: CorePage.appeared().doSomething();
-     */
-    public final CorePage appeared() {
-        isAppeared();
-        return this;
-    }
-
-    /**
-     * Обертка над CorePage.isDisappeared
-     * Ex: CorePage.disappeared().doSomething();
-     */
-    public final CorePage disappeared() {
-        isDisappeared();
-        return this;
-    }
-
-    /**
-     * Проверка того, что элементы, не помеченные аннотацией "Optional", отображаются,
-     * а элементы, помеченные аннотацией "Hidden", скрыты.
-     */
-    public void isAppeared() {
-        if (checkMandatory) checkMandatory();
-        if (isAppeared) checkPrimary();
-    }
 
     private void checkMandatory() {
         String template = "Элемент '%s' %s";
@@ -235,23 +219,6 @@ public abstract class CorePage extends ElementsContainer {
                 ? ((ElementsCollection) pageElement.getElement()).first()
                 : castToSelenideElement(pageElement.getElement());
         return new ElementCheck(pageElement.getName(), element, condition, message);
-    }
-
-    /**
-     * Проверка, что все элементы страницы, не помеченные аннотацией "Optional" или "Hidden", исчезли
-     */
-    protected void isDisappeared() {
-        List<IElementCheck> checkResult = checkElements(
-            getPrimaryElementsDeep().stream()
-                    .map(pageElement -> new ElementCheck(pageElement.getName(), castToSelenideElement(pageElement.getElement()), Condition.hidden, String.format("Элемент '%s' %s", pageElement.getName(), "не отображается на странице")))
-                    .collect(toList()), Configuration.timeout);
-        assertThat("Все описанные на странице элементы исчезли со страницы", checkResult.stream().allMatch(IElementCheck::getStatus), is(equalTo(true)));
-    }
-
-
-    public CorePage initialize() {
-        namedElements = readNamedElements();
-        return this;
     }
 
     /**
@@ -296,7 +263,7 @@ public abstract class CorePage extends ElementsContainer {
     }
 
     /**
-     * Поиск по аннотации "Name"
+     * Проверка всех элементов с аннотацией @Name
      */
     private void checkNamedAnnotations() {
         Set<String> uniques = new HashSet<>();
@@ -317,4 +284,23 @@ public abstract class CorePage extends ElementsContainer {
     private Object extractFieldValueViaReflection(Field field) {
         return Reflection.extractFieldValue(field, this);
     }
+
+    /**
+     * Приведение объекта к типу SelenideElement
+     */
+    private SelenideElement castToSelenideElement(Object element) {
+        if (!(element instanceof SelenideElement)) {
+            throw new IllegalArgumentException("Object: " + element.getClass() + " не является объектом SelenideElement");
+        }
+        return (SelenideElement) element;
+    }
+
+    /**
+     * Приведение объекта к типу CorePage и инициализация его полей
+     */
+    private static CorePage castToCorePage(Object object) {
+        CorePage corePage = (CorePage) object;
+        return Selenide.page(corePage).initialize();
+    }
+
 }

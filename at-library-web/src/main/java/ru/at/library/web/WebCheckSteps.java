@@ -60,7 +60,7 @@ public class WebCheckSteps {
     @И("^блок \"([^\"]*)\" не отображается на странице$")
     public void blockDisappeared(String blockName) {
         CorePage block = this.coreScenario.getCurrentPage().getBlock(blockName);
-        block.disappeared();
+        block.isDisappeared();
     }
 
     /**
