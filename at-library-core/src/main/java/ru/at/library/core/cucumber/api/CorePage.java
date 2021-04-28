@@ -32,7 +32,6 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static ru.at.library.core.core.helpers.PropertyLoader.loadProperty;
-import static ru.at.library.core.core.helpers.PropertyLoader.tryLoadProperty;
 import static ru.at.library.core.cucumber.selenide.ElementChecker.checkElements;
 import static ru.at.library.core.cucumber.selenide.ElementChecker.elementCheckListAsString;
 
