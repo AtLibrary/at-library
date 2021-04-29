@@ -24,7 +24,7 @@ public class ElementCheck implements IElementCheck {
 
     @Override
     public boolean getStatus() {
-        return false;
+        return this.status;
     }
 
     @Override
