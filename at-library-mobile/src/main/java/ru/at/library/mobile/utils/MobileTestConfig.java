@@ -9,7 +9,7 @@ import ru.at.library.core.cucumber.api.CoreScenario;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static ru.at.library.core.core.helpers.PropertyLoader.loadPropertyInt;
+import static ru.at.library.core.utils.helpers.PropertyLoader.loadPropertyInt;
 
 public class MobileTestConfig {
     public static final int DEFAULT_TIMEOUT = loadPropertyInt("waitingCustomElementsTimeout", 10);

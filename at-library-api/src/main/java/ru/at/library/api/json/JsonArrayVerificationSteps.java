@@ -5,7 +5,7 @@ import io.cucumber.java.ru.И;
 import io.restassured.response.Response;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import ru.at.library.core.core.helpers.PropertyLoader;
+import ru.at.library.core.utils.helpers.PropertyLoader;
 import ru.at.library.core.cucumber.api.CoreScenario;
 
 import java.time.OffsetDateTime;

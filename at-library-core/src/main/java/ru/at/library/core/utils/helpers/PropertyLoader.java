@@ -9,7 +9,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ru.at.library.core.core.helpers;
+package ru.at.library.core.utils.helpers;
 
 import com.google.common.base.Strings;
 import io.restassured.response.Response;

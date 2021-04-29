@@ -1,25 +1,16 @@
-/**
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package ru.at.library.core.cucumber.api;
 
 import com.codeborne.selenide.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import ru.at.library.core.cucumber.annotations.Hidden;
-import ru.at.library.core.cucumber.annotations.Mandatory;
 import ru.at.library.core.cucumber.annotations.Name;
-import ru.at.library.core.cucumber.selenide.ElementCheck;
-import ru.at.library.core.cucumber.selenide.IElementCheck;
-import ru.at.library.core.cucumber.utils.Reflection;
+import ru.at.library.core.utils.helpers.Reflection;
+import ru.at.library.core.utils.selenide.ElementCheck;
+import ru.at.library.core.utils.selenide.IElementCheck;
+import ru.at.library.core.utils.selenide.PageElement;
+import ru.at.library.core.utils.selenide.PageElement.ElementMode;
+import ru.at.library.core.utils.selenide.PageElement.ElementType;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
@@ -29,11 +20,9 @@ import java.util.stream.Stream;
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static ru.at.library.core.core.helpers.PropertyLoader.loadProperty;
-import static ru.at.library.core.cucumber.selenide.ElementChecker.checkElements;
-import static ru.at.library.core.cucumber.selenide.ElementChecker.elementCheckListAsString;
+import static ru.at.library.core.utils.helpers.PropertyLoader.loadProperty;
+import static ru.at.library.core.utils.selenide.ElementChecker.*;
 
 /**
  * Класс для реализации паттерна PageObject
@@ -42,7 +31,8 @@ import static ru.at.library.core.cucumber.selenide.ElementChecker.elementCheckLi
 public abstract class CorePage extends ElementsContainer {
 
     public static boolean isAppeared = Boolean.parseBoolean(loadProperty("isAppeared", "false"));
-    public static boolean checkMandatory = Boolean.parseBoolean(loadProperty("checkMandatory", "true"));
+    public static boolean isHidden = Boolean.parseBoolean(loadProperty("isHidden", "true"));
+    public static boolean isMandatory = Boolean.parseBoolean(loadProperty("isMandatory", "true"));
 
     /**
      * Имя страницы
@@ -61,18 +51,21 @@ public abstract class CorePage extends ElementsContainer {
     }
 
     /**
-     * Приведение объекта к типу SelenideElement
+     * Поиск и инициализации элементов страницы с аннотацией @Name и сбор их в Map<String, PageElement> namedElements
      */
-    private static SelenideElement castToSelenideElement(Object object) {
-        if (object instanceof SelenideElement) {
-            return (SelenideElement) object;
-        }
-        return null;
-    }
-
-    private static CorePage castToCorePage(Object object) {
-        CorePage corePage = (CorePage) object;
-        return Selenide.page(corePage).initialize();
+    public CorePage initialize() {
+        checkNamedAnnotations();
+        namedElements = new HashMap<>();
+        Arrays.stream(getClass().getFields())
+                .filter(field -> field.getAnnotation(Name.class) != null)
+                .peek(this::checkFieldType)
+                .forEach(fieldCheckedType -> {
+                    String name = fieldCheckedType.getAnnotation(Name.class).value();
+                    Object obj = extractFieldValueViaReflection(fieldCheckedType);
+                    PageElement pageElement = new PageElement(obj, name, ElementType.getType(obj), ElementMode.getMode(fieldCheckedType));
+                    namedElements.put(name, pageElement);
+                });
+        return this;
     }
 
     /**
@@ -119,115 +112,144 @@ public abstract class CorePage extends ElementsContainer {
     }
 
     /**
-     * Получение всех элементов страницы, помеченных аннотацией "Mandatory"
-     */
-    public List<PageElement> getMandatoryElements() {
-        return namedElements.values().stream()
-                .filter(pageElement -> pageElement.getMode().equals(ElementMode.MANDATORY))
-                .flatMap(v -> v.getType().equals(ElementType.LIST_CORE_PAGE)
-                        ? ((List<?>) v.getElement()).stream().map(subElement -> new PageElement(subElement, v.getName(), ElementType.CORE_PAGE, ElementMode.MANDATORY))
-                        : Stream.of(v))
-                .flatMap(v -> v.getType().equals(ElementType.CORE_PAGE)
-                        ? castToCorePage(v.getElement()).getMandatoryAndPrimaryDeep().stream()
-                        : Stream.of(v))
-                .collect(toList());
-    }
-
-    public List<PageElement> getMandatoryAndPrimaryDeep() {
-        return namedElements.values().stream()
-                .filter(pageElement -> pageElement.getMode().equals(ElementMode.MANDATORY) || pageElement.getMode().equals(ElementMode.PRIMARY))
-                .flatMap(v -> v.getType().equals(ElementType.LIST_CORE_PAGE)
-                    ? ((List<?>) v.getElement()).stream().map(subElement -> new PageElement(subElement, v.getName(), ElementType.getType(subElement), v.getMode()))
-                    : Stream.of(v))
-                .flatMap(v -> v.getType().equals(ElementType.CORE_PAGE)
-                    ? castToCorePage(v.getElement()).getMandatoryAndPrimaryDeep().stream()
-                    : Stream.of(v))
-                .collect(toList());
-    }
-
-    /**
-     * Получение всех элементов страницы, не помеченных аннотацией "Optional" или "Hidden"
-     */
-    public List<PageElement> getPrimaryElementsDeep() {
-        return namedElements.values().stream()
-                .filter(pageElement -> pageElement.getMode().equals(ElementMode.PRIMARY))
-                .flatMap(v -> v.getType().equals(ElementType.LIST_CORE_PAGE)
-                        ? ((List<?>) v.getElement()).stream().map(subElement -> new PageElement(subElement, v.getName(), ElementType.getType(subElement), v.getMode()))
-                        : Stream.of(v))
-                .flatMap(v -> v.getType().equals(ElementType.CORE_PAGE)
-                        ? castToCorePage(v.getElement()).getMandatoryAndPrimaryDeep().stream()
-                        : Stream.of(v))
-                .collect(toList());
-    }
-
-    /**
-     * Получение всех элементов страницы, помеченных аннотацией "Hidden"
-     */
-    public List<PageElement> getHiddenElementsDeep() {
-        return namedElements.values().stream()
-                .filter(pageElement -> pageElement.getMode().equals(ElementMode.HIDDEN))
-                .flatMap(v -> v.getType().equals(ElementType.LIST_CORE_PAGE)
-                        ? ((List<?>) v.getElement()).stream().map(subElement -> new PageElement(subElement, v.getName(), ElementType.getType(subElement), v.getMode()))
-                        : Stream.of(v))
-                .flatMap(v -> v.getType().equals(ElementType.CORE_PAGE)
-                        ? castToCorePage(v.getElement()).getHiddenElementsDeep().stream()
-                        : Stream.of(v))
-                .collect(toList());
-    }
-
-    /**
-     * Обертка над CorePage.isAppeared
-     * Ex: CorePage.appeared().doSomething();
-     */
-    public final CorePage appeared() {
-        isAppeared();
-        return this;
-    }
-
-    /**
-     * Обертка над CorePage.isDisappeared
-     * Ex: CorePage.disappeared().doSomething();
-     */
-    public final CorePage disappeared() {
-        isDisappeared();
-        return this;
-    }
-
-    /**
      * Проверка того, что элементы, не помеченные аннотацией "Optional", отображаются,
      * а элементы, помеченные аннотацией "Hidden", скрыты.
      */
     public void isAppeared() {
-        if (checkMandatory) checkMandatory();
-        if (isAppeared) checkPrimary();
+        if (isMandatory){
+            checkMandatory();
+        }
+        if (isHidden){
+            checkHidden();
+        }
+        if (isAppeared){
+            checkPrimary();
+        }
     }
 
+    /**
+     * Проверка, что все (SelenideElement/ElementCollection/Наследники CorePage) на странице исчезли
+     */
+    public void isDisappeared() {
+        List<ElementMode> modesToCheck = Arrays.asList(ElementMode.MANDATORY, ElementMode.PRIMARY, ElementMode.HIDDEN, ElementMode.OPTIONAL);
+        List<IElementCheck> elementChecks = pageElementToElementCheck(
+                getElementsWithModes(modesToCheck, modesToCheck),
+                Condition.hidden,
+                "не отображается на странице");
+
+        List<IElementCheck> checkResult = checkElements(elementChecks, Configuration.timeout);
+
+        CoreScenario.getInstance().getAssertionHelper()
+                .hamcrestAssert(
+                        "На текущей странице не исчезли все описанные на странице элементы:\n" + elementFailedCheckListAsString(checkResult),
+                        checkResult.stream().allMatch(IElementCheck::getStatus),
+                        is(equalTo(true))
+                );
+    }
+
+    /**
+     * Проверка, что все (SelenideElement/ElementCollection/Наследники CorePage) c аннотацией Mandatory отображаются на странице
+     */
     private void checkMandatory() {
-        String template = "Элемент '%s' %s";
-        List<IElementCheck> checkResult = checkElements(
-                getMandatoryElements().stream()
-                        .map(pageElement -> pageElementToElementCheck(pageElement, Condition.appear, String.format(template, pageElement.getName(), "отображается на странице")))
-                        .collect(toList()),
-                Configuration.timeout);
-        if (!checkResult.stream().allMatch(IElementCheck::getStatus)) throw new AssertionError("На текущей странице не отобразились все обязательные элементы:\n" + elementCheckListAsString(checkResult.stream().filter(r -> !r.getStatus()).collect(toList())));
+        List<ElementMode> parentModesToCheck = Collections.singletonList(ElementMode.MANDATORY);
+        List<ElementMode> childModesToCheck = Arrays.asList(ElementMode.MANDATORY, ElementMode.PRIMARY);
+        List<IElementCheck> elementChecks = pageElementToElementCheck(
+                getElementsWithModes(parentModesToCheck, childModesToCheck),
+                Condition.appear,
+                "отображается на странице");
+
+        List<IElementCheck> checkResult = checkElements(elementChecks, Configuration.timeout);
+
+        if (!checkResult.stream().allMatch(IElementCheck::getStatus)) {
+            throw new AssertionError("На текущей странице не отобразились все обязательные элементы:\n" + elementFailedCheckListAsString(checkResult));
+        }
     }
 
+    /**
+     * Проверка, что все (SelenideElement/ElementCollection/Наследники CorePage) c аннотацией Hidden не отображаются на странице
+     */
+    private void checkHidden() {
+        List<ElementMode> modesToCheck = Collections.singletonList(ElementMode.HIDDEN);
+        List<IElementCheck> elementChecks = pageElementToElementCheck(
+                getElementsWithModes(modesToCheck, modesToCheck),
+                Condition.hidden,
+                "не отображается на странице");
+
+        List<IElementCheck> checkResult = checkElements(elementChecks, Configuration.timeout);
+
+        CoreScenario.getInstance().getAssertionHelper()
+                .hamcrestAssert(
+                        "На текущей странице не исчезли все элементы помеченные Hidden:\n" + elementFailedCheckListAsString(checkResult),
+                        checkResult.stream().allMatch(IElementCheck::getStatus),
+                        is(equalTo(true))
+                );
+    }
+
+
+    /**
+     * Проверка, что все (SelenideElement/ElementCollection/Наследники CorePage) без аннотации Hidden/Optional отображаются на странице
+     */
     private void checkPrimary() {
-        String template = "Элемент '%s' %s";
-        List<IElementCheck> checkResult;
-        List<IElementCheck> elementCheckList = new ArrayList<>();
-        elementCheckList.addAll(getPrimaryElementsDeep().stream()
-                .map(pageElement -> pageElementToElementCheck(pageElement, Condition.appear, String.format(template, pageElement.getName(), "отображается на странице")))
-                .collect(toList())
-        );
-        elementCheckList.addAll(getHiddenElementsDeep().stream()
-                .map(pageElement -> pageElementToElementCheck(pageElement, Condition.hidden, String.format(template, pageElement.getName(), "не отображается на странице")))
-                .collect(toList())
-        );
-        checkResult = checkElements(elementCheckList, Configuration.timeout);
-        CoreScenario.getInstance().getAssertionHelper().hamcrestAssert("На текущей странице не отобразились все основные элементы:\n" + elementCheckListAsString(checkResult.stream().filter(r -> !r.getStatus()).collect(toList())), checkResult.stream().allMatch(IElementCheck::getStatus), is(equalTo(true)));
+        List<ElementMode> parentModesToCheck = Collections.singletonList(ElementMode.PRIMARY);
+        List<ElementMode> childModesToCheck = Arrays.asList(ElementMode.MANDATORY, ElementMode.PRIMARY);
+        List<IElementCheck> elementChecks = pageElementToElementCheck(
+                getElementsWithModes(parentModesToCheck, childModesToCheck),
+                Condition.appear,
+                "отображается на странице");
+
+        List<IElementCheck> checkResult = checkElements(elementChecks, Configuration.timeout);
+
+        CoreScenario.getInstance().getAssertionHelper().hamcrestAssert(
+                "На текущей странице не отобразились все основные элементы:\n" + elementFailedCheckListAsString(checkResult),
+                checkResult.stream().allMatch(IElementCheck::getStatus),
+                is(equalTo(true)));
     }
 
+    /**
+     * Получение списка элементов {@link PageElement} из {@link #namedElements} с одним из заданных типов {@link ElementMode}
+     *
+     * @param parentElementsModes   список типов для элементов страницы (элемент страницы должен соответствовать одному из типов данного списка)
+     * @param childElementsModes    список типов для элементов внутри блоков страницы (элемент блока страницы должен соответствовать одному из типов данного списка)
+     *
+     * @return  список элементов страницы и ее блоков, типы которых соответствуют переданным в качестве аргументов
+     */
+    private List<PageElement> getElementsWithModes(List<ElementMode> parentElementsModes, List<ElementMode> childElementsModes) {
+        return namedElements.values().stream()
+                .filter(pageElement -> pageElement.checkMode(parentElementsModes))
+                .flatMap(elementWithMode -> elementWithMode.getType().equals(ElementType.LIST_CORE_PAGE)
+                        ? ((List<?>) elementWithMode.getElement()).stream().map(subElement -> new PageElement(subElement, elementWithMode.getName(), ElementType.CORE_PAGE, elementWithMode.getMode()))
+                        : Stream.of(elementWithMode))
+                .flatMap(v -> v.getType().equals(ElementType.CORE_PAGE)
+                        ? castToCorePage(v.getElement()).getElementsWithModes(childElementsModes, childElementsModes).stream()
+                        : Stream.of(v))
+                .collect(toList());
+    }
+
+    /**
+     * Преобразование списка объектов {@link PageElement} в список объектов с интерфейсом {@link IElementCheck}
+     *
+     * @param values        список объектов {@link PageElement} для преобразования
+     * @param condition     условие {@link Condition} которому должен соответствовать каждый из элементов списка values
+     * @param message       сообщение, соответствующе условию condition для отображения в случае ошибки
+     *
+     * @return  список объектов с интерфейсом {@link IElementCheck}
+     */
+    private List<IElementCheck> pageElementToElementCheck(Collection<PageElement> values, Condition condition, String message) {
+        return values.stream()
+                .map(pageElement ->
+                        pageElementToElementCheck(pageElement, condition, format("Элемент '%s' %s", pageElement.getName(), message))
+                ).collect(toList());
+    }
+
+    /**
+     * Преобразование объекта {@link PageElement} в объект с интерфейсом {@link IElementCheck}
+     *
+     * @param pageElement   объект {@link PageElement} для преобразования
+     * @param condition     условие {@link Condition} которому должен соответствовать pageElement
+     * @param message       сообщение, соответствующе условию condition для отображения в случае ошибки
+     *
+     * @return  объект с интерфейсом {@link IElementCheck}
+     */
     private IElementCheck pageElementToElementCheck(PageElement pageElement, Condition condition, String message) {
         SelenideElement element = pageElement.getType().equals(ElementType.ELEMENTS_COLLECTION)
                 ? ((ElementsCollection) pageElement.getElement()).first()
@@ -235,104 +257,30 @@ public abstract class CorePage extends ElementsContainer {
         return new ElementCheck(pageElement.getName(), element, condition, message);
     }
 
-    /**
-     * Проверка, что все элементы страницы, не помеченные аннотацией "Optional" или "Hidden", исчезли
-     */
-    protected void isDisappeared() {
-        List<IElementCheck> checkResult = checkElements(
-            getPrimaryElementsDeep().stream()
-                    .map(pageElement -> new ElementCheck(pageElement.getName(), castToSelenideElement(pageElement.getElement()), Condition.hidden, String.format("Элемент '%s' %s", pageElement.getName(), "не отображается на странице")))
-                    .collect(toList()), Configuration.timeout);
-        assertThat("Все описанные на странице элементы исчезли со страницы", checkResult.stream().allMatch(IElementCheck::getStatus), is(equalTo(true)));
-    }
 
     /**
-     * Обертка над CorePage.isAppearedInIe
-     * Ex: CorePage.ieAppeared().doSomething();
-     * Используется при работе с IE
+     * Поле с аннотацией @Name должно иметь тип SelenideElement или ElementsCollection или быть наследником CorePage
      */
-    public final CorePage ieAppeared() {
-        if (isAppeared) {
-            isAppearedInIe();
-        }
-        return this;
-    }
-
-    /**
-     * Обертка над CorePage.isDisappearedInIe
-     * Ex: CorePage.ieDisappeared().doSomething();
-     * Используется при работе с IE
-     */
-    public final CorePage ieDisappeared() {
-        isDisappearedInIe();
-        return this;
-    }
-
-    /**
-     * Проверка того, что элементы, не помеченные аннотацией "Optional", отображаются,
-     * а элементы, помеченные аннотацией "Hidden", скрыты.
-     * Вместо parallelStream используется stream из-за медленной работы IE
-     */
-    protected void isAppearedInIe() {
-        isAppeared();
-    }
-
-    /**
-     * Проверка, что все элементы страницы, не помеченные аннотацией "Optional" или "Hidden", исчезли
-     * Вместо parallelStream используется stream из-за медленной работы IE
-     */
-    protected void isDisappearedInIe() {
-        isDisappeared();
-    }
-
-    public CorePage initialize() {
-        namedElements = readNamedElements();
-        return this;
-    }
-
-    /**
-     * Поиск и инициализации элементов страницы
-     */
-    private Map<String, PageElement> readNamedElements() {
-        checkNamedAnnotations();
-        Map<String, PageElement> resultMap = new HashMap<>();
-        Arrays.stream(getClass().getFields())
-                .filter(f -> f.getAnnotation(Name.class) != null)
-                .peek(this::checkFieldType)
-                .forEach(f -> {
-                    String name = f.getAnnotation(Name.class).value();
-                    Object obj = extractFieldValueViaReflection(f);
-                    PageElement pageElement = new PageElement(obj, name, ElementType.getType(obj), ElementMode.getMode(f));
-                    resultMap.put(name, pageElement);
-                });
-        return resultMap;
-    }
-
     private void checkFieldType(Field f) {
-        if (!SelenideElement.class.isAssignableFrom(f.getType())
-                && !CorePage.class.isAssignableFrom(f.getType())) {
-            checkCollectionFieldType(f);
-        }
-    }
-
-    private void checkCollectionFieldType(Field f) {
-        if (ElementsCollection.class.isAssignableFrom(f.getType())) {
-            return;
-        } else if (ElementsCollection.class.isAssignableFrom(f.getType()) || List.class.isAssignableFrom(f.getType())) {
-            ParameterizedType listType = (ParameterizedType) f.getGenericType();
-            Class<?> listClass = (Class<?>) listType.getActualTypeArguments()[0];
-            if (SelenideElement.class.isAssignableFrom(listClass) || CorePage.class.isAssignableFrom(listClass)) {
+        if (!SelenideElement.class.isAssignableFrom(f.getType()) && !CorePage.class.isAssignableFrom(f.getType())) {
+            if (ElementsCollection.class.isAssignableFrom(f.getType())) {
                 return;
+            } else if (ElementsCollection.class.isAssignableFrom(f.getType()) || List.class.isAssignableFrom(f.getType())) {
+                ParameterizedType listType = (ParameterizedType) f.getGenericType();
+                Class<?> listClass = (Class<?>) listType.getActualTypeArguments()[0];
+                if (SelenideElement.class.isAssignableFrom(listClass) || CorePage.class.isAssignableFrom(listClass)) {
+                    return;
+                }
             }
+            throw new IllegalStateException(
+                    format("Поле с аннотацией @Name должно иметь тип SelenideElement или ElementsCollection.\n" +
+                            "Если поле описывает блок, оно должно принадлежать классу, унаследованному от CorePage.\n" +
+                            "Найдено поле с типом %s", f.getType()));
         }
-        throw new IllegalStateException(
-                format("Поле с аннотацией @Name должно иметь тип SelenideElement или ElementsCollection.\n" +
-                        "Если поле описывает блок, оно должно принадлежать классу, унаследованному от CorePage.\n" +
-                        "Найдено поле с типом %s", f.getType()));
     }
 
     /**
-     * Поиск по аннотации "Name"
+     * Проверка всех элементов с аннотацией @Name на дубликаты
      */
     private void checkNamedAnnotations() {
         Set<String> uniques = new HashSet<>();
@@ -354,53 +302,22 @@ public abstract class CorePage extends ElementsContainer {
         return Reflection.extractFieldValue(field, this);
     }
 
-    @Data
-    @AllArgsConstructor
-    static class PageElement {
-        private Object element;
-        private String name;
-        private ElementType type;
-        private ElementMode mode;
+    /**
+     * Приведение объекта к типу SelenideElement
+     */
+    private SelenideElement castToSelenideElement(Object element) {
+        if (!(element instanceof SelenideElement)) {
+            throw new IllegalArgumentException("Object: " + element.getClass() + " не является объектом SelenideElement");
+        }
+        return (SelenideElement) element;
     }
 
-    public enum ElementType {
-        SELENIDE_ELEMENT,
-        ELEMENTS_COLLECTION,
-        CORE_PAGE,
-        LIST_CORE_PAGE;
-
-        public static ElementType getType(Object obj) {
-            ElementType type = null;
-            if (obj instanceof SelenideElement) {
-                type = SELENIDE_ELEMENT;
-            } else if (obj instanceof ElementsCollection) {
-                type = ELEMENTS_COLLECTION;
-            } else if (obj instanceof CorePage) {
-                type = CORE_PAGE;
-            } else if (obj instanceof List) {
-                type = LIST_CORE_PAGE;
-            }
-            return type;
-        }
-    }
-
-    public enum ElementMode {
-        MANDATORY,
-        PRIMARY,
-        OPTIONAL,
-        HIDDEN;
-
-        public static ElementMode getMode(Field field) {
-            ElementMode elementMode;
-            if (field.getAnnotation(Mandatory.class) != null) {
-                elementMode = MANDATORY;
-            } else if (field.getAnnotation(ru.at.library.core.cucumber.annotations.Optional.class) != null) {
-                elementMode = OPTIONAL;
-            } else if (field.getAnnotation(Hidden.class) != null) {
-                elementMode = HIDDEN;
-            } else elementMode = PRIMARY;
-            return elementMode;
-        }
+    /**
+     * Приведение объекта к типу CorePage и инициализация его полей
+     */
+    private static CorePage castToCorePage(Object object) {
+        CorePage corePage = (CorePage) object;
+        return Selenide.page(corePage).initialize();
     }
 
 }

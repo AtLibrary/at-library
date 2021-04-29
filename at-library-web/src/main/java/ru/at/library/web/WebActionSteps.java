@@ -22,10 +22,9 @@ import java.awt.datatransfer.StringSelection;
 import java.text.SimpleDateFormat;
 
 import static com.codeborne.selenide.Selenide.*;
-import static com.codeborne.selenide.WebDriverRunner.isIE;
 import static com.codeborne.selenide.WebDriverRunner.url;
-import static ru.at.library.core.cucumber.ScopedVariables.resolveVars;
 import static ru.at.library.core.steps.OtherSteps.*;
+import static ru.at.library.core.utils.helpers.ScopedVariables.resolveVars;
 
 /**
  * WEB шаги
@@ -58,11 +57,7 @@ public class WebActionSteps {
     public void loadPage(String nameOfPage) {
         CorePage page = coreScenario.getPage(nameOfPage);
         coreScenario.setCurrentPage(page);
-        if (isIE()) {
-            coreScenario.getCurrentPage().ieAppeared();
-        } else {
-            coreScenario.getCurrentPage().appeared();
-        }
+        coreScenario.getCurrentPage().isAppeared();
     }
 
     /**
@@ -77,11 +72,7 @@ public class WebActionSteps {
     public void loadBlock(String nameOfPage) {
         CorePage page = coreScenario.getCurrentPage().getBlock(nameOfPage);
         coreScenario.setCurrentPage(page);
-        if (isIE()) {
-            coreScenario.getCurrentPage().ieAppeared();
-        } else {
-            coreScenario.getCurrentPage().appeared();
-        }
+        coreScenario.getCurrentPage().isAppeared();
     }
 
     /**
@@ -90,14 +81,10 @@ public class WebActionSteps {
      *
      * @param nameOfPage название страница|блок|форма|вкладка
      */
-    @И("^(?:страница|блок|форма|вкладка) \"([^\"]*)\" не (?:загрузилась|загрузился)$")
+    @И("^(?:страница|форма|вкладка) \"([^\"]*)\" не (?:загрузилась|загрузился)$")
     public void loadPageFailed(String nameOfPage) {
         coreScenario.setCurrentPage(coreScenario.getPage(nameOfPage));
-        if (isIE()) {
-            coreScenario.getCurrentPage().ieDisappeared();
-        } else {
-            coreScenario.getCurrentPage().disappeared();
-        }
+        coreScenario.getCurrentPage().isDisappeared();
     }
 
     /**

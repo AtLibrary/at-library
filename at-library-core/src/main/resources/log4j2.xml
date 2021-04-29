@@ -27,7 +27,7 @@
             <AppenderRef ref="Console"/>
             <AppenderRef ref="File"/>
         </Root>
-        <Logger name="ru.at.library.core.core.log.Log4jRestAssuredFilter" level="INFO" additivity="false">
+        <Logger name="ru.at.library.core.utils.log.Log4jRestAssuredFilter" level="INFO" additivity="false">
             <AppenderRef ref="Console"/>
             <AppenderRef ref="File"/>
         </Logger>

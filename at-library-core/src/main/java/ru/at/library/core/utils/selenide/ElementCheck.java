@@ -1,13 +1,17 @@
-package ru.at.library.core.cucumber.selenide;
+package ru.at.library.core.utils.selenide;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
 public class ElementCheck implements IElementCheck {
     private final String name;
     private final SelenideElement element;
     private final Condition condition;
     private final String message;
+    @Setter
     private boolean status;
 
     public ElementCheck(String name, SelenideElement element, Condition condition, String message) {
@@ -19,33 +23,8 @@ public class ElementCheck implements IElementCheck {
     }
 
     @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public SelenideElement getElement() {
-        return element;
-    }
-
-    @Override
-    public Condition getCondition() {
-        return condition;
-    }
-
-    @Override
-    public String getMessage() {
-        return message;
-    }
-
-    @Override
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
-
-    @Override
     public boolean getStatus() {
-        return status;
+        return this.status;
     }
 
     @Override
@@ -55,4 +34,5 @@ public class ElementCheck implements IElementCheck {
                 "Проверка: " + this.message + "\n" +
                 "Результат проверки: " + (this.status ? "Успешно пройдена" : "Не пройдена");
     }
+
 }

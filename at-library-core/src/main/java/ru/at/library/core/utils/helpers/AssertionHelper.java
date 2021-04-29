@@ -1,5 +1,7 @@
-package ru.at.library.core.cucumber.api;
+package ru.at.library.core.utils.helpers;
 
+import com.codeborne.selenide.AssertionMode;
+import com.codeborne.selenide.Configuration;
 import org.hamcrest.Matcher;
 
 import java.util.List;
@@ -7,7 +9,7 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class AssertionHelper {
-    private final boolean SOFT_ASSERT_ENABLED = System.getProperty("softAssert", "true").equals("true");
+    private final boolean SOFT_ASSERT_ENABLED = Configuration.assertionMode.equals(AssertionMode.SOFT);
     private final ThreadLocal<StringList> stepErrors = new ThreadLocal<>();
 
     public <T> void hamcrestAssert(String reason, T actual, Matcher<? super T> matcher) throws AssertionError {
@@ -25,14 +27,16 @@ public class AssertionHelper {
     }
 
     public void addStepError(String error) {
-        getStepErrors().add(error);
+        this.getStepErrors().add(error);
     }
 
-    public boolean isNoStepErrors() { return getStepErrors().isEmpty(); }
+    public boolean isNoStepErrors() {
+        return this.getStepErrors().isEmpty();
+    }
 
     public List<String> takeStepErrors() {
-        List<String> errors = getStepErrors().takeList();
-        getStepErrors().clear();
+        List<String> errors = this.getStepErrors().takeList();
+        this.getStepErrors().clear();
         return errors;
     }
 

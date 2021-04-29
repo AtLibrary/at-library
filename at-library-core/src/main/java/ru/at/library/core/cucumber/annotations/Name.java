@@ -18,7 +18,7 @@ import java.lang.annotation.Target;
 
 /**
  * Аннотация "Название" для элементов страницы
- * Необходима индентификации элементов в cucumber-сценариях
+ * Необходима идентификации элементов в cucumber-сценариях
  */
 @Target({ElementType.FIELD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)

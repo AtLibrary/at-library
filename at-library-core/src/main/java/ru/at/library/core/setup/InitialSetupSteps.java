@@ -20,11 +20,11 @@ import io.qameta.allure.Step;
 import io.restassured.RestAssured;
 import lombok.experimental.Delegate;
 import lombok.extern.log4j.Log4j2;
-import ru.at.library.core.cucumber.api.AssertionHelper;
+import ru.at.library.core.utils.helpers.AssertionHelper;
 import ru.at.library.core.cucumber.api.CoreEnvironment;
 import ru.at.library.core.cucumber.api.CoreScenario;
 
-import static ru.at.library.core.core.helpers.PropertyLoader.tryLoadProperty;
+import static ru.at.library.core.utils.helpers.PropertyLoader.tryLoadProperty;
 
 /**
  * Начальная настройка
@@ -65,7 +65,6 @@ public class InitialSetupSteps {
          */
         coreScenario.setEnvironment(new CoreEnvironment(scenario));
         coreScenario.setAssertionHelper(new AssertionHelper());
-//        LogReportListener.turnOn();
     }
 
     @After
@@ -79,7 +78,7 @@ public class InitialSetupSteps {
     @Step("Браузер будет закрыт: {quitDriver}")
     private void tryingToCloseTheBrowser(boolean quitDriver) {
         if (quitDriver) {
-            Selenide.close();
+            Selenide.closeWebDriver();
         }
     }
 

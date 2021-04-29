@@ -22,7 +22,7 @@ import io.restassured.specification.ProxySpecification;
 import io.restassured.specification.RequestSpecification;
 import lombok.extern.log4j.Log4j2;
 import org.hamcrest.Matchers;
-import ru.at.library.core.core.helpers.PropertyLoader;
+import ru.at.library.core.utils.helpers.PropertyLoader;
 
 /**
  * Шаги по включению/отключению прокси
