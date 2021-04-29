@@ -141,20 +141,17 @@ public abstract class CorePage extends ElementsContainer {
      * Проверка, что все (SelenideElement/ElementCollection/Наследники CorePage) на странице исчезли
      */
     public void isDisappeared() {
-        //Получение всех элементов со страницы и привели их к интерфейсу IElementCheck
+        List<ElementMode> modesToCheck = Arrays.asList(ElementMode.MANDATORY, ElementMode.PRIMARY, ElementMode.HIDDEN, ElementMode.OPTIONAL);
         List<IElementCheck> elementChecks = pageElementToElementCheck(
-                //TODO не будет работать
-                namedElements.values(),
+                getElementsWithModes(modesToCheck, modesToCheck),
                 Condition.hidden,
                 "не отображается на странице");
 
-        //Получили статусы по коллекции elementChecks по заданному условию Condition.hidden
         List<IElementCheck> checkResult = checkElements(elementChecks, Configuration.timeout);
 
-        //Сравнение результата
         CoreScenario.getInstance().getAssertionHelper()
                 .hamcrestAssert(
-                        "На текущей странице не исчезли все основные элементы:\n" + elementFailedCheckListAsString(checkResult),
+                        "На текущей странице не исчезли все описанные на странице элементы:\n" + elementFailedCheckListAsString(checkResult),
                         checkResult.stream().allMatch(IElementCheck::getStatus),
                         is(equalTo(true))
                 );
@@ -164,9 +161,13 @@ public abstract class CorePage extends ElementsContainer {
      * Проверка, что все (SelenideElement/ElementCollection/Наследники CorePage) c аннотацией Mandatory отображаются на странице
      */
     private void checkMandatory() {
-        List<IElementCheck> elementChecks = pageElementToElementCheck(getMandatoryElements(), Condition.appear, "отображается на странице");
+        List<ElementMode> parentModesToCheck = Collections.singletonList(ElementMode.MANDATORY);
+        List<ElementMode> childModesToCheck = Arrays.asList(ElementMode.MANDATORY, ElementMode.PRIMARY);
+        List<IElementCheck> elementChecks = pageElementToElementCheck(
+                getElementsWithModes(parentModesToCheck, childModesToCheck),
+                Condition.appear,
+                "отображается на странице");
 
-        //Получили статусы по коллекции elementChecks по заданному условию Condition.hidden
         List<IElementCheck> checkResult = checkElements(elementChecks, Configuration.timeout);
 
         if (!checkResult.stream().allMatch(IElementCheck::getStatus)) {
@@ -178,12 +179,14 @@ public abstract class CorePage extends ElementsContainer {
      * Проверка, что все (SelenideElement/ElementCollection/Наследники CorePage) c аннотацией Hidden не отображаются на странице
      */
     private void checkHidden() {
-        List<IElementCheck> elementChecks = pageElementToElementCheck(getHiddenElementsDeep(), Condition.hidden, "не отображается на странице");
+        List<ElementMode> modesToCheck = Collections.singletonList(ElementMode.HIDDEN);
+        List<IElementCheck> elementChecks = pageElementToElementCheck(
+                getElementsWithModes(modesToCheck, modesToCheck),
+                Condition.hidden,
+                "не отображается на странице");
 
-        //Получили статусы по коллекции elementChecks по заданному условию Condition.hidden
         List<IElementCheck> checkResult = checkElements(elementChecks, Configuration.timeout);
 
-        //Сравнение результата
         CoreScenario.getInstance().getAssertionHelper()
                 .hamcrestAssert(
                         "На текущей странице не исчезли все элементы помеченные Hidden:\n" + elementFailedCheckListAsString(checkResult),
@@ -197,7 +200,12 @@ public abstract class CorePage extends ElementsContainer {
      * Проверка, что все (SelenideElement/ElementCollection/Наследники CorePage) без аннотации Hidden/Optional отображаются на странице
      */
     private void checkPrimary() {
-        List<IElementCheck> elementChecks = pageElementToElementCheck(getPrimaryElementsDeep(), Condition.appear, "отображается на странице");
+        List<ElementMode> parentModesToCheck = Collections.singletonList(ElementMode.PRIMARY);
+        List<ElementMode> childModesToCheck = Arrays.asList(ElementMode.MANDATORY, ElementMode.PRIMARY);
+        List<IElementCheck> elementChecks = pageElementToElementCheck(
+                getElementsWithModes(parentModesToCheck, childModesToCheck),
+                Condition.appear,
+                "отображается на странице");
 
         List<IElementCheck> checkResult = checkElements(elementChecks, Configuration.timeout);
 
@@ -208,62 +216,34 @@ public abstract class CorePage extends ElementsContainer {
     }
 
     /**
-     * Получение всех элементов страницы, помеченных аннотацией "Mandatory"
+     * Получение списка элементов {@link PageElement} из {@link #namedElements} с одним из заданных типов {@link ElementMode}
+     *
+     * @param parentElementsModes   список типов для элементов страницы (элемент страницы должен соответствовать одному из типов данного списка)
+     * @param childElementsModes    список типов для элементов внутри блоков страницы (элемент блока страницы должен соответствовать одному из типов данного списка)
+     *
+     * @return  список элементов страницы и ее блоков, типы которых соответствуют переданным в качестве аргументов
      */
-    private List<PageElement> getMandatoryElements() {
+    private List<PageElement> getElementsWithModes(List<ElementMode> parentElementsModes, List<ElementMode> childElementsModes) {
         return namedElements.values().stream()
-                .filter(pageElement -> pageElement.getMode().equals(ElementMode.MANDATORY))
-                .flatMap(mandatoryElement -> mandatoryElement.getType().equals(ElementType.LIST_CORE_PAGE)
-                        ? ((List<?>) mandatoryElement.getElement()).stream().map(subElement -> new PageElement(subElement, mandatoryElement.getName(), ElementType.CORE_PAGE, ElementMode.MANDATORY))
-                        : Stream.of(mandatoryElement))
+                .filter(pageElement -> pageElement.checkMode(parentElementsModes))
+                .flatMap(elementWithMode -> elementWithMode.getType().equals(ElementType.LIST_CORE_PAGE)
+                        ? ((List<?>) elementWithMode.getElement()).stream().map(subElement -> new PageElement(subElement, elementWithMode.getName(), ElementType.CORE_PAGE, elementWithMode.getMode()))
+                        : Stream.of(elementWithMode))
                 .flatMap(v -> v.getType().equals(ElementType.CORE_PAGE)
-                        ? castToCorePage(v.getElement()).getMandatoryAndPrimaryDeep().stream()
-                        : Stream.of(v))
-                .collect(toList());
-    }
-
-    private List<PageElement> getMandatoryAndPrimaryDeep() {
-        return namedElements.values().stream()
-                .filter(pageElement -> pageElement.getMode().equals(ElementMode.MANDATORY) || pageElement.getMode().equals(ElementMode.PRIMARY))
-                .flatMap(v -> v.getType().equals(ElementType.LIST_CORE_PAGE)
-                    ? ((List<?>) v.getElement()).stream().map(subElement -> new PageElement(subElement, v.getName(), ElementType.getType(subElement), v.getMode()))
-                    : Stream.of(v))
-                .flatMap(v -> v.getType().equals(ElementType.CORE_PAGE)
-                    ? castToCorePage(v.getElement()).getMandatoryAndPrimaryDeep().stream()
-                    : Stream.of(v))
-                .collect(toList());
-    }
-
-    /**
-     * Получение всех элементов страницы, не помеченных аннотацией "Optional" или "Hidden"
-     */
-    private List<PageElement> getPrimaryElementsDeep() {
-        return namedElements.values().stream()
-                .filter(pageElement -> pageElement.getMode().equals(ElementMode.PRIMARY))
-                .flatMap(v -> v.getType().equals(ElementType.LIST_CORE_PAGE)
-                        ? ((List<?>) v.getElement()).stream().map(subElement -> new PageElement(subElement, v.getName(), ElementType.getType(subElement), v.getMode()))
-                        : Stream.of(v))
-                .flatMap(v -> v.getType().equals(ElementType.CORE_PAGE)
-                        ? castToCorePage(v.getElement()).getMandatoryAndPrimaryDeep().stream()
+                        ? castToCorePage(v.getElement()).getElementsWithModes(childElementsModes, childElementsModes).stream()
                         : Stream.of(v))
                 .collect(toList());
     }
 
     /**
-     * Получение всех элементов страницы, помеченных аннотацией "Hidden"
+     * Преобразование списка объектов {@link PageElement} в список объектов с интерфейсом {@link IElementCheck}
+     *
+     * @param values        список объектов {@link PageElement} для преобразования
+     * @param condition     условие {@link Condition} которому должен соответствовать каждый из элементов списка values
+     * @param message       сообщение, соответствующе условию condition для отображения в случае ошибки
+     *
+     * @return  список объектов с интерфейсом {@link IElementCheck}
      */
-    private List<PageElement> getHiddenElementsDeep() {
-        return namedElements.values().stream()
-                .filter(pageElement -> pageElement.getMode().equals(ElementMode.HIDDEN))
-                .flatMap(hiddenElement -> hiddenElement.getType().equals(ElementType.LIST_CORE_PAGE)
-                        ? ((List<?>) hiddenElement.getElement()).stream().map(subElement -> new PageElement(subElement, hiddenElement.getName(), ElementType.getType(subElement), hiddenElement.getMode()))
-                        : Stream.of(hiddenElement))
-                .flatMap(hiddenElement -> hiddenElement.getType().equals(ElementType.CORE_PAGE)
-                        ? castToCorePage(hiddenElement.getElement()).getHiddenElementsDeep().stream()
-                        : Stream.of(hiddenElement))
-                .collect(toList());
-    }
-
     private List<IElementCheck> pageElementToElementCheck(Collection<PageElement> values, Condition condition, String message) {
         return values.stream()
                 .map(pageElement ->
@@ -271,6 +251,15 @@ public abstract class CorePage extends ElementsContainer {
                 ).collect(toList());
     }
 
+    /**
+     * Преобразование объекта {@link PageElement} в объект с интерфейсом {@link IElementCheck}
+     *
+     * @param pageElement   объект {@link PageElement} для преобразования
+     * @param condition     условие {@link Condition} которому должен соответствовать pageElement
+     * @param message       сообщение, соответствующе условию condition для отображения в случае ошибки
+     *
+     * @return  объект с интерфейсом {@link IElementCheck}
+     */
     private IElementCheck pageElementToElementCheck(PageElement pageElement, Condition condition, String message) {
         SelenideElement element = pageElement.getType().equals(ElementType.ELEMENTS_COLLECTION)
                 ? ((ElementsCollection) pageElement.getElement()).first()

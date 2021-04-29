@@ -19,6 +19,14 @@ public class PageElement {
     private ElementType type;
     private ElementMode mode;
 
+    public boolean checkMode(List<ElementMode> expectedModes) {
+        boolean result = false;
+        for (ElementMode expectedMode:expectedModes) {
+            result |= this.mode.equals(expectedMode);
+        }
+        return result;
+    }
+
     public enum ElementType {
         SELENIDE_ELEMENT,
         ELEMENTS_COLLECTION,
