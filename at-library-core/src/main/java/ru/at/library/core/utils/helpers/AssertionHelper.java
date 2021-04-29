@@ -1,4 +1,4 @@
-package ru.at.library.core.cucumber.api;
+package ru.at.library.core.utils.helpers;
 
 import com.codeborne.selenide.AssertionMode;
 import com.codeborne.selenide.Configuration;

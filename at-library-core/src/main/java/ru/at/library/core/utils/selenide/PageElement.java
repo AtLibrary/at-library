@@ -19,7 +19,6 @@ public class PageElement {
     private ElementType type;
     private ElementMode mode;
 
-
     public enum ElementType {
         SELENIDE_ELEMENT,
         ELEMENTS_COLLECTION,

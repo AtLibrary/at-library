@@ -81,7 +81,7 @@ public class WebActionSteps {
      *
      * @param nameOfPage название страница|блок|форма|вкладка
      */
-    @И("^(?:страница|блок|форма|вкладка) \"([^\"]*)\" не (?:загрузилась|загрузился)$")
+    @И("^(?:страница|форма|вкладка) \"([^\"]*)\" не (?:загрузилась|загрузился)$")
     public void loadPageFailed(String nameOfPage) {
         coreScenario.setCurrentPage(coreScenario.getPage(nameOfPage));
         coreScenario.getCurrentPage().isDisappeared();

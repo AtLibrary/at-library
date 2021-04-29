@@ -88,22 +88,6 @@ public class ScopedVariables {
         return shell.evaluate(expression);
     }
 
-    /**
-     * @param textToReplaceIn строка, в которой необходимо выполнить замену (не модифицируется)
-     *                        Заменяет в строке все ключи переменных из "variables" на их значения
-     */
-    public String replaceVariables(String textToReplaceIn) {
-        Pattern p = Pattern.compile(CURVE_BRACES_PATTERN);
-        Matcher m = p.matcher(textToReplaceIn);
-        StringBuffer buffer = new StringBuffer();
-        while (m.find()) {
-            String varName = m.group(1);
-            String value = get(varName).toString();
-            m.appendReplacement(buffer, value);
-        }
-        m.appendTail(buffer);
-        return buffer.toString();
-    }
 
     public void put(String name, Object value) {
         variables.put(name, value);

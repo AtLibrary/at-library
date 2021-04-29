@@ -14,6 +14,7 @@ package ru.at.library.core.cucumber.api;
 import io.cucumber.java.Scenario;
 import io.qameta.allure.Step;
 import lombok.extern.slf4j.Slf4j;
+import ru.at.library.core.utils.helpers.AssertionHelper;
 import ru.at.library.core.utils.helpers.ScopedVariables;
 
 import java.util.function.Consumer;
@@ -162,15 +163,6 @@ public final class CoreScenario {
      */
     public <T extends CorePage> T getPage(Class<T> clazz, String name) {
         return this.getEnvironment().getPage(clazz, name);
-    }
-
-    /**
-     * Заменяет в строке все ключи переменных из пула переменных "variables" в классе CoreEnvironment на их значения
-     *
-     * @param stringToReplaceIn строка, в которой необходимо выполнить замену (не модифицируется)
-     */
-    public String replaceVariables(String stringToReplaceIn) {
-        return this.getEnvironment().replaceVariables(stringToReplaceIn);
     }
 
     /**

@@ -30,7 +30,7 @@ public class CoreEnvironment {
      * Сценарий (Cucumber.api), с которым связана среда
      */
     @Getter
-    private Scenario scenario;
+    private final Scenario scenario;
 
     /**
      * Список веб-страниц, заданных пользователем, доступных для использования в сценариях
@@ -43,7 +43,7 @@ public class CoreEnvironment {
      * ThreadLocal обеспечивает отсутствие коллизий при многопоточном запуске
      */
     @Getter
-    private ThreadLocal<ScopedVariables> variables = new ThreadLocal<>();
+    private final ThreadLocal<ScopedVariables> variables = new ThreadLocal<>();
 
 
     public CoreEnvironment(Scenario scenario) {
@@ -84,7 +84,7 @@ public class CoreEnvironment {
                 .findAny()
                 .map(Name::value)
                 .orElseThrow(() ->
-                        new IllegalStateException("Не найдены аннотации CorePage.Name в классе " + classAnnotatedName.getClass().getName()));
+                        new IllegalStateException("Не найдены аннотации CorePage.Name в классе " + classAnnotatedName.getName()));
     }
 
 
@@ -102,10 +102,6 @@ public class CoreEnvironment {
 
     public <T extends CorePage> T getPage(Class<T> clazz, String name) {
         return pages.get(clazz, name);
-    }
-
-    public String replaceVariables(String textToReplaceIn) {
-        return getVariables().get().replaceVariables(textToReplaceIn);
     }
 
 }
