@@ -4,13 +4,13 @@ import com.codeborne.selenide.AssertionMode;
 import com.codeborne.selenide.Configuration;
 import org.hamcrest.Matcher;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class AssertionHelper {
-    private final ThreadLocal<List<String>> stepErrors = new ThreadLocal<>();
+    private final boolean SOFT_ASSERT_ENABLED = Configuration.assertionMode.equals(AssertionMode.SOFT);
+    private final ThreadLocal<StringList> stepErrors = new ThreadLocal<>();
 
     public <T> void hamcrestAssert(String reason, T actual, Matcher<? super T> matcher) throws AssertionError {
         try {
@@ -21,26 +21,28 @@ public class AssertionHelper {
     }
 
     public void continueOrBreak(AssertionError error) throws AssertionError {
-        if (Configuration.assertionMode == AssertionMode.SOFT) {
+        if (SOFT_ASSERT_ENABLED) {
             addStepError(error.getMessage());
         } else throw error;
     }
 
     public void addStepError(String error) {
-        getStepErrors().add(error);
+        this.getStepErrors().add(error);
     }
 
-    public boolean isNoStepErrors() { return getStepErrors().isEmpty(); }
+    public boolean isNoStepErrors() {
+        return this.getStepErrors().isEmpty();
+    }
 
     public List<String> takeStepErrors() {
-        List<String> errors = getStepErrors();
-        getStepErrors().clear();
+        List<String> errors = this.getStepErrors().takeList();
+        this.getStepErrors().clear();
         return errors;
     }
 
-    private List<String> getStepErrors() {
+    private StringList getStepErrors() {
         if (stepErrors.get() == null) {
-            stepErrors.set(new ArrayList<String>());
+            stepErrors.set(new StringList());
         }
         return stepErrors.get();
     }
