@@ -72,29 +72,27 @@ public abstract class CorePage extends ElementsContainer {
      * Получение элемента со страницы по имени (аннотированного "Name")
      */
     public SelenideElement getElement(String elementName) {
-        return (SelenideElement) java.util.Optional.ofNullable(namedElements.get(elementName).getElement())
-                .orElseThrow(() -> new IllegalArgumentException("SelenideElement " + elementName + " не описан на странице " + this.getClass().getName()));
+        return castToSelenideElement(Optional.ofNullable(namedElements.get(elementName))
+                .orElseThrow(() -> new IllegalArgumentException("SelenideElement " + elementName + " не описан на странице " + this.getClass().getName()))
+                .getElement());
     }
 
     /**
      * Получение элемента-списка со страницы по имени
      */
     public ElementsCollection getElementsList(String listName) {
-        Object value = namedElements.get(listName).getElement();
-        if (!(value instanceof ElementsCollection)) {
-            throw new IllegalArgumentException("ElementsCollection " + listName + " не описан на странице " + this.getClass().getName());
-        }
-        return (ElementsCollection) value;
+        return castToElementsCollection(Optional.ofNullable(namedElements.get(listName))
+                .orElseThrow(() -> new IllegalArgumentException("ElementsCollection " + listName + " не описан на странице " + this.getClass().getName()))
+                .getElement());
     }
 
     /**
      * Получение блока со страницы по имени (аннотированного "Name")
      */
     public CorePage getBlock(String blockName) {
-        CorePage corePageBlockName = (CorePage) Optional.ofNullable(namedElements.get(blockName).getElement())
-                .orElseThrow(() -> new IllegalArgumentException("CorePage " + blockName + " не описан на странице " + this.getClass().getName()));
-
-        return castToCorePage(corePageBlockName);
+        return castToCorePage(Optional.ofNullable(namedElements.get(blockName))
+                .orElseThrow(() -> new IllegalArgumentException("CorePage " + blockName + " не описан на странице " + this.getClass().getName()))
+                .getElement());
     }
 
     /**
@@ -313,11 +311,23 @@ public abstract class CorePage extends ElementsContainer {
     }
 
     /**
+     * Приведение объекта к типу SelenideElement
+     */
+    private ElementsCollection castToElementsCollection(Object list) {
+        if (!(list instanceof ElementsCollection)) {
+            throw new IllegalArgumentException("Object: " + list.getClass() + " не является объектом ElementsCollection");
+        }
+        return (ElementsCollection) list;
+    }
+
+    /**
      * Приведение объекта к типу CorePage и инициализация его полей
      */
-    private static CorePage castToCorePage(Object object) {
-        CorePage corePage = (CorePage) object;
-        return Selenide.page(corePage).initialize();
+    private static CorePage castToCorePage(Object corePage) {
+        if (!(corePage instanceof CorePage)) {
+            throw new IllegalArgumentException("Object: " + corePage.getClass() + " не является объектом CorePage");
+        }
+        return Selenide.page((CorePage) corePage).initialize();
     }
 
 }
