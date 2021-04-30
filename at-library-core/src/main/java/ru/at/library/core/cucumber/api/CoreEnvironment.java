@@ -12,10 +12,11 @@
 package ru.at.library.core.cucumber.api;
 
 import io.cucumber.java.Scenario;
+import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import ru.at.library.core.cucumber.ScopedVariables;
 import ru.at.library.core.cucumber.annotations.Name;
+import ru.at.library.core.utils.helpers.ScopedVariables;
 
 import java.util.Arrays;
 
@@ -28,25 +29,29 @@ public class CoreEnvironment {
     /**
      * Сценарий (Cucumber.api), с которым связана среда
      */
-    private Scenario scenario;
+    @Getter
+    private final Scenario scenario;
+
+    /**
+     * Список веб-страниц, заданных пользователем, доступных для использования в сценариях
+     */
+    @Getter
+    private final Pages pages = new Pages();
+
     /**
      * Переменные, объявленные пользователем внутри сценария
      * ThreadLocal обеспечивает отсутствие коллизий при многопоточном запуске
      */
-    private ThreadLocal<ScopedVariables> variables = new ThreadLocal<>();
-    /**
-     * Список веб-страниц, заданных пользователем, доступных для использования в сценариях
-     */
-    private Pages pages = new Pages();
+    @Getter
+    private final ThreadLocal<ScopedVariables> variables = new ThreadLocal<>();
+
 
     public CoreEnvironment(Scenario scenario) {
         this.scenario = scenario;
         initPages();
+        variables.set(new ScopedVariables());
     }
 
-    public CoreEnvironment() {
-        initPages();
-    }
 
     /**
      * Метод ищет классы, аннотированные "CorePage.Name",
@@ -57,47 +62,38 @@ public class CoreEnvironment {
     private void initPages() {
         new AnnotationScanner().getClassesAnnotatedWith(Name.class)
                 .stream()
-                .map(it -> {
-                    if (CorePage.class.isAssignableFrom(it)) {
-                        return (Class<? extends CorePage>) it;
+                .map(classAnnotatedName -> {
+                    if (CorePage.class.isAssignableFrom(classAnnotatedName)) {
+                        return (Class<? extends CorePage>) classAnnotatedName;
                     } else {
-                        throw new IllegalStateException("Класс " + it.getName() + " должен наследоваться от CorePage");
+                        throw new IllegalStateException("Класс " + classAnnotatedName.getName() + " должен наследоваться от CorePage");
                     }
                 })
-                .forEach(clazz -> pages.put(getClassAnnotationValue(clazz), clazz));
+                .forEach(classExtendsCorePage ->
+                        pages.put(getClassAnnotationValue(classExtendsCorePage), classExtendsCorePage));
     }
 
     /**
      * Вспомогательный метод, получает значение аннотации "CorePage.Name" для класса
      *
-     * @param c класс, который должен быть аннотирован "CorePage.Name"
+     * @param classAnnotatedName класс, который должен быть аннотирован "CorePage.Name"
      * @return значение аннотации "CorePage.Name" для класса
      */
-    private String getClassAnnotationValue(Class<?> c) {
-        return Arrays.stream(c.getAnnotationsByType(Name.class))
+    private String getClassAnnotationValue(Class<?> classAnnotatedName) {
+        return Arrays.stream(classAnnotatedName.getAnnotationsByType(Name.class))
                 .findAny()
                 .map(Name::value)
-                .orElseThrow(() -> new AssertionError("Не найдены аннотации CorePage.Name в класса " + c.getClass().getName()));
+                .orElseThrow(() ->
+                        new IllegalStateException("Не найдены аннотации CorePage.Name в классе " + classAnnotatedName.getName()));
     }
 
-    public ScopedVariables getVars() {
-        return getVariables();
-    }
 
     public Object getVar(String name) {
-        return getVariables().get(name);
+        return getVariables().get().get(name);
     }
 
     public void setVar(String name, Object object) {
-        getVariables().put(name, object);
-    }
-
-    public Scenario getScenario() {
-        return scenario;
-    }
-
-    public Pages getPages() {
-        return pages;
+        getVariables().get().put(name, object);
     }
 
     public CorePage getPage(String name) {
@@ -108,14 +104,4 @@ public class CoreEnvironment {
         return pages.get(clazz, name);
     }
 
-    public String replaceVariables(String textToReplaceIn) {
-        return getVariables().replaceVariables(textToReplaceIn);
-    }
-
-    private ScopedVariables getVariables() {
-        if (variables.get() == null) {
-            variables.set(new ScopedVariables());
-        }
-        return variables.get();
-    }
 }

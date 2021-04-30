@@ -53,7 +53,7 @@ public class MobileCheckSteps {
     @И("^(?:экран|блок|форма|вкладка) \"([^\"]*)\" (?:загрузилась|загрузился)$")
     public void loadPage(String nameOfPage) {
         coreScenario.setCurrentPage(coreScenario.getPage(nameOfPage));
-        coreScenario.getCurrentPage().appeared();
+        coreScenario.getCurrentPage().isAppeared();
         //чтоб успел загрузится экран
         sleep(1000);
     }

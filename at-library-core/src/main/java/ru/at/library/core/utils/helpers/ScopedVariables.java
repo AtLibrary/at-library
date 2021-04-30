@@ -9,7 +9,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ru.at.library.core.cucumber;
+package ru.at.library.core.utils.helpers;
 
 import com.google.common.collect.Maps;
 import groovy.lang.GroovyShell;
@@ -22,7 +22,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static java.lang.String.format;
-import static ru.at.library.core.core.helpers.PropertyLoader.loadProperty;
+import static ru.at.library.core.utils.helpers.PropertyLoader.loadProperty;
 
 /**
  * Реализация хранилища переменных, заданных пользователем, внутри тестовых сценариев
@@ -88,22 +88,6 @@ public class ScopedVariables {
         return shell.evaluate(expression);
     }
 
-    /**
-     * @param textToReplaceIn строка, в которой необходимо выполнить замену (не модифицируется)
-     *                        Заменяет в строке все ключи переменных из "variables" на их значения
-     */
-    public String replaceVariables(String textToReplaceIn) {
-        Pattern p = Pattern.compile(CURVE_BRACES_PATTERN);
-        Matcher m = p.matcher(textToReplaceIn);
-        StringBuffer buffer = new StringBuffer();
-        while (m.find()) {
-            String varName = m.group(1);
-            String value = get(varName).toString();
-            m.appendReplacement(buffer, value);
-        }
-        m.appendTail(buffer);
-        return buffer.toString();
-    }
 
     public void put(String name, Object value) {
         variables.put(name, value);

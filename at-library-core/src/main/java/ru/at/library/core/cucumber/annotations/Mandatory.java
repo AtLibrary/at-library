@@ -1,4 +1,4 @@
-/*
+/**
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -17,11 +17,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Аннотация "Название" для элементов страницы
- * Необходима идентификации элементов в cucumber-сценариях
+ * Аннотация для элементов страницы,
+ * служащая для проверки элементов при загрузке страницы
  */
-@Target({ElementType.FIELD, ElementType.TYPE})
+@Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Name {
-    String value();
+public @interface Mandatory {
 }

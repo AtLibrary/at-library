@@ -1,4 +1,4 @@
-package ru.at.library.core.core.log;
+package ru.at.library.core.utils.log;
 
 import com.google.gson.*;
 import lombok.extern.log4j.Log4j2;
