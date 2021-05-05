@@ -148,7 +148,7 @@ public abstract class CorePage extends ElementsContainer {
     /**
      * Проверка, что все (SelenideElement/ElementCollection/Наследники CorePage) c аннотацией Mandatory отображаются на странице
      */
-    private void checkMandatory() {
+    public void checkMandatory() {
         List<ElementMode> parentModesToCheck = Collections.singletonList(ElementMode.MANDATORY);
         List<ElementMode> childModesToCheck = Arrays.asList(ElementMode.MANDATORY, ElementMode.PRIMARY);
         List<IElementCheck> elementChecks = pageElementToElementCheck(
@@ -166,7 +166,7 @@ public abstract class CorePage extends ElementsContainer {
     /**
      * Проверка, что все (SelenideElement/ElementCollection/Наследники CorePage) c аннотацией Hidden не отображаются на странице
      */
-    private void checkHidden() {
+    public void checkHidden() {
         List<ElementMode> modesToCheck = Collections.singletonList(ElementMode.HIDDEN);
         List<IElementCheck> elementChecks = pageElementToElementCheck(
                 getElementsWithModes(modesToCheck, modesToCheck),
@@ -187,7 +187,7 @@ public abstract class CorePage extends ElementsContainer {
     /**
      * Проверка, что все (SelenideElement/ElementCollection/Наследники CorePage) без аннотации Hidden/Optional отображаются на странице
      */
-    private void checkPrimary(boolean includeMandatory) {
+    public void checkPrimary(boolean includeMandatory) {
         List<ElementMode> parentModesToCheck = includeMandatory
                 ? Arrays.asList(ElementMode.MANDATORY, ElementMode.PRIMARY)
                 : Collections.singletonList(ElementMode.PRIMARY);

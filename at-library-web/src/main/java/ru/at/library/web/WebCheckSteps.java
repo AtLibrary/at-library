@@ -37,13 +37,15 @@ public class WebCheckSteps {
      */
 
     /**
-     * Проверка того, что блок отображается
+     * Проверка того, что все основные и обязательные элементы текущей страницы отображаются
      */
     @И("^все элементы текущей страницы отображаются$")
     public void pageAppeared() {
-        this.coreScenario.getCurrentPage().isAppeared();
+        this.coreScenario.setCurrentPage(
+                this.coreScenario.getPage(this.coreScenario.getCurrentPage().getName())
+        );
+        this.coreScenario.getCurrentPage().checkPrimary(true);
     }
-
 
     /**
      * Проверка того, что блок отображается
