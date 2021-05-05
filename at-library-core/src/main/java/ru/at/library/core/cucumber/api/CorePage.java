@@ -72,29 +72,27 @@ public abstract class CorePage extends ElementsContainer {
      * Получение элемента со страницы по имени (аннотированного "Name")
      */
     public SelenideElement getElement(String elementName) {
-        return (SelenideElement) java.util.Optional.ofNullable(namedElements.get(elementName).getElement())
-                .orElseThrow(() -> new IllegalArgumentException("SelenideElement " + elementName + " не описан на странице " + this.getClass().getName()));
+        return castToSelenideElement(Optional.ofNullable(namedElements.get(elementName))
+                .orElseThrow(() -> new IllegalArgumentException("SelenideElement " + elementName + " не описан на странице " + this.getClass().getName()))
+                .getElement());
     }
 
     /**
      * Получение элемента-списка со страницы по имени
      */
     public ElementsCollection getElementsList(String listName) {
-        Object value = namedElements.get(listName).getElement();
-        if (!(value instanceof ElementsCollection)) {
-            throw new IllegalArgumentException("ElementsCollection " + listName + " не описан на странице " + this.getClass().getName());
-        }
-        return (ElementsCollection) value;
+        return castToElementsCollection(Optional.ofNullable(namedElements.get(listName))
+                .orElseThrow(() -> new IllegalArgumentException("ElementsCollection " + listName + " не описан на странице " + this.getClass().getName()))
+                .getElement());
     }
 
     /**
      * Получение блока со страницы по имени (аннотированного "Name")
      */
     public CorePage getBlock(String blockName) {
-        CorePage corePageBlockName = (CorePage) Optional.ofNullable(namedElements.get(blockName).getElement())
-                .orElseThrow(() -> new IllegalArgumentException("CorePage " + blockName + " не описан на странице " + this.getClass().getName()));
-
-        return castToCorePage(corePageBlockName);
+        return castToCorePage(Optional.ofNullable(namedElements.get(blockName))
+                .orElseThrow(() -> new IllegalArgumentException("CorePage " + blockName + " не описан на странице " + this.getClass().getName()))
+                .getElement());
     }
 
     /**
@@ -123,7 +121,7 @@ public abstract class CorePage extends ElementsContainer {
             checkHidden();
         }
         if (isAppeared){
-            checkPrimary();
+            checkPrimary(!isMandatory);
         }
     }
 
@@ -150,7 +148,7 @@ public abstract class CorePage extends ElementsContainer {
     /**
      * Проверка, что все (SelenideElement/ElementCollection/Наследники CorePage) c аннотацией Mandatory отображаются на странице
      */
-    private void checkMandatory() {
+    public void checkMandatory() {
         List<ElementMode> parentModesToCheck = Collections.singletonList(ElementMode.MANDATORY);
         List<ElementMode> childModesToCheck = Arrays.asList(ElementMode.MANDATORY, ElementMode.PRIMARY);
         List<IElementCheck> elementChecks = pageElementToElementCheck(
@@ -168,7 +166,7 @@ public abstract class CorePage extends ElementsContainer {
     /**
      * Проверка, что все (SelenideElement/ElementCollection/Наследники CorePage) c аннотацией Hidden не отображаются на странице
      */
-    private void checkHidden() {
+    public void checkHidden() {
         List<ElementMode> modesToCheck = Collections.singletonList(ElementMode.HIDDEN);
         List<IElementCheck> elementChecks = pageElementToElementCheck(
                 getElementsWithModes(modesToCheck, modesToCheck),
@@ -189,8 +187,10 @@ public abstract class CorePage extends ElementsContainer {
     /**
      * Проверка, что все (SelenideElement/ElementCollection/Наследники CorePage) без аннотации Hidden/Optional отображаются на странице
      */
-    private void checkPrimary() {
-        List<ElementMode> parentModesToCheck = Collections.singletonList(ElementMode.PRIMARY);
+    public void checkPrimary(boolean includeMandatory) {
+        List<ElementMode> parentModesToCheck = includeMandatory
+                ? Arrays.asList(ElementMode.MANDATORY, ElementMode.PRIMARY)
+                : Collections.singletonList(ElementMode.PRIMARY);
         List<ElementMode> childModesToCheck = Arrays.asList(ElementMode.MANDATORY, ElementMode.PRIMARY);
         List<IElementCheck> elementChecks = pageElementToElementCheck(
                 getElementsWithModes(parentModesToCheck, childModesToCheck),
@@ -313,11 +313,23 @@ public abstract class CorePage extends ElementsContainer {
     }
 
     /**
+     * Приведение объекта к типу SelenideElement
+     */
+    private ElementsCollection castToElementsCollection(Object list) {
+        if (!(list instanceof ElementsCollection)) {
+            throw new IllegalArgumentException("Object: " + list.getClass() + " не является объектом ElementsCollection");
+        }
+        return (ElementsCollection) list;
+    }
+
+    /**
      * Приведение объекта к типу CorePage и инициализация его полей
      */
-    private static CorePage castToCorePage(Object object) {
-        CorePage corePage = (CorePage) object;
-        return Selenide.page(corePage).initialize();
+    private static CorePage castToCorePage(Object corePage) {
+        if (!(corePage instanceof CorePage)) {
+            throw new IllegalArgumentException("Object: " + corePage.getClass() + " не является объектом CorePage");
+        }
+        return Selenide.page((CorePage) corePage).initialize();
     }
 
 }
