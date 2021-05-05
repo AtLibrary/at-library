@@ -121,7 +121,7 @@ public abstract class CorePage extends ElementsContainer {
             checkHidden();
         }
         if (isAppeared){
-            checkPrimary();
+            checkPrimary(!isMandatory);
         }
     }
 
@@ -187,8 +187,10 @@ public abstract class CorePage extends ElementsContainer {
     /**
      * Проверка, что все (SelenideElement/ElementCollection/Наследники CorePage) без аннотации Hidden/Optional отображаются на странице
      */
-    private void checkPrimary() {
-        List<ElementMode> parentModesToCheck = Collections.singletonList(ElementMode.PRIMARY);
+    private void checkPrimary(boolean includeMandatory) {
+        List<ElementMode> parentModesToCheck = includeMandatory
+                ? Arrays.asList(ElementMode.MANDATORY, ElementMode.PRIMARY)
+                : Collections.singletonList(ElementMode.PRIMARY);
         List<ElementMode> childModesToCheck = Arrays.asList(ElementMode.MANDATORY, ElementMode.PRIMARY);
         List<IElementCheck> elementChecks = pageElementToElementCheck(
                 getElementsWithModes(parentModesToCheck, childModesToCheck),
