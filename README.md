@@ -45,16 +45,21 @@ BDD библиотека шагов для тестирования на осн�
 
 - Подключение зависимостей
 ```xml
+
+<properties>
+    <version.at-library>3a0b4d6b08</version.at-library>
+</properties>
+
 <dependencies>
     <dependency>
         <groupId>com.github.AtLibrary.at-library</groupId>
         <artifactId>at-library-core</artifactId>
-        <version>85b2b9a4fd</version>
+        <version>${version.at-library}</version>
     </dependency>
     <dependency>
         <groupId>com.github.AtLibrary.at-library</groupId>
         <artifactId>at-library-web</artifactId>
-        <version>85b2b9a4fd</version>
+        <version>${version.at-library}</version>
     </dependency>
 </dependencies>
 ```

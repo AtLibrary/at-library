@@ -95,6 +95,11 @@ public class OtherSteps {
      * @param lang   варианты языков 'ru' или 'en'
      */
     public static String getRandCharSequence(int length, String lang) {
+        if (lang.equals("кириллице")) {
+            lang = "ru";
+        } else {
+            lang = "en";
+        }
 
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < length; i++) {

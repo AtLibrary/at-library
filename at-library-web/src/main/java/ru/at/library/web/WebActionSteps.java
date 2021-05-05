@@ -342,10 +342,7 @@ public class WebActionSteps {
     public void setRandomCharSequence(String elementName, String seqLengthString, String lang) {
         int seqLength = Integer.parseInt(seqLengthString);
         SelenideElement valueInput = coreScenario.getCurrentPage().getElement(elementName);
-        if (lang.equals("кириллице"))
-            lang = "ru";
-        else
-            lang = "en";
+
         String charSeq = getRandCharSequence(seqLength, lang);
         valueInput.setValue(charSeq);
         log.trace("Строка случайных символов равна :" + charSeq);
@@ -359,10 +356,7 @@ public class WebActionSteps {
     public void setRandomCharSequenceAndSaveToVar(String elementName, String seqLengthString, String lang, String varName) {
         int seqLength = Integer.parseInt(seqLengthString);
         SelenideElement valueInput = coreScenario.getCurrentPage().getElement(elementName);
-        if (lang.equals("кириллице"))
-            lang = "ru";
-        else
-            lang = "en";
+
         String charSeq = getRandCharSequence(seqLength, lang);
         valueInput.setValue(charSeq);
         coreScenario.setVar(varName, charSeq);

@@ -195,8 +195,6 @@ public class MobileActionSteps {
         WebElement element = MobileTestConfig.getWebElementInCurrentPage(elementName);
         cleanField(elementName);
 
-        if (lang.equals("кириллице")) lang = "ru";
-        else lang = "en";
         String charSeq = getRandCharSequence(seqLength, lang);
         element.sendKeys(charSeq);
         log.trace("Строка случайных символов равна :" + charSeq);
@@ -210,8 +208,6 @@ public class MobileActionSteps {
         WebElement element = MobileTestConfig.getWebElementInCurrentPage(elementName);
         cleanField(elementName);
 
-        if (lang.equals("кириллице")) lang = "ru";
-        else lang = "en";
         String charSeq = getRandCharSequence(seqLength, lang);
         element.sendKeys(charSeq);
         coreScenario.setVar(varName, charSeq);
