@@ -294,11 +294,46 @@ public class BrowserSteps {
      * @param widthString  ширина
      * @param heightString высота
      */
-    @И("^установлено разрешение экрана \"([^\"]*)\" х \"([^\"]*)\"$")
+    @И("^установлен размер окна браузера \"([^\"]*)\" х \"([^\"]*)\"$")
     public void setBrowserWindowSize(String widthString, String heightString) {
-        int width = Integer.parseInt(widthString);
-        int height = Integer.parseInt(heightString);
-        getWebDriver().manage().window().setSize(new Dimension(width, height));
+        int width = Integer.parseInt(getPropertyOrStringVariableOrValue(widthString));
+        int height = Integer.parseInt(getPropertyOrStringVariableOrValue(heightString));
+        setBrowserWindowSize(width, height);
+    }
+
+    /**
+     * Устанавливает ширину окна браузера
+     * @param widthString   ширина окна
+     */
+    @И("^установлена ширина окна браузера \"([^\"]*)\"$")
+    public void setBrowserWindowWidth(String widthString) {
+        int width = Integer.parseInt(getPropertyOrStringVariableOrValue(widthString));
+        setBrowserWindowSize(width, null);
+    }
+    /**
+     * Устанавливает высоту окна браузера
+     * @param heightString  высота окна
+     */
+    @И("^установлена высота окна браузера \"([^\"]*)\"$")
+    public void setBrowserWindowHeight(String heightString) {
+        int height = Integer.parseInt(getPropertyOrStringVariableOrValue(heightString));
+        setBrowserWindowSize(null, height);
+    }
+
+    /**
+     * Устанавливает размеры окна браузера
+     * @param width     ширина окна (если null, то ширина не меняется)
+     * @param height    высота окна (если null, то высота не меняется)
+     */
+    public void setBrowserWindowSize(Integer width, Integer height) {
+        WebDriver.Window browserWindow = getWebDriver().manage().window();
+        if (width == null) {
+            width = browserWindow.getSize().width;
+        }
+        if (height == null) {
+            height = browserWindow.getSize().height;
+        }
+        browserWindow.setSize(new Dimension(width, height));
         log.trace("Установлены размеры окна браузера: ширина " + width + " высота" + height);
     }
 

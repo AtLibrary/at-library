@@ -48,12 +48,32 @@ public class WebCheckSteps {
     }
 
     /**
-     * Проверка того, что блок отображается
+     * Проверка отображения всех основных элементов блока (всех кроме Optional и Hidden)
+     * @param blockName имя блока для проверки
      */
     @И("^блок \"([^\"]*)\" отображается на странице$")
     public void blockAppeared(String blockName) {
         CorePage block = this.coreScenario.getCurrentPage().getBlock(blockName);
-        block.isAppeared();
+        blockAppeared(block);
+    }
+
+    /**
+     * Проверка отображения всех основных элементов дочернего блока (всех кроме Optional и Hidden) в родительском блоке
+     * @param parentBlockName   имя родительского блока, в котором расположен дочерний блок
+     * @param childBlockName    имя дочернего блока для проверки
+     */
+    @И("^в блоке \"([^\"]*)\" блок \"([^\"]*)\" отображается на странице$")
+    public void blockAppeared(String parentBlockName, String childBlockName) {
+        CorePage block = this.coreScenario.getCurrentPage().getBlock(parentBlockName).getBlock(childBlockName);
+        blockAppeared(block);
+    }
+
+    /**
+     * Проверка отображения всех основных элементов блока (всех кроме Optional и Hidden)
+     * @param block блок для проверки
+     */
+    public void blockAppeared(CorePage block) {
+        block.checkPrimary(true);
     }
 
     /**
