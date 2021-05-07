@@ -9,7 +9,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ru.at.library.web;
+package ru.at.library.web.step.browser;
 
 import com.assertthat.selenium_shutterbug.core.Capture;
 import com.assertthat.selenium_shutterbug.core.Shutterbug;
@@ -36,18 +36,18 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
 import static org.testng.Assert.assertNull;
 import static org.testng.Assert.fail;
+import static ru.at.library.core.steps.OtherSteps.getPropertyOrStringVariableOrValue;
 import static ru.at.library.core.utils.helpers.PropertyLoader.getPropertyOrValue;
 import static ru.at.library.core.utils.helpers.PropertyLoader.loadValueFromFileOrVariableOrDefault;
 import static ru.at.library.core.utils.helpers.ScopedVariables.resolveVars;
-import static ru.at.library.core.steps.OtherSteps.getPropertyOrStringVariableOrValue;
 
 /**
- * Браузер шаги
+ * Шаги браузера
  */
 @Log4j2
 public class BrowserSteps {
 
-    private CoreScenario coreScenario = CoreScenario.getInstance();
+    private final CoreScenario coreScenario = CoreScenario.getInstance();
 
     /**
      * Выполняется переход по заданной ссылке,

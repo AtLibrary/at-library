@@ -1,11 +1,10 @@
-package ru.at.library.web.step.result.core;
+package ru.at.library.web.core;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.ex.ElementNotFound;
 import lombok.experimental.UtilityClass;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import ru.at.library.core.cucumber.api.CorePage;
 
@@ -20,16 +19,15 @@ public class CastToWebElements {
      * Преобразование списка объектов {@link CorePage} в список объектов {@link WebElement} для выдедения списка блоков на скриншоте страницы
      *
      * @param blockList список блоков {@link CorePage} для выделения на скриншоте страницы
-     *
-     * @return  список объектов {@link WebElement} в обертке {@link Optional#of(Object)} для выделения на скришоте страницы
-     *          или {@link Optional#empty()} в случае если список блоков blockList отсутствуют или пропал со страниы
+     * @return список объектов {@link WebElement} в обертке {@link Optional#of(Object)} для выделения на скришоте страницы
+     * или {@link Optional#empty()} в случае если список блоков blockList отсутствуют или пропал со страниы
      */
     public static Optional<List<WebElement>> getBlockListAsWebElementsList(List<CorePage> blockList) {
         if (blockList == null || blockList.isEmpty()) {
             return Optional.empty();
         }
         List<WebElement> webElements = new ArrayList<>();
-        for (CorePage block:blockList) {
+        for (CorePage block : blockList) {
             tryGetWebElement(block.getSelf()).ifPresent(webElements::add);
         }
         if (webElements.isEmpty()) {
@@ -41,9 +39,8 @@ public class CastToWebElements {
      * Преобразование объекта {@link ElementsCollection} в список объектов {@link WebElement} для выделения на скриншоте страницы
      *
      * @param elementsCollection коллекция элементов {@link ElementsCollection} для выделения на скриншоте страницы
-     *
-     * @return  список объектов {@link WebElement} в обертке {@link Optional#of(Object)} для выделения на скришоте страницы
-     *          или {@link Optional#empty()} в случае если список elementsCollection отсутствуют или пропал со страниы
+     * @return список объектов {@link WebElement} в обертке {@link Optional#of(Object)} для выделения на скришоте страницы
+     * или {@link Optional#empty()} в случае если список elementsCollection отсутствуют или пропал со страниы
      */
     public static Optional<List<WebElement>> getElementsCollectionAsElementsList(ElementsCollection elementsCollection) {
         if (elementsCollection == null) return Optional.empty();
@@ -57,9 +54,8 @@ public class CastToWebElements {
      * Преобразование объекта {@link SelenideElement} в объект {@link WebElement} для выделения на скриншоте страницы
      *
      * @param selenideElement элемент {@link SelenideElement} для выделения на скриншоте страницы
-     *
-     * @return  объект {@link WebElement} в обертке {@link Optional#of(Object)} для выделения на скришоте страницы
-     *          или {@link Optional#empty()} в случае если элемент selenideElement отсутствуют или пропал со страниы
+     * @return объект {@link WebElement} в обертке {@link Optional#of(Object)} для выделения на скришоте страницы
+     * или {@link Optional#empty()} в случае если элемент selenideElement отсутствуют или пропал со страниы
      */
     public static Optional<WebElement> tryGetWebElement(SelenideElement selenideElement) {
         WebElement webElement;
