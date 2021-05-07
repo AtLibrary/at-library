@@ -24,12 +24,10 @@ public class CorePageStep {
     /**
      * Проверка того, что все элементы, которые описаны в классе страницы с аннотацией @Name,
      * но без аннотации @Optional появились на странице
-     * в течение WAITING_APPEAR_TIMEOUT, которое равно значению свойства "waitingAppearTimeout"
-     * из properties. Если свойство не найдено, время таймаута равно 8 секундам
      *
      * @param nameOfPage название страница|блок|форма|вкладка
      */
-    @И("^(?:страница|форма|вкладка) \"([^\"]*)\" (?:загрузилась|загрузился)$")
+    @И("^(?:страница|форма|вкладка) \"([^\"]*)\" загрузилась$")
     public void loadPage(String nameOfPage) {
         CorePage page = coreScenario.getPage(nameOfPage);
         coreScenario.setCurrentPage(page);
@@ -38,11 +36,9 @@ public class CorePageStep {
 
     /**
      * Проверка того, что все элементы, которые описаны в классе страницы с аннотацией @Name,
-     * но без аннотации @Optional появились на странице
-     * в течение WAITING_APPEAR_TIMEOUT, которое равно значению свойства "waitingAppearTimeout"
-     * из properties. Если свойство не найдено, время таймаута равно 8 секундам
+     * но без аннотации @Optional появились в блоке
      *
-     * @param nameOfPage название страница|блок|форма|вкладка
+     * @param nameOfPage название блока
      */
     @И("^блок \"([^\"]*)\" загрузился$")
     public void loadBlock(String nameOfPage) {
@@ -55,9 +51,9 @@ public class CorePageStep {
      * Проверка того, что все элементы, которые описаны в классе страницы с аннотацией @Name,
      * но без аннотации @Optional, не появились на странице
      *
-     * @param nameOfPage название страница|блок|форма|вкладка
+     * @param nameOfPage название страница|форма|вкладка
      */
-    @И("^(?:страница|форма|вкладка) \"([^\"]*)\" не (?:загрузилась|загрузился)$")
+    @И("^(?:страница|форма|вкладка) \"([^\"]*)\" не загрузилась$")
     public void loadPageFailed(String nameOfPage) {
         coreScenario.setCurrentPage(coreScenario.getPage(nameOfPage));
         coreScenario.getCurrentPage().isDisappeared();
@@ -66,39 +62,47 @@ public class CorePageStep {
     /**
      * Выполняется переход по заданной ссылке.
      * Шаг содержит проверку, что после перехода загружена заданная страница.
-     * Ссылка может передаваться как строка, так и как ключ из properties
+     *
+     * @param nameOfPage название блока
+     * @param urlOrName  url ссылки
      */
     @И("^совершен переход на страницу \"([^\"]*)\" по ссылке \"([^\"]*)\"$")
-    public void goToSelectedPageByLink(String pageName, String urlOrName) {
+    public void goToSelectedPageByLink(String nameOfPage, String urlOrName) {
         String url = resolveVars(getPropertyOrStringVariableOrValue(urlOrName));
         log.trace(" url = " + url);
         open(url);
-        loadPage(pageName);
+        loadPage(nameOfPage);
     }
 
     /**
      * Выполняется переход по заданной ссылке в новой вкладке.
      * Шаг содержит проверку, что после перехода загружена заданная страница.
      * Ссылка может передаваться как строка, так и как ключ из properties
+     *
+     * @param nameOfPage название блока
+     * @param urlOrName  url ссылки
      */
     @И("^совершен переход на страницу \"([^\"]*)\" в новой вкладке по ссылке \"([^\"]*)\"$")
-    public void goToSelectedPageByLinkNewTab(String pageName, String urlOrName) {
+    public void goToSelectedPageByLinkNewTab(String nameOfPage, String urlOrName) {
         String url = resolveVars(getPropertyOrStringVariableOrValue(urlOrName));
         log.trace(" url = " + url);
         ((JavascriptExecutor) WebDriverRunner.getWebDriver())
                 .executeScript("window.open('" + url + "','_blank');");
         int numberThisTab = WebDriverRunner.getWebDriver().getWindowHandles().size() - 1;
         Selenide.switchTo().window(numberThisTab);
-        loadPage(pageName);
+        loadPage(nameOfPage);
     }
 
     /**
      * Переход на страницу по клику и проверка, что страница загружена
+     *
+     * @param nameOfPage  название блока
+     * @param elementName имя элемента после нажатия на которых происходит переход
      */
     @И("^выполнен переход на страницу \"([^\"]*)\" после нажатия на (?:кнопку|ссылку|поле|чекбокс|радиокнопу|текст|элемент) \"([^\"]*)\"$")
-    public void urlClickAndCheckRedirection(String pageName, String elementName) {
+    public void urlClickAndCheckRedirection(String nameOfPage, String elementName) {
         coreScenario.getCurrentPage().getElement(elementName).click();
-        loadPage(pageName);
+        loadPage(nameOfPage);
         log.trace(" url = " + url());
     }
 
@@ -107,10 +111,10 @@ public class CorePageStep {
      */
     @И("^все элементы текущей страницы отображаются$")
     public void pageAppeared() {
-        this.coreScenario.setCurrentPage(
-                this.coreScenario.getPage(this.coreScenario.getCurrentPage().getName())
+        coreScenario.setCurrentPage(
+                coreScenario.getPage(coreScenario.getCurrentPage().getName())
         );
-        this.coreScenario.getCurrentPage().checkPrimary(true);
+        coreScenario.getCurrentPage().checkPrimary(true);
     }
 
     /**
@@ -126,6 +130,8 @@ public class CorePageStep {
 
     /**
      * Проверка того, что блок исчез/стал невидимым
+     *
+     * @param blockName имя блока для проверки
      */
     @И("^блок \"([^\"]*)\" не отображается на странице$")
     public void blockDisappeared(String blockName) {

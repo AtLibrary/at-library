@@ -52,10 +52,7 @@ public class BrowserSteps {
     /**
      * Выполняется переход по заданной ссылке,
      *
-     * @param address Ссылка берется из property / переменной по ключу, если такая переменная не найдена,
-     *                то берется переданное значение
-     *                при этом все ключи переменных в фигурных скобках
-     *                меняются на их значения из хранилища coreScenario
+     * @param address Ссылка
      */
     @И("^совершен переход по ссылке \"([^\"]*)\"$")
     public void openUrl(String address) {
@@ -67,10 +64,7 @@ public class BrowserSteps {
     /**
      * Выполняется переход по заданной ссылке в новом окне,
      *
-     * @param address Ссылка берется из property / переменной по ключу, если такая переменная не найдена,
-     *                то берется переданное значение
-     *                при этом все ключи переменных в фигурных скобках
-     *                меняются на их значения из хранилища coreScenario
+     * @param address Ссылка
      */
     @И("^совершен переход по ссылке \"([^\"]*)\" в новой вкладке$")
     public void openUrlNewTab(String address) {
@@ -86,8 +80,7 @@ public class BrowserSteps {
     /**
      * Проверка, что текущий URL совпадает с ожидаемым
      *
-     * @param expectedURL (берется из property / переменной, если такая переменная не найдена,
-     *                    то берется переданное значение)
+     * @param expectedURL ожидаемый URL
      */
     @И("^текущий URL равен \"([^\"]*)\"$")
     public void checkCurrentURL(String expectedURL) {
@@ -109,8 +102,7 @@ public class BrowserSteps {
     /**
      * Проверка, что текущий URL содержит с ожидаемым
      *
-     * @param expectedURL (берется из property / переменной, если такая переменная не найдена,
-     *                    то берется переданное значение)
+     * @param expectedURL ожидаемый URL
      */
     @И("^текущий URL содержит \"([^\"]*)\"$")
     public void checkContainsStringURL(String expectedURL) {
@@ -132,13 +124,12 @@ public class BrowserSteps {
     /**
      * Проверка, что текущий URL не совпадает с ожидаемым
      *
-     * @param hardcodeUrl (берется из property / переменной, если такая переменная не найдена,
-     *                    то берется переданное значение)
+     * @param expectedURL URL с которым происходит сравнение
      */
     @И("^текущий URL не равен \"([^\"]*)\"$")
-    public void checkCurrentURLIsNotEquals(String hardcodeUrl) {
+    public void checkCurrentURLIsNotEquals(String expectedURL) {
+        expectedURL = formALinkExpectedURL(expectedURL);
         String currentUrl = "";
-        String expectedURL = formALinkExpectedURL(hardcodeUrl);
         int sleepTime = 100;
 
         for (int time = 0; time < Configuration.timeout; time += sleepTime) {
@@ -171,6 +162,9 @@ public class BrowserSteps {
 
     /**
      * Выполняется обновление страницы
+     *
+     * @param secondString        общее время обновление страницы
+     * @param allTimeSecondString как часто будет происходить обноволение
      */
     @И("^выполнено обновление текущей страницы каждые \"([^\"]*)\" секунд в течении \"([^\"]*)\" секунд$")
     public void refreshPageParam(String secondString, String allTimeSecondString) {
@@ -226,7 +220,7 @@ public class BrowserSteps {
     }
 
     /**
-     * Переключение на фрейм с именем (property/var/hardcode)
+     * Переключение на фрейм с именем
      *
      * @param frameName имя/id фрейма
      */
@@ -255,7 +249,6 @@ public class BrowserSteps {
 
     /**
      * Производится сравнение заголовка страницы со значением, указанным в шаге
-     * (в приоритете: из property, из переменной сценария, значение аргумента)
      *
      * @param expectedTitle ожидаемый заголовок текущей вкладки
      */
@@ -303,16 +296,19 @@ public class BrowserSteps {
 
     /**
      * Устанавливает ширину окна браузера
-     * @param widthString   ширина окна
+     *
+     * @param widthString ширина окна
      */
     @И("^установлена ширина окна браузера \"([^\"]*)\"$")
     public void setBrowserWindowWidth(String widthString) {
         int width = Integer.parseInt(getPropertyOrStringVariableOrValue(widthString));
         setBrowserWindowSize(width, null);
     }
+
     /**
      * Устанавливает высоту окна браузера
-     * @param heightString  высота окна
+     *
+     * @param heightString высота окна
      */
     @И("^установлена высота окна браузера \"([^\"]*)\"$")
     public void setBrowserWindowHeight(String heightString) {
@@ -322,8 +318,9 @@ public class BrowserSteps {
 
     /**
      * Устанавливает размеры окна браузера
-     * @param width     ширина окна (если null, то ширина не меняется)
-     * @param height    высота окна (если null, то высота не меняется)
+     *
+     * @param width  ширина окна (если null, то ширина не меняется)
+     * @param height высота окна (если null, то высота не меняется)
      */
     public void setBrowserWindowSize(Integer width, Integer height) {
         WebDriver.Window browserWindow = getWebDriver().manage().window();
@@ -472,6 +469,9 @@ public class BrowserSteps {
         assertNull(cookie, "Cookie: " + cookie + " найдена");
     }
 
+    /**
+     * Метод переключается на следующую вкладку
+     */
     private String nextWindowHandle() {
         String currentWindowHandle = getWebDriver().getWindowHandle();
         Set<String> windowHandles = getWebDriver().getWindowHandles();
@@ -480,15 +480,19 @@ public class BrowserSteps {
         return windowHandles.iterator().next();
     }
 
-    private String formALinkExpectedURL(String hardcodeUrl) {
-        String expectedURL;
-
-        hardcodeUrl = getPropertyOrValue(hardcodeUrl);
-        String propertyUrl = getPropertyOrValue(hardcodeUrl);
+    /**
+     * Метод проверяет если ли в передавемом url текст http 
+     * Если данного текста нет то метод выполняет конкатенатицию строк Configuration.baseUrl и передаваемого expectedURL
+     *
+     * @param expectedURL URL с которым происходит провпрка и конкатенатиция
+     */
+    private String formALinkExpectedURL(String expectedURL) {
+        expectedURL = getPropertyOrValue(expectedURL);
+        String propertyUrl = getPropertyOrValue(expectedURL);
         if (!propertyUrl.contains("http")) {
             propertyUrl = Configuration.baseUrl + propertyUrl;
         }
-        String variableUrl = loadValueFromFileOrVariableOrDefault(hardcodeUrl);
+        String variableUrl = loadValueFromFileOrVariableOrDefault(expectedURL);
 
         if (variableUrl.contains("http")) {
             expectedURL = variableUrl;
@@ -499,6 +503,9 @@ public class BrowserSteps {
         return expectedURL;
     }
 
+    /**
+     * Получание скриншота побайтно
+     */
     public synchronized static Optional<byte[]> getScreenshotBytes() {
         try {
             return WebDriverRunner.hasWebDriverStarted() ?
