@@ -83,7 +83,7 @@ public class BrowserSteps {
      * @param expectedURL ожидаемый URL
      */
     @И("^текущий URL равен \"([^\"]*)\"$")
-    public void checkCurrentURL(String expectedURL) {
+    public void checkEqualsCurrentURL(String expectedURL) {
         expectedURL = formALinkExpectedURL(expectedURL);
         String currentUrl = "";
         int sleepTime = 100;
@@ -167,7 +167,7 @@ public class BrowserSteps {
      * @param allTimeSecondString как часто будет происходить обноволение
      */
     @И("^выполнено обновление текущей страницы каждые \"([^\"]*)\" секунд в течении \"([^\"]*)\" секунд$")
-    public void refreshPageParam(String secondString, String allTimeSecondString) {
+    public void refreshPage(String secondString, String allTimeSecondString) {
         int second = Integer.parseInt(secondString);
         int allTimeSecond = Integer.parseInt(allTimeSecondString);
         for (int i = 0; i < allTimeSecond; i += second) {
@@ -215,7 +215,7 @@ public class BrowserSteps {
             switchTo().window(title);
         } catch (Exception exception) {
             exception.printStackTrace();
-            checkPageTitle(title);
+            checkPageTitleEquals(title);
         }
     }
 
@@ -253,7 +253,7 @@ public class BrowserSteps {
      * @param expectedTitle ожидаемый заголовок текущей вкладки
      */
     @И("^заголовок страницы равен \"([^\"]*)\"$")
-    public void checkPageTitle(String expectedTitle) {
+    public void checkPageTitleEquals(String expectedTitle) {
         expectedTitle = getPropertyOrStringVariableOrValue(expectedTitle);
         String actualTitle = "";
         int sleepTime = 100;
@@ -265,8 +265,10 @@ public class BrowserSteps {
             sleep(sleepTime);
         }
         takeScreenshot();
-        assertThat(String.format("Заголовок страницы не совпадает с ожидаемым значением. Ожидаемый результат: %s, текущий результат: %s", expectedTitle, actualTitle),
-                expectedTitle, equalToIgnoringCase(actualTitle));
+        assertThat(
+                String.format("Заголовок страницы не совпадает с ожидаемым значением. Ожидаемый результат: %s, текущий результат: %s", expectedTitle, actualTitle),
+                expectedTitle,
+                equalToIgnoringCase(actualTitle));
     }
 
     /**
@@ -340,6 +342,16 @@ public class BrowserSteps {
     @И("^окно развернуто на весь экран$")
     public void expandWindowToFullScreen() {
         getWebDriver().manage().window().maximize();
+    }
+
+    /**
+     * Выполняется переход в начало страницы
+     */
+    @И("^совершен переход в начало страницы$")
+    public void scrollUP() {
+        Actions actions = new Actions(WebDriverRunner.getWebDriver());
+        actions.keyDown(Keys.CONTROL).sendKeys(new CharSequence[]{Keys.HOME}).build().perform();
+        actions.keyUp(Keys.CONTROL).perform();
     }
 
     /**
@@ -467,6 +479,26 @@ public class BrowserSteps {
             }
         }
         assertNull(cookie, "Cookie: " + cookie + " найдена");
+    }
+
+    /**
+     * Очистка сессионного хранилища
+     */
+    @И("^выполнена очистка сессионного хранилища")
+    public void clearSessionStorage() {
+        Selenide.clearBrowserLocalStorage();
+        executeJavaScript("sessionStorage.clear();");
+    }
+
+    /**
+     * Из сессионного хранилища удаляется элемент
+     *
+     * @param key поле с данным ключем будет удалено из sessionStorage
+     */
+    @И("^из сессионного хранилища удаляется элемент с ключом \"([^\"]*)\"$")
+    public static void removeSessionStorageKey(String key) {
+        key = getPropertyOrStringVariableOrValue(key);
+        executeJavaScript(String.format("sessionStorage.removeItem('%s');", key));
     }
 
     /**

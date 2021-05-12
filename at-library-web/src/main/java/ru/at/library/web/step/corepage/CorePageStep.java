@@ -1,5 +1,6 @@
 package ru.at.library.web.step.corepage;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
 import io.cucumber.java.ru.И;
@@ -54,7 +55,7 @@ public class CorePageStep {
      * @param nameOfPage название страница|форма|вкладка
      */
     @И("^(?:страница|форма|вкладка) \"([^\"]*)\" не загрузилась$")
-    public void loadPageFailed(String nameOfPage) {
+    public void loadPageDisappeared(String nameOfPage) {
         coreScenario.setCurrentPage(coreScenario.getPage(nameOfPage));
         coreScenario.getCurrentPage().isDisappeared();
     }
@@ -137,6 +138,16 @@ public class CorePageStep {
     public void blockDisappeared(String blockName) {
         CorePage block = this.coreScenario.getCurrentPage().getBlock(blockName);
         block.isDisappeared();
+    }
+
+    /**
+     * Блок это не совсем Selenide|Selenium элемент.
+     * <p>
+     * Шагом *не отображается* - проверить нельзя. Кидает ошибку что не смог найти селектор.
+     */
+    @И("^блок \"([^\"]*)\" не присутствует в DOM$")
+    public void blockDoesntExist(String blockName) {
+        this.coreScenario.getCurrentPage().getBlock(blockName).getSelf().shouldHave(Condition.exist);
     }
 
     /**

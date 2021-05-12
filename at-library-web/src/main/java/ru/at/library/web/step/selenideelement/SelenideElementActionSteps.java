@@ -1,10 +1,11 @@
 package ru.at.library.web.step.selenideelement;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
-import io.cucumber.java.ru.И;
 import io.cucumber.java.ru.А;
+import io.cucumber.java.ru.И;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
@@ -96,15 +97,34 @@ public class SelenideElementActionSteps {
      * ######################################################################################################################
      */
 
+    @И("^выполнено нажатие на (?:кнопку|ссылку|поле|чекбокс|радиокнопу|текст|элемент) \"([^\"]*)\" и переход на новую вкладку$")
+    public void clickOnElementInBlockAndSwitchToNewTab(String elementName) {
+        clickOnElementInBlockAndSwitchToNewTab(coreScenario.getCurrentPage().getElement(elementName));
+    }
+
+    @И("^в блоке \"([^\"]*)\" выполнено нажатие на (?:кнопку|ссылку|поле|чекбокс|радиокнопу|текст|элемент) \"([^\"]*)\" и переход на новую вкладку$")
+    public void clickOnElementInBlockAndSwitchToNewTab(String blockName, String elementName) {
+        clickOnElementInBlockAndSwitchToNewTab(coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName));
+    }
+
+    public void clickOnElementInBlockAndSwitchToNewTab(SelenideElement element) {
+        element.clear();
+        Selenide.switchTo().window(WebDriverRunner.getWebDriver().getWindowHandles().size() - 1);
+    }
+
+    /**
+     * ######################################################################################################################
+     */
+
     @И("^выполнено нажатие на элемент с текстом \"([^\"]*)\"$")
-    public void findElement(String text) {
+    public void clickingElementWithText(String text) {
         coreScenario.getCurrentPage().getSelf()
                 .$(By.xpath(getTranslateNormalizeSpaceText(getPropertyOrStringVariableOrValue(text)))).click();
     }
 
 
     @И("^в блоке \"([^\"]*)\" выполнено нажатие на элемент с текстом \"([^\"]*)\"$")
-    public void findElement(String blockName, String text) {
+    public void clickingElementWithText(String blockName, String text) {
         coreScenario.getCurrentPage().getBlock(blockName).getSelf()
                 .$(By.xpath(getTranslateNormalizeSpaceText(getPropertyOrStringVariableOrValue(text)))).click();
     }
@@ -165,7 +185,7 @@ public class SelenideElementActionSteps {
      */
     public void sendKeysCharacterByCharacter(SelenideElement element, String value) {
         value = getPropertyOrStringVariableOrValue(value);
-        cleanField(value);
+        cleanInput(element);
         for (char character : value.toCharArray()) {
             element.sendKeys(String.valueOf(character));
             sleep(100);
@@ -178,8 +198,8 @@ public class SelenideElementActionSteps {
 
     @А("^в (?:поле|элемент) \"([^\"]*)\" дописывается значение$")
     @И("^в (?:поле|элемент) \"([^\"]*)\" дописывается значение \"([^\"]*)\"$")
-    public void addValue(String elementName, String value) {
-        addValue(
+    public void valueIsAppended(String elementName, String value) {
+        valueIsAppended(
                 coreScenario.getCurrentPage().getElement(elementName),
                 value
         );
@@ -187,8 +207,8 @@ public class SelenideElementActionSteps {
 
     @А("^в блоке \"([^\"]*)\" в (?:поле|элемент) \"([^\"]*)\" дописывается значение$")
     @И("^в блоке \"([^\"]*)\" в (?:поле|элемент) \"([^\"]*)\" дописывается значение \"([^\"]*)\"$")
-    public void addValue(String blockName, String elementName, String value) {
-        addValue(
+    public void valueIsAppended(String blockName, String elementName, String value) {
+        valueIsAppended(
                 coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName),
                 value
         );
@@ -197,7 +217,7 @@ public class SelenideElementActionSteps {
     /**
      * Добавление строки (в приоритете: из property, из переменной сценария, значение аргумента) в поле к уже заполненой строке
      */
-    public void addValue(SelenideElement element, String value) {
+    public void valueIsAppended(SelenideElement element, String value) {
         value = getPropertyOrStringVariableOrValue(value);
         String oldValue = element.getValue();
         if (oldValue.isEmpty()) {
@@ -212,15 +232,15 @@ public class SelenideElementActionSteps {
      */
 
     @И("^в (?:поле|элемент) \"([^\"]*)\" набирается текущая дата в формате \"([^\"]*)\"$")
-    public void currentDate(String elementName, String dateFormat) {
-        currentDate(
+    public void currentDateIsTypedInTheFormat(String elementName, String dateFormat) {
+        currentDateIsTypedInTheFormat(
                 coreScenario.getCurrentPage().getElement(elementName),
                 dateFormat);
     }
 
     @И("^в блоке \"([^\"]*)\" в (?:поле|элемент) \"([^\"]*)\" набирается текущая дата в формате \"([^\"]*)\"$")
-    public void currentDate(String blockName, String elementName, String dateFormat) {
-        currentDate(
+    public void currentDateIsTypedInTheFormat(String blockName, String elementName, String dateFormat) {
+        currentDateIsTypedInTheFormat(
                 coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName),
                 dateFormat);
     }
@@ -229,7 +249,7 @@ public class SelenideElementActionSteps {
      * Ввод в поле текущей даты в заданном формате
      * При неверном формате, используется dd.MM.yyyy
      */
-    public void currentDate(SelenideElement element, String dateFormat) {
+    public void currentDateIsTypedInTheFormat(SelenideElement element, String dateFormat) {
         dateFormat = getPropertyOrStringVariableOrValue(dateFormat);
         long date = System.currentTimeMillis();
         String currentStringDate;
@@ -283,19 +303,19 @@ public class SelenideElementActionSteps {
      */
 
     @И("^очищено поле \"([^\"]*)\"$")
-    public void cleanField(String elementName) {
-        cleanField(coreScenario.getCurrentPage().getElement(elementName));
+    public void cleanInput(String elementName) {
+        cleanInput(coreScenario.getCurrentPage().getElement(elementName));
     }
 
     @И("^в блоке \"([^\"]*)\" очищено поле \"([^\"]*)\"$")
-    public void cleanField(String blockName, String elementName) {
-        cleanField(coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName));
+    public void cleanInput(String blockName, String elementName) {
+        cleanInput(coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName));
     }
 
     /**
      * Очищается заданное поле
      */
-    public void cleanField(SelenideElement element) {
+    public void cleanInput(SelenideElement element) {
         element.clear();
 
         if (element.is(Condition.not(Condition.empty))) {
