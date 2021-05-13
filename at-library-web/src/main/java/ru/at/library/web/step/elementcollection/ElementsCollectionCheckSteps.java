@@ -192,15 +192,15 @@ public class ElementsCollectionCheckSteps {
      */
 
     @И("^в списке элементов \"([^\"]*)\" содержится элемент с текстом \"([^\"]*)\"$")
-    public IStepResult containsElementWithExactText(String listName, String expectedValue) {
-        return containsElementWithExactText(
+    public IStepResult containsElementWithText(String listName, String expectedValue) {
+        return containsElementWithText(
                 coreScenario.getCurrentPage().getElementsList(listName),
                 expectedValue);
     }
 
     @И("^в блоке \"([^\"]*)\" в списке элементов \"([^\"]*)\" содержится элемент с текстом \"([^\"]*)\"$")
-    public IStepResult containsElementWithExactText(String blockName, String listName, String expectedValue) {
-        return containsElementWithExactText(
+    public IStepResult containsElementWithText(String blockName, String listName, String expectedValue) {
+        return containsElementWithText(
                 coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName),
                 expectedValue);
     }
@@ -208,10 +208,10 @@ public class ElementsCollectionCheckSteps {
     /**
      * Проверка, что каждый элемент списка содержит ожидаемый текст
      */
-    public IStepResult containsElementWithExactText(ElementsCollection elements, String expectedValue) {
+    public IStepResult containsElementWithText(ElementsCollection elements, String expectedValue) {
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
-        SelenideElement element = elements.find(Condition.exactText(expectedValue))
-                .shouldHave(exactText(expectedValue));
+        SelenideElement element = elements.find(Condition.text(expectedValue))
+                .shouldHave(text(expectedValue));
         return new CommonStepResult(element);
     }
 
