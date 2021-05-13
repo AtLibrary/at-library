@@ -1,5 +1,8 @@
 package ru.at.library.core.utils.selenide;
 
+import io.qameta.allure.Allure;
+
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -51,9 +54,8 @@ public class ElementChecker {
      *
      * @return список объектов с интерфейсом {@link IElementCheck} и отрицательным результатом проверки {@link IElementCheck#getStatus()} преобразованный к объекту типа {@link String}
      */
-    public static String elementFailedCheckListAsString(List<IElementCheck> elementCheckList) {
-        List<IElementCheck> collectFailedElementCheck = elementCheckList.stream().filter(r -> !r.getStatus()).collect(toList());
-        return elementCheckListAsString(collectFailedElementCheck);
+    public static List<IElementCheck> getFailedCheckList(List<IElementCheck> elementCheckList) {
+        return elementCheckList.stream().filter(r -> !r.getStatus()).collect(toList());
     }
 
     /**
@@ -63,9 +65,16 @@ public class ElementChecker {
      *
      * @return список объектов с интерфейсом {@link IElementCheck} и положительным результатом проверки {@link IElementCheck#getStatus()} преобразованный к объекту типа {@link String}
      */
-    public static String elementPassedCheckListAsString(List<IElementCheck> elementCheckList) {
-        List<IElementCheck> collectFailedElementCheck = elementCheckList.stream().filter(IElementCheck::getStatus).collect(toList());
-        return elementCheckListAsString(collectFailedElementCheck);
+    public static List<IElementCheck> getPassedCheckList(List<IElementCheck> elementCheckList) {
+        return elementCheckList.stream().filter(IElementCheck::getStatus).collect(toList());
+    }
+
+    public static void attachCheckListResults(String message, List<IElementCheck> checkList, boolean status) {
+        List<IElementCheck> checkListWithStatus = status ? getPassedCheckList(checkList) : getFailedCheckList(checkList);
+        if (!checkListWithStatus.isEmpty()) {
+            Allure.getLifecycle().addAttachment(String.format("%s: %d из %d", message, checkListWithStatus.size(), checkList.size()), "text/html", ".txt",
+                    elementCheckListAsString(checkListWithStatus).getBytes(StandardCharsets.UTF_8));
+        }
     }
 
 }

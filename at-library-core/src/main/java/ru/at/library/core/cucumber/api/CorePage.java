@@ -1,8 +1,6 @@
 package ru.at.library.core.cucumber.api;
 
 import com.codeborne.selenide.*;
-import io.qameta.allure.Allure;
-import io.qameta.allure.AllureLifecycle;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +14,6 @@ import ru.at.library.core.utils.selenide.PageElement.ElementType;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -139,11 +136,10 @@ public abstract class CorePage extends ElementsContainer {
                 "не отображается на странице");
 
         List<IElementCheck> checkResult = checkElements(elementChecks, Configuration.timeout);
-        Allure.getLifecycle().addAttachment("Успешные проверки", "text/html", ".txt",
-                elementPassedCheckListAsString(checkResult).getBytes(StandardCharsets.UTF_8));
+        attachCheckListResults("Успешные проверки исчезновения элементов", checkResult, true);
         CoreScenario.getInstance().getAssertionHelper()
                 .hamcrestAssert(
-                        "На текущей странице не исчезли все описанные на странице элементы:\n" + elementFailedCheckListAsString(checkResult),
+                        "На текущей странице не исчезли все описанные на странице элементы:\n" + elementCheckListAsString(getFailedCheckList(checkResult)),
                         checkResult.stream().allMatch(IElementCheck::getStatus),
                         is(equalTo(true))
                 );
@@ -161,10 +157,9 @@ public abstract class CorePage extends ElementsContainer {
                 "отображается на странице");
 
         List<IElementCheck> checkResult = checkElements(elementChecks, Configuration.timeout);
-        Allure.getLifecycle().addAttachment("Успешные проверки обязательных элементов", "text/html", ".txt",
-                elementPassedCheckListAsString(checkResult).getBytes(StandardCharsets.UTF_8));
+        attachCheckListResults("Успешные проверки обязательных элементов", checkResult, true);
         if (!checkResult.stream().allMatch(IElementCheck::getStatus)) {
-            throw new AssertionError("На текущей странице не отобразились все обязательные элементы:\n" + elementFailedCheckListAsString(checkResult));
+            throw new AssertionError("На текущей странице не отобразились все обязательные элементы:\n" + elementCheckListAsString(getFailedCheckList(checkResult)));
         }
     }
 
@@ -179,11 +174,10 @@ public abstract class CorePage extends ElementsContainer {
                 "не отображается на странице");
 
         List<IElementCheck> checkResult = checkElements(elementChecks, Configuration.timeout);
-        Allure.getLifecycle().addAttachment("Успешные проверки скрытых элементов", "text/html", ".txt",
-                elementPassedCheckListAsString(checkResult).getBytes(StandardCharsets.UTF_8));
+        attachCheckListResults("Успешные проверки скрытых элементов", checkResult, true);
         CoreScenario.getInstance().getAssertionHelper()
                 .hamcrestAssert(
-                        "На текущей странице не исчезли все элементы помеченные Hidden:\n" + elementFailedCheckListAsString(checkResult),
+                        "На текущей странице не исчезли все элементы помеченные Hidden:\n" + elementCheckListAsString(getFailedCheckList(checkResult)),
                         checkResult.stream().allMatch(IElementCheck::getStatus),
                         is(equalTo(true))
                 );
@@ -204,10 +198,9 @@ public abstract class CorePage extends ElementsContainer {
                 "отображается на странице");
 
         List<IElementCheck> checkResult = checkElements(elementChecks, Configuration.timeout);
-        Allure.getLifecycle().addAttachment("Успешные проверки основных элементов", "text/html", ".txt",
-                elementPassedCheckListAsString(checkResult).getBytes(StandardCharsets.UTF_8));
+        attachCheckListResults("Успешные проверки основных элементов", checkResult, true);
         CoreScenario.getInstance().getAssertionHelper().hamcrestAssert(
-                "На текущей странице не отобразились все основные элементы:\n" + elementFailedCheckListAsString(checkResult),
+                "На текущей странице не отобразились все основные элементы:\n" + elementCheckListAsString(getFailedCheckList(checkResult)),
                 checkResult.stream().allMatch(IElementCheck::getStatus),
                 is(equalTo(true)));
     }
