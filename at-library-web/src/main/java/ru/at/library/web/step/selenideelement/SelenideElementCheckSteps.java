@@ -270,7 +270,7 @@ public class SelenideElementCheckSteps {
      *
      * @param element элемент для проверки
      */
-    public void inBounds(SelenideElement element, String boundsCondition) {
+    public static void inBounds(SelenideElement element, String boundsCondition) {
         int elementLeftBound = element.getLocation().x;
         int elementUpperBound = element.getLocation().y;
         int elementRightBound = elementLeftBound + element.getSize().width;
@@ -527,7 +527,7 @@ public class SelenideElementCheckSteps {
      * ######################################################################################################################
      */
 
-    @И("^элемен) \"([^\"]*)\" не содержит css \"([^\"]*)\" со значением \"([^\"]*)\"$")
+    @И("^элемент \"([^\"]*)\" не содержит css \"([^\"]*)\" со значением \"([^\"]*)\"$")
     public void notContainsCssWithValue(String elementName, String cssName, String cssValue) {
         notContainsCssWithValue(
                 coreScenario.getCurrentPage().getElement(elementName),

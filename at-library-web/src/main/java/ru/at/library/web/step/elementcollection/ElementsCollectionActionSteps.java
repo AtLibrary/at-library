@@ -48,7 +48,7 @@ public class ElementsCollectionActionSteps {
     private IStepResult clickOnListElementWithExactText(ElementsCollection elements, String expectedValue) {
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
         SelenideElement element = elements.find(Condition.or(
-                "Поиск элемента с тектом для дальнейшего нажатия",
+                "Поиск элемента с текстом для дальнейшего нажатия",
                 exactText(expectedValue),
                 exactValue(expectedValue)
                 )
