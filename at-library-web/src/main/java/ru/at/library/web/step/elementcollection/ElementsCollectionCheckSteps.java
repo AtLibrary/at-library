@@ -219,14 +219,14 @@ public class ElementsCollectionCheckSteps {
      * ######################################################################################################################
      */
 
-    @И("^в списоке элементов \"([^\"]*)\" не содержится элемент с текстом \"([^\"]*)\"$")
+    @И("^в списке элементов \"([^\"]*)\" не содержится элемент с текстом \"([^\"]*)\"$")
     public void notContainsElementWithExactText(String listName, String expectedValue) {
         notContainsElementWithExactText(
                 coreScenario.getCurrentPage().getElementsList(listName),
                 expectedValue);
     }
 
-    @И("^в блоке \"([^\"]*)\" в списоке элементов \"([^\"]*)\" не содержится элемент с текстом \"([^\"]*)\"$")
+    @И("^в блоке \"([^\"]*)\" в списке элементов \"([^\"]*)\" не содержится элемент с текстом \"([^\"]*)\"$")
     public void notContainsElementWithExactText(String blockName, String listName, String expectedValue) {
         notContainsElementWithExactText(
                 coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName),
