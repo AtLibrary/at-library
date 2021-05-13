@@ -3,6 +3,7 @@ package ru.at.library.core.utils.selenide;
 import io.qameta.allure.Allure;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -18,14 +19,15 @@ public class ElementChecker {
      * @return  модифицированный список объектов с интерфейсом {@link IElementCheck} с проставленными статусами проверок {@link IElementCheck#getStatus()}
      */
     public static List<IElementCheck> checkElements(List<IElementCheck> elementCheckList, long timeOutInMillis) {
+        List<IElementCheck> resultCheckList = new ArrayList<>(elementCheckList);
         long time = System.currentTimeMillis() + timeOutInMillis;
         while (time > System.currentTimeMillis()) {
-            elementCheckList.stream()
+            resultCheckList.stream()
                     .filter(elementCheck -> !elementCheck.getStatus())
                     .forEach(elementCheck -> elementCheck.setStatus(elementCheck.getElement().is(elementCheck.getCondition())));
-            if (elementCheckList.stream().allMatch(IElementCheck::getStatus)) break;
+            if (resultCheckList.stream().allMatch(IElementCheck::getStatus)) break;
         }
-        return elementCheckList;
+        return resultCheckList;
     }
 
     /**

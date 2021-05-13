@@ -139,7 +139,8 @@ public abstract class CorePage extends ElementsContainer {
         attachCheckListResults("Успешные проверки исчезновения элементов", checkResult, true);
         CoreScenario.getInstance().getAssertionHelper()
                 .hamcrestAssert(
-                        "На текущей странице не исчезли все описанные на странице элементы:\n" + elementCheckListAsString(getFailedCheckList(checkResult)),
+                        String.format("На текущей странице не исчезли все описанные на странице элементы: %d из %d\n%s",
+                                getFailedCheckList(checkResult).size(), elementChecks.size(), elementCheckListAsString(getFailedCheckList(checkResult))),
                         checkResult.stream().allMatch(IElementCheck::getStatus),
                         is(equalTo(true))
                 );
@@ -159,7 +160,8 @@ public abstract class CorePage extends ElementsContainer {
         List<IElementCheck> checkResult = checkElements(elementChecks, Configuration.timeout);
         attachCheckListResults("Успешные проверки обязательных элементов", checkResult, true);
         if (!checkResult.stream().allMatch(IElementCheck::getStatus)) {
-            throw new AssertionError("На текущей странице не отобразились все обязательные элементы:\n" + elementCheckListAsString(getFailedCheckList(checkResult)));
+            throw new AssertionError(String.format("На текущей странице не отобразились все обязательные элементы: %d из %d\n%s",
+                    getFailedCheckList(checkResult).size(), elementChecks.size(), elementCheckListAsString(getFailedCheckList(checkResult))));
         }
     }
 
@@ -177,7 +179,8 @@ public abstract class CorePage extends ElementsContainer {
         attachCheckListResults("Успешные проверки скрытых элементов", checkResult, true);
         CoreScenario.getInstance().getAssertionHelper()
                 .hamcrestAssert(
-                        "На текущей странице не исчезли все элементы помеченные Hidden:\n" + elementCheckListAsString(getFailedCheckList(checkResult)),
+                        String.format("На текущей странице не исчезли все элементы помеченные Hidden: %d из %d\n%s",
+                                getFailedCheckList(checkResult).size(), elementChecks.size(), elementCheckListAsString(getFailedCheckList(checkResult))),
                         checkResult.stream().allMatch(IElementCheck::getStatus),
                         is(equalTo(true))
                 );
@@ -200,7 +203,8 @@ public abstract class CorePage extends ElementsContainer {
         List<IElementCheck> checkResult = checkElements(elementChecks, Configuration.timeout);
         attachCheckListResults("Успешные проверки основных элементов", checkResult, true);
         CoreScenario.getInstance().getAssertionHelper().hamcrestAssert(
-                "На текущей странице не отобразились все основные элементы:\n" + elementCheckListAsString(getFailedCheckList(checkResult)),
+                String.format("На текущей странице не отобразились все основные элементы:%d из %d\n%s",
+                        getFailedCheckList(checkResult).size(), elementChecks.size(), elementCheckListAsString(getFailedCheckList(checkResult))),
                 checkResult.stream().allMatch(IElementCheck::getStatus),
                 is(equalTo(true)));
     }
