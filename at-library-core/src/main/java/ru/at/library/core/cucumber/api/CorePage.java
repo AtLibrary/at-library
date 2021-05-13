@@ -203,7 +203,7 @@ public abstract class CorePage extends ElementsContainer {
         List<IElementCheck> checkResult = checkElements(elementChecks, Configuration.timeout);
         attachCheckListResults("Успешные проверки основных элементов", checkResult, true);
         CoreScenario.getInstance().getAssertionHelper().hamcrestAssert(
-                String.format("На текущей странице не отобразились все основные элементы:%d из %d\n%s",
+                String.format("На текущей странице не отобразились все основные элементы: %d из %d\n%s",
                         getFailedCheckList(checkResult).size(), elementChecks.size(), elementCheckListAsString(getFailedCheckList(checkResult))),
                 checkResult.stream().allMatch(IElementCheck::getStatus),
                 is(equalTo(true)));
