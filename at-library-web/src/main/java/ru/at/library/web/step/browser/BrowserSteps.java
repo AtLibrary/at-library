@@ -9,7 +9,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ru.at.library.web;
+package ru.at.library.web.step.browser;
 
 import com.assertthat.selenium_shutterbug.core.Capture;
 import com.assertthat.selenium_shutterbug.core.Shutterbug;
@@ -18,7 +18,6 @@ import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
 import io.cucumber.java.ru.И;
 import lombok.extern.log4j.Log4j2;
-import org.hamcrest.Matchers;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import ru.at.library.core.cucumber.api.CoreScenario;
@@ -30,32 +29,27 @@ import java.util.Set;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static com.codeborne.selenide.WebDriverRunner.url;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
 import static org.testng.Assert.assertNull;
 import static org.testng.Assert.fail;
+import static ru.at.library.core.steps.OtherSteps.getPropertyOrStringVariableOrValue;
 import static ru.at.library.core.utils.helpers.PropertyLoader.getPropertyOrValue;
 import static ru.at.library.core.utils.helpers.PropertyLoader.loadValueFromFileOrVariableOrDefault;
 import static ru.at.library.core.utils.helpers.ScopedVariables.resolveVars;
-import static ru.at.library.core.steps.OtherSteps.getPropertyOrStringVariableOrValue;
 
 /**
- * Браузер шаги
+ * Шаги браузера
  */
 @Log4j2
 public class BrowserSteps {
 
-    private CoreScenario coreScenario = CoreScenario.getInstance();
+    private final CoreScenario coreScenario = CoreScenario.getInstance();
 
     /**
      * Выполняется переход по заданной ссылке,
      *
-     * @param address Ссылка берется из property / переменной по ключу, если такая переменная не найдена,
-     *                то берется переданное значение
-     *                при этом все ключи переменных в фигурных скобках
-     *                меняются на их значения из хранилища coreScenario
+     * @param address Ссылка
      */
     @И("^совершен переход по ссылке \"([^\"]*)\"$")
     public void openUrl(String address) {
@@ -67,10 +61,7 @@ public class BrowserSteps {
     /**
      * Выполняется переход по заданной ссылке в новом окне,
      *
-     * @param address Ссылка берется из property / переменной по ключу, если такая переменная не найдена,
-     *                то берется переданное значение
-     *                при этом все ключи переменных в фигурных скобках
-     *                меняются на их значения из хранилища coreScenario
+     * @param address Ссылка
      */
     @И("^совершен переход по ссылке \"([^\"]*)\" в новой вкладке$")
     public void openUrlNewTab(String address) {
@@ -86,11 +77,10 @@ public class BrowserSteps {
     /**
      * Проверка, что текущий URL совпадает с ожидаемым
      *
-     * @param expectedURL (берется из property / переменной, если такая переменная не найдена,
-     *                    то берется переданное значение)
+     * @param expectedURL ожидаемый URL
      */
     @И("^текущий URL равен \"([^\"]*)\"$")
-    public void checkCurrentURL(String expectedURL) {
+    public void checkEqualsCurrentURL(String expectedURL) {
         expectedURL = formALinkExpectedURL(expectedURL);
         String currentUrl = "";
         int sleepTime = 100;
@@ -103,14 +93,17 @@ public class BrowserSteps {
         }
 
         takeScreenshot();
-        assertThat("Текущий URL не совпадает с ожидаемым", currentUrl, is(expectedURL));
+        CoreScenario.getInstance().getAssertionHelper().hamcrestAssert(
+                "Текущий URL не совпадает с ожидаемым",
+                currentUrl,
+                is(equalToIgnoringCase(expectedURL))
+        );
     }
 
     /**
      * Проверка, что текущий URL содержит с ожидаемым
      *
-     * @param expectedURL (берется из property / переменной, если такая переменная не найдена,
-     *                    то берется переданное значение)
+     * @param expectedURL ожидаемый URL
      */
     @И("^текущий URL содержит \"([^\"]*)\"$")
     public void checkContainsStringURL(String expectedURL) {
@@ -126,19 +119,22 @@ public class BrowserSteps {
         }
 
         takeScreenshot();
-        assertThat("Текущий URL не содержит ожидаемым", currentUrl, containsString(expectedURL));
+        CoreScenario.getInstance().getAssertionHelper().hamcrestAssert(
+                "Текущий URL не содержит ожидаемую строку",
+                currentUrl,
+                containsString(expectedURL)
+        );
     }
 
     /**
      * Проверка, что текущий URL не совпадает с ожидаемым
      *
-     * @param hardcodeUrl (берется из property / переменной, если такая переменная не найдена,
-     *                    то берется переданное значение)
+     * @param expectedURL URL с которым происходит сравнение
      */
     @И("^текущий URL не равен \"([^\"]*)\"$")
-    public void checkCurrentURLIsNotEquals(String hardcodeUrl) {
+    public void checkCurrentURLIsNotEquals(String expectedURL) {
+        expectedURL = formALinkExpectedURL(expectedURL);
         String currentUrl = "";
-        String expectedURL = formALinkExpectedURL(hardcodeUrl);
         int sleepTime = 100;
 
         for (int time = 0; time < Configuration.timeout; time += sleepTime) {
@@ -147,8 +143,11 @@ public class BrowserSteps {
                 sleep(sleepTime);
             }
         }
-
-        assertThat("Текущий URL совпадает с ожидаемым", currentUrl, Matchers.not(expectedURL));
+        CoreScenario.getInstance().getAssertionHelper().hamcrestAssert(
+                "Текущий URL совпадает с ожидаемым",
+                currentUrl,
+                not(equalToIgnoringCase(expectedURL))
+        );
     }
 
     /**
@@ -171,9 +170,12 @@ public class BrowserSteps {
 
     /**
      * Выполняется обновление страницы
+     *
+     * @param secondString        общее время обновление страницы
+     * @param allTimeSecondString как часто будет происходить обноволение
      */
     @И("^выполнено обновление текущей страницы каждые \"([^\"]*)\" секунд в течении \"([^\"]*)\" секунд$")
-    public void refreshPageParam(String secondString, String allTimeSecondString) {
+    public void refreshPage(String secondString, String allTimeSecondString) {
         int second = Integer.parseInt(secondString);
         int allTimeSecond = Integer.parseInt(allTimeSecondString);
         for (int i = 0; i < allTimeSecond; i += second) {
@@ -221,12 +223,12 @@ public class BrowserSteps {
             switchTo().window(title);
         } catch (Exception exception) {
             exception.printStackTrace();
-            checkPageTitle(title);
+            checkPageTitleEquals(title);
         }
     }
 
     /**
-     * Переключение на фрейм с именем (property/var/hardcode)
+     * Переключение на фрейм с именем
      *
      * @param frameName имя/id фрейма
      */
@@ -255,12 +257,11 @@ public class BrowserSteps {
 
     /**
      * Производится сравнение заголовка страницы со значением, указанным в шаге
-     * (в приоритете: из property, из переменной сценария, значение аргумента)
      *
      * @param expectedTitle ожидаемый заголовок текущей вкладки
      */
     @И("^заголовок страницы равен \"([^\"]*)\"$")
-    public void checkPageTitle(String expectedTitle) {
+    public void checkPageTitleEquals(String expectedTitle) {
         expectedTitle = getPropertyOrStringVariableOrValue(expectedTitle);
         String actualTitle = "";
         int sleepTime = 100;
@@ -272,8 +273,11 @@ public class BrowserSteps {
             sleep(sleepTime);
         }
         takeScreenshot();
-        assertThat(String.format("Заголовок страницы не совпадает с ожидаемым значением. Ожидаемый результат: %s, текущий результат: %s", expectedTitle, actualTitle),
-                expectedTitle, equalToIgnoringCase(actualTitle));
+        CoreScenario.getInstance().getAssertionHelper().hamcrestAssert(
+                String.format("Заголовок страницы не совпадает с ожидаемым значением. Ожидаемый результат: %s, текущий результат: %s", expectedTitle, actualTitle),
+                expectedTitle,
+                equalToIgnoringCase(actualTitle)
+        );
     }
 
     /**
@@ -303,16 +307,19 @@ public class BrowserSteps {
 
     /**
      * Устанавливает ширину окна браузера
-     * @param widthString   ширина окна
+     *
+     * @param widthString ширина окна
      */
     @И("^установлена ширина окна браузера \"([^\"]*)\"$")
     public void setBrowserWindowWidth(String widthString) {
         int width = Integer.parseInt(getPropertyOrStringVariableOrValue(widthString));
         setBrowserWindowSize(width, null);
     }
+
     /**
      * Устанавливает высоту окна браузера
-     * @param heightString  высота окна
+     *
+     * @param heightString высота окна
      */
     @И("^установлена высота окна браузера \"([^\"]*)\"$")
     public void setBrowserWindowHeight(String heightString) {
@@ -322,8 +329,9 @@ public class BrowserSteps {
 
     /**
      * Устанавливает размеры окна браузера
-     * @param width     ширина окна (если null, то ширина не меняется)
-     * @param height    высота окна (если null, то высота не меняется)
+     *
+     * @param width  ширина окна (если null, то ширина не меняется)
+     * @param height высота окна (если null, то высота не меняется)
      */
     public void setBrowserWindowSize(Integer width, Integer height) {
         WebDriver.Window browserWindow = getWebDriver().manage().window();
@@ -343,6 +351,16 @@ public class BrowserSteps {
     @И("^окно развернуто на весь экран$")
     public void expandWindowToFullScreen() {
         getWebDriver().manage().window().maximize();
+    }
+
+    /**
+     * Выполняется переход в начало страницы
+     */
+    @И("^совершен переход в начало страницы$")
+    public void scrollUP() {
+        Actions actions = new Actions(WebDriverRunner.getWebDriver());
+        actions.keyDown(Keys.CONTROL).sendKeys(new CharSequence[]{Keys.HOME}).build().perform();
+        actions.keyUp(Keys.CONTROL).perform();
     }
 
     /**
@@ -472,6 +490,29 @@ public class BrowserSteps {
         assertNull(cookie, "Cookie: " + cookie + " найдена");
     }
 
+    /**
+     * Очистка сессионного хранилища
+     */
+    @И("^выполнена очистка сессионного хранилища")
+    public void clearSessionStorage() {
+        Selenide.clearBrowserLocalStorage();
+        executeJavaScript("sessionStorage.clear();");
+    }
+
+    /**
+     * Из сессионного хранилища удаляется элемент
+     *
+     * @param key поле с данным ключем будет удалено из sessionStorage
+     */
+    @И("^из сессионного хранилища удаляется элемент с ключом \"([^\"]*)\"$")
+    public static void removeSessionStorageKey(String key) {
+        key = getPropertyOrStringVariableOrValue(key);
+        executeJavaScript(String.format("sessionStorage.removeItem('%s');", key));
+    }
+
+    /**
+     * Метод переключается на следующую вкладку
+     */
     private String nextWindowHandle() {
         String currentWindowHandle = getWebDriver().getWindowHandle();
         Set<String> windowHandles = getWebDriver().getWindowHandles();
@@ -480,15 +521,19 @@ public class BrowserSteps {
         return windowHandles.iterator().next();
     }
 
-    private String formALinkExpectedURL(String hardcodeUrl) {
-        String expectedURL;
-
-        hardcodeUrl = getPropertyOrValue(hardcodeUrl);
-        String propertyUrl = getPropertyOrValue(hardcodeUrl);
+    /**
+     * Метод проверяет если ли в передавемом url текст http 
+     * Если данного текста нет то метод выполняет конкатенатицию строк Configuration.baseUrl и передаваемого expectedURL
+     *
+     * @param expectedURL URL с которым происходит провпрка и конкатенатиция
+     */
+    private String formALinkExpectedURL(String expectedURL) {
+        expectedURL = getPropertyOrValue(expectedURL);
+        String propertyUrl = getPropertyOrValue(expectedURL);
         if (!propertyUrl.contains("http")) {
             propertyUrl = Configuration.baseUrl + propertyUrl;
         }
-        String variableUrl = loadValueFromFileOrVariableOrDefault(hardcodeUrl);
+        String variableUrl = loadValueFromFileOrVariableOrDefault(expectedURL);
 
         if (variableUrl.contains("http")) {
             expectedURL = variableUrl;
@@ -499,6 +544,9 @@ public class BrowserSteps {
         return expectedURL;
     }
 
+    /**
+     * Получание скриншота побайтно
+     */
     public synchronized static Optional<byte[]> getScreenshotBytes() {
         try {
             return WebDriverRunner.hasWebDriverStarted() ?

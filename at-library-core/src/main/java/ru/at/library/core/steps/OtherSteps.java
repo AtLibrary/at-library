@@ -5,7 +5,6 @@ import io.cucumber.java.PendingException;
 import io.cucumber.java.ru.И;
 import io.cucumber.java.ru.То;
 import lombok.extern.log4j.Log4j2;
-import org.hamcrest.Matchers;
 import ru.at.library.core.cucumber.api.CoreScenario;
 
 import javax.mail.internet.AddressException;
@@ -25,7 +24,6 @@ import java.util.regex.Pattern;
 
 import static com.codeborne.selenide.Selenide.sleep;
 import static java.util.Objects.isNull;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.testng.Assert.assertNotNull;
 import static ru.at.library.core.utils.helpers.PropertyLoader.*;
@@ -95,6 +93,11 @@ public class OtherSteps {
      * @param lang   варианты языков 'ru' или 'en'
      */
     public static String getRandCharSequence(int length, String lang) {
+        if (lang.equals("кириллице")) {
+            lang = "ru";
+        } else {
+            lang = "en";
+        }
 
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < length; i++) {
@@ -206,8 +209,11 @@ public class OtherSteps {
     public void compareTwoVariables(String firstVariableName, String secondVariableName) {
         String firstValueToCompare = coreScenario.getVar(firstVariableName).toString();
         String secondValueToCompare = coreScenario.getVar(secondVariableName).toString();
-        assertThat(String.format("Значения в переменных [%s] и [%s] не совпадают", firstVariableName, secondVariableName),
-                firstValueToCompare, equalTo(secondValueToCompare));
+        CoreScenario.getInstance().getAssertionHelper().hamcrestAssert(
+                String.format("Значения в переменных [%s] и [%s] не совпадают", firstVariableName, secondVariableName),
+                firstValueToCompare,
+                is(equalTo(secondValueToCompare))
+        );
     }
 
     /**
@@ -220,8 +226,11 @@ public class OtherSteps {
     public void checkingTwoVariablesAreNotEquals(String firstVariableName, String secondVariableName) {
         String firstValueToCompare = coreScenario.getVar(firstVariableName).toString();
         String secondValueToCompare = coreScenario.getVar(secondVariableName).toString();
-        assertThat(String.format("Значения в переменных [%s] и [%s] совпадают", firstVariableName, secondVariableName),
-                firstValueToCompare, Matchers.not(equalTo(secondValueToCompare)));
+        CoreScenario.getInstance().getAssertionHelper().hamcrestAssert(
+                String.format("Значения в переменных [%s] и [%s] совпадают", firstVariableName, secondVariableName),
+                firstValueToCompare,
+                not(equalTo(secondValueToCompare))
+        );
     }
 
     /**
@@ -235,8 +244,11 @@ public class OtherSteps {
     public void checkVariable(String variableName, String expectedValueVariable) {
         expectedValueVariable = getPropertyOrStringVariableOrValue(expectedValueVariable);
         String valueVariable = coreScenario.getVar(variableName).toString();
-        assertThat(String.format("Значения в переменных [%s] и [%s] не совпадают", valueVariable, expectedValueVariable),
-                valueVariable, equalTo(expectedValueVariable));
+        CoreScenario.getInstance().getAssertionHelper().hamcrestAssert(
+                String.format("Значения в переменных [%s] и [%s] не совпадают", valueVariable, expectedValueVariable),
+                valueVariable,
+                is(equalTo(expectedValueVariable))
+        );
     }
 
     /**
@@ -271,9 +283,14 @@ public class OtherSteps {
      * Проверка совпадения значения из переменной и значения из property
      */
     @И("^значения из переменной \"([^\"]*)\" и из property файла \"([^\"]*)\" совпадают$")
-    public void checkIfValueFromVariableEqualPropertyVariable(String envVarible, String propertyVariable) {
-        assertThat("Переменные " + envVarible + " и " + propertyVariable + " не совпадают",
-                (String) coreScenario.getVar(envVarible), equalToIgnoringCase(loadProperty(propertyVariable)));
+    public void checkIfValueFromVariableEqualPropertyVariable(String envVariable, String propertyVariable) {
+        String envVariableValue = (String) coreScenario.getVar(envVariable);
+        String propertyVariableValue = loadProperty(propertyVariable);
+        CoreScenario.getInstance().getAssertionHelper().hamcrestAssert(
+                "Переменные " + envVariable + " и " + propertyVariable + " не совпадают",
+                envVariableValue,
+                is(equalToIgnoringCase(propertyVariableValue))
+        );
     }
 
     /**
@@ -315,20 +332,25 @@ public class OtherSteps {
     @И("^длина строки переменной \"([^\"]*)\" ((?:больше|меньше|равна)) (\\d+)$")
     public void checkEmail(String variableName, String condition, int expectedLength) throws AddressException {
         int actualLength = coreScenario.getVar(variableName).toString().length();
+        String message = "Длина строки переменной " + variableName + condition + " " + expectedLength;
+        org.hamcrest.Matcher<Integer> matcher;
         switch (condition) {
             case "больше": {
-                assertThat(actualLength, greaterThan(expectedLength));
+                matcher = greaterThan(expectedLength);
                 break;
             }
             case "меньше": {
-                assertThat(actualLength, lessThan(expectedLength));
+                matcher = lessThan(expectedLength);
                 break;
             }
             case "равна": {
-                assertThat(actualLength, equalTo(expectedLength));
+                matcher = equalTo(expectedLength);
                 break;
             }
+            default:
+                throw new IllegalArgumentException("Не реализована проверка длины строки переменной для условия: " + condition);
         }
+        CoreScenario.getInstance().getAssertionHelper().hamcrestAssert(message, actualLength, matcher);
     }
 
     /**

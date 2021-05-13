@@ -1,4 +1,4 @@
-package ru.at.library.web;
+package ru.at.library.web.step.other;
 
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
@@ -13,12 +13,15 @@ import java.util.stream.Collectors;
 import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Selenide.switchTo;
 import static org.testng.Assert.*;
-import static ru.at.library.core.utils.helpers.PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault;
 import static ru.at.library.core.steps.OtherSteps.*;
+import static ru.at.library.core.utils.helpers.PropertyLoader.loadValueFromFileOrPropertyOrVariableOrDefault;
 
+/**
+ * Общие шаги
+ */
 public class OtherSteps {
 
-    private CoreScenario coreScenario = CoreScenario.getInstance();
+    private final CoreScenario coreScenario = CoreScenario.getInstance();
 
     /**
      * Эмулирует нажатие клавиш на клавиатуре

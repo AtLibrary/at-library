@@ -11,6 +11,7 @@ import java.util.Random;
 
 import static org.apache.commons.lang3.RandomUtils.nextBoolean;
 import static ru.at.library.core.steps.OtherSteps.getPropertyOrStringVariableOrValue;
+import static ru.at.library.core.steps.OtherSteps.getRandCharSequence;
 
 /**
  * Шаги генерации тестовых данных
@@ -37,12 +38,7 @@ public class DataGenerationSteps {
      */
     @И("^генерация (\\d+) случайных символов на ((?:кириллице|латинице)) и сохранено в переменную \"([^\"]*)\"$")
     public void setRandomCharSequence(int seqLength, String lang, String varName) {
-        if (lang.equals("кириллице")) {
-            lang = "ru";
-        } else {
-            lang = "en";
-        }
-        String charSeq = OtherSteps.getRandCharSequence(seqLength, lang);
+        String charSeq = getRandCharSequence(seqLength, lang);
         coreScenario.setVar(varName, charSeq);
         log.trace("Строка случайных символов равна: " + charSeq);
     }

@@ -1,4 +1,4 @@
-package ru.at.library.web.step.result.core;
+package ru.at.library.web.core;
 
 import org.openqa.selenium.WebElement;
 

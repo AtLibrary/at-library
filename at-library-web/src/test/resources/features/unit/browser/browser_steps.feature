@@ -2,6 +2,7 @@
 @unit
 @unit123
 @browser_steps.feature
+#noinspection NonAsciiCharacters
 Функционал: BrowserSteps
 
 ####################################################################################

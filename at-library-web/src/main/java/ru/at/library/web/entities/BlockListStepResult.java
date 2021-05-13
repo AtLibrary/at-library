@@ -1,18 +1,18 @@
-package ru.at.library.web.step.result.entities;
+package ru.at.library.web.entities;
 
 import org.openqa.selenium.WebElement;
 import ru.at.library.core.cucumber.api.CorePage;
-import ru.at.library.web.step.result.core.IStepResult;
+import ru.at.library.web.core.IStepResult;
 
 import java.util.*;
 
-import static ru.at.library.web.step.result.core.CastToWebElements.getBlockListAsWebElementsList;
-import static ru.at.library.web.step.result.core.CastToWebElements.tryGetWebElement;
+import static ru.at.library.web.core.CastToWebElements.getBlockListAsWebElementsList;
+import static ru.at.library.web.core.CastToWebElements.tryGetWebElement;
 
 /**
  * Класс используемый для выделения элементов на скриншоте страницы в результате выполения
  * шагов с проверкой списка блоков или блока {@link CorePage}
- *
+ * <p>
  * Если в результате выполнения cucumber шага в котором есть взаимодействие с блоком/списком блоков
  * необходимо выбелить на скриншоте страницы определенные элементы - этот шаг должен возвращать объект
  * реализующий интерфейс {@link IStepResult}
@@ -57,7 +57,7 @@ public class BlockListStepResult implements IStepResult {
      * @param blockList     список блоков {@link CorePage} для выделения на скриншоте страницы
      * @param elementsNames один или несколько имен элементов для выделения в каждом блоке
      */
-    public BlockListStepResult(List<CorePage> blockList, String...elementsNames) {
+    public BlockListStepResult(List<CorePage> blockList, String... elementsNames) {
         this(blockList);
         this.blockElements.addAll(Arrays.asList(elementsNames));
     }
@@ -68,7 +68,7 @@ public class BlockListStepResult implements IStepResult {
      * @param block         блок {@link CorePage} для выделения на скриншоте страницы
      * @param elementsNames один или несколько имен элементов для выделения в блоке
      */
-    public BlockListStepResult(CorePage block, String...elementsNames) {
+    public BlockListStepResult(CorePage block, String... elementsNames) {
         this(block);
         this.blockElements.addAll(Arrays.asList(elementsNames));
     }
