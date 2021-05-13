@@ -161,7 +161,7 @@ public abstract class CorePage extends ElementsContainer {
                 "отображается на странице");
 
         List<IElementCheck> checkResult = checkElements(elementChecks, Configuration.timeout);
-        Allure.getLifecycle().addAttachment("Успешные проверки", "text/html", ".txt",
+        Allure.getLifecycle().addAttachment("Успешные проверки обязательных элементов", "text/html", ".txt",
                 elementPassedCheckListAsString(checkResult).getBytes(StandardCharsets.UTF_8));
         if (!checkResult.stream().allMatch(IElementCheck::getStatus)) {
             throw new AssertionError("На текущей странице не отобразились все обязательные элементы:\n" + elementFailedCheckListAsString(checkResult));
@@ -179,7 +179,7 @@ public abstract class CorePage extends ElementsContainer {
                 "не отображается на странице");
 
         List<IElementCheck> checkResult = checkElements(elementChecks, Configuration.timeout);
-        Allure.getLifecycle().addAttachment("Успешные проверки", "text/html", ".txt",
+        Allure.getLifecycle().addAttachment("Успешные проверки скрытых элементов", "text/html", ".txt",
                 elementPassedCheckListAsString(checkResult).getBytes(StandardCharsets.UTF_8));
         CoreScenario.getInstance().getAssertionHelper()
                 .hamcrestAssert(
@@ -204,7 +204,7 @@ public abstract class CorePage extends ElementsContainer {
                 "отображается на странице");
 
         List<IElementCheck> checkResult = checkElements(elementChecks, Configuration.timeout);
-        Allure.getLifecycle().addAttachment("Успешные проверки", "text/html", ".txt",
+        Allure.getLifecycle().addAttachment("Успешные проверки основных элементов", "text/html", ".txt",
                 elementPassedCheckListAsString(checkResult).getBytes(StandardCharsets.UTF_8));
         CoreScenario.getInstance().getAssertionHelper().hamcrestAssert(
                 "На текущей странице не отобразились все основные элементы:\n" + elementFailedCheckListAsString(checkResult),
