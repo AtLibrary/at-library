@@ -270,7 +270,7 @@ public class SelenideElementCheckSteps {
      *
      * @param element элемент для проверки
      */
-    public void inBounds(SelenideElement element, String boundsCondition) {
+    public static void inBounds(SelenideElement element, String boundsCondition) {
         int elementLeftBound = element.getLocation().x;
         int elementUpperBound = element.getLocation().y;
         int elementRightBound = elementLeftBound + element.getSize().width;
