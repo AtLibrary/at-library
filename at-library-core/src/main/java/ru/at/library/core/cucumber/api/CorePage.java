@@ -213,7 +213,7 @@ public abstract class CorePage extends ElementsContainer {
      *
      * @return  список элементов страницы и ее блоков, типы которых соответствуют переданным в качестве аргументов
      */
-    private List<PageElement> getElementsWithModes(List<ElementMode> parentElementsModes, List<ElementMode> childElementsModes) {
+    public List<PageElement> getElementsWithModes(List<ElementMode> parentElementsModes, List<ElementMode> childElementsModes) {
         return namedElements.values().stream()
                 .filter(pageElement -> pageElement.checkMode(parentElementsModes))
                 .flatMap(elementWithMode -> elementWithMode.getType().equals(ElementType.LIST_CORE_PAGE)
@@ -234,7 +234,7 @@ public abstract class CorePage extends ElementsContainer {
      *
      * @return  список объектов с интерфейсом {@link IElementCheck}
      */
-    private List<IElementCheck> pageElementToElementCheck(Collection<PageElement> values, Condition condition, String message) {
+    public List<IElementCheck> pageElementToElementCheck(Collection<PageElement> values, Condition condition, String message) {
         return values.stream()
                 .map(pageElement ->
                         pageElementToElementCheck(pageElement, condition, format("Элемент '%s' %s", pageElement.getName(), message))
@@ -250,7 +250,7 @@ public abstract class CorePage extends ElementsContainer {
      *
      * @return  объект с интерфейсом {@link IElementCheck}
      */
-    private IElementCheck pageElementToElementCheck(PageElement pageElement, Condition condition, String message) {
+    public IElementCheck pageElementToElementCheck(PageElement pageElement, Condition condition, String message) {
         SelenideElement element = pageElement.getType().equals(ElementType.ELEMENTS_COLLECTION)
                 ? ((ElementsCollection) pageElement.getElement()).first()
                 : castToSelenideElement(pageElement.getElement());

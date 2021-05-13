@@ -26,16 +26,16 @@ public class ElementsCollectionActionSteps {
      */
 
     @И("^в списке элементов \"([^\"]*)\" выполнено нажатие на элемент с текстом \"([^\"]*)\"$")
-    public IStepResult checkIfSelectedListElementMatchesValue(String listName, String expectedValue) {
-        return checkIfSelectedListElementMatchesValue(
+    public IStepResult clickOnListElementWithExactText(String listName, String expectedValue) {
+        return clickOnListElementWithExactText(
                 coreScenario.getCurrentPage().getElementsList(listName),
                 expectedValue
         );
     }
 
     @И("^в блоке \"([^\"]*)\" в списке элементов \"([^\"]*)\" выполнено нажатие на элемент с текстом \"([^\"]*)\"$")
-    public IStepResult checkIfSelectedListElementMatchesValue(String blockName, String listName, String expectedValue) {
-        return checkIfSelectedListElementMatchesValue(
+    public IStepResult clickOnListElementWithExactText(String blockName, String listName, String expectedValue) {
+        return clickOnListElementWithExactText(
                 coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName),
                 expectedValue
         );
@@ -45,7 +45,7 @@ public class ElementsCollectionActionSteps {
      * Выбор из списка со страницы элемента с заданным значением
      * (в приоритете: из property, из переменной сценария, значение аргумента)
      */
-    private IStepResult checkIfSelectedListElementMatchesValue(ElementsCollection elements, String expectedValue) {
+    private IStepResult clickOnListElementWithExactText(ElementsCollection elements, String expectedValue) {
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
         SelenideElement element = elements.find(Condition.or(
                 "Поиск элемента с тектом для дальнейшего нажатия",
@@ -63,15 +63,15 @@ public class ElementsCollectionActionSteps {
      */
 
     @И("^в списке элементов \"([^\"]*)\" выполнено нажатие на элемент содержащий текст \"([^\"]*)\"$")
-    public IStepResult selectElementInListIfFoundByText(String listName, String expectedValue) {
-        return selectElementInListIfFoundByText(
+    public IStepResult clickOnListElementWithContainsText(String listName, String expectedValue) {
+        return clickOnListElementWithContainsText(
                 coreScenario.getCurrentPage().getElementsList(listName),
                 expectedValue);
     }
 
     @И("^в блоке \"([^\"]*)\" в списке элементов \"([^\"]*)\" выполнено нажатие на элемент содержащий текст \"([^\"]*)\"$")
-    public IStepResult selectElementInListIfFoundByText(String blockName, String listName, String expectedValue) {
-        return selectElementInListIfFoundByText(
+    public IStepResult clickOnListElementWithContainsText(String blockName, String listName, String expectedValue) {
+        return clickOnListElementWithContainsText(
                 coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName),
                 expectedValue);
     }
@@ -81,7 +81,7 @@ public class ElementsCollectionActionSteps {
      * (в приоритете: из property, из переменной сценария, значение аргумента)
      * Не чувствителен к регистру
      */
-    private IStepResult selectElementInListIfFoundByText(ElementsCollection elements, String expectedValue) {
+    private IStepResult clickOnListElementWithContainsText(ElementsCollection elements, String expectedValue) {
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
         SelenideElement element = elements.find(Condition.or(
                 "Поиск элемента содержащего текст для дальнейшего нажатия",
@@ -97,15 +97,15 @@ public class ElementsCollectionActionSteps {
      */
 
     @И("^в списке элементов \"([^\"]*)\" выполнено нажатие на \"(\\d+)\" элемент$")
-    public IStepResult selectElementNumberFromList(String listName, int number) {
-        return selectElementNumberFromList(
+    public IStepResult clickOnListElementWithIndex(String listName, int number) {
+        return clickOnListElementWithIndex(
                 coreScenario.getCurrentPage().getElementsList(listName),
                 number);
     }
 
     @И("^в блоке \"([^\"]*)\" в списке элементов \"([^\"]*)\" выполнено нажатие на \"(\\d+)\" элемент$")
-    public IStepResult selectElementNumberFromList(String blockName, String listName, int number) {
-        return selectElementNumberFromList(
+    public IStepResult clickOnListElementWithIndex(String blockName, String listName, int number) {
+        return clickOnListElementWithIndex(
                 coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName),
                 number);
     }
@@ -114,7 +114,7 @@ public class ElementsCollectionActionSteps {
      * Выбор n-го элемента из списка со страницы
      * Нумерация элементов начинается с 1
      */
-    public IStepResult selectElementNumberFromList(ElementsCollection elements, int number) {
+    public IStepResult clickOnListElementWithIndex(ElementsCollection elements, int number) {
         SelenideElement element = elements.get(number - 1);
         element.click();
         return new CommonStepResult(element);
@@ -125,19 +125,19 @@ public class ElementsCollectionActionSteps {
      */
 
     @И("^в списке элементов \"([^\"]*)\" выполнено нажатие на случайный элемент$")
-    public IStepResult selectRandomElementFromList(String listName) {
-        return selectRandomElementFromList(coreScenario.getCurrentPage().getElementsList(listName));
+    public IStepResult clickOnListElementWithRandomIndex(String listName) {
+        return clickOnListElementWithRandomIndex(coreScenario.getCurrentPage().getElementsList(listName));
     }
 
     @И("^в блоке \"([^\"]*)\" в списке элементов \"([^\"]*)\" выполнено нажатие на случайный элемент$")
-    public IStepResult selectRandomElementFromList(String blockName, String listName) {
-        return selectRandomElementFromList(coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName));
+    public IStepResult clickOnListElementWithRandomIndex(String blockName, String listName) {
+        return clickOnListElementWithRandomIndex(coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName));
     }
 
     /**
      * Выполнено нажатие на случайный элемент
      */
-    private IStepResult selectRandomElementFromList(ElementsCollection elements) {
+    private IStepResult clickOnListElementWithRandomIndex(ElementsCollection elements) {
         elements = elements.filter(visible);
         SelenideElement element = getRandomElementFromCollection(elements.filter(visible));
         element.click();

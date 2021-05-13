@@ -34,12 +34,12 @@ public class SelenideElementActionSteps {
      * ######################################################################################################################
      */
 
-    @И("^выполнено нажатие на (?:кнопку|ссылку|поле|чекбокс|радиокнопу|текст|элемент) \"([^\"]*)\"$")
+    @И("^выполнено нажатие на (?:кнопку|элемент) \"([^\"]*)\"$")
     public void clickOnElement(String elementName) {
         clickOnElement(coreScenario.getCurrentPage().getElement(elementName));
     }
 
-    @И("^в блоке \"([^\"]*)\" выполнено нажатие на (?:кнопку|ссылку|поле|чекбокс|радиокнопу|текст|элемент) \"([^\"]*)\"$")
+    @И("^в блоке \"([^\"]*)\" выполнено нажатие на (?:кнопку|элемент) \"([^\"]*)\"$")
     public void clickOnElement(String blockName, String elementName) {
         clickOnElement(coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName));
     }
@@ -55,12 +55,12 @@ public class SelenideElementActionSteps {
      * ######################################################################################################################
      */
 
-    @И("^выполнено нажатие c ховером на (?:кнопку|ссылку|поле|чекбокс|радиокнопу|текст|элемент) \"([^\"]*)\"$")
+    @И("^выполнено нажатие c ховером на (?:кнопку|элемент) \"([^\"]*)\"$")
     public void clickOnElementWithHover(String elementName) {
         clickOnElementWithHover(coreScenario.getCurrentPage().getElement(elementName));
     }
 
-    @И("^в блоке \"([^\"]*)\" выполнено нажатие c ховером на (?:кнопку|ссылку|поле|чекбокс|радиокнопу|текст|элемент) \"([^\"]*)\"$")
+    @И("^в блоке \"([^\"]*)\" выполнено нажатие c ховером на (?:кнопку|элемент) \"([^\"]*)\"$")
     public void clickOnElementWithHover(String blockName, String elementName) {
         clickOnElementWithHover(coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName));
     }
@@ -76,12 +76,12 @@ public class SelenideElementActionSteps {
      * ######################################################################################################################
      */
 
-    @И("^выполнен ховер на (?:кнопку|ссылку|поле|чекбокс|радиокнопу|текст|элемент) \"([^\"]*)\"$")
+    @И("^выполнен ховер на элемент \"([^\"]*)\"$")
     public void elementHover(String elementName) {
         elementHover(coreScenario.getCurrentPage().getElement(elementName));
     }
 
-    @И("^в блоке \"([^\"]*)\" выполнен ховер на (?:кнопку|ссылку|поле|чекбокс|радиокнопу|текст|элемент) \"([^\"]*)\"$")
+    @И("^в блоке \"([^\"]*)\" выполнен ховер на элемент \"([^\"]*)\"$")
     public void elementHover(String blockName, String elementName) {
         elementHover(coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName));
     }
@@ -97,17 +97,17 @@ public class SelenideElementActionSteps {
      * ######################################################################################################################
      */
 
-    @И("^выполнено нажатие на (?:кнопку|ссылку|поле|чекбокс|радиокнопу|текст|элемент) \"([^\"]*)\" и переход на новую вкладку$")
-    public void clickOnElementInBlockAndSwitchToNewTab(String elementName) {
-        clickOnElementInBlockAndSwitchToNewTab(coreScenario.getCurrentPage().getElement(elementName));
+    @И("^выполнено нажатие на (?:кнопку|элемент) \"([^\"]*)\" и переход на новую вкладку$")
+    public void clickOnElementAndSwitchToNewTab(String elementName) {
+        clickOnElementAndSwitchToNewTab(coreScenario.getCurrentPage().getElement(elementName));
     }
 
-    @И("^в блоке \"([^\"]*)\" выполнено нажатие на (?:кнопку|ссылку|поле|чекбокс|радиокнопу|текст|элемент) \"([^\"]*)\" и переход на новую вкладку$")
-    public void clickOnElementInBlockAndSwitchToNewTab(String blockName, String elementName) {
-        clickOnElementInBlockAndSwitchToNewTab(coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName));
+    @И("^в блоке \"([^\"]*)\" выполнено нажатие на (?:кнопку|элемент) \"([^\"]*)\" и переход на новую вкладку$")
+    public void clickOnElementAndSwitchToNewTab(String blockName, String elementName) {
+        clickOnElementAndSwitchToNewTab(coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName));
     }
 
-    public void clickOnElementInBlockAndSwitchToNewTab(SelenideElement element) {
+    public void clickOnElementAndSwitchToNewTab(SelenideElement element) {
         element.clear();
         Selenide.switchTo().window(WebDriverRunner.getWebDriver().getWindowHandles().size() - 1);
     }
@@ -116,13 +116,14 @@ public class SelenideElementActionSteps {
      * ######################################################################################################################
      */
 
+    @SuppressWarnings("deprecation")
     @И("^выполнено нажатие на элемент с текстом \"([^\"]*)\"$")
     public void clickingElementWithText(String text) {
         coreScenario.getCurrentPage().getSelf()
                 .$(By.xpath(getTranslateNormalizeSpaceText(getPropertyOrStringVariableOrValue(text)))).click();
     }
 
-
+    @SuppressWarnings("deprecation")
     @И("^в блоке \"([^\"]*)\" выполнено нажатие на элемент с текстом \"([^\"]*)\"$")
     public void clickingElementWithText(String blockName, String text) {
         coreScenario.getCurrentPage().getBlock(blockName).getSelf()
@@ -196,8 +197,8 @@ public class SelenideElementActionSteps {
      * ######################################################################################################################
      */
 
-    @А("^в (?:поле|элемент) \"([^\"]*)\" дописывается значение$")
-    @И("^в (?:поле|элемент) \"([^\"]*)\" дописывается значение \"([^\"]*)\"$")
+    @А("^в поле \"([^\"]*)\" дописывается значение$")
+    @И("^в поле \"([^\"]*)\" дописывается значение \"([^\"]*)\"$")
     public void valueIsAppended(String elementName, String value) {
         valueIsAppended(
                 coreScenario.getCurrentPage().getElement(elementName),
@@ -205,8 +206,8 @@ public class SelenideElementActionSteps {
         );
     }
 
-    @А("^в блоке \"([^\"]*)\" в (?:поле|элемент) \"([^\"]*)\" дописывается значение$")
-    @И("^в блоке \"([^\"]*)\" в (?:поле|элемент) \"([^\"]*)\" дописывается значение \"([^\"]*)\"$")
+    @А("^в блоке \"([^\"]*)\" в поле \"([^\"]*)\" дописывается значение$")
+    @И("^в блоке \"([^\"]*)\" в поле \"([^\"]*)\" дописывается значение \"([^\"]*)\"$")
     public void valueIsAppended(String blockName, String elementName, String value) {
         valueIsAppended(
                 coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName),
@@ -220,7 +221,7 @@ public class SelenideElementActionSteps {
     public void valueIsAppended(SelenideElement element, String value) {
         value = getPropertyOrStringVariableOrValue(value);
         String oldValue = element.getValue();
-        if (oldValue.isEmpty()) {
+        if (oldValue == null || oldValue.isEmpty()) {
             oldValue = element.getText();
         }
         element.setValue("");
@@ -231,14 +232,14 @@ public class SelenideElementActionSteps {
      * ######################################################################################################################
      */
 
-    @И("^в (?:поле|элемент) \"([^\"]*)\" набирается текущая дата в формате \"([^\"]*)\"$")
+    @И("^в поле \"([^\"]*)\" набирается текущая дата в формате \"([^\"]*)\"$")
     public void currentDateIsTypedInTheFormat(String elementName, String dateFormat) {
         currentDateIsTypedInTheFormat(
                 coreScenario.getCurrentPage().getElement(elementName),
                 dateFormat);
     }
 
-    @И("^в блоке \"([^\"]*)\" в (?:поле|элемент) \"([^\"]*)\" набирается текущая дата в формате \"([^\"]*)\"$")
+    @И("^в блоке \"([^\"]*)\" в поле \"([^\"]*)\" набирается текущая дата в формате \"([^\"]*)\"$")
     public void currentDateIsTypedInTheFormat(String blockName, String elementName, String dateFormat) {
         currentDateIsTypedInTheFormat(
                 coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName),
@@ -268,7 +269,7 @@ public class SelenideElementActionSteps {
      * ######################################################################################################################
      */
 
-    @И("^в (?:поле|элемент) \"([^\"]*)\" с помощью горячих клавиш вставлено значение \"([^\"]*)\"$")
+    @И("^в поле \"([^\"]*)\" с помощью горячих клавиш вставлено значение \"([^\"]*)\"$")
     public void pasteValueToTextField(String elementName, String value) {
         pasteValueToTextField(
                 coreScenario.getCurrentPage().getElement(elementName),
@@ -276,7 +277,7 @@ public class SelenideElementActionSteps {
         );
     }
 
-    @И("^в блоке \"([^\"]*)\" в (?:поле|элемент) \"([^\"]*)\" с помощью горячих клавиш вставлено значение \"([^\"]*)\"$")
+    @И("^в блоке \"([^\"]*)\" в поле \"([^\"]*)\" с помощью горячих клавиш вставлено значение \"([^\"]*)\"$")
     public void pasteValueToTextField(String blockName, String elementName, String value) {
         pasteValueToTextField(
                 coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName),
@@ -322,8 +323,8 @@ public class SelenideElementActionSteps {
             element.sendKeys(Keys.chord(Keys.CONTROL + "a" + Keys.BACK_SPACE));
         }
 
-        if (element.is(Condition.not(Condition.empty))) {
-            for (char character : element.getValue().toCharArray()) {
+        if (element.is(Condition.not(Condition.empty)) && element.getValue() != null) {
+            for (int i = 0; i < element.getValue().length(); ++i) {
                 element.sendKeys(Keys.BACK_SPACE);
             }
         }
@@ -500,7 +501,7 @@ public class SelenideElementActionSteps {
      * ######################################################################################################################
      */
 
-
+    @SuppressWarnings("deprecation")
     @И("^страница прокручена до появления элемента с текстом \"([^\"]*)\"$")
     public void scrollWhileElemWithTextNotFoundOnPage(String expectedValue) {
         scrollWhileElemWithTextNotFoundOnPage(
@@ -509,7 +510,7 @@ public class SelenideElementActionSteps {
         );
     }
 
-
+    @SuppressWarnings("deprecation")
     @И("^в блоке \"([^\"]*)\" страница прокручена до появления элемента с текстом \"([^\"]*)\"$")
     public void scrollWhileElemWithTextNotFoundOnPage(String blockName, String expectedValue) {
         scrollWhileElemWithTextNotFoundOnPage(

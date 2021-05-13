@@ -7,6 +7,7 @@ import com.codeborne.selenide.SelenideElement;
 import io.cucumber.java.ru.И;
 import lombok.extern.log4j.Log4j2;
 import ru.at.library.core.cucumber.api.CoreScenario;
+import ru.at.library.web.core.CustomCondition;
 import ru.at.library.web.core.IStepResult;
 import ru.at.library.web.entities.CommonStepResult;
 
@@ -30,19 +31,19 @@ public class ElementsCollectionCheckSteps {
      */
 
     @И("^список элементов \"([^\"]*)\" отображается на странице$")
-    public IStepResult listIsPresentedOnPage(String listName) {
-        return listIsPresentedOnPage(coreScenario.getCurrentPage().getElementsList(listName));
+    public IStepResult isVisible(String listName) {
+        return isVisible(coreScenario.getCurrentPage().getElementsList(listName));
     }
 
     @И("^в блоке \"([^\"]*)\" список элементов \"([^\"]*)\" отображается на странице$")
-    public IStepResult listIsPresentedOnPage(String blockName, String listName) {
-        return listIsPresentedOnPage(coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName));
+    public IStepResult isVisible(String blockName, String listName) {
+        return isVisible(coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName));
     }
 
     /**
      * Проверка отображения списка на странице
      */
-    private IStepResult listIsPresentedOnPage(ElementsCollection elements) {
+    private IStepResult isVisible(ElementsCollection elements) {
         elements.first().shouldHave(visible);
         return new CommonStepResult(elements.first());
     }
@@ -52,19 +53,19 @@ public class ElementsCollectionCheckSteps {
      */
 
     @И("^список элементов \"([^\"]*)\" не отображается на странице$")
-    public IStepResult listIsNotVisibleOnPage(String listName) {
-        return listIsNotVisibleOnPage(coreScenario.getCurrentPage().getElementsList(listName));
+    public IStepResult isHidden(String listName) {
+        return isHidden(coreScenario.getCurrentPage().getElementsList(listName));
     }
 
     @И("^в блоке \"([^\"]*)\" список элементов \"([^\"]*)\" не отображается на странице$")
-    public IStepResult listIsNotVisibleOnPage(String blockName, String listName) {
-        return listIsNotVisibleOnPage(coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName));
+    public IStepResult isHidden(String blockName, String listName) {
+        return isHidden(coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName));
     }
 
     /**
      * Проверка не отображения списка на странице
      */
-    private IStepResult listIsNotVisibleOnPage(ElementsCollection elements) {
+    private IStepResult isHidden(ElementsCollection elements) {
         elements.first().shouldHave(not(visible));
         return new CommonStepResult(elements.first());
     }
@@ -74,20 +75,20 @@ public class ElementsCollectionCheckSteps {
      */
 
     @И("^список элементов \"([^\"]*)\" включает в себя список из таблицы$")
-    public IStepResult checkIfListConsistsOfTableElements(String listName, List<String> textTable) {
-        return checkIfListConsistsOfTableElements(
+    public IStepResult containsList(String listName, List<String> textTable) {
+        return containsList(
                 coreScenario.getCurrentPage().getElementsList(listName),
                 textTable);
     }
 
     @И("^в блоке \"([^\"]*)\" список элементов \"([^\"]*)\" включает в себя список из таблицы$")
-    public IStepResult checkIfListConsistsOfTableElements(String blockName, String listName, List<String> textTable) {
-        return checkIfListConsistsOfTableElements(
+    public IStepResult containsList(String blockName, String listName, List<String> textTable) {
+        return containsList(
                 coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName),
                 textTable);
     }
 
-    private IStepResult checkIfListConsistsOfTableElements(ElementsCollection elements, List<String> textTable) {
+    private IStepResult containsList(ElementsCollection elements, List<String> textTable) {
         textTable = getPropertyOrStringVariableOrValue(textTable);
         for (String expectedText : textTable) {
             elements.find(text(expectedText)).shouldHave(text(expectedText));
@@ -100,15 +101,15 @@ public class ElementsCollectionCheckSteps {
      */
 
     @И("^список элементов \"([^\"]*)\" равен списку из таблицы$")
-    public IStepResult checkIfListInnerTextConsistsOfTableElements(String listName, List<String> textTable) {
-        return checkIfListInnerTextConsistsOfTableElements(
+    public IStepResult equalsToList(String listName, List<String> textTable) {
+        return equalsToList(
                 coreScenario.getCurrentPage().getElementsList(listName),
                 textTable);
     }
 
     @И("^в блоке \"([^\"]*)\" список элементов \"([^\"]*)\" равен списку из таблицы$")
-    public IStepResult checkIfListInnerTextConsistsOfTableElements(String blockName, String listName, List<String> textTable) {
-        return checkIfListInnerTextConsistsOfTableElements(
+    public IStepResult equalsToList(String blockName, String listName, List<String> textTable) {
+        return equalsToList(
                 coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName),
                 textTable);
     }
@@ -117,9 +118,9 @@ public class ElementsCollectionCheckSteps {
      * Проверка, что список со страницы состоит только из элементов,
      * перечисленных в таблице
      */
-    public IStepResult checkIfListInnerTextConsistsOfTableElements(ElementsCollection elements, List<String> textTable) {
+    public IStepResult equalsToList(ElementsCollection elements, List<String> textTable) {
         textTable = getPropertyOrStringVariableOrValue(textTable);
-        elements.shouldHave(CollectionCondition.textsInAnyOrder(textTable));
+        elements.shouldHave(CollectionCondition.exactTexts(textTable));
         return new CommonStepResult(elements);
     }
 
@@ -128,16 +129,16 @@ public class ElementsCollectionCheckSteps {
      */
 
     @И("^в списке элементов \"([^\"]*)\" текст любого из элементов сохранен в переменную \"([^\"]*)\"$")
-    public IStepResult selectRandomElementFromListAndSaveVar(String listName, String varName) {
-        return selectRandomElementFromListAndSaveVar(
+    public IStepResult saveRandomListElementTextToVar(String listName, String varName) {
+        return saveRandomListElementTextToVar(
                 coreScenario.getCurrentPage().getElementsList(listName),
                 varName
         );
     }
 
     @И("^в блоке \"([^\"]*)\" в списке элементов \"([^\"]*)\" текст любого из элементов сохранен в переменную \"([^\"]*)\"$")
-    public IStepResult selectRandomElementFromListAndSaveVar(String blockName, String listName, String varName) {
-        return selectRandomElementFromListAndSaveVar(
+    public IStepResult saveRandomListElementTextToVar(String blockName, String listName, String varName) {
+        return saveRandomListElementTextToVar(
                 coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName),
                 varName
         );
@@ -146,7 +147,7 @@ public class ElementsCollectionCheckSteps {
     /**
      * Выбор из списка со страницы любого случайного элемента и сохранение его значения в переменную
      */
-    public IStepResult selectRandomElementFromListAndSaveVar(ElementsCollection elements, String varName) {
+    public IStepResult saveRandomListElementTextToVar(ElementsCollection elements, String varName) {
         SelenideElement element = getRandomElementFromCollection(elements.filter(visible));
         String text = element.getText();
         coreScenario.setVar(varName, text);
@@ -158,8 +159,8 @@ public class ElementsCollectionCheckSteps {
      */
 
     @И("^в списке элементов \"([^\"]*)\" текст в элементе \"(\\d+)\" равен \"([^\"]*)\"$")
-    public IStepResult checkTextElementInListElement(String listName, int number, String expectedValue) {
-        return checkTextElementInListElement(
+    public IStepResult listElementWithIndexHasExactText(String listName, int number, String expectedValue) {
+        return listElementWithIndexHasExactText(
                 coreScenario.getCurrentPage().getElementsList(listName),
                 number,
                 expectedValue
@@ -168,8 +169,8 @@ public class ElementsCollectionCheckSteps {
 
 
     @И("^в блоке \"([^\"]*)\" в списке элементов \"([^\"]*)\" текст в элементе \"(\\d+)\" равен \"([^\"]*)\"$")
-    public IStepResult checkTextElementInListElement(String blockName, String listName, int number, String expectedValue) {
-        return checkTextElementInListElement(
+    public IStepResult listElementWithIndexHasExactText(String blockName, String listName, int number, String expectedValue) {
+        return listElementWithIndexHasExactText(
                 coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName),
                 number,
                 expectedValue
@@ -179,7 +180,7 @@ public class ElementsCollectionCheckSteps {
     /**
      * Проверка текста в элементе списка
      */
-    public IStepResult checkTextElementInListElement(ElementsCollection elements, int number, String expectedValue) {
+    public IStepResult listElementWithIndexHasExactText(ElementsCollection elements, int number, String expectedValue) {
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
         SelenideElement selenideElement = elements.get(number - 1);
         SelenideElement element = selenideElement.shouldHave(text(expectedValue));
@@ -190,16 +191,16 @@ public class ElementsCollectionCheckSteps {
      * ######################################################################################################################
      */
 
-    @И("^в списоке элементов \"([^\"]*)\" содержится элемент с текстом \"([^\"]*)\"$")
-    public IStepResult checkListElementsContainsText(String listName, String expectedValue) {
-        return checkListElementsContainsText(
+    @И("^в списке элементов \"([^\"]*)\" содержится элемент с текстом \"([^\"]*)\"$")
+    public IStepResult containsElementWithExactText(String listName, String expectedValue) {
+        return containsElementWithExactText(
                 coreScenario.getCurrentPage().getElementsList(listName),
                 expectedValue);
     }
 
-    @И("^в блоке \"([^\"]*)\" в списоке элементов \"([^\"]*)\" содержится элемент с текстом \"([^\"]*)\"$")
-    public IStepResult checkListElementsContainsText(String blockName, String listName, String expectedValue) {
-        return checkListElementsContainsText(
+    @И("^в блоке \"([^\"]*)\" в списке элементов \"([^\"]*)\" содержится элемент с текстом \"([^\"]*)\"$")
+    public IStepResult containsElementWithExactText(String blockName, String listName, String expectedValue) {
+        return containsElementWithExactText(
                 coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName),
                 expectedValue);
     }
@@ -207,7 +208,7 @@ public class ElementsCollectionCheckSteps {
     /**
      * Проверка, что каждый элемент списка содержит ожидаемый текст
      */
-    public IStepResult checkListElementsContainsText(ElementsCollection elements, String expectedValue) {
+    public IStepResult containsElementWithExactText(ElementsCollection elements, String expectedValue) {
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
         SelenideElement element = elements.find(Condition.exactText(expectedValue))
                 .shouldHave(exactText(expectedValue));
@@ -219,15 +220,15 @@ public class ElementsCollectionCheckSteps {
      */
 
     @И("^в списоке элементов \"([^\"]*)\" не содержится элемент с текстом \"([^\"]*)\"$")
-    public void checkListElementsNotContainsText(String listName, String expectedValue) {
-        checkListElementsNotContainsText(
+    public void notContainsElementWithExactText(String listName, String expectedValue) {
+        notContainsElementWithExactText(
                 coreScenario.getCurrentPage().getElementsList(listName),
                 expectedValue);
     }
 
     @И("^в блоке \"([^\"]*)\" в списоке элементов \"([^\"]*)\" не содержится элемент с текстом \"([^\"]*)\"$")
-    public void checkListElementsNotContainsText(String blockName, String listName, String expectedValue) {
-        checkListElementsNotContainsText(
+    public void notContainsElementWithExactText(String blockName, String listName, String expectedValue) {
+        notContainsElementWithExactText(
                 coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName),
                 expectedValue);
     }
@@ -235,7 +236,7 @@ public class ElementsCollectionCheckSteps {
     /**
      * Проверка, что каждый элемент списка не содержит ожидаемый текст
      */
-    public void checkListElementsNotContainsText(ElementsCollection elements, String expectedValue) {
+    public void notContainsElementWithExactText(ElementsCollection elements, String expectedValue) {
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
         elements.filter(Condition.exactText(expectedValue)).shouldHaveSize(0);
     }
@@ -244,61 +245,31 @@ public class ElementsCollectionCheckSteps {
      * ######################################################################################################################
      */
 
-    @И("^список элементов \"([^\"]*)\" состоит из \"([^\"]*)\" элементов")
-    public IStepResult listContainsNumberOfElements(String listName, String quantity) {
-        return listContainsNumberOfElements(
+    @И("^в списке элементов \"([^\"]*)\" количество элементов (равно|не равно|больше|меньше|больше или равно|меньше или равно) (\\d+)$")
+    public IStepResult checkSize(String listName, String condition, String expectedSize) {
+        return checkSize(
                 coreScenario.getCurrentPage().getElementsList(listName),
-                quantity);
+                condition,
+                expectedSize);
     }
 
-    @И("^в блоке \"([^\"]*)\" список элементов \"([^\"]*)\" состоит из \"([^\"]*)\" элементов")
-    public IStepResult listContainsNumberOfElements(String blockName, String listName, String quantity) {
-        return listContainsNumberOfElements(
+    @И("^в блоке \"([^\"]*)\" в списке элементов \"([^\"]*)\" количество элементов (равно|не равно|больше|меньше|больше или равно|меньше или равно) (\\d+)")
+    public IStepResult checkSize(String blockName, String listName, String condition, String expectedSize) {
+        return checkSize(
                 coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName),
-                quantity);
+                condition,
+                expectedSize);
     }
 
     /**
-     * Производится проверка соответствия числа элементов списка значению, указанному в шаге
+     * Производится проверка соответствия числа элементов списка условию и значению, указанному в шаге
      */
-    public IStepResult listContainsNumberOfElements(ElementsCollection elements, String quantity) {
-        int numberOfElements = Integer.parseInt(getPropertyOrStringVariableOrValue(quantity));
-        elements.shouldHaveSize(numberOfElements);
-        return new CommonStepResult(elements);
-    }
-
-    /**
-     * ######################################################################################################################
-     */
-
-    @И("^в списке элементов \"([^\"]*)\" содержится (более|менее) \"([^\"]*)\" (?:элементов|элемента)")
-    public IStepResult listContainsMoreOrLessElements(String listName, String moreOrLess, String quantity) {
-        return listContainsMoreOrLessElements(
-                coreScenario.getCurrentPage().getElementsList(listName),
-                moreOrLess,
-                quantity
+    public IStepResult checkSize(ElementsCollection elements, String condition, String expectedSize) {
+        CollectionCondition collectionCondition = CustomCondition.getElementsCollectionSizeCondition(
+                CustomCondition.Comparison.fromString(getPropertyOrStringVariableOrValue(condition)),
+                Integer.parseInt(getPropertyOrStringVariableOrValue(expectedSize))
         );
-    }
-
-    @И("^в блоке \"([^\"]*)\" в списке элементов \"([^\"]*)\" содержится (более|менее) \"([^\"]*)\" (?:элементов|элемента)")
-    public IStepResult listContainsMoreOrLessElements(String blockName, String listName, String moreOrLess, String quantity) {
-        return listContainsMoreOrLessElements(
-                coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName),
-                moreOrLess,
-                quantity
-        );
-    }
-
-    /**
-     * Производится сопоставление числа элементов списка и значения, указанного в шаге
-     */
-    public IStepResult listContainsMoreOrLessElements(ElementsCollection elements, String moreOrLess, String quantity) {
-        int quantityOfElements = Integer.parseInt(getPropertyOrStringVariableOrValue(quantity));
-        if ("более".equals(moreOrLess)) {
-            elements.shouldHave(CollectionCondition.sizeGreaterThan(quantityOfElements));
-        } else {
-            elements.shouldHave(CollectionCondition.sizeLessThan(quantityOfElements));
-        }
+        elements.shouldHave(collectionCondition);
         return new CommonStepResult(elements);
     }
 

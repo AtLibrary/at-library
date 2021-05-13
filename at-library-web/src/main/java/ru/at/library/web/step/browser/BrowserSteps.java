@@ -18,7 +18,6 @@ import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
 import io.cucumber.java.ru.И;
 import lombok.extern.log4j.Log4j2;
-import org.hamcrest.Matchers;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import ru.at.library.core.cucumber.api.CoreScenario;
@@ -30,9 +29,7 @@ import java.util.Set;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static com.codeborne.selenide.WebDriverRunner.url;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
 import static org.testng.Assert.assertNull;
 import static org.testng.Assert.fail;
@@ -96,7 +93,11 @@ public class BrowserSteps {
         }
 
         takeScreenshot();
-        assertThat("Текущий URL не совпадает с ожидаемым", currentUrl, is(expectedURL));
+        CoreScenario.getInstance().getAssertionHelper().hamcrestAssert(
+                "Текущий URL не совпадает с ожидаемым",
+                currentUrl,
+                is(equalToIgnoringCase(expectedURL))
+        );
     }
 
     /**
@@ -118,7 +119,11 @@ public class BrowserSteps {
         }
 
         takeScreenshot();
-        assertThat("Текущий URL не содержит ожидаемым", currentUrl, containsString(expectedURL));
+        CoreScenario.getInstance().getAssertionHelper().hamcrestAssert(
+                "Текущий URL не содержит ожидаемую строку",
+                currentUrl,
+                containsString(expectedURL)
+        );
     }
 
     /**
@@ -138,8 +143,11 @@ public class BrowserSteps {
                 sleep(sleepTime);
             }
         }
-
-        assertThat("Текущий URL совпадает с ожидаемым", currentUrl, Matchers.not(expectedURL));
+        CoreScenario.getInstance().getAssertionHelper().hamcrestAssert(
+                "Текущий URL совпадает с ожидаемым",
+                currentUrl,
+                not(equalToIgnoringCase(expectedURL))
+        );
     }
 
     /**
@@ -265,10 +273,11 @@ public class BrowserSteps {
             sleep(sleepTime);
         }
         takeScreenshot();
-        assertThat(
+        CoreScenario.getInstance().getAssertionHelper().hamcrestAssert(
                 String.format("Заголовок страницы не совпадает с ожидаемым значением. Ожидаемый результат: %s, текущий результат: %s", expectedTitle, actualTitle),
                 expectedTitle,
-                equalToIgnoringCase(actualTitle));
+                equalToIgnoringCase(actualTitle)
+        );
     }
 
     /**

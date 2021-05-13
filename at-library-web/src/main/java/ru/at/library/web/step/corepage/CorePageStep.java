@@ -61,6 +61,17 @@ public class CorePageStep {
     }
 
     /**
+     * Выполняется объявление заданной страницы текущей без проверки загрузки элементов
+     *
+     * @param pageName  название страницы
+     */
+    @И("^совершен переход на страницу \"([^\"]*)\"$")
+    public void setCurrentPage(String pageName) {
+        CorePage page = CoreScenario.getInstance().getPage(pageName);
+        CoreScenario.getInstance().setCurrentPage(page);
+    }
+
+    /**
      * Выполняется переход по заданной ссылке.
      * Шаг содержит проверку, что после перехода загружена заданная страница.
      *
@@ -145,6 +156,7 @@ public class CorePageStep {
      * <p>
      * Шагом *не отображается* - проверить нельзя. Кидает ошибку что не смог найти селектор.
      */
+    @SuppressWarnings("deprecation")
     @И("^блок \"([^\"]*)\" не присутствует в DOM$")
     public void blockDoesntExist(String blockName) {
         this.coreScenario.getCurrentPage().getBlock(blockName).getSelf().shouldHave(Condition.exist);
