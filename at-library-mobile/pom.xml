@@ -5,7 +5,7 @@
     <parent>
         <artifactId>at-library</artifactId>
         <groupId>ru</groupId>
-        <version>08.05.2021</version>
+        <version>13.05.2021</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -20,7 +20,7 @@
         <dependency>
             <groupId>ru</groupId>
             <artifactId>at-library-core</artifactId>
-            <version>08.05.2021</version>
+            <version>13.05.2021</version>
             <scope>compile</scope>
         </dependency>
         <!--MOBILE ТЕСТИРОВАНИЕ-->

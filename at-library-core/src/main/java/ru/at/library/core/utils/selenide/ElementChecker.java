@@ -56,4 +56,16 @@ public class ElementChecker {
         return elementCheckListAsString(collectFailedElementCheck);
     }
 
+    /**
+     * Преобразование списка объектов с интерфейсом {@link IElementCheck} и положительным результатом проверки {@link IElementCheck#getStatus()} в строку
+     *
+     * @param elementCheckList  список объектов с интерфейсом {@link IElementCheck} для преобразования в строку
+     *
+     * @return список объектов с интерфейсом {@link IElementCheck} и положительным результатом проверки {@link IElementCheck#getStatus()} преобразованный к объекту типа {@link String}
+     */
+    public static String elementPassedCheckListAsString(List<IElementCheck> elementCheckList) {
+        List<IElementCheck> collectFailedElementCheck = elementCheckList.stream().filter(IElementCheck::getStatus).collect(toList());
+        return elementCheckListAsString(collectFailedElementCheck);
+    }
+
 }

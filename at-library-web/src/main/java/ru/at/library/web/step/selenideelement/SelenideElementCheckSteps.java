@@ -527,7 +527,7 @@ public class SelenideElementCheckSteps {
      * ######################################################################################################################
      */
 
-    @И("^элемен) \"([^\"]*)\" не содержит css \"([^\"]*)\" со значением \"([^\"]*)\"$")
+    @И("^элемент \"([^\"]*)\" не содержит css \"([^\"]*)\" со значением \"([^\"]*)\"$")
     public void notContainsCssWithValue(String elementName, String cssName, String cssValue) {
         notContainsCssWithValue(
                 coreScenario.getCurrentPage().getElement(elementName),

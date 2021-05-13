@@ -155,6 +155,7 @@ public class SelenideElementActionSteps {
      * Перед использованием поле нужно очистить
      */
     public String setFieldValue(SelenideElement element, String value) {
+        cleanInput(element);
         value = getPropertyOrStringVariableOrValue(value);
         element.setValue(value);
         return value;
