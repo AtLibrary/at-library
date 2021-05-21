@@ -159,7 +159,7 @@ public class CorePageStep {
     @SuppressWarnings("deprecation")
     @И("^блок \"([^\"]*)\" не присутствует в DOM$")
     public void blockDoesntExist(String blockName) {
-        this.coreScenario.getCurrentPage().getBlock(blockName).getSelf().shouldHave(Condition.exist);
+        this.coreScenario.getCurrentPage().getBlock(blockName).getSelf().shouldHave(Condition.not(Condition.exist));
     }
 
     /**
