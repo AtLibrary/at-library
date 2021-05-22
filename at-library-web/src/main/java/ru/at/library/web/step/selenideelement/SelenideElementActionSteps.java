@@ -119,8 +119,11 @@ public class SelenideElementActionSteps {
     @SuppressWarnings("deprecation")
     @И("^выполнено нажатие на элемент с текстом \"([^\"]*)\"$")
     public void clickingElementWithText(String text) {
-        coreScenario.getCurrentPage().getSelf()
-                .$(By.xpath(getTranslateNormalizeSpaceText(getPropertyOrStringVariableOrValue(text)))).click();
+        if (coreScenario.getCurrentPage().getSelf() != null) {
+            coreScenario.getCurrentPage().getSelf().$(By.xpath(getTranslateNormalizeSpaceText(getPropertyOrStringVariableOrValue(text)))).click();
+        } else {
+            Selenide.$(By.xpath(getTranslateNormalizeSpaceText(getPropertyOrStringVariableOrValue(text)))).click();
+        }
     }
 
     @SuppressWarnings("deprecation")
@@ -225,7 +228,7 @@ public class SelenideElementActionSteps {
         if (oldValue == null || oldValue.isEmpty()) {
             oldValue = element.getText();
         }
-        element.setValue("");
+        this.cleanInput(element);
         element.setValue(oldValue + value);
     }
 
@@ -317,7 +320,7 @@ public class SelenideElementActionSteps {
     /**
      * Очищается заданное поле
      */
-    public void cleanInput(SelenideElement element) {
+    public static void cleanInput(SelenideElement element) {
         element.clear();
 
         if (element.is(Condition.not(Condition.empty))) {
