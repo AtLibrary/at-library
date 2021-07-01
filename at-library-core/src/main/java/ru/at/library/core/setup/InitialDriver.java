@@ -31,22 +31,35 @@ public class InitialDriver {
          * Уведомление о месте запуска тестов
          */
         if (Strings.isNullOrEmpty(Configuration.remote)) {
-            initLocalStart(scenario);
+            initLocalStart(getScenarioId(scenario));
         } else {
-            initRemoteStart(scenario, testNumber);
+            initRemoteStart(getScenarioId(scenario), scenario.getName(), testNumber);
+        }
+    }
+
+    @Step("Запуск UI теста")
+    public void startUITest(String scenarioId, String scenarioName, int testNumber) throws Exception {
+
+        /**
+         * Уведомление о месте запуска тестов
+         */
+        if (Strings.isNullOrEmpty(Configuration.remote)) {
+            initLocalStart(scenarioId);
+        } else {
+            initRemoteStart(scenarioId, scenarioName, testNumber);
         }
     }
 
     @Step("Запуск теста локально")
-    private void initLocalStart(Scenario scenario){
-        log.info(String.format("%s: ОС: %s", getScenarioId(scenario), System.getProperty("os.name")));
-        log.info(String.format("%s: локальный бразуер: %s", getScenarioId(scenario), browser));
+    private void initLocalStart(String scenarioId){
+        log.info(String.format("%s: ОС: %s", scenarioId, System.getProperty("os.name")));
+        log.info(String.format("%s: локальный бразуер: %s", scenarioId, browser));
     }
 
     @Step("Запуск теста удаленно")
-    private void initRemoteStart(Scenario scenario, int testNumber) throws Exception {
-        log.info(String.format("%s: удаленная машина: %s", getScenarioId(scenario), Configuration.remote));
-        log.info(String.format("%s: браузер: %s", getScenarioId(scenario), Configuration.browser));
+    private void initRemoteStart(String scenarioId, String scenarioName, int testNumber) throws Exception {
+        log.info(String.format("%s: удаленная машина: %s", scenarioId, Configuration.remote));
+        log.info(String.format("%s: браузер: %s", scenarioId, Configuration.browser));
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setBrowserName(Configuration.browser);
@@ -59,7 +72,7 @@ public class InitialDriver {
         capabilities.setCapability("enableVideo",
                 Boolean.parseBoolean(System.getProperty("enableVideo", "false"))
         );
-        capabilities.setCapability("name", "[" + testNumber + "]" + scenario.getName());
+        capabilities.setCapability("name", "[" + testNumber + "]" + scenarioName);
         capabilities.setCapability("screenResolution", "1900x1080x24");
         capabilities.setCapability("browserstack.timezone", "Moscow");
         capabilities.setCapability("chrome.switches", Arrays.asList("--ignore-certificate-errors"));
