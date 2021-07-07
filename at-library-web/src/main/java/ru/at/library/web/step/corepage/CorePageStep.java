@@ -8,6 +8,12 @@ import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.JavascriptExecutor;
 import ru.at.library.core.cucumber.api.CorePage;
 import ru.at.library.core.cucumber.api.CoreScenario;
+import ru.at.library.core.utils.selenide.IElementCheck;
+import ru.at.library.web.core.IStepResult;
+import ru.at.library.web.entities.CommonStepResult;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.WebDriverRunner.url;
@@ -29,10 +35,13 @@ public class CorePageStep {
      * @param nameOfPage название страница|блок|форма|вкладка
      */
     @И("^(?:страница|форма|вкладка) \"([^\"]*)\" загрузилась$")
-    public void loadPage(String nameOfPage) {
+    public IStepResult loadPage(String nameOfPage) {
         CorePage page = coreScenario.getPage(nameOfPage);
         coreScenario.setCurrentPage(page);
-        coreScenario.getCurrentPage().isAppeared();
+        List<IElementCheck> checkResult = coreScenario.getCurrentPage().isAppeared();
+        return new CommonStepResult(checkResult.stream()
+                .map(IElementCheck::getElement)
+                .collect(Collectors.toList()));
     }
 
     /**
@@ -42,10 +51,13 @@ public class CorePageStep {
      * @param nameOfPage название блока
      */
     @И("^блок \"([^\"]*)\" загрузился$")
-    public void loadBlock(String nameOfPage) {
+    public IStepResult loadBlock(String nameOfPage) {
         CorePage page = coreScenario.getCurrentPage().getBlock(nameOfPage);
         coreScenario.setCurrentPage(page);
-        coreScenario.getCurrentPage().isAppeared();
+        List<IElementCheck> checkResult = coreScenario.getCurrentPage().isAppeared();
+        return new CommonStepResult(checkResult.stream()
+                .map(IElementCheck::getElement)
+                .collect(Collectors.toList()));
     }
 
     /**
@@ -122,11 +134,15 @@ public class CorePageStep {
      * Проверка того, что все основные и обязательные элементы текущей страницы отображаются
      */
     @И("^все элементы текущей страницы отображаются$")
-    public void pageAppeared() {
+    public IStepResult pageAppeared() {
         coreScenario.setCurrentPage(
                 coreScenario.getPage(coreScenario.getCurrentPage().getName())
         );
-        coreScenario.getCurrentPage().checkPrimary(true);
+        List<IElementCheck> checkResult = coreScenario.getCurrentPage().checkPrimary(true);
+        return new CommonStepResult(checkResult.stream()
+                .filter(IElementCheck::getStatus)
+                .map(IElementCheck::getElement)
+                .collect(Collectors.toList()));
     }
 
     /**

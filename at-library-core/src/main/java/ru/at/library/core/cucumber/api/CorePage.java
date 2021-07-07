@@ -113,16 +113,18 @@ public abstract class CorePage extends ElementsContainer {
      * Проверка того, что элементы, не помеченные аннотацией "Optional", отображаются,
      * а элементы, помеченные аннотацией "Hidden", скрыты.
      */
-    public void isAppeared() {
+    public List<IElementCheck> isAppeared() {
+        List<IElementCheck> checkResult = new ArrayList<>();
         if (isMandatory){
-            checkMandatory();
+            checkResult.addAll(checkMandatory());
         }
         if (isHidden){
             checkHidden();
         }
         if (isAppeared){
-            checkPrimary(!isMandatory);
+            checkResult.addAll(checkPrimary(!isMandatory));
         }
+        return checkResult.stream().filter(IElementCheck::getStatus).collect(toList());
     }
 
     /**
@@ -149,7 +151,7 @@ public abstract class CorePage extends ElementsContainer {
     /**
      * Проверка, что все (SelenideElement/ElementCollection/Наследники CorePage) c аннотацией Mandatory отображаются на странице
      */
-    public void checkMandatory() {
+    public List<IElementCheck> checkMandatory() {
         List<ElementMode> parentModesToCheck = Collections.singletonList(ElementMode.MANDATORY);
         List<ElementMode> childModesToCheck = Arrays.asList(ElementMode.MANDATORY, ElementMode.PRIMARY);
         List<IElementCheck> elementChecks = pageElementToElementCheck(
@@ -163,6 +165,7 @@ public abstract class CorePage extends ElementsContainer {
             throw new AssertionError(String.format("На текущей странице не отобразились все обязательные элементы: %d из %d\n%s",
                     getFailedCheckList(checkResult).size(), elementChecks.size(), elementCheckListAsString(getFailedCheckList(checkResult))));
         }
+        return checkResult;
     }
 
     /**
@@ -190,7 +193,7 @@ public abstract class CorePage extends ElementsContainer {
     /**
      * Проверка, что все (SelenideElement/ElementCollection/Наследники CorePage) без аннотации Hidden/Optional отображаются на странице
      */
-    public void checkPrimary(boolean includeMandatory) {
+    public List<IElementCheck> checkPrimary(boolean includeMandatory) {
         List<ElementMode> parentModesToCheck = includeMandatory
                 ? Arrays.asList(ElementMode.MANDATORY, ElementMode.PRIMARY)
                 : Collections.singletonList(ElementMode.PRIMARY);
@@ -207,6 +210,7 @@ public abstract class CorePage extends ElementsContainer {
                         getFailedCheckList(checkResult).size(), elementChecks.size(), elementCheckListAsString(getFailedCheckList(checkResult))),
                 checkResult.stream().allMatch(IElementCheck::getStatus),
                 is(equalTo(true)));
+        return checkResult;
     }
 
     /**
