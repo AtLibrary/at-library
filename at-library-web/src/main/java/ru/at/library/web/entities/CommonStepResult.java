@@ -50,7 +50,16 @@ public class CommonStepResult implements IStepResult {
      * @param selenideElements один или несколько имен элементов для выделения на скриншоте страницы
      */
     public CommonStepResult(SelenideElement... selenideElements) {
-        this.selenideElements.addAll(Arrays.asList(selenideElements));
+        this(Arrays.asList(selenideElements));
+    }
+
+    /**
+     * Выделение на скриншоте страницы списка элементов {@link SelenideElement}
+     *
+     * @param selenideElements список элементов для выделения на скриншоте страницы
+     */
+    public CommonStepResult(List<SelenideElement> selenideElements) {
+        this.selenideElements.addAll(selenideElements);
     }
 
     @Override

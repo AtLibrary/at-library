@@ -90,13 +90,12 @@ public class InitialSetupSteps {
 
         boolean quitDriver = true;
         switch (environment) {
-            case "dev": {
-                break;
-            }
+            case "dev":
             case "integrative": {
                 break;
             }
-            case "prod": {
+            case "prod":
+            case "jira": {
                 quitDriver = false;
                 break;
             }

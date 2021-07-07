@@ -8,7 +8,7 @@ at-library-web
 <dependency>
       <groupId>ru</groupId>
       <artifactId>at-library-web</artifactId>
-      <version>01.06.2021</version>
+      <version>05.07.2021</version>
 </dependency>
 ```
 
