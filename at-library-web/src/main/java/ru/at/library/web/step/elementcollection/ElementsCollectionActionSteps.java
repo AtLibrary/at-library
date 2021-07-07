@@ -45,7 +45,7 @@ public class ElementsCollectionActionSteps {
      * Выбор из списка со страницы элемента с заданным значением
      * (в приоритете: из property, из переменной сценария, значение аргумента)
      */
-    private IStepResult clickOnListElementWithExactText(ElementsCollection elements, String expectedValue) {
+    public IStepResult clickOnListElementWithExactText(ElementsCollection elements, String expectedValue) {
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
         SelenideElement element = elements.find(Condition.or(
                 "Поиск элемента с текстом для дальнейшего нажатия",
@@ -53,7 +53,6 @@ public class ElementsCollectionActionSteps {
                 exactValue(expectedValue)
                 )
         );
-
         element.click();
         return new CommonStepResult(element);
     }
@@ -81,7 +80,7 @@ public class ElementsCollectionActionSteps {
      * (в приоритете: из property, из переменной сценария, значение аргумента)
      * Не чувствителен к регистру
      */
-    private IStepResult clickOnListElementWithContainsText(ElementsCollection elements, String expectedValue) {
+    public IStepResult clickOnListElementWithContainsText(ElementsCollection elements, String expectedValue) {
         expectedValue = getPropertyOrStringVariableOrValue(expectedValue);
         SelenideElement element = elements.find(Condition.or(
                 "Поиск элемента содержащего текст для дальнейшего нажатия",
@@ -137,7 +136,7 @@ public class ElementsCollectionActionSteps {
     /**
      * Выполнено нажатие на случайный элемент
      */
-    private IStepResult clickOnListElementWithRandomIndex(ElementsCollection elements) {
+    public IStepResult clickOnListElementWithRandomIndex(ElementsCollection elements) {
         elements = elements.filter(visible);
         SelenideElement element = getRandomElementFromCollection(elements.filter(visible));
         element.click();

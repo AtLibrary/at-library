@@ -43,7 +43,7 @@ public class ElementsCollectionCheckSteps {
     /**
      * Проверка отображения списка на странице
      */
-    private IStepResult isVisible(ElementsCollection elements) {
+    public IStepResult isVisible(ElementsCollection elements) {
         elements.first().shouldHave(visible);
         return new CommonStepResult(elements.first());
     }
@@ -65,7 +65,7 @@ public class ElementsCollectionCheckSteps {
     /**
      * Проверка не отображения списка на странице
      */
-    private IStepResult isHidden(ElementsCollection elements) {
+    public IStepResult isHidden(ElementsCollection elements) {
         elements.first().shouldHave(not(visible));
         return new CommonStepResult(elements.first());
     }
@@ -88,7 +88,7 @@ public class ElementsCollectionCheckSteps {
                 textTable);
     }
 
-    private IStepResult containsList(ElementsCollection elements, List<String> textTable) {
+    public IStepResult containsList(ElementsCollection elements, List<String> textTable) {
         textTable = getPropertyOrStringVariableOrValue(textTable);
         for (String expectedText : textTable) {
             elements.find(text(expectedText)).shouldHave(text(expectedText));

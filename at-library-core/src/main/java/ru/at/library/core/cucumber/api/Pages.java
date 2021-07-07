@@ -92,7 +92,7 @@ public final class Pages {
         CorePage page = Selenide.page(getPageFromPagesByName(name)).initialize();
 
         if (!clazz.isInstance(page)) {
-            throw new IllegalStateException(name + " page is not a instance of " + clazz + ". Named page is a " + page);
+            throw new IllegalStateException(name + " страница не является экземпляром " + clazz + ". Страница с именем - это" + page);
         }
         return (T) page;
     }
@@ -104,7 +104,7 @@ public final class Pages {
     private CorePage getPageFromPagesByName(String pageName) throws IllegalArgumentException {
         CorePage page = getPageMapInstanceInternal().get(pageName);
         if (page == null)
-            throw new IllegalArgumentException(pageName + " page is not declared in a list of available pages");
+            throw new IllegalArgumentException(pageName + " страница не найдена в списке страниц с аннотацией ru.at.library.core.cucumber.annotations.Name");
         return page;
     }
 
