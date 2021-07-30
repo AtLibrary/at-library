@@ -27,9 +27,7 @@ import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -258,6 +256,24 @@ public class PropertyLoader {
         } while (!processingValue.equals(savedValue));
 
         return processingValue;
+    }
+
+    /**
+     * Возвращает набор свойств из property-файла по соответствию имени регулярному выражению
+     *
+     * @param regex регулярное выражение
+     * @return набор свойств
+     */
+    public static HashMap<String, String> loadPropertiesMatchesByRegex(String regex) {
+        HashMap<String, String> properties = new HashMap<>();
+        for (Enumeration<?> e = PROPERTIES.propertyNames(); e.hasMoreElements(); ) {
+            String name = (String)e.nextElement();
+            if (!getMatchesByRegex(name, regex).isEmpty()) {
+                String value = PROPERTIES.getProperty(name);
+                properties.put(name, value);
+            }
+        }
+        return properties;
     }
 
     /**
