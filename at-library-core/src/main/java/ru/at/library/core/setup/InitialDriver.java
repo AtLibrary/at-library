@@ -72,7 +72,6 @@ public class InitialDriver {
         capabilities.setCapability("name", "[" + testNumber + "]" + scenario.getName());
         capabilities.setCapability("screenResolution", "1900x1080x24");
         capabilities.setCapability("browserstack.timezone", "Moscow");
-        capabilities.setCapability("chrome.switches", Arrays.asList("--ignore-certificate-errors"));
         capabilities.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
 
         if(browser.equals(Browsers.CHROME)) {
