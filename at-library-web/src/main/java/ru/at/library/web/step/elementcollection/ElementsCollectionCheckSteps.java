@@ -31,19 +31,19 @@ public class ElementsCollectionCheckSteps {
      */
 
     @И("^список элементов \"([^\"]*)\" отображается на странице$")
-    public IStepResult isVisible(String listName) {
-        return isVisible(coreScenario.getCurrentPage().getElementsList(listName));
+    public IStepResult shouldVisible(String listName) {
+        return shouldVisible(coreScenario.getCurrentPage().getElementsList(listName));
     }
 
     @И("^в блоке \"([^\"]*)\" список элементов \"([^\"]*)\" отображается на странице$")
-    public IStepResult isVisible(String blockName, String listName) {
-        return isVisible(coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName));
+    public IStepResult shouldVisible(String blockName, String listName) {
+        return shouldVisible(coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName));
     }
 
     /**
      * Проверка отображения списка на странице
      */
-    public IStepResult isVisible(ElementsCollection elements) {
+    public IStepResult shouldVisible(ElementsCollection elements) {
         elements.first().shouldHave(visible);
         return new CommonStepResult(elements.first());
     }
@@ -191,6 +191,35 @@ public class ElementsCollectionCheckSteps {
      * ######################################################################################################################
      */
 
+    @И("^в списке элементов \"([^\"]*)\" элемент c текстом \"([^\"]*)\" выбран$")
+    public IStepResult listElementWithIndexHasSelected(String listName, String elementText) {
+        return listElementWithIndexHasSelected(
+                coreScenario.getCurrentPage().getElementsList(listName),
+                elementText
+        );
+    }
+
+    @И("^в блоке \"([^\"]*)\" в списке элементов \"([^\"]*)\" элемент c текстом \"([^\"]*)\" выбран$")
+    public IStepResult listElementWithIndexHasSelected(String blockName, String listName, String elementText) {
+        return listElementWithIndexHasSelected(
+                coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName),
+                elementText
+        );
+    }
+
+    /**
+     * Проверка что элемент c текстом выбран
+     */
+    public IStepResult listElementWithIndexHasSelected(ElementsCollection elements, String elementText) {
+        SelenideElement selenideElement = elements.find(Condition.text(elementText));
+        SelenideElement element = selenideElement.shouldHave(selected);
+        return new CommonStepResult(element);
+    }
+
+    /**
+     * ######################################################################################################################
+     */
+
     @И("^в списке элементов \"([^\"]*)\" содержится элемент с текстом \"([^\"]*)\"$")
     public IStepResult containsElementWithText(String listName, String expectedValue) {
         return containsElementWithText(
@@ -280,4 +309,5 @@ public class ElementsCollectionCheckSteps {
     public static SelenideElement getRandomElementFromCollection(ElementsCollection elementsCollection) {
         return elementsCollection.get(getRandom(elementsCollection.size())).shouldBe(visible);
     }
+
 }

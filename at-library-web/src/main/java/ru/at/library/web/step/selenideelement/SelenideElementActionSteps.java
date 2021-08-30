@@ -19,6 +19,7 @@ import java.awt.datatransfer.ClipboardOwner;
 import java.awt.datatransfer.StringSelection;
 import java.text.SimpleDateFormat;
 
+import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Selenide.*;
 import static ru.at.library.core.steps.OtherSteps.*;
 
@@ -320,12 +321,11 @@ public class SelenideElementActionSteps {
     public void cleanInput(SelenideElement element) {
         element.clear();
 
-        if (element.is(Condition.not(Condition.empty))) {
-            element.sendKeys(Keys.chord(Keys.CONTROL + "a" + Keys.BACK_SPACE));
-        }
-
-        if (element.is(Condition.not(Condition.empty)) && element.getValue() != null) {
-            for (int i = 0; i < element.getValue().length(); ++i) {
+        if (element.getAttribute("value").length() > 0 ||
+                        element.getValue().length() > 0 ||
+                        element.is(Condition.not(Condition.empty))
+        ) {
+            for (int i = 0; i < 225; i++) {
                 element.sendKeys(Keys.BACK_SPACE);
             }
         }

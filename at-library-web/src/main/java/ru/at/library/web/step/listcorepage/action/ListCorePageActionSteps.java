@@ -4,6 +4,7 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.ru.И;
+import io.cucumber.java.ru.То;
 import ru.at.library.core.cucumber.api.CorePage;
 import ru.at.library.core.cucumber.api.CoreScenario;
 import ru.at.library.core.steps.OtherSteps;
@@ -28,7 +29,7 @@ public class ListCorePageActionSteps {
      */
 
     @И("^в списке блоков \"([^\"]*)\" где в элементе \"([^\"]*)\" текст равен \"([^\"]*)\" выполнено наведение и нажатие на блок$")
-    @И("^в списке блоков \"([^\"]*)\" где в элементе \"([^\"]*)\" текст равен \"([^\"]*)\" выполнено нажатие на блок$")
+    @То("^в списке блоков \"([^\"]*)\" где в элементе \"([^\"]*)\" текст равен \"([^\"]*)\" выполнено нажатие на блок$")
     public IStepResult clickBlockInBlockListWhereTextEquals(String blockListName, String elementNameSearch, String expectedTextSearch) {
         expectedTextSearch = getPropertyOrStringVariableOrValue(expectedTextSearch);
 
@@ -46,7 +47,7 @@ public class ListCorePageActionSteps {
     }
 
     @И("^в списке блоков \"([^\"]*)\" где в элементе \"([^\"]*)\" текст равен \"([^\"]*)\" выполнено наведение и нажатие на элемент \"([^\"]*)\"$")
-    @И("^в списке блоков \"([^\"]*)\" где в элементе \"([^\"]*)\" текст равен \"([^\"]*)\" выполнено нажатие на элемент \"([^\"]*)\"$")
+    @То("^в списке блоков \"([^\"]*)\" где в элементе \"([^\"]*)\" текст равен \"([^\"]*)\" выполнено нажатие на элемент \"([^\"]*)\"$")
     public IStepResult clickButtonInBlockListWhereTextEquals(String blockListName, String elementNameSearch, String expectedTextSearch, String elementNameClick) {
         expectedTextSearch = getPropertyOrStringVariableOrValue(expectedTextSearch);
 

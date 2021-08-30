@@ -5,6 +5,7 @@ import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.SelenideElement;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.ru.И;
+import io.cucumber.java.ru.То;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.Point;
 import org.testng.Assert;
@@ -345,7 +346,7 @@ public class ListCorePageBlockCheckSteps {
     }
 
     @И("^в блоке \"([^\"]*)\" в списке блоков \"([^\"]*)\" в любом из блоков \"([^\"]*)\" в элементе \"([^\"]*)\" текст содержит$")
-    @И("^в блоке \"([^\"]*)\" в списке блоков \"([^\"]*)\" в любом из блоков \"([^\"]*)\" в элементе \"([^\"]*)\" текст содержит \"([^\"]*)\"$")
+    @То("^в блоке \"([^\"]*)\" в списке блоков \"([^\"]*)\" в любом из блоков \"([^\"]*)\" в элементе \"([^\"]*)\" текст содержит \"([^\"]*)\"$")
     public IStepResult checkContainTextInAnyBlock(String blockName, String blockListName, String elementName, String expectedText) {
         expectedText = getPropertyOrStringVariableOrValue(expectedText);
 

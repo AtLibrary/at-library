@@ -144,4 +144,32 @@ public class ElementsCollectionActionSteps {
         return new CommonStepResult(element);
     }
 
+
+
+    /**
+     * ######################################################################################################################
+     */
+
+    @И("^в списке элементов \"([^\"]*)\" выполнено нажатие на последний элемент$")
+    public IStepResult clickOnListElementWithLast(String listName) {
+        return clickOnListElementWithLast(coreScenario.getCurrentPage().getElementsList(listName));
+    }
+
+    @И("^в блоке \"([^\"]*)\" в списке элементов \"([^\"]*)\" выполнено нажатие на последний элемент$")
+    public IStepResult clickOnListElementWithLast(String blockName, String listName) {
+        return clickOnListElementWithLast(coreScenario.getCurrentPage().getBlock(blockName).getElementsList(listName));
+    }
+
+    /**
+     * Выполнено нажатие на последний элемент
+     */
+    public IStepResult clickOnListElementWithLast(ElementsCollection elements) {
+        elements = elements.filter(visible);
+        SelenideElement element = elements.last();
+        element.click();
+        log.trace("Выполнено нажатие на последний элемент: " + element);
+        return new CommonStepResult(element);
+    }
+
+
 }
