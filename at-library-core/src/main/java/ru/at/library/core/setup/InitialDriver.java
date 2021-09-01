@@ -77,6 +77,9 @@ public class InitialDriver {
         capabilities.setCapability("browserstack.timezone", "Moscow");
         capabilities.setCapability("chrome.switches", Arrays.asList("--ignore-certificate-errors"));
         capabilities.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
+        if (System.getProperty("sessionTimeout") != null && (!System.getProperty("sessionTimeout").isEmpty())) {
+            capabilities.setCapability("sessionTimeout", System.getProperty("sessionTimeout"));
+        }
 
         if (System.getProperty("disableChromeFileViewer", "true").equals("true")) {
             ChromeOptions chromeOptions = new ChromeOptions();

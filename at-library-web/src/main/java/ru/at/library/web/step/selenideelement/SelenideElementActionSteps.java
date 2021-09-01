@@ -108,7 +108,7 @@ public class SelenideElementActionSteps {
     }
 
     public void clickOnElementAndSwitchToNewTab(SelenideElement element) {
-        element.clear();
+        element.click();
         Selenide.switchTo().window(WebDriverRunner.getWebDriver().getWindowHandles().size() - 1);
     }
 

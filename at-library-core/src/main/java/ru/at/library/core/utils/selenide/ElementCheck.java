@@ -32,7 +32,8 @@ public class ElementCheck implements IElementCheck {
         return  "Элемент: " + this.name + "\n" +
                 "Локатор: " + this.element.getSearchCriteria() + "\n" +
                 "Проверка: " + this.message + "\n" +
-                "Результат проверки: " + (this.status ? "Успешно пройдена" : "Не пройдена");
+                "Результат проверки: " + (this.status ? "Успешно пройдена\n" : "Не пройдена\n") +
+                "Подробности: " + element.toString();
     }
 
 }
