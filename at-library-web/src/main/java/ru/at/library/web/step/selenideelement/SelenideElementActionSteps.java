@@ -19,7 +19,6 @@ import java.awt.datatransfer.ClipboardOwner;
 import java.awt.datatransfer.StringSelection;
 import java.text.SimpleDateFormat;
 
-import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Selenide.*;
 import static ru.at.library.core.steps.OtherSteps.*;
 
@@ -156,7 +155,7 @@ public class SelenideElementActionSteps {
      * Перед использованием поле нужно очистить
      */
     public String setFieldValue(SelenideElement element, String value) {
-        cleanInput(element);
+       // cleanInput(element);
         value = getPropertyOrStringVariableOrValue(value);
         element.setValue(value);
         return value;
@@ -188,7 +187,7 @@ public class SelenideElementActionSteps {
      */
     public void sendKeysCharacterByCharacter(SelenideElement element, String value) {
         value = getPropertyOrStringVariableOrValue(value);
-        cleanInput(element);
+//        cleanInput(element);
         for (char character : value.toCharArray()) {
             element.sendKeys(String.valueOf(character));
             sleep(100);
@@ -306,19 +305,19 @@ public class SelenideElementActionSteps {
      */
 
     @И("^очищено поле \"([^\"]*)\"$")
-    public void cleanInput(String elementName) {
-        cleanInput(coreScenario.getCurrentPage().getElement(elementName));
+    public void clearInput(String elementName) {
+        clearInput(coreScenario.getCurrentPage().getElement(elementName));
     }
 
     @И("^в блоке \"([^\"]*)\" очищено поле \"([^\"]*)\"$")
-    public void cleanInput(String blockName, String elementName) {
-        cleanInput(coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName));
+    public void clearInput(String blockName, String elementName) {
+        clearInput(coreScenario.getCurrentPage().getBlock(blockName).getElement(elementName));
     }
 
     /**
      * Очищается заданное поле
      */
-    public void cleanInput(SelenideElement element) {
+    public void clearInput(SelenideElement element) {
         element.clear();
 
         if (element.getAttribute("value").length() > 0 ||
