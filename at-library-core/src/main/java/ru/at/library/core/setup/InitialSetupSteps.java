@@ -46,8 +46,8 @@ public class InitialSetupSteps {
     @Before(order = 500)
     @Step("Запуск браузера")
     public void startUITestInBrowser(Scenario scenario) throws Exception {
-        int testNumber = scenarioNumber++;
-        log.info(String.format("%s: старт сценария %d с именем [%s]", getScenarioId(scenario), testNumber, scenario.getName()));
+        int testNumber = scenarioNumber++;;
+        log.info(String.format("++++++++++++++++++++++++++ %s: Старт сценария %d с именем [%s] ++++++++++++++++++++++++++", getScenarioId(scenario), testNumber, scenario.getName()));
 
         RestAssured.baseURI = System.getProperty("baseURI", tryLoadProperty("baseURI"));
         Configuration.baseUrl = System.getProperty("baseURI", tryLoadProperty("baseURI"));
@@ -70,9 +70,10 @@ public class InitialSetupSteps {
     @After
     @Step("Закрытие браузера")
     public void endOfTest(Scenario scenario) {
-        log.info(String.format("%s: завершение сценария с именем [%s]", getScenarioId(scenario), scenario.getName()));
+
+        log.info(String.format("%s: %s Завершение сценария с именем [%s]",  getScenarioId(scenario), scenario.getStatus().name().toUpperCase(), scenario.getName()));
         tryingToCloseTheBrowser(doNeedToCloseTheBrowser(tryLoadProperty("ENVIRONMENT")));
-        log.info(String.format("%s: драйвер успешно остановлен", getScenarioId(scenario)));
+        log.info(String.format("-------------------------- %s: Драйвер успешно остановлен --------------------------", getScenarioId(scenario)));
     }
 
     @Step("Браузер будет закрыт: {quitDriver}")

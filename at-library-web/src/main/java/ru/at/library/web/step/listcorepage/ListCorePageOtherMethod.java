@@ -32,6 +32,27 @@ import static ru.at.library.core.utils.helpers.ScopedVariables.resolveVars;
  */
 public class ListCorePageOtherMethod {
 
+    @Step("Поиск блока в котором элемента '{elementName}' отображается")
+    public static CorePage findCorePageByVisibleElement(List<CorePage> blocksList, String elementName) {
+
+        for (CorePage page : blocksList) {
+            SelenideElement element = page.getElement(elementName);
+            Selenide.executeJavaScript("arguments[0].scrollIntoView({block: \"center\", inline: \"center\"});", element);
+
+            boolean expectedTextFind = element.is(Condition.visible);
+
+            if (expectedTextFind) {
+                return page;
+            }
+        }
+        BrowserSteps.takeScreenshot();
+        //TODO добавить имя блок и имя элемента
+        throw new AssertionError(
+                "Во всех блоках в элементах " + elementName + " элемент не отображается"
+                        + "\nРазмер блоков: " + blocksList.size()
+                        + "\nСодержимое блоков: " + blocksList);
+    }
+
     @Step("Поиск блока в котором текст элемента '{elementName}' равен : '{expectedText}'")
     public static CorePage findCorePageByTextInElement(List<CorePage> blocksList, String elementName, String expectedText) {
 
@@ -186,7 +207,7 @@ public class ListCorePageOtherMethod {
     }
 
 
-    @Step("Проверка что количество блоков '{listName}' в блоке '{blockName}' {comparison} '{count}'")
+    @Step(" в блоке '{blockName}' проверка что количество блоков '{listName}' {comparison} '{count}'")
     public static List<CorePage> getBlockListWithCheckingTheQuantity(String blockName, String listName, CustomCondition.Comparison comparison, int count) {
         long time = System.currentTimeMillis() + Configuration.timeout;
         List<CorePage> blocksList = CoreScenario.getInstance().getCurrentPage().getBlock(blockName).getBlocksList(listName);
